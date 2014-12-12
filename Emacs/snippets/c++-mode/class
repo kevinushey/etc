@@ -1,0 +1,6 @@
+# name : class
+# key: cls
+# --
+class $1 {
+$0
+}; // end class $1

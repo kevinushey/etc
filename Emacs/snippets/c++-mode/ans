@@ -1,0 +1,6 @@
+# name : anonymous namespace
+# key: ans
+# --
+namespace {
+$0
+} // end anonymous namespace

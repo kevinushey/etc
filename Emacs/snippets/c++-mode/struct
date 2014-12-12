@@ -1,0 +1,6 @@
+# name : struct
+# key: struct
+# --
+struct $1 {
+$0
+}; // end struct $1

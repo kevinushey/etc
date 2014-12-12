@@ -1,0 +1,6 @@
+# name : namespace
+# key: ns
+# --
+namespace $1 {
+$0
+} // end namespace $1

@@ -1,0 +1,119 @@
+" sensible.vim - Defaults everyone can agree on
+" Maintainer:   Tim Pope <http://tpo.pe/>
+" Version:      1.1
+" Modified with gusto by Kevin Ushey
+
+let g:loaded_sensible = 1
+
+if has('autocmd')
+  filetype plugin indent on
+endif
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
+
+" Use :help 'option' to see the documentation for the given option.
+
+set autoindent
+set backspace=indent,eol,start
+set complete-=i
+set smarttab
+
+set nrformats-=octal
+
+set ttimeout
+set ttimeoutlen=100
+
+set incsearch
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
+
+set laststatus=2
+set ruler
+set showcmd
+set wildmenu
+
+if !&scrolloff
+  set scrolloff=1
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+set display+=lastline
+
+if &encoding ==# 'latin1' && has('gui_running')
+  set encoding=utf-8
+endif
+
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+
+if has('path_extra')
+  setglobal tags-=./tags tags^=./tags;
+endif
+
+if &shell =~# 'fish$'
+  set shell=/bin/bash
+endif
+
+set autoread
+
+if &history < 1000
+  set history=1000
+endif
+if &tabpagemax < 50
+  set tabpagemax=50
+endif
+if !empty(&viminfo)
+  set viminfo^=!
+endif
+set sessionoptions-=options
+
+" Allow color schemes to do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^linux'
+  set t_Co=16
+endif
+
+" Load matchit.vim, but only if the user hasn't installed a newer version.
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
+
+set number
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
+
+hi User1 ctermbg=238  ctermfg=153   guibg=darkgrey  guifg=red
+hi User2 ctermbg=238  ctermfg=green guibg=darkgrey  guifg=green
+hi User3 ctermbg=238  ctermfg=075  guibg=darkgrey  guifg=blue
+hi User4 ctermbg=238  ctermfg=075  guibg=darkgrey  guifg=blue
+hi User5 ctermbg=238  ctermfg=brown guibg=darkgrey  guifg=brown
+hi User6 ctermbg=238  ctermfg=white guibg=darkgrey  guifg=white
+hi User7 ctermbg=238  ctermfg=grey  guibg=darkgrey  guifg=grey
+
+" jamessan's
+set statusline=%1*
+set statusline+=\ %-3.3n\                      " buffer number
+set statusline+=%6*
+set statusline+=%f\                          " file name
+set statusline+=%1*
+set statusline+=%h%m%r%w                     " flags
+set statusline+=%3*
+set statusline+=%7*[
+set statusline+=%1*
+set statusline+=%{strlen(&ft)?&ft:'none'},  " filetype
+set statusline+=%2*
+set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
+set statusline+=%3*
+set statusline+=%{&fileformat}              " file format
+set statusline+=%7*]
+set statusline+=%=                           " right align
+set statusline+=%3*
+set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+set statusline+=%b,0x%-8B\                   " current char
+set statusline+=%1*
+set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
+
+" vim:set ft=vim et sw=2:

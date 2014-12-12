@@ -1,0 +1,5 @@
+CC=clang
+CXX=clang++
+CFLAGS=-g -O3 -std=gnu99 -Wall -pedantic
+CXXFLAGS=-g -O3 -Wall -pedantic -ftemplate-depth=1000
+FCFLAGS=-g -O3

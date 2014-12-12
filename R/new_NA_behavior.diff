@@ -1,0 +1,53 @@
+Index: src/main/arithmetic.c
+===================================================================
+--- src/main/arithmetic.c	(revision 65519)
++++ src/main/arithmetic.c	(working copy)
+@@ -116,24 +116,27 @@
+     return x.value;
+ }
+ 
++/* PATCH: R_IsNA checks the only two possible byte sequences that can be NA*/
++
++static const unsigned long long SmallNA = 0x7FF00000000007A2;
++static const unsigned long long LargeNA = 0x7FF80000000007A2;
++
+ int R_IsNA(double x)
+ {
+-    if (isnan(x)) {
+-	ieee_double y;
+-	y.value = x;
+-	return (y.word[lw] == 1954);
+-    }
+-    return 0;
++    return memcmp(
++        &x,
++        &SmallNA,
++        sizeof(double)
++    ) == 0 | memcmp(
++        &x,
++        &LargeNA,
++        sizeof(double)
++    ) == 0;
+ }
+ 
+ int R_IsNaN(double x)
+ {
+-    if (isnan(x)) {
+-	ieee_double y;
+-	y.value = x;
+-	return (y.word[lw] != 1954);
+-    }
+-    return 0;
++    return isnan(x) && !R_IsNA(x);
+ }
+ 
+ /* ISNAN uses isnan, which is undefined by C++ headers
+@@ -1645,7 +1648,7 @@
+ 	    break;
+ 	}
+ 	default:
+-        error(ngettext("%d argument passed to '%s' which requires 1 or 2 arguments", 
++        error(ngettext("%d argument passed to '%s' which requires 1 or 2 arguments",
+ 		       "%d arguments passed to '%s'which requires 1 or 2 arguments", n),
+               n, "log");
+ 	}

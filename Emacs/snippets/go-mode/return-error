@@ -1,0 +1,7 @@
+# name: return-error
+# key: re
+# --
+if err != nil {
+	return err
+}
+$0

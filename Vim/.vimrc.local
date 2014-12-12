@@ -1,0 +1,52 @@
+colorscheme Tomorrow-Night-Bright
+
+"Soft tabs
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+"Soft wrapping
+set wrap
+
+"I don't like seeing punctuation characters
+set nolist
+set nospell
+
+"Don't indent namespaces
+set cinoptions=N-s
+
+"Don't indent public:, private:
+set cinoptions=g0
+
+" Don't indent namespace and template
+function! CppNoNamespaceAndTemplateIndent()
+    let l:cline_num = line('.')
+    let l:cline = getline(l:cline_num)
+    let l:pline_num = prevnonblank(l:cline_num - 1)
+    let l:pline = getline(l:pline_num)
+    while l:pline =~# '\(^\s*{\s*\|^\s*//\|^\s*/\*\|\*/\s*$\)'
+        let l:pline_num = prevnonblank(l:pline_num - 1)
+        let l:pline = getline(l:pline_num)
+    endwhile
+    let l:retv = cindent('.')
+    let l:pindent = indent(l:pline_num)
+    if l:pline =~# '^\s*template\s*\s*$'
+        let l:retv = l:pindent
+    elseif l:pline =~# '\s*typename\s*.*,\s*$'
+        let l:retv = l:pindent
+    elseif l:cline =~# '^\s*>\s*$'
+        let l:retv = l:pindent - &shiftwidth
+    elseif l:pline =~# '\s*typename\s*.*>\s*$'
+        let l:retv = l:pindent - &shiftwidth
+    elseif l:pline =~# '^\s*namespace.*'
+        let l:retv = 0
+    endif
+    return l:retv
+endfunction
+
+if has("autocmd")
+    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
+endif
+
+let g:ycm_confirm_extra_conf = 0

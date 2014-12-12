@@ -1,0 +1,7 @@
+## vi temporary files
+*\~
+
+## emacs temporary files
+\#*
+
+.DS_Store
