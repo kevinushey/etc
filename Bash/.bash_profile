@@ -152,6 +152,14 @@ if [ -n "${IS_DARWIN}" ]; then
 
 fi
 
+if [ -n "${IS_LINUX}" ]; then
+
+    if [ ! -f ~/.git-completion.bash ]; then
+        curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+    fi
+    . ~/.git-completion.bash
+fi
+
 git_prompt ()
 {
     GIT_STATUS=$(git status -sb --porcelain  2> /dev/null | head -n 1)
