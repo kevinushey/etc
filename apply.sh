@@ -6,7 +6,13 @@ if [ $(uname) = "Linux" ]; then
 fi
 
 ## Bash
-ln -fs ${PWD}/Bash/.bash_profile ~/.bash_profile
+if [ $(uname) = "Linux" ]; then
+    BASHRC="${HOME}/.bashrc"
+else
+    BASHRC="${HOME}/.bash_profile"
+fi
+
+ln -fs ${PWD}/Bash/.bash_profile "${BASHRC}"
 source ~/.bash_profile
 
 ## R

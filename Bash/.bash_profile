@@ -123,7 +123,10 @@ export EMAIL
 
 ## Go
 export GOPATH=~/goprojects
-export GOROOT=/usr/local/opt/go/libexec
+if [ -n "${IS_DARWIN}" ]; then
+    export GOROOT=/usr/local/opt/go/libexec
+fi
+
 PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
 export GNUTERM='x11'

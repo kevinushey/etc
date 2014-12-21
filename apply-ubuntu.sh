@@ -21,7 +21,8 @@ sudo apt-get install -y vim \
 	libcurl4-openssl-dev \
 	curl \
 	golang \
-	golang-go.tools
+	golang-go.tools \
+    mercurial
 
-sudo apt-get build-dep r-base-dev
+#sudo apt-get build-dep -y r-base-dev
 
