@@ -106,7 +106,12 @@ alias rgrep="grep -r"
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
-alias ll='ls -laGFh'
+if [ -n "${IS_DARWIN}" ]; then
+    alias ll='ls -laGFh'
+elif [ -n "${IS_LINUX}" ]; then
+    alias ls='ls --color'
+    alias ll='ls -laGFh --color'
+fi
 
 ## silliness
 NAME="Kevin"
