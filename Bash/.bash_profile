@@ -331,3 +331,7 @@ if [ -n "${IS_LINUX}" ]; then
     fi
 
 fi
+
+goto-file () {
+    cd `ag -g $1 | head -n 1 | xargs dirname`
+}

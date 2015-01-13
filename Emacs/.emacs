@@ -38,12 +38,10 @@
                       powerline
                       powerline-evil
                       projectile
-                      python-mode
                       rainbow-mode
                       rainbow-delimiters
                       rtags
                       smex
-                      surround
                       tern
                       tern-auto-complete
                       web-mode
@@ -996,7 +994,6 @@ nil : Otherwise, return nil and run next lineup function."
   (poly-markdown+r-mode))
 
 ;; ipython
-(require 'python-mode)
 (setq-default py-shell-name "ipython")
 (setq-default py-which-bufname "IPython")
 
