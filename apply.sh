@@ -51,3 +51,7 @@ ln -fs ${PWD}/.tigrc ~/.tigrc
 git config --global core.editor "vim -Nu ~/.vimrc.sensible"
 git config --global user.name "Kevin Ushey"
 git config --global push.default simple
+
+## Qt Creator
+mkdir -p ~/.config/QtProject/qtcreator/styles
+cp ${PWD}/QtCreator/*.xml ~/.config/QtProject/qtcreator/styles/
