@@ -335,3 +335,12 @@ fi
 goto-file () {
     cd `ag -g $1 | head -n 1 | xargs dirname`
 }
+
+rocker-test () {
+  if test "$#" -ne 1; then
+    echo "Usage: rocket-test [package-tarball]"
+    return
+  fi
+
+  docker run --rm -it -v $(pwd):/mnt rocker/r-devel-ubsan-clang check.r --setwd /mnt --install-deps $1
+}
