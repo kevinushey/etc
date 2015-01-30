@@ -40,16 +40,18 @@ if (interactive()) {
   ig <- devtools::install_github
 
   ## auto-completion of package names in `require`, `library`
-  utils::rc.settings(ipck=TRUE)
+  utils::rc.settings(ipck = TRUE)
 
   ## no tcltk
-  options(menu.graphics=FALSE)
+  options(menu.graphics = FALSE)
 
   ## browser tweaks
-  options(browserNLdisabled=TRUE)
+  options(browserNLdisabled = TRUE)
 
   ## warn on partial matches
+  options(warnPartialMatchArgs = TRUE)
   options(warnPartialMatchAttr = TRUE)
+  options(warnPartialMatchDollar = TRUE)
 
   ## warn right away
   options(warn = 1)

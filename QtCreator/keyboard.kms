@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE KeyboardMappingScheme>
-<!-- Written by Qt Creator 3.3.0, 2015-01-23T11:20:01. -->
+<!-- Written by Qt Creator 3.3.0, 2015-01-23T11:36:05. -->
 <mapping>
  <shortcut id="Git.LaunchGitK"/>
  <shortcut id="Git.GitkFolder"/>
@@ -502,18 +502,14 @@
  <shortcut id="TextEditor.IncreaseFontSize">
   <key value="Ctrl++"/>
  </shortcut>
- <shortcut id="TextEditor.UppercaseSelection">
-  <key value="Meta+Shift+U"/>
- </shortcut>
+ <shortcut id="TextEditor.UppercaseSelection"/>
  <shortcut id="TextEditor.CopyLine">
   <key value="Ctrl+Ins"/>
  </shortcut>
  <shortcut id="TextEditor.Fold">
   <key value="Ctrl+&lt;"/>
  </shortcut>
- <shortcut id="TextEditor.LowercaseSelection">
-  <key value="Meta+U"/>
- </shortcut>
+ <shortcut id="TextEditor.LowercaseSelection"/>
  <shortcut id="TextEditor.TextWrapping">
   <key value="Meta+E, Meta+W"/>
  </shortcut>
