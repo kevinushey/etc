@@ -66,21 +66,7 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-;; marmalade -- a package repository
-(require 'package)
-(add-to-list
- 'package-archives
- '("marmalade" .
-   "http://marmalade-repo.org/packages/")
- )
-
-;; melpa -- another package repository
-(add-to-list
- 'package-archives
- '("melpa" . "http://melpa.milkbox.net/packages/")
- 'APPEND
- )
-
+;; re-initialize
 (package-initialize)
 
 (defadvice desktop-restore-file-buffer
