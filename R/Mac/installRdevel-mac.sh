@@ -49,11 +49,18 @@ brew tap homebrew/dupes 2> /dev/null
 ## use homebrew to install openblas, lapack, gfortran
 install openblas
 install lapack
+install texinfo
+install coreutils # greadlink
 
 ## Make sure the gfortran libraries get symlinked
 ## no idea why glob doesn't work for ln -fs
-GFORTRAN_LIBPATH=`gfortran --print-search-dirs | head -n 1 | cut -d" " -f 2`
-for file in ${GFORTRAN_LIBPATH}libgfortran*; do
+## gosh it sure was nice of GCC to move the libraries around
+GFORTRAN_BINPATH=`which gfortran | xargs greadlink -f | xargs dirname`
+GFORTRAN_LIBPATH=${GFORTRAN_BINPATH}/../lib/gcc/4.9/
+GFORTRAN_LIBPATH=$(greadlink -f ${GFORTRAN_LIBPATH})
+
+for file in ${GFORTRAN_LIBPATH}/libgfortran*; do
+    echo Symlinking file: ${file##*/}
     ln -fs "$file" /usr/local/lib/${file##*/}
 done;
 

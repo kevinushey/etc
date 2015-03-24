@@ -286,7 +286,7 @@ remove-trailing-newline () {
 }
 
 sublime () {
-    open /Applications/Sublime\ Text.app
+    open /Applications/Sublime\ Text\ 2.app
 }
 
 up () {
