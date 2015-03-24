@@ -61,7 +61,8 @@ GFORTRAN_LIBPATH=$(greadlink -f ${GFORTRAN_LIBPATH})
 
 for file in ${GFORTRAN_LIBPATH}/libgfortran*; do
     echo Symlinking file: ${file##*/}
-    ln -fs "$file" /usr/local/lib/${file##*/}
+    rm "${file}" 2> /dev/null
+    ln -fs "${file}" /usr/local/lib/${file##*/}
 done;
 
 ## some other things we need
@@ -142,8 +143,7 @@ echo MAKEFLAGS=\"-j10\" >> config.site
     --with-readline \
     --enable-R-profiling \
     --enable-memory-profiling \
-    --with-valgrind-instrumentation=2 \
-    --without-internal-tzcode
+    --with-valgrind-instrumentation=2
 
 sudo make clean
 sudo make -j10
