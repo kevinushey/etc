@@ -6,14 +6,8 @@
 ## Note: this script will install Homebrew, a Mac package manager,
 ## for easy downloading of gfortran, OpenBLAS, LAPACK.
 
-## Ask for sudo permissions
-if [ $EUID != 0 ]; then
-    echo This script requires sudo permissions to run: please enter your password
-    sudo "$0" "$@"
-    exit $?
-fi
-
 OWD="$(pwd)"
+CLANG=clang
 
 ## check if homebrew is installed
 echo "Checking for Homebrew..."
@@ -28,15 +22,13 @@ export TMP=~/.tmp
 mkdir ${TMP} 2> /dev/null
 
 missing () {
-    if ! test -z `brew ls | grep ^$1$`
-    then
+    if ! test -z `brew ls | grep ^$1$`; then
         echo 1
     fi
 }
 
 install () {
-    if test -z `missing $1`
-    then
+    if test -z `missing $1`; then
         brew install $1
         brew link $1
     fi
@@ -55,13 +47,13 @@ install coreutils # greadlink
 ## Make sure the gfortran libraries get symlinked
 if command -v gfortran 2> /dev/null; then
 	GFORTRAN=gfortran
-else if command -v gfortran-4.9 2> /dev/null; then
+elif command -v gfortran-4.9 2> /dev/null; then
 	GFORTRAN=gfortran-4.9
 fi
 
 GFORTRAN_BINPATH=`which ${GFORTRAN} | xargs greadlink -f | xargs dirname`
 GFORTRAN_LIBPATH=${GFORTRAN_BINPATH}/../lib/gcc/4.9/
-GFORTRAN_LIBPATH=$(greadlink -f ${GFORTRAN_LIBPATH})
+GFORTRAN_LIBPATH=`greadlink -f ${GFORTRAN_LIBPATH}`
 
 for file in ${GFORTRAN_LIBPATH}/libgfortran*; do
     echo Symlinking file: ${file##*/}
@@ -77,8 +69,8 @@ install cairo
 
 ## Download R-devel from SVN
 cd ~
-mkdir .R-devel 2> /dev/null
-cd .R-devel
+mkdir R-devel 2> /dev/null
+cd R-devel
 echo "Checking out latest R..."
 svn checkout https://svn.r-project.org/R/trunk/
 cd trunk
@@ -140,11 +132,13 @@ echo MAKEFLAGS=\"-j10\" >> config.site
     --with-readline \
     --enable-R-profiling \
     --enable-memory-profiling \
-    --with-valgrind-instrumentation=2
+    --with-valgrind-instrumentation=2 \
+    --without-internal-tzcode
 
-sudo make clean
-sudo make -j10
+make clean
+make -j10
 sudo make install
 
 echo Installation completed successfully\!
 cd ${OWD}
+
