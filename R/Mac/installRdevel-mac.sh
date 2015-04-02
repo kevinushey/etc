@@ -53,15 +53,19 @@ install texinfo
 install coreutils # greadlink
 
 ## Make sure the gfortran libraries get symlinked
-## no idea why glob doesn't work for ln -fs
-## gosh it sure was nice of GCC to move the libraries around
-GFORTRAN_BINPATH=`which gfortran | xargs greadlink -f | xargs dirname`
+if command -v gfortran 2> /dev/null; then
+	GFORTRAN=gfortran
+else if command -v gfortran-4.9 2> /dev/null; then
+	GFORTRAN=gfortran-4.9
+fi
+
+GFORTRAN_BINPATH=`which ${GFORTRAN} | xargs greadlink -f | xargs dirname`
 GFORTRAN_LIBPATH=${GFORTRAN_BINPATH}/../lib/gcc/4.9/
 GFORTRAN_LIBPATH=$(greadlink -f ${GFORTRAN_LIBPATH})
 
 for file in ${GFORTRAN_LIBPATH}/libgfortran*; do
     echo Symlinking file: ${file##*/}
-    rm "${file}" 2> /dev/null
+    rm /usr/local/lib/${file##*/} 2> /dev/null
     ln -fs "${file}" /usr/local/lib/${file##*/}
 done;
 
@@ -70,13 +74,6 @@ install jpeg
 
 ## We need to link in Cairo
 install cairo
-
-## Use LLVM clang because Apple clang _still_ doesn't have sanitizers. Bleh.
-if [ -e /usr/local/llvm/bin/clang ]; then
-    CLANG=/usr/local/llvm/bin/clang
-else
-    CLANG=/usr/local/bin/clang
-fi
 
 ## Download R-devel from SVN
 cd ~
