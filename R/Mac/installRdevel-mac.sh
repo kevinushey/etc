@@ -137,6 +137,8 @@ echo MAKEFLAGS=\"-j10\" >> config.site
 
 make clean
 make -j10
+
+echo "Installing to system library: please enter your password so we can 'sudo make install'"
 sudo make install
 
 echo Installation completed successfully\!
