@@ -49,7 +49,7 @@ if (interactive()) {
   options(browserNLdisabled = TRUE)
 
   ## warn on partial matches
-  options(warnPartialMatchArgs = TRUE)
+  # options(warnPartialMatchArgs = TRUE) ## too noisy
   options(warnPartialMatchAttr = TRUE)
   options(warnPartialMatchDollar = TRUE)
 
