@@ -344,6 +344,8 @@ rocker-test () {
 
   docker run --rm -it -v $(pwd):/mnt rocker/r-devel-ubsan-clang check.r --setwd /mnt --install-deps $1
 
+}
+
 increase-transparency () {
     convert $1 -alpha on -channel a -evaluate Divide 1.25 +channel $1
 }
