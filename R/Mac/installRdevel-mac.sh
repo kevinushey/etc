@@ -116,19 +116,20 @@ echo Patch applied.
 rm config.site
 touch config.site
 echo CC=\"${CLANG}\" >> config.site
-echo CFLAGS=\"-g -O3 -march=native\" >> config.site
+echo CFLAGS=\"-g -O0\" >> config.site
 echo CXX=\"${CLANG}++\" >> config.site
-echo CXXFLAGS=\"-g -O3 -march=native\" >> config.site
+echo CXXFLAGS=\"-g -O0\" >> config.site
 echo F77=\"gfortran\" >> config.site
-echo FFLAGS=\"-g -O3\" >> config.site
+echo FFLAGS=\"-g -O0\" >> config.site
 echo FC=\"gfortran\" >> config.site
-echo FCFLAGS=\"-g -O3\" >> config.site
+echo FCFLAGS=\"-g -O0\" >> config.site
 echo OBJC=\"${CLANG}\" >> config.site
-echo OBJCFLAGS=\"-g -O3\" >> config.site
+echo OBJCFLAGS=\"-g -O0\" >> config.site
 echo MAKE=\"make\" >> config.site
 echo MAKEFLAGS=\"-j10\" >> config.site
 
-make distclean && make clean
+make distclean
+make clean
 
 ## configure
 ./configure \
