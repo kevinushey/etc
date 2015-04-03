@@ -4,6 +4,8 @@
 " Modified with gusto by Kevin Ushey
 
 let g:loaded_sensible = 1
+set directory=$HOME/.vim/swapfiles//
+set backupdir=$HOME/.vim/backup//
 
 if has('autocmd')
   filetype plugin indent on

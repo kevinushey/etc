@@ -1,5 +1,9 @@
 colorscheme Tomorrow-Night-Bright
 
+"Swap file locations
+set directory=$HOME/.vim/swapfiles//
+set backupdir=$HOME/.vim/backup//
+
 "Soft tabs
 set tabstop=4
 set softtabstop=4
