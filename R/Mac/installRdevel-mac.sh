@@ -5,6 +5,12 @@
 ##
 ## Note: this script will install Homebrew, a Mac package manager,
 ## for easy downloading of gfortran, OpenBLAS, LAPACK.
+##
+## NOTE: If you get weird linker errors related to `lapack` in grDevices
+## on load, it's probably because you updated gcc / gfortran and now
+## the lapack / openblas links are broken. You can either fix this
+## manually with otool, or be lazy and just reinstall openblas and
+## lapack (in that order).
 
 OWD="$(pwd)"
 CLANG=clang
@@ -122,6 +128,8 @@ echo OBJCFLAGS=\"-g -O3\" >> config.site
 echo MAKE=\"make\" >> config.site
 echo MAKEFLAGS=\"-j10\" >> config.site
 
+make distclean && make clean
+
 ## configure
 ./configure \
     --with-blas="-L/usr/local/opt/openblas/lib -lopenblas" \
@@ -135,7 +143,6 @@ echo MAKEFLAGS=\"-j10\" >> config.site
     --with-valgrind-instrumentation=2 \
     --without-internal-tzcode
 
-make clean
 make -j10
 
 echo "Installing to system library: please enter your password so we can 'sudo make install'"
