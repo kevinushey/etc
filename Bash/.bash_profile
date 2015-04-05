@@ -281,7 +281,7 @@ rcip () {
 }
 
 vi () {
-  vim -Nu ~/.vimrc.sensible $@
+  nvim -Nu ~/.vimrc.sensible $@
 }
 
 remove-trailing-newline () {
