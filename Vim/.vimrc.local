@@ -1,6 +1,8 @@
 colorscheme Tomorrow-Night-Bright
 
 "Swap file locations
+silent !mkdir -p ~/.vim/swapfiles
+silent !mkdir -p ~/.vim/backup
 set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/backup//
 
