@@ -22,4 +22,10 @@ ag -Q -l "http://llvm.org" \
 
 # Build it!
 xcodebuild
+xcodebuild install
+
+# Symlink to /usr/local/bin so we can use it
+FROMPATH=${LLDB_SOURCE_DIR}/lldb/build/BuildAndIntegration/lldb
+TOPATH=/usr/local/bin/lldb
+ln -fs "${FROMPATH}" "${TOPATH}"
 
