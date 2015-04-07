@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 ## Run an R command within LLDB, in batch mode.
-: ${R_HOME:=/Library/Frameworks/R.framework/Resources}
-: ${REXEC:=/Library/Frameworks/R.framework/Resources/bin/exec/R}
+: ${R_HOME:=$(which r | xargs greadlink | xargs dirname | xargs dirname)}
+: ${REXEC:=${R_HOME}/bin/exec/R}
 
 R_HOME=${R_HOME} lldb --batch --file "${REXEC}" -o "process launch -- -f $1"
