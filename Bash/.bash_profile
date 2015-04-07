@@ -15,7 +15,7 @@ color_prompt=yes
 force_color_prompt=yes
 
 # Ask R to kindly keep debugging symbols
-PKG_MAKE_DYM=yes
+export PKG_MAKE_DYM=yes
 
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin/opt/X11/bin:/usr/texbin" 
 
