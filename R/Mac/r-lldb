@@ -2,6 +2,6 @@
 
 ## Run an R command within LLDB, in batch mode.
 : ${R_HOME:=$(which r | xargs greadlink | xargs dirname | xargs dirname)}
-: ${REXEC:=${R_HOME}/bin/exec/R}
+: ${R_EXEC:=${R_HOME}/bin/exec/R}
 
-R_HOME=${R_HOME} lldb --batch --file "${REXEC}" -o "process launch -- -f $1"
+R_HOME=${R_HOME} lldb --batch --file "${R_EXEC}" -o "process launch -- -f $1"
