@@ -139,6 +139,26 @@ PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
 export GNUTERM='x11'
 
+function add-git-alias () {
+	ALIAS=alias.$1
+	shift
+	git config --global "${ALIAS}" "$@"
+}
+
+add-git-alias co checkout
+add-git-alias br branch
+add-git-alias ci commit
+add-git-alias st status
+add-git-alias unstage "reset HEAD --"
+add-git-alias abort "reset HEAD -- *"
+add-git-alias last "log -1 HEAD"
+add-git-alias df "diff"
+add-git-alias dc "diff --cached"
+add-git-alias lg "log -p"
+add-git-alias who "shortlog -s --"
+add-git-alias new "!git checkout -B \$1 && git branch -u origin/\$1"
+add-git-alias up "commit -a -m"
+
 if [ -n "${IS_DARWIN}" ]; then
 
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
