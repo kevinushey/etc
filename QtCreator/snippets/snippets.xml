@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippets>
+    <snippet group="C++" trigger="anon" id="" complement="" removed="false" modified="false">namespace {
+   $$
+} // end anonymous namespace</snippet>
+    <snippet group="C++" trigger="ns" id="" complement="" removed="false" modified="false">namespace $name$ {
+  $$
+} // end namespace $name$</snippet>
+    <snippet group="C++" trigger="once" id="" complement="" removed="false" modified="false">#ifndef $guard$
+#define $guard$
+
+$$
+
+#endif /* $guard$ */</snippet>
+</snippets>

@@ -54,4 +54,9 @@ git config --global push.default simple
 
 ## Qt Creator
 mkdir -p ~/.config/QtProject/qtcreator/styles
-cp ${PWD}/QtCreator/*.xml ~/.config/QtProject/qtcreator/styles/
+mkdir -p ~/.config/QtProject/qtcreator/schemes
+mkdir -p ~/.config/QtProject/qtcreator/snippets
+
+cp ${PWD}/QtCreator/styles/*.xml ~/.config/QtProject/qtcreator/styles/
+cp ${PWD}/QtCreator/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
+cp ${PWD}/QtCreator/schemes/* ~/.config/QtProject/qtcreator/schemes/
