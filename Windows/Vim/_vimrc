@@ -1,0 +1,6 @@
+source $VIM\_vimrc
+
+colorscheme slate
+set nu!
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
