@@ -19,7 +19,7 @@ SET "PATH=C:\Program Files (x86)\Git\bin;%PATH%"
 git config --global user.name "Kevin Ushey"
 git config --global user.email "kevinushey@gmail.com"
 git config --global push.default simple
-git config --global credential.helper 'cache --timeout=3600'
+git config --global credential.helper wincred
 SET "PATH=%OLDPATH%"
 
 PAUSE
