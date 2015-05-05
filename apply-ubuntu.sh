@@ -22,7 +22,8 @@ sudo apt-get install -y vim \
 	curl \
 	golang \
 	golang-go.tools \
-    mercurial
+    mercurial \
+    dkms
 
 #sudo apt-get build-dep -y r-base-dev
 git config --global credential.helper "cache --timeout=36000"
