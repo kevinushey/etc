@@ -41,5 +41,16 @@ cd ..
 
 cd "%OWD%"
 
+REM Copy over Qt Creator related items.
+SET "QT_CREATOR_DIR=%HOME%\AppData\Roaming\QtProject\qtcreator"
+
+mkdir "%QT_CREATOR_DIR%\styles"
+mkdir "%QT_CREATOR_DIR%\schemes"
+mkdir "%QT_CREATOR_DIR%\snippets"
+
+copy "%PWD%\QtCreator\schemes\keyboard.kms" "%QT_CREATOR_DIR%\schemes\keyboard.kms"
+copy "%PWD%\QtCreator\snippets\snippets.xml" "%QT_CREATOR_DIR%\snippets\snippets.xml"
+copy "%PWD%\QtCreator\styles\Tomorrow-Night-Bright.xml" "%QT_CREATOR_DIR%\styles\Tomorrow-Night-Bright.xml"
+
 PAUSE
 

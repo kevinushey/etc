@@ -3,4 +3,9 @@ source $VIM\_vimrc
 colorscheme slate
 set nu!
 
+if has('gui_running')
+	set guioptions-=T " no toolbar
+	set guifont=Inconsolata:h14:cANSI
+endif
+
 set runtimepath^=~/.vim/bundle/ctrlp.vim
