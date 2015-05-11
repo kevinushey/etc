@@ -1,1 +1,5 @@
 let g:spf13_bundle_groups=['general', 'programming', 'misc', 'go']
+let g:spf13_leader = "\<Space>"
+
+let g:airline_theme='powerlineish'
+

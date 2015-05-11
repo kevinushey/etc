@@ -1,6 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 (require 'cl)
 
+;; cram it, magit
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;; lol emacs
 (setq inhibit-default-init t)
 
