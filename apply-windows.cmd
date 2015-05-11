@@ -52,5 +52,8 @@ copy "%PWD%\QtCreator\schemes\keyboard.kms" "%QT_CREATOR_DIR%\schemes\keyboard.k
 copy "%PWD%\QtCreator\snippets\snippets.xml" "%QT_CREATOR_DIR%\snippets\snippets.xml"
 copy "%PWD%\QtCreator\styles\Tomorrow-Night-Bright.xml" "%QT_CREATOR_DIR%\styles\Tomorrow-Night-Bright.xml"
 
+REM AutoHotkey.
+copy "%PWD%\Windows\AutoHotkey.ahk" "%USERPROFILE%\Documents\AutoHotkey.ahk"
+
 PAUSE
 
