@@ -245,11 +245,43 @@ Emacs()
 ## Start emacs in daemon mode
 alias e='emacsclient -t'
 
+## I wasted way too much time making this work, but apparently
+## emacsclient doesn't allow e.g.
+##
+##    emacsclient file.txt -c -e "(print \"Sucker\")"
+##
+## so I ended up pasting the file visiting into the eval statement.
 function ec () {
-	emacsclient -c \
-		-e "(select-frame-set-input-focus (selected-frame))" \
-		-F "'(font . \"Droid Sans Mono-14\")" \
-		"$@"
+
+	if test "$#" -ge 1; then
+
+		EMACSCLIENT_VISIT_FILE="$1"
+
+		read -r -d '' EMACSCLIENT_EVAL <<- EOM
+		(progn
+			(select-frame-set-input-focus (selected-frame))
+			(set-frame-font "Droid Sans Mono-14" nil t)
+			(find-file "$1")
+		)
+		EOM
+
+		shift
+
+	else
+
+		read -r -d '' EMACSCLIENT_EVAL <<- EOM
+		(progn
+			(select-frame-set-input-focus (selected-frame))
+			(set-frame-font "Droid Sans Mono-14" nil t)
+		)
+		EOM
+
+	fi
+
+	emacsclient \
+		--create-frame \
+		--eval "${EMACSCLIENT_EVAL}"
+
 }
 
 if [ -n "${IS_DARWIN}" ]; then

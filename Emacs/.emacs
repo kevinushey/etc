@@ -4,6 +4,9 @@
 ;; cram it, magit
 (setq magit-last-seen-setup-instructions "1.4.0")
 
+;; no tool bar in terminal
+(tool-bar-mode nil)
+
 ;; lol emacs
 (setq inhibit-default-init t)
 
