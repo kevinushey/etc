@@ -244,7 +244,13 @@ Emacs()
 
 ## Start emacs in daemon mode
 alias e='emacsclient -t'
-alias ec='emacsclient -c'
+
+function ec () {
+	emacsclient -c \
+		-e "(select-frame-set-input-focus (selected-frame))" \
+		-F "'(font . \"Droid Sans Mono-14\")" \
+		"$@"
+}
 
 if [ -n "${IS_DARWIN}" ]; then
 

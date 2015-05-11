@@ -29,6 +29,7 @@ go get -u code.google.com/p/go.tools/cmd/vet
 ## Emacs
 ln -fs ${PWD}/Emacs/.emacs ~/.emacs
 ln -fs ${PWD}/Emacs/snippets ~/.emacs.d/snippets
+cp "${PWD}/Mac/Emacs/Emacs Daemon.app" "/Applications/Emacs Daemon.app"
 
 ## Vim
 if [ ! -e "${HOME}/.spf13-vim-3" ]; then
