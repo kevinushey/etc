@@ -1,11 +1,39 @@
-source $VIM\_vimrc
+" Ensure that the 'global' _vimrc is loaded first.
+if filereadable(expand("$VIM/_vimrc"))
+	source $VIM/_vimrc
+endif
 
-colorscheme slate
-set nu!
+" Make Vundle available.
+filetype off
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
+Plugin 'gmarik/Vundle.vim'
+Plugin 'kien/ctrlp.vim'
+
+call vundle#end()
+filetype plugin on
+
+" Slate is a nice default colour scheme.
+if filereadable(expand("$VIMRUNTIME/colors/slate.vim"))
+	silent! colorscheme slate
+endif
+
+" Include line numbers.
+set number!
+
+" If we are using a GUI, disable the toolbar, and use a nice font.
 if has('gui_running')
 	set guioptions-=T " no toolbar
 	set guifont=Inconsolata:h14:cANSI
 endif
 
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+" Set up Vundle. Note that this assumes 'git' is on the PATH.
+if !isdirectory(expand("$HOME/.vim/bundle"))
+	silent !mkdir ~\.vim\bundle
+endif
+
+if !isdirectory(expand("$HOME/.vim/bundle/Vundle.vim"))
+	silent !git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+endif
+
