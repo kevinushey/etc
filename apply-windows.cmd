@@ -31,11 +31,13 @@ SET "OWD=%cd%"
 SET "VIM_BUNDLES_DIR=%HOME%\.vim\bundle"
 
 mkdir "%VIM_BUNDLES_DIR%"
-cd "%VIM_BUNDLES_DIR%"
-if not exist ctrlp.vim (
-	git clone https://github.com/kien/ctrlp.vim.git ctrlp.vim
+
+REM Ensure 'Vundle' is available, and use that to manage Vim plugins.
+if not exist Vundle.vim (
+	git clone https://github.com/gmarik/Vundle.vim.git Vundle.vim
 )
-cd ctrlp.vim
+
+cd Vundle.vim
 git pull
 cd ..
 
