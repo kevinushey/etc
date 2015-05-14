@@ -1,42 +1,47 @@
-SETLOCAL
+setlocal
 
 REM Store some useful variables.
-SET "PWD=%cd%"
-SET "HOME=%USERPROFILE%"
+set "PWD=%cd%"
+set "HOME=%USERPROFILE%"
 
 REM Make a symlink for .emacs
-SET "EMACS_DOTFILE_FROM=%PWD%\Emacs\.emacs"
-SET "EMACS_DOTFILE_TO=%HOME%\AppData\Roaming\.emacs"
+set "EMACS_DOTFILE_FROM=%PWD%\Emacs\.emacs"
+set "EMACS_DOTFILE_TO=%HOME%\AppData\Roaming\.emacs"
 
-DEL "%EMACS_DOTFILE_TO%"
+del "%EMACS_DOTFILE_TO%"
 
 REM Would prefer symlink here but that requires admin privileges.
-MKLINK /H "%EMACS_DOTFILE_TO%" "%EMACS_DOTFILE_FROM%"
+mklink /H "%EMACS_DOTFILE_TO%" "%EMACS_DOTFILE_FROM%"
 
 REM Set up Git.
-SET "OLDPATH=%PATH%"
-SET "PATH=C:\Program Files (x86)\Git\bin;%PATH%"
+set "OLDPATH=%PATH%"
+set "PATH=C:\Program Files (x86)\Git\bin;%PATH%"
 git config --global user.name "Kevin Ushey"
 git config --global user.email "kevinushey@gmail.com"
 git config --global push.default simple
 git config --global credential.helper wincred
 
 REM Set up _vimrc.
-SET "VIMRC_DOTFILE_FROM=%PWD%\Windows\Vim\_vimrc"
-SET "VIMRC_DOTFILE_TO=%HOME%\_vimrc"
-MKLINK /H "%VIMRC_DOTFILE_TO%" "%VIMRC_DOTFILE_FROM%"
+set "VIMRC_DOTFILE_FROM=%PWD%\Windows\Vim\_vimrc"
+set "VIMRC_DOTFILE_TO=%HOME%\_vimrc"
+mklink /H "%VIMRC_DOTFILE_TO%" "%VIMRC_DOTFILE_FROM%"
 
 REM Set up useful Vim packages.
-SET "OWD=%cd%"
-SET "VIM_BUNDLES_DIR=%HOME%\.vim\bundle"
+set "OWD=%cd%"
+set "VIM_BUNDLES_DIR=%HOME%\.vim\bundle"
 
-mkdir "%VIM_BUNDLES_DIR%"
+if not exist "%VIM_BUNDLES_DIR%" (
+	mkdir "%VIM_BUNDLES_DIR%"
+)
+
+cd "%VIM_BUNDLES_DIR%"
 
 REM Ensure 'Vundle' is available, and use that to manage Vim plugins.
 if not exist Vundle.vim (
 	git clone https://github.com/gmarik/Vundle.vim.git Vundle.vim
 )
 
+REM Update vundle.
 cd Vundle.vim
 git pull
 cd ..
@@ -44,7 +49,7 @@ cd ..
 cd "%OWD%"
 
 REM Copy over Qt Creator related items.
-SET "QT_CREATOR_DIR=%HOME%\AppData\Roaming\QtProject\qtcreator"
+set "QT_CREATOR_DIR=%HOME%\AppData\Roaming\QtProject\qtcreator"
 
 mkdir "%QT_CREATOR_DIR%\styles"
 mkdir "%QT_CREATOR_DIR%\schemes"
