@@ -267,6 +267,19 @@
 ;; Some utility bindings for evil
 (define-key evil-visual-state-map (kbd "DEL") 'evil-delete)
 
+;; bind 'v', 'V' to expand / contract region when used within
+;; visual mode
+(define-key evil-visual-state-map (kbd "v")
+  (lambda ()
+    (interactive)
+    (er/expand-region 1)))
+
+(define-key evil-visual-state-map (kbd "V")
+  (lambda ()
+    (interactive)
+    (er/expand-region -1)))
+
+;; use '<', '>' to indent / outdent
 (define-key evil-visual-state-map (kbd "<")
   (lambda ()
     (interactive)
@@ -400,7 +413,7 @@
   ;; shell
   "ss" 'shell-in-new-buffer
 
-  ;; ag
+  ;; projectile navigation
   "ad" 'ag-project-dired
   "af" 'ag-project
 
