@@ -17,14 +17,29 @@ force_color_prompt=yes
 # Ask R to kindly keep debugging symbols
 export PKG_MAKE_DYM=yes
 
+# Utility aliases
 alias t=tmux
+alias v=vim
+
+alias g=git
+alias ga="git add -A :/"
+alias gb="git checkout -B"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gs="git status"
+
+alias bp="vim ~/.bash_profile"
+alias tc="vim ~/.tmux.conf"
 
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin/opt/X11/bin:/usr/texbin" 
 
-## Colors
 if [ -n "${IS_DARWIN}" ]; then
   alias git=/usr/local/bin/git
 fi
+
+## Colors
 
 # Reset
 Color_Off="\[\033[m\]"       # Text Reset
