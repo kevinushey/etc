@@ -25,6 +25,9 @@ if has("autocmd")
 	autocmd FileType r set commentstring=##\ %s
 endif
 
+" jk to go back to normal mode
+inoremap jk <esc>
+
 "Swap file locations
 silent !mkdir -p ~/.vim/swapfiles
 silent !mkdir -p ~/.vim/backup

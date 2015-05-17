@@ -17,6 +17,8 @@ force_color_prompt=yes
 # Ask R to kindly keep debugging symbols
 export PKG_MAKE_DYM=yes
 
+alias t=tmux
+
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin/opt/X11/bin:/usr/texbin" 
 
 ## Colors
