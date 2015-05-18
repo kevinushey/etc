@@ -835,8 +835,8 @@ nil : Otherwise, return nil and run next lineup function."
 (yas-reload-all)
 
 (add-hook 'prog-mode-hook
-          '(lambda ()
-             (yas-minor-mode)))
+          (lambda ()
+            (yas-minor-mode)))
 
 (defun in-R-package-dir ()
   (file-exists-p
@@ -962,7 +962,7 @@ nil : Otherwise, return nil and run next lineup function."
   (defvar R-operators-split (split-string R-operators "" t))
   (concat
    "\\("
-   (mapconcat '(lambda (x) (concat "\\\\" x)) R-operators-split "\\|")
+   (mapconcat (lambda (x) (concat "\\\\" x)) R-operators-split "\\|")
    "\\)"
    )
   )
@@ -970,38 +970,38 @@ nil : Otherwise, return nil and run next lineup function."
 
 ;; Nicer syntax highlighting
 (add-hook 'ess-mode-hook
-          '(lambda()
-             (font-lock-add-keywords
-              nil
-              '(
+          (lambda()
+            (font-lock-add-keywords
+             nil
+             '(
 
-                ;; base keyword highlighting
-                ("\\<\\(if\\|for\\|function\\|return\\)\\>[\n[:blank:]]*(" 1
-                 font-lock-keyword-face)
+               ;; base keyword highlighting
+               ("\\<\\(if\\|for\\|function\\|return\\)\\>[\n[:blank:]]*(" 1
+                font-lock-keyword-face)
 
-                ;; highlight function names (ie, words with a '(' following)
-                ("\\<\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*(" 1
-                 font-lock-function-name-face)
+               ;; highlight function names (ie, words with a '(' following)
+               ("\\<\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*(" 1
+                font-lock-function-name-face)
 
-                ;; highlight named arguments in a function call, e.g. foo(x=bar, y=baz)
-                ("\\([(,]\\|[\n[:blank:]]*\\)\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*=[^=]"
-                 2 font-lock-reference-face)
+               ;; highlight named arguments in a function call, e.g. foo(x=bar, y=baz)
+               ("\\([(,]\\|[\n[:blank:]]*\\)\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*=[^=]"
+                2 font-lock-reference-face)
 
-                ;; highlight numbers
-                ("\\(-?[0-9]*\\.?[0-9]*[eE]?-?[0-9]+[iL]?\\)" 1 font-lock-type-face)
+               ;; highlight numbers
+               ("\\(-?[0-9]*\\.?[0-9]*[eE]?-?[0-9]+[iL]?\\)" 1 font-lock-type-face)
 
-                ;; crazy garbage to highlight operators
-                ;; no I don't understand emacs regex escaping rules
-                ("\\(\\$\\|\\@\\|\\!\\|\\%\\|\\^\\|\\&\\|\\*\\|\(\\|\)\\|\{\\|\}\\|\\[\\|\\]\\|\\-\\|\\+\\|\=\\|\\/\\|\<\\|\>\\|:\\|~\\)" 1 font-lock-builtin-face)
+               ;; crazy garbage to highlight operators
+               ;; no I don't understand emacs regex escaping rules
+               ("\\(\\$\\|\\@\\|\\!\\|\\%\\|\\^\\|\\&\\|\\*\\|\(\\|\)\\|\{\\|\}\\|\\[\\|\\]\\|\\-\\|\\+\\|\=\\|\\/\\|\<\\|\>\\|:\\|~\\)" 1 font-lock-builtin-face)
 
-                ;; highlight S4 stuff
-                ("\\(setMethod\\|setGeneric\\|setGroupGeneric\\|setClass\\|setRefClass\\|setReplaceMethod\\)" 1 font-lock-reference-face)
+               ;; highlight S4 stuff
+               ("\\(setMethod\\|setGeneric\\|setGroupGeneric\\|setClass\\|setRefClass\\|setReplaceMethod\\)" 1 font-lock-reference-face)
 
-                ;; highlight packages called through ::, :::
-                ("\\(\\w+\\):\\{2,3\\}" 1 font-lock-constant-face)
+               ;; highlight packages called through ::, :::
+               ("\\(\\w+\\):\\{2,3\\}" 1 font-lock-constant-face)
 
-                ))
-             ))
+               ))
+            ))
 
 ;; rmd mode
 (defun rmd-mode ()
