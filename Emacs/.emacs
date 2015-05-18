@@ -43,6 +43,7 @@
                       imenu-anywhere
                       irony
                       js2-mode
+                      key-chord
                       magit
                       markdown-mode
                       powerline
@@ -214,7 +215,6 @@
 ;; line numbers
 (require 'linum)
 (global-linum-mode 1)
-(setq nlinum-format "%d ")
 
 ;; column number in the 'powerline' bar
 (column-number-mode 1)
@@ -391,6 +391,12 @@
    (concat "R CMD INSTALL --preclean " (projectile-project-root))
    )
   )
+
+;; key-chord mode is used so 'jk' can go from
+;; insert to normal state
+(require 'key-chord)
+(key-chord-mode 1)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 
 (defun evil-join-comma ()
   (interactive)
@@ -1163,3 +1169,10 @@ nil : Otherwise, return nil and run next lineup function."
                             (setq web-mode-script-padding 0)
                             (setq web-mode-style-padding 0)
                             ))
+
+;; disable flycheck in lisp mode. the only lisp file i ever edit is my
+;; .emacs and it just fills it up with noise i don't care about
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (flycheck-mode -1)))
+
