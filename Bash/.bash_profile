@@ -275,7 +275,7 @@ Emacs()
 }
 
 ## Start emacs in daemon mode
-alias e='emacsclient -t'
+alias e='ALTERNATE_EDITOR= emacsclient -t'
 
 ## I wasted way too much time making this work, but apparently
 ## emacsclient doesn't allow e.g.
