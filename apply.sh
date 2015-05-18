@@ -42,6 +42,11 @@ ln -fs ${PWD}/Vim/.vimrc.bundles.local ~/.vimrc.bundles.local
 ln -fs ${PWD}/Vim/.vimrc.local ~/.vimrc.local
 ln -fs ${PWD}/Vim/.vimrc.sensible ~/.vimrc.sensible
 
+OWD=$(pwd)
+cd ~
+ln -fs .vimrc .nvimrc
+cd ${OWD}
+
 ## tmux
 ln -fs ${PWD}/tmux/.tmux.conf ~/.tmux.conf
 

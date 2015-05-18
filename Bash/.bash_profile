@@ -7,17 +7,15 @@ elif [ "$(uname)" = "Linux" ]; then
   export IS_LINUX="true"
 fi
 
-if test -n `command -v lsb_release 2> /dev/null`; then
+if test -n "`command -v lsb_release 2> /dev/null`"; then
 	export DISTRO=`lsb_release -i | cut -d":" -f2 | sed "s|[ \t]||g"`
 	if [ "${DISTRO}" = "Ubuntu" ]; then
 		export IS_UBUNTU="true"
 	fi
 fi
 
-# Force Ubuntu to declare the terminal as 256 color
-if [ -n "${IS_UBUNTU}" ]; then
-	export TERM="xterm-256color"
-fi
+# Force to declare the terminal as 256 color
+export TERM="xterm-256color"
 
 # Force a color prompt on Ubuntu
 color_prompt=yes
@@ -235,7 +233,7 @@ git_prompt ()
 prompt_command () {
     GIT_PROMPT=$(git_prompt)
     # export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
-    export PS1="${Cyan}kevin:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\$ "
+    export PS1="${Cyan}kevin:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
 }
 
 export PROMPT_COMMAND=prompt_command
