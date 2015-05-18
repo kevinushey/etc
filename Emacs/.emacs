@@ -239,6 +239,12 @@
 (setq projectile-enable-caching t)
 (projectile-global-mode)
 
+(add-hook 'find-file-hook
+          (lambda ()
+            (let ((dir (projectile-root-bottom-up (buffer-file-name))))
+              (if (not (equal dir nil))
+                  (projectile-add-known-project dir)))))
+
 ;; let left, right wrap around
 (setq-default evil-cross-lines t)
 
@@ -438,6 +444,7 @@
   "pl" 'projectile-find-file-in-directory
   "ps" 'projectile-switch-project
   "pa" 'projectile-ag
+  "pn" 'projectile-add-known-project ;; you would not believe how long it took to find this
   "pg" 'projectile-grep
   "ph" 'helm-projectile
 
@@ -494,6 +501,7 @@
   ;; misc
   "xf" 'dired
   ";" 'my-comment-dwim
+  ":" 'eval-expression
   "." 'evil-shift-right-line
   "," 'evil-shift-left-line
   "'" 'iedit-mode
