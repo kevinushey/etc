@@ -19,6 +19,9 @@ export PKG_MAKE_DYM=yes
 
 # Utility aliases
 alias t=tmux
+alias ta="tmux attach"
+alias tc="vim ~/.tmux.conf"
+
 alias v=vim
 
 alias g=git
@@ -26,16 +29,17 @@ alias ga="git add -A :/"
 alias gb="git checkout -B"
 alias gc="git commit"
 alias gcm="git commit -m"
+alias gp="git push"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias gs="git status"
 
 alias bp="vim ~/.bash_profile"
-alias tc="vim ~/.tmux.conf"
 
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin/opt/X11/bin:/usr/texbin" 
 
-if [ -n "${IS_DARWIN}" ]; then
+# Ensure we use git in /usr/local/bin
+if [ -n "${IS_DARWIN}" ] && [ -e /usr/local/bin/git ]; then
   alias git=/usr/local/bin/git
 fi
 
@@ -162,19 +166,22 @@ function add-git-alias () {
 	git config --global "${ALIAS}" "$@"
 }
 
-add-git-alias co checkout
-add-git-alias br branch
-add-git-alias ci commit
-add-git-alias st status
-add-git-alias unstage "reset HEAD --"
-add-git-alias abort "reset HEAD -- *"
-add-git-alias last "log -1 HEAD"
-add-git-alias df "diff"
-add-git-alias dc "diff --cached"
-add-git-alias lg "log -p"
-add-git-alias who "shortlog -s --"
-add-git-alias new "!git checkout -B \$1 && git branch -u origin/\$1"
-add-git-alias up "commit -a -m"
+# Add git aliases if we haven't already
+if test -z `git config --global --list | grep alias.co`; then
+	add-git-alias co checkout
+	add-git-alias br branch
+	add-git-alias ci commit
+	add-git-alias st status
+	add-git-alias unstage "reset HEAD --"
+	add-git-alias abort "reset HEAD -- *"
+	add-git-alias last "log -1 HEAD"
+	add-git-alias df "diff"
+	add-git-alias dc "diff --cached"
+	add-git-alias lg "log -p"
+	add-git-alias who "shortlog -s --"
+	add-git-alias new "!git checkout -B \$1 && git branch -u origin/\$1"
+	add-git-alias up "commit -a -m"
+fi
 
 if [ -n "${IS_DARWIN}" ]; then
 
