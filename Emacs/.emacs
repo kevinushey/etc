@@ -4,8 +4,10 @@
 ;; cram it, magit
 (setq magit-last-seen-setup-instructions "1.4.0")
 
-;; no tool bar in terminal
-(tool-bar-mode nil)
+;; disable all of the GUI junk
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; lol emacs
 (setq inhibit-default-init t)
@@ -14,6 +16,8 @@
 (setq vc-follow-symlinks t)
 
 ;; list the packages you want
+;; I originally wanted this in alphabetical order, but order matters
+;; since we don't resolve dependency ordering. *sad face*
 (setq package-list '(ag
                       ace-jump-mode
                       auto-complete
@@ -21,7 +25,6 @@
                       clang-format
                       company
                       company-irony
-                      company-go
                       ess
                       evil
                       evil-leader
@@ -32,6 +35,7 @@
                       flycheck
                       go-autocomplete
                       go-mode
+                      company-go
                       grizzl
                       helm
                       ido-vertical-mode
@@ -221,9 +225,7 @@
 ;; I don't like the bell
 (setq ring-bell-function 'ignore)
 
-;; disable the toolbar, scroll bar, and use powerline
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+;; use powerline
 (require 'powerline)
 (require 'powerline-evil)
 (powerline-evil-center-color-theme)
