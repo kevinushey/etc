@@ -18,13 +18,13 @@ force_color_prompt=yes
 export PKG_MAKE_DYM=yes
 
 # Utility aliases
-alias t=tmux
-alias ta="tmux attach"
+alias t="tmux -2"
+alias ta="tmux -2 attach"
 alias tc="vim ~/.tmux.conf"
 
-alias v=vim
+alias v="TERM=screen-256color nvim"
 
-alias g=git
+alias g="git"
 alias ga="git add -A :/"
 alias gb="git checkout -B"
 alias gc="git commit"
@@ -363,7 +363,7 @@ rcip () {
 }
 
 vi () {
-  nvim -Nu ~/.vimrc.sensible "$@"
+  TERM="screen-256color" nvim -Nu ~/.vimrc.sensible "$@"
 }
 
 remove-trailing-newline () {
