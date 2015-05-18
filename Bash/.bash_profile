@@ -1,16 +1,25 @@
+## Since I use the same .bash_profile (.bashrc) for both
+## Linux and OS X systems, I need to check whether the current
+## System is actually Linux or OS X for some commands.
 if [ "$(uname)" = "Darwin" ]; then
-  export IS_DARWIN=1
+  export IS_DARWIN="true"
 elif [ "$(uname)" = "Linux" ]; then
-  export IS_LINUX=1
+  export IS_LINUX="true"
 fi
 
-if [ command -v lsb_release 2> /dev/null ]; then
-  export DISTRO="$(lsb_release -i | cut -d: -f2 | sed s/^\t//)"
+if test -n `command -v lsb_release 2> /dev/null`; then
+	export DISTRO=`lsb_release -i | cut -d":" -f2 | sed "s|[ \t]||g"`
 	if [ "${DISTRO}" = "Ubuntu" ]; then
-		export IS_UBUNTU=1
+		export IS_UBUNTU="true"
 	fi
 fi
 
+# Force Ubuntu to declare the terminal as 256 color
+if [ -n "${IS_UBUNTU}" ]; then
+	export TERM="xterm-256color"
+fi
+
+# Force a color prompt on Ubuntu
 color_prompt=yes
 force_color_prompt=yes
 
@@ -22,7 +31,7 @@ alias t="tmux -2"
 alias ta="tmux -2 attach"
 alias tc="vim ~/.tmux.conf"
 
-alias v="TERM=screen-256color nvim"
+alias v="nvim"
 
 alias g="git"
 alias ga="git add -A :/"
@@ -363,7 +372,7 @@ rcip () {
 }
 
 vi () {
-  TERM="screen-256color" nvim -Nu ~/.vimrc.sensible "$@"
+  nvim -Nu ~/.vimrc.sensible "$@"
 }
 
 remove-trailing-newline () {
