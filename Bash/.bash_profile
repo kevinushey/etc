@@ -445,3 +445,18 @@ reduce-transparency () {
     convert $1 -alpha on -channel a -evaluate Divide 0.8 +channel $1
 }
 
+list-colors () {
+
+    # Because OS X echo doesn't support the '-e' flag, apparently.
+    if test -n "${IS_DARWIN}"; then
+        ECHO="gecho"
+    else
+        ECHO="echo"
+    fi
+
+    for i in {0..255}
+    do
+        "${ECHO}" -e "\e[38;05;${i}m${i}"
+    done | column -c 80 -s '  '; "${ECHO}" -e "\e[m"
+}
+
