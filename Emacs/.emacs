@@ -976,7 +976,7 @@ nil : Otherwise, return nil and run next lineup function."
              '(
 
                ;; base keyword highlighting
-               ("\\<\\(if\\|for\\|function\\|return\\)\\>[\n[:blank:]]*(" 1
+               ("\\<\\(if\\|for\\|while\\|function\\|return\\)\\>[\n[:blank:]]*(" 1
                 font-lock-keyword-face)
 
                ;; highlight function names (ie, words with a '(' following)
