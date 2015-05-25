@@ -12,6 +12,10 @@ if [ -z "$(grep ${CRAN_URL} /etc/apt/sources.list)" ]; then
 	sudo apt-get upgrade -y
 fi
 
+sudo add-apt-repository ppa:neovim-ppa/unstable
+sudo apt-get update
+sudo apt-get install -y neovim
+
 sudo apt-get install -y vim \
 	emacs \
 	r-base-dev \
