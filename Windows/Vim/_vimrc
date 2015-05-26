@@ -3,16 +3,58 @@ if filereadable(expand("$VIM/_vimrc"))
 	source $VIM/_vimrc
 endif
 
+" Swap file locations
+if !isdirectory(expand("$HOME/.vim/swapfiles"))
+	silent !mkdir \%USERPROFILE\%\.vim\swapfiles
+endif
+
+if !isdirectory(expand("$HOME/.vim/backup"))
+	silent !mkdir \%USERPROFILE\%\.vim\backup
+endif
+
+set directory=$HOME/.vim/swapfiles//
+set backupdir=$HOME/.vim/backup//
+
+" Ensure 'git' is on the PATH.
+let $PATH .= ";C:\\Program Files (x86)\\Git\\bin"
+
 " Make Vundle available.
 filetype off
 set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+Plugin 'bash-support.vim'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'kien/ctrlp.vim'
+Plugin 'terryma/vim-expand-region'
+Plugin 'tpope/vim-sleuth'
+Plugin 'tpope/vim-surround'
+Plugin 'unimpaired.vim'
 
 call vundle#end()
 filetype plugin on
+
+let mapleader="\<Space>"
+set timeoutlen=500
+
+nnoremap <Leader>o :CtrlP<CR>
+nnoremap <Leader>w :w<CR>
+
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
+
+vnoremap v <Plug>(expand_region_expand)
+vnoremap <S-v> <Plug>(expand_region_shrink)
+
+map q: :q
+
+if has("autocmd")
+	autocmd FileType r set commentstring=##\ %s
+endif
 
 " Slate is a nice default colour scheme.
 if filereadable(expand("$VIMRUNTIME/colors/slate.vim"))
@@ -30,7 +72,7 @@ endif
 
 " Set up Vundle. Note that this assumes 'git' is on the PATH.
 if !isdirectory(expand("$HOME/.vim/bundle"))
-	silent !mkdir ~\.vim\bundle
+	silent !mkdir \%USERPROFILE\%\.vim\bundle
 endif
 
 if !isdirectory(expand("$HOME/.vim/bundle/Vundle.vim"))
