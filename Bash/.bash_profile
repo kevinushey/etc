@@ -273,7 +273,13 @@ Emacs()
 }
 
 ## Start emacs in daemon mode
-alias e='ALTERNATE_EDITOR= emacsclient -t'
+e () {
+    if test "$#" -eq 0; then
+        ALTERNATE_EDITOR= emacsclient -t .
+    else
+        ALTERNATE_EDITOR= emacsclient -t "$@"
+    fi
+}
 
 ## I wasted way too much time making this work, but apparently
 ## emacsclient doesn't allow e.g.

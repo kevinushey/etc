@@ -7,6 +7,15 @@ if (interactive()) {
   ## always run Rcpp tests
   Sys.setenv(RunAllRcppTests="yes")
 
+  ## ensure custom library path available
+  if (Sys.info()[["sysname"]] == "Darwin") {
+    rVersion <- unclass(getRversion())[[1]]
+    string <- paste(rVersion[1], rVersion[2], sep = ".")
+    libPath <- file.path("~/Library/R", string, "library")
+    if (!file.exists(libPath))
+      dir.create(libPath, recursive = TRUE)
+  }
+
   try_library <- function(x) {
     tryCatch( library(match.call()$x),
               warning=function(x) invisible(NULL),
