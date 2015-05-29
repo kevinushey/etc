@@ -28,7 +28,8 @@ sudo apt-get install -y vim \
 	golang-go.tools \
 	mercurial \
 	dkms \
-	tmux
+	tmux \
+	xclip
 
 #sudo apt-get build-dep -y r-base-dev
 git config --global credential.helper "cache --timeout=36000"
