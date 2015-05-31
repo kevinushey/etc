@@ -66,12 +66,6 @@ cd ~
 ln -fs .vimrc .nvimrc
 cd ${OWD}
 
-## tmux
-ln -fs ${PWD}/tmux/.tmux.conf ~/.tmux.conf
-if [ -n "${IS_DARWIN}" ]; then
-	ln -fs ${PWD}/tmux/tmux.conf.darwin ~/.tmux.conf.darwin
-fi
-
 ## tig
 ln -fs ${PWD}/.tigrc ~/.tigrc
 
@@ -90,5 +84,5 @@ cp ${PWD}/QtCreator/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets
 cp ${PWD}/QtCreator/schemes/* ~/.config/QtProject/qtcreator/schemes/
 
 ## Tmux
-ln -fs ${PWD}/tmux/.tmux.conf.linux ~/.tmux.conf.linux
+ln -fs ${PWD}/tmux/.tmux.conf* ~/
 
