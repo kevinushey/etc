@@ -86,3 +86,6 @@ cp ${PWD}/QtCreator/styles/*.xml ~/.config/QtProject/qtcreator/styles/
 cp ${PWD}/QtCreator/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
 cp ${PWD}/QtCreator/schemes/* ~/.config/QtProject/qtcreator/schemes/
 
+## Tmux
+ln -fs ${PWD}/tmux/.tmux.conf.linux ~/.tmux.conf.linux
+

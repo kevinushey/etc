@@ -1,0 +1,2 @@
+set -g pane-active-border-fg colour4
+set -g pane-active-border-bg colour234
