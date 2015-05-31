@@ -68,6 +68,9 @@ cd ${OWD}
 
 ## tmux
 ln -fs ${PWD}/tmux/.tmux.conf ~/.tmux.conf
+if [ -n "${IS_DARWIN}" ]; then
+	ln -fs ${PWD}/tmux/tmux.conf.darwin ~/.tmux.conf.darwin
+fi
 
 ## tig
 ln -fs ${PWD}/.tigrc ~/.tigrc
