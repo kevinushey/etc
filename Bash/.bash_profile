@@ -17,6 +17,19 @@ fi
 # Force to declare the terminal as 256 color
 export TERM="xterm-256color"
 
+# Figure out if we're running on a high DPI display.
+# Hacky since we're just looking for the resolution but in practice
+# only high DPI displays will have such large resolutions.
+if [ -n "${IS_LINUX}" ]; then
+	RESOLUTION=`xrandr -q | grep '*' | head -n 1 | awk '{print($1)}'`
+	RESOLUTION_X=`echo "${RESOLUTION}" | cut -d"x" -f1`
+	RESOLUTION_Y=`echo "${RESOLUTION}" | cut -d"x" -f2`
+	if test "${RESOLUTION_X}" -ge 3840 -a "${RESOLUTION_Y}" -ge 2160; then
+		export QT_DEVICE_PIXEL_RATIO=2
+	fi
+fi
+
+
 # Force a color prompt on Ubuntu
 color_prompt=yes
 force_color_prompt=yes
