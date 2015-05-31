@@ -25,7 +25,7 @@ force_color_prompt=yes
 export PKG_MAKE_DYM=yes
 
 # Utility aliases
-alias t="tmux attach || tmux"
+alias t="tmux attach 2> /dev/null || tmux"
 alias tc="nvim ~/.tmux.conf"
 
 alias v="nvim"
