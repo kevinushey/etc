@@ -21,10 +21,13 @@ nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
 
-" The rest is courtesy of the Pope.
-let g:loaded_sensible = 1
+silent !mkdir -p ~/.vim/swapfiles
+silent !mkdir -p ~/.vim/backup
 set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/backup//
+
+" The rest is courtesy of the Pope.
+let g:loaded_sensible = 1
 
 if has('autocmd')
   filetype plugin indent on

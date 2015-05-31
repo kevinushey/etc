@@ -16,7 +16,9 @@ sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt-get update
 sudo apt-get install -y neovim
 
-sudo apt-get install -y vim \
+sudo apt-get install -y \
+	vim \
+	libxml2-dev \
 	emacs \
 	r-base-dev \
 	ess \
