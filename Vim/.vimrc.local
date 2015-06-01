@@ -6,6 +6,8 @@ colorscheme Tomorrow-Night-Bright
 let mapleader="\<Space>"
 set timeoutlen=500
 
+set nospell
+
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>w :w<CR>
 
