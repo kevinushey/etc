@@ -61,7 +61,7 @@ ln -fs $HOME/.vimrc $HOME/.nvimrc
 ln -fs ${PWD}/.tigrc ~/.tigrc
 
 ## Git
-git config --global core.editor "vim -Nu ~/.vimrc.sensible"
+git config --global core.editor "vi"
 git config --global user.name "Kevin Ushey"
 git config --global push.default simple
 
