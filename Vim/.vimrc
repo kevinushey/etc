@@ -37,7 +37,7 @@ Source g:sensible_vim_path
 " Source package-management related stuff
 Source "~/.vim/startup/packages.vim"
 
-" Source global stuff (that should work across all OSes)
+" Source global stuff 
 Source "~/.vim/startup/global.vim"
 
 " Source platform-specific configuration files.
@@ -46,7 +46,7 @@ let g:system_name = "unknown"
 if has("win32") || has("win16")
 	let g:system_name = "Windows"
 	let g:is_windows_system = 1
-	Source("~/.vim/startup/windows.vim")
+	Source "~/.vim/startup/windows.vim"
 endif
 
 if executable("uname")
@@ -55,10 +55,10 @@ endif
 
 if g:system_name == "Darwin"
 	let g:is_darwin_system = 1
-	Source("~/.vim/startup/darwin.vim")
+	Source "~/.vim/startup/darwin.vim"
 elseif g:system_name == "Linux"
 	let g:is_linux_system = 1
-	Source("~/.vim/startup/linux.vim")
+	Source "~/.vim/startup/linux.vim"
 elseif g:system_name == "SunOS"
 	let g:is_garbage_system = 1
 	" TODO: nuke OS and install something reasonable.
@@ -66,5 +66,5 @@ elseif g:system_name == "SunOS"
 endif
 
 " Global overrides
-Source("~/.vimrc.after.local")
+Source "~/.vimrc.after.local"
 
