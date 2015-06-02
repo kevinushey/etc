@@ -1,40 +1,7 @@
-colorscheme Tomorrow-Night-Bright
+"" Basic configuration
 
-" Space is your leader
-" http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
-
-let mapleader="\<Space>"
-set timeoutlen=500
-
-set nospell
-
-nnoremap <Leader>o :CtrlP<CR>
-nnoremap <Leader>w :w<CR>
-
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-
-vmap v <Plug>(expand_region_expand)
-vmap <S-v> <Plug>(expand_region_shrink)
-
-map q: :q
-
-if has("autocmd")
-	autocmd FileType r set commentstring=##\ %s
-endif
-
-" jk to go back to normal mode
-inoremap jk <esc>
-
-"Swap file locations
-silent !mkdir -p ~/.vim/swapfiles
-silent !mkdir -p ~/.vim/backup
-set directory=$HOME/.vim/swapfiles//
-set backupdir=$HOME/.vim/backup//
+"Colorschemes (in order of preference)
+ColorScheme Tomorrow-Night-Bright default
 
 "Soft tabs
 set tabstop=4
@@ -49,6 +16,36 @@ set wrap
 set nolist
 set nospell
 
+"Leader-key related functionality
+let mapleader="\<Space>"
+set timeoutlen=500
+
+nnoremap <Leader>o :CtrlP<CR>
+nnoremap <Leader>w :w<CR>
+
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
+"Make expand region behave nicely with v, <S-v>
+vmap v <Plug>(expand_region_expand)
+vmap <S-v> <Plug>(expand_region_shrink)
+
+" Don't let the stupid console thing popup
+map q: :q
+
+" Use '## ' for commas in R scripts
+if has("autocmd")
+	autocmd FileType r set commentstring=##\ %s
+endif
+
+" jk to go back to normal mode
+inoremap jk <esc>
+
+"" C, C++ related editing stuff
 "Don't indent namespaces
 set cinoptions=N-s
 
@@ -84,7 +81,4 @@ endfunction
 if has("autocmd")
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
 endif
-
-let g:ycm_confirm_extra_conf = 0
-let g:spf13_keep_trailing_whitespace = 1
 

@@ -1,5 +1,0 @@
-Bundle "bash-support.vim"
-Bundle "unimpaired.vim"
-Bundle "terryma/vim-expand-region"
-Bundle "tpope/vim-sleuth"
-Bundle "inside/vim-search-pulse"

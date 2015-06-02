@@ -51,20 +51,11 @@ if [ -n "${IS_DARWIN}" ]; then
 fi
 
 ## Vim
-if [ ! -e "${HOME}/.spf13-vim-3" ]; then
-   echo "Installing SPF-13 vim..."
-   curl http://j.mp/spf13-vim3 -L -o - | sh
-fi
-
-ln -fs ${PWD}/Vim/.vimrc.before.local ~/.vimrc.before.local
-ln -fs ${PWD}/Vim/.vimrc.bundles.local ~/.vimrc.bundles.local
-ln -fs ${PWD}/Vim/.vimrc.local ~/.vimrc.local
-ln -fs ${PWD}/Vim/.vimrc.sensible ~/.vimrc.sensible
-
-OWD=$(pwd)
-cd ~
-ln -fs .vimrc .nvimrc
-cd ${OWD}
+mkdir -p ~/.vim
+rm -f ~/.vim/startup
+ln -fs $PWD/Vim/startup ~/.vim/startup
+ln -fs $PWD/Vim/.vimrc ~/.vimrc
+ln -fs $HOME/.vimrc $HOME/.nvimrc
 
 ## tig
 ln -fs ${PWD}/.tigrc ~/.tigrc
