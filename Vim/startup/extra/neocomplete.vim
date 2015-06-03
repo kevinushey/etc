@@ -2,9 +2,10 @@
 " plugins.
 
 Bundle 'Shougo/neocomplete.vim.git'
-Bundle 'Shougo/neosnippet'
-Bundle 'Shougo/neosnippet-snippets'
-Bundle 'honza/vim-snippets'
+
+" For the life of me, I cannot get neosnippet to play nicely with endwise
+" or autopair. Unfortunately, I like thoes plugins much more than I like
+" snippets.
 
 " Set up a basic configuration for 'Neocomplete'.
 " Copied + modified from 'https://github.com/Shougo/neocomplete.vim'.
