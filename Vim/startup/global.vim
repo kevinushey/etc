@@ -12,6 +12,9 @@ set expandtab
 " Soft wrapping
 set wrap
 
+" Show line numbers
+set number
+
 " I don't like seeing punctuation characters
 set nolist
 set nospell
@@ -44,6 +47,35 @@ endif
 
 " jk to go back to normal mode
 inoremap jk <Esc>
+
+function! SmartCR()
+
+    " Allow neocomplete to take over the popup.
+    if pumvisible()
+        let g:HandledCR = 1
+        return neocomplete#close_popup()
+    endif
+
+    " Begin forming a return expression.
+    let ReturnExpression = "\<CR>"
+
+    " Execute 'after' behaviours.
+    if exists('g:AutoPairsLoaded')
+        let ReturnExpression .= AutoPairsReturn()
+    endif
+    
+    if exists('g:loaded_endwise')
+        let Result = EndwiseDiscretionary()
+        if strlen(Result)
+            let ReturnExpression .= Result . "\<C-O>O"
+        endif
+    endif
+
+    return ReturnExpression
+
+endfunction
+
+inoremap <expr><CR> SmartCR()
 
 "" C, C++ related editing stuff
 "Don't indent namespaces
@@ -81,4 +113,3 @@ endfunction
 if has("autocmd")
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
 endif
-

@@ -25,6 +25,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'rking/ag.vim'
 
 " Autocompletion of various pairs.
+Define g:AutoPairsMapCR = 0
 Plugin 'jiangmiao/auto-pairs'
 
 " Auto-pairing of delimiters. Unfortunately this does not play nicely with
@@ -49,6 +50,7 @@ Plugin 'bling/vim-bufferline'
 Plugin 'flazz/vim-colorschemes'
 
 " CTRL + P for quick file searching is wonderful.
+let g:ctrlp_follow_symlinks = 1
 Plugin 'ctrlpvim/ctrlp.vim'
 
 " Not sure if I need this TBH.
@@ -88,7 +90,9 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-fugitive'
 
 " Automagically add 'end*' when appropriate.
-Plugin 'tpope/vim-endwise'
+" TODO: Stop using own fork.
+Define g:endwise_no_mappings = 1
+Plugin 'kevinushey/vim-endwise'
 
 " Comment management.
 Plugin 'tpope/vim-commentary'

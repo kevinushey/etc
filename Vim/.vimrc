@@ -1,14 +1,18 @@
 " User overrides -- you can override certain global variables
 " used within the script there.
-if filereadable("~/.vimrc.before.local")
-	source ~/.vimrc.before.local
+if filereadable(expand("~/.vimrc.before"))
+	source ~/.vimrc.before
 endif
 
 " Functions used in the startup process. This file must exist!
-if filereadable(expand("~/.vim/startup/functions.vim"))
-	source ~/.vim/startup/functions.vim
+if !exists('g:StartupFunctionsPath')
+	let g:StartupFunctionsPath = '~/.vim/startup/functions.vim'
+endif
+
+if filereadable(expand(g:StartupFunctionsPath))
+	execute join(["source", g:StartupFunctionsPath], " ")
 else
-	echo "ERROR: Could not locate startup '~/.vim/startup/functions.vim'!"
+	echo "ERROR: Could not locate startup '" . g:StartupFunctionsPath . "'!"
 	finish
 endif
 
@@ -24,15 +28,15 @@ set backupdir=$HOME/.vim/backup//
 
 " Begin with tpope's sensible.vim. Download it if we don't already have it.
 Define g:wget = "wget"
-Define g:sensible_vim_path = "~/.vim/startup/sensible.vim"
-Define g:sensible_vim_url = "https://raw.githubusercontent.com/tpope/vim-sensible/master/plugin/sensible.vim"
+Define g:SensibleVimPath = "~/.vim/startup/sensible.vim"
+Define g:SensibleVimURL = "https://raw.githubusercontent.com/tpope/vim-sensible/master/plugin/sensible.vim"
 
-if !filereadable(expand(g:sensible_vim_path))
-	echo "Downloading sensible.vim from '" . g:sensible_vim_url . "'"
-	silent execute "!" . g:wget . " " . g:sensible_vim_url . " -O " . g:sensible_vim_path
+if !filereadable(expand(g:SensibleVimPath))
+	echo "Downloading sensible.vim from '" . g:SensibleVimURL . "'"
+	silent execute "!" . g:wget . " " . g:SensibleVimURL . " -O " . g:SensibleVimPath
 endif
 
-Source g:sensible_vim_path
+Source g:SensibleVimPath
 
 " Source package-management related stuff
 Source "~/.vim/startup/packages.vim"
@@ -66,5 +70,7 @@ elseif g:system_name == "SunOS"
 endif
 
 " Global overrides
-Source "~/.vimrc.after.local"
+if filereadable(expand("~/.vimrc.after"))
+	source ~/.vimrc.after
+endif
 

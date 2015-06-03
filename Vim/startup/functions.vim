@@ -26,7 +26,7 @@ command! -nargs=+ -complete=file EnsureDirectory call EnsureDirectory(<args>)
 " Does nothing if the file does not exist.
 function! Source(path)
 	if filereadable(expand(a:path))
-		execute "source " expand(a:path)
+		execute join(["source", expand(a:path)], " ")
 	endif
 endfunction
 command! -nargs=+ -complete=file Source call Source(<args>)
@@ -93,3 +93,27 @@ function! DoubleQuotedEscaped(string)
 	return "\"" . substitute(a:string, "\"", "\\\\\"", "g") . "\""
 endfunction
 
+" Enter normal mode. This is a stupid hack because I couldn't find an
+" ex-command to enter normal mode. This may be because I am stupid.
+function! EnterNormalMode()
+	if mode() != 'n'
+		call feedkeys("\<Esc>")
+	endif
+endfunction
+
+" Put the contents of a variable at the cursor position.
+function! Put(variable)
+	call feedkeys(":normal! i\<C-R>=" . a:variable . "\<CR>\<Esc>")
+endfunction
+command! -nargs=+ -complete=var Put call Put(<f-args>)
+
+" Get the (possibly multibyte) character at the cursor
+" position.
+function! GetCharacterAtCursor()
+	let result = matchstr(getline('.'), '\%' . col('.') . 'c.')
+	return result
+endfunction
+
+function! InsertNewline()
+	execute ":normal! i\<CR>"
+endfunction
