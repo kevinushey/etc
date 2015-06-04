@@ -26,6 +26,9 @@ EnsureDirectory "~/.vim/backup"
 set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/backup//
 
+" Begin with vim-sensible
+Source "~/.vim/startup/sensible.vim"
+
 " Source package-management related stuff
 Source "~/.vim/startup/packages.vim"
 
@@ -33,12 +36,11 @@ Source "~/.vim/startup/packages.vim"
 Source "~/.vim/startup/global.vim"
 
 " Source platform-specific configuration files.
-" Source it after '.vimrc.local' so it can override if needed.
 let g:system_name = "unknown"
 if has("win32") || has("win64") || has("win16")
-	let g:system_name = "Windows"
-	let g:is_windows_system = 1
-	Source "~/.vim/startup/platform/windows.vim"
+    let g:system_name = "Windows"
+    let g:is_windows_system = 1
+    Source "~/.vim/startup/platform/windows.vim"
 else
     Source "~/.vim/startup/platform/non-windows.vim"
 endif

@@ -1,3 +1,5 @@
+syntax on
+
 " Override the colorscheme to provide slate (much better than the Windows default)
 ColorScheme Tomorrow-Night-Bright slate default
 
@@ -11,3 +13,7 @@ endif
 
 " Ensure Git is on the PATH
 let $PATH .= ';C:\Program Files (x86)\Git\bin'
+
+" Add utility binaries to PATH (e.g. 'wget')
+let $PATH .= ';' . substitute(FilePath($HOME, 'bin'), '/', '\\', 'g')
+
