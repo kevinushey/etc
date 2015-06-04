@@ -24,10 +24,6 @@ Plugin 'scrooloose/nerdtree'
 " files you probably care about (and excludes files you don't care about)
 Plugin 'rking/ag.vim'
 
-" Autocompletion of various pairs.
-Define g:AutoPairsMapCR = 0
-Plugin 'jiangmiao/auto-pairs'
-
 " Auto-pairing of delimiters. Unfortunately this does not play nicely with
 " neocomplete out of the box and so we need to disable autopair's handling of
 " CR.
@@ -90,9 +86,10 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-fugitive'
 
 " Automagically add 'end*' when appropriate.
-" TODO: Stop using own fork.
-Define g:endwise_no_mappings = 1
-Plugin 'kevinushey/vim-endwise'
+Plugin 'tpope/vim-endwise'
+
+" Autocompletion of various pairs.
+Plugin 'jiangmiao/auto-pairs'
 
 " Comment management.
 Plugin 'tpope/vim-commentary'

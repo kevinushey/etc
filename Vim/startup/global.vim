@@ -85,16 +85,15 @@ function! SmartCR()
     if exists('g:loaded_endwise')
         let Result = EndwiseDiscretionary()
         if strlen(Result)
-            let ReturnExpression .= "    \<CR>" . Result
+            let ReturnExpression .= " " . "\<CR>" . Result . "\<Up>\<Backspace>"
         endif
     endif
 
-    echomsg "Final return: '" . ReturnExpression . "'"
     return ReturnExpression
 
 endfunction
 
-imap <expr><CR> SmartCR()
+inoremap <expr><CR> SmartCR()
 
 "" C, C++ related editing stuff
 "Don't indent namespaces

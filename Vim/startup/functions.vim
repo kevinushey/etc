@@ -146,7 +146,7 @@ function! GetCurrentLineIndent()
 	return matchstr(getline('.'), '^\s*')
 endfunction
 
-command! -nargs=* Echo redraw | echo <args>
+command! -nargs=* Echo redraw | echomsg <args>
 
 function! Reload()
 	"TODO: Key this on the file type.
