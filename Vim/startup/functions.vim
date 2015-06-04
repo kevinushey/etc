@@ -153,3 +153,6 @@ function! Reload()
 	source %
 endfunction
 
+function! Lazy(call)
+    return "\<C-R>=" . a:call . "\<CR>"
+endfunction

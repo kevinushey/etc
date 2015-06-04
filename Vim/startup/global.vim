@@ -46,6 +46,9 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>s :nohlsearch<CR>
 nnoremap <Leader>l :set list!<CR>
 
+noremap <Leader>\ :vsp<CR>
+noremap <Leader>- :sp<CR>
+
 vmap <Leader>y "+y
 vmap <Leader>d "+d
 nmap <Leader>p "+p
@@ -73,24 +76,8 @@ function! SmartCR()
         return neocomplete#close_popup()
     endif
 
-    " Begin forming a return expression.
-    let ReturnExpression = "\<CR>"
-    let PostActions = ''
-
-    " Execute 'after' behaviours.
-    if exists('g:AutoPairsLoaded')
-        let ReturnExpression .= AutoPairsReturn()
-    endif
-
-    if exists('g:loaded_endwise')
-        let Result = EndwiseDiscretionary()
-        if strlen(Result)
-            let ReturnExpression .= " " . "\<CR>" . Result . "\<Up>\<Backspace>"
-        endif
-    endif
-
-    return ReturnExpression
-
+    " Return an expression to do endwise + autopair work.
+    return "\<CR>" . Lazy("EndwiseDiscretionary()") . Lazy("AutoPairsReturn()")
 endfunction
 
 inoremap <expr><CR> SmartCR()

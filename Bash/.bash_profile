@@ -388,7 +388,7 @@ rcip () {
 }
 
 vi () {
-  nvim -Nu ~/.vimrc.sensible "$@"
+  nvim -Nu ~/.vim/startup/sensible.vim "$@"
 }
 
 remove-trailing-newline () {
