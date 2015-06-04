@@ -114,6 +114,34 @@ function! GetCharacterAtCursor()
 	return result
 endfunction
 
+function! StrRep(string, times)
+
+	let result = ''
+
+	for i in range(a:times)
+		let result .= a:string	
+	endfor
+
+	return result
+
+endfunction
+
 function! InsertNewline()
 	execute ":normal! i\<CR>"
 endfunction
+
+function! GetIndent(string)
+	return matchstr(a:string, '^\s*')
+endfunction
+
+function! GetCurrentLineIndent()
+	return matchstr(getline('.'), '^\s*')
+endfunction
+
+command! -nargs=* Echo redraw | echo <args>
+
+function! Reload()
+	"TODO: Key this on the file type.
+	source %
+endfunction
+

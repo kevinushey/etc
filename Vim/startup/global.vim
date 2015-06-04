@@ -1,8 +1,9 @@
-"" Basic configuration
-
 " Colorschemes (in order of preference)
 ColorScheme Tomorrow-Night-Bright default
 
+function! Foo()
+        
+endfunction
 " Soft tabs
 set tabstop=4
 set softtabstop=4
@@ -16,6 +17,7 @@ set wrap
 set number
 
 " I don't like seeing punctuation characters
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 set nolist
 set nospell
 
@@ -23,15 +25,22 @@ set nospell
 let mapleader="\<Space>"
 set timeoutlen=500
 
+" Remap leader + direction to choose window
+let g:ArrowKeys = ['<Up>', '<Down>', '<Left>', '<Right>']
+for key in g:ArrowKeys
+    execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], " ")
+endfor
+
+nnoremap <Leader>r :call Reload() \| Echo "Reloaded '" . @% . "'."<CR>
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>s :nohlsearch<CR>
+nnoremap <Leader>l :set list!<CR>
 
 vmap <Leader>y "+y
 vmap <Leader>d "+d
 nmap <Leader>p "+p
 nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
 
 " Make expand region behave nicely with v, <S-v>
 vmap v <Plug>(expand_region_expand)
@@ -52,30 +61,31 @@ function! SmartCR()
 
     " Allow neocomplete to take over the popup.
     if pumvisible()
-        let g:HandledCR = 1
         return neocomplete#close_popup()
     endif
 
     " Begin forming a return expression.
     let ReturnExpression = "\<CR>"
+    let PostActions = ''
 
     " Execute 'after' behaviours.
     if exists('g:AutoPairsLoaded')
         let ReturnExpression .= AutoPairsReturn()
     endif
-    
+
     if exists('g:loaded_endwise')
         let Result = EndwiseDiscretionary()
         if strlen(Result)
-            let ReturnExpression .= Result . "\<C-O>O"
+            let ReturnExpression .= "    \<CR>" . Result
         endif
     endif
 
+    echomsg "Final return: '" . ReturnExpression . "'"
     return ReturnExpression
 
 endfunction
 
-inoremap <expr><CR> SmartCR()
+imap <expr><CR> SmartCR()
 
 "" C, C++ related editing stuff
 "Don't indent namespaces

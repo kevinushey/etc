@@ -47,7 +47,7 @@ Source "~/.vim/startup/global.vim"
 " Source platform-specific configuration files.
 " Source it after '.vimrc.local' so it can override if needed.
 let g:system_name = "unknown"
-if has("win32") || has("win16")
+if has("win32") || has("win64") || has("win16")
 	let g:system_name = "Windows"
 	let g:is_windows_system = 1
 	Source "~/.vim/startup/windows.vim"
