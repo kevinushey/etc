@@ -3,6 +3,15 @@ ColorScheme Tomorrow-Night-Bright default
 
 scriptencoding utf-8
 
+" Disable menu-stuff (for GUIs)
+if has("gui_running")
+    " Hide the menu bar.
+    set guioptions -=m
+
+    " Hide the toolbar.
+    set guioptions -=T
+endif
+
 " Soft tabs
 set tabstop=4
 set softtabstop=4
