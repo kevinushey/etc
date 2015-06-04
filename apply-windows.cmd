@@ -22,31 +22,16 @@ git config --global push.default simple
 git config --global credential.helper wincred
 
 REM Set up _vimrc.
-set "VIMRC_DOTFILE_FROM=%PWD%\Windows\Vim\_vimrc"
+if not exist "%HOME%\.vim" mkdir "%HOME%\.vim"
+set "VIMRC_DOTFILE_FROM=%PWD%\Vim\.vimrc"
 set "VIMRC_DOTFILE_TO=%HOME%\_vimrc"
+
+rm "%VIMRC_DOTFILE_TO%"
 mklink /H "%VIMRC_DOTFILE_TO%" "%VIMRC_DOTFILE_FROM%"
 
-REM Set up useful Vim packages.
-set "OWD=%cd%"
-set "VIM_BUNDLES_DIR=%HOME%\.vim\bundle"
-
-if not exist "%VIM_BUNDLES_DIR%" (
-	mkdir "%VIM_BUNDLES_DIR%"
-)
-
-cd "%VIM_BUNDLES_DIR%"
-
-REM Ensure 'Vundle' is available, and use that to manage Vim plugins.
-if not exist Vundle.vim (
-	git clone https://github.com/gmarik/Vundle.vim.git Vundle.vim
-)
-
-REM Update vundle.
-cd Vundle.vim
-git pull
-cd ..
-
-cd "%OWD%"
+REM Link in other supporting Vim files.
+set "VIM_STARTUP_DIR=%PWD%\Vim\startup"
+mklink /J "%HOME%\.vim\startup" "%VIM_STARTUP_DIR%"
 
 REM Copy over Qt Creator related items.
 set "QT_CREATOR_DIR=%HOME%\AppData\Roaming\QtProject\qtcreator"

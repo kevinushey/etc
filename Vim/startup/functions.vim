@@ -4,11 +4,19 @@
 " The system 'mkdir' is called and so the directory passed in will be
 " double-quoted and escaped.
 function! EnsureDirectory(path)
+
+    if IsDirectory(a:path)
+        return 1
+    endif
+
 	let l:mkdir_command = "mkdir -p"
-	if exists("g:is_windows_system")
+    if has("win16") || has("win32") || has("win64")
 		let l:mkdir_command = "mkdir"
 	endif
-	execute join(["silent", "!" . l:mkdir_command, DoubleQuotedEscaped(expand(a:path))], " ")
+
+	execute join(["silent!", "!" . l:mkdir_command, DoubleQuotedEscaped(expand(a:path))], " ")
+    return 1
+
 endfunction
 
 function! IsDirectory(path)

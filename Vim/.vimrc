@@ -26,18 +26,6 @@ EnsureDirectory "~/.vim/backup"
 set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/backup//
 
-" Begin with tpope's sensible.vim. Download it if we don't already have it.
-Define g:wget = "wget"
-Define g:SensibleVimPath = "~/.vim/startup/sensible.vim"
-Define g:SensibleVimURL = "https://raw.githubusercontent.com/tpope/vim-sensible/master/plugin/sensible.vim"
-
-if !filereadable(expand(g:SensibleVimPath))
-	echo "Downloading sensible.vim from '" . g:SensibleVimURL . "'"
-	silent execute "!" . g:wget . " " . g:SensibleVimURL . " -O " . g:SensibleVimPath
-endif
-
-Source g:SensibleVimPath
-
 " Source package-management related stuff
 Source "~/.vim/startup/packages.vim"
 
@@ -50,7 +38,9 @@ let g:system_name = "unknown"
 if has("win32") || has("win64") || has("win16")
 	let g:system_name = "Windows"
 	let g:is_windows_system = 1
-	Source "~/.vim/startup/windows.vim"
+	Source "~/.vim/startup/platform/windows.vim"
+else
+    Source "~/.vim/startup/platform/non-windows.vim"
 endif
 
 if executable("uname")
@@ -59,10 +49,10 @@ endif
 
 if g:system_name == "Darwin"
 	let g:is_darwin_system = 1
-	Source "~/.vim/startup/darwin.vim"
+	Source "~/.vim/startup/platform/darwin.vim"
 elseif g:system_name == "Linux"
 	let g:is_linux_system = 1
-	Source "~/.vim/startup/linux.vim"
+	Source "~/.vim/startup/platform/linux.vim"
 elseif g:system_name == "SunOS"
 	let g:is_garbage_system = 1
 	" TODO: nuke OS and install something reasonable.

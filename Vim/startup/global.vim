@@ -1,9 +1,8 @@
 " Colorschemes (in order of preference)
 ColorScheme Tomorrow-Night-Bright default
 
-function! Foo()
-        
-endfunction
+scriptencoding utf-8
+
 " Soft tabs
 set tabstop=4
 set softtabstop=4
@@ -16,9 +15,10 @@ set wrap
 " Show line numbers
 set number
 
-" I don't like seeing punctuation characters
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+" Don't show punctuation characters by default.
 set nolist
+
+" Don't spellcheck.
 set nospell
 
 " Leader-key related functionality
