@@ -58,6 +58,8 @@ function! Colon()
     endfor
 
     nunmap :
+    redraw
+
     return ":"
 
 endfunction
