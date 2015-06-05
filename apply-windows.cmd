@@ -28,7 +28,7 @@ set "VIMRC_DOTFILE_TO=%HOME%\_vimrc"
 
 rm "%VIMRC_DOTFILE_TO%"
 mklink /H "%VIMRC_DOTFILE_TO%" "%VIMRC_DOTFILE_FROM%"
-mklink /H "%HOME\.vimrc" "%VIMRC_DOTFILE_TO%"
+mklink /H "%HOME%\.vimrc" "%VIMRC_DOTFILE_TO%"
 
 REM Link in other supporting Vim files.
 set "VIM_STARTUP_DIR=%PWD%\Vim\startup"
