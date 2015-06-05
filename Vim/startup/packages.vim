@@ -1,28 +1,31 @@
 EnsureDirectory "~/.vim/bundle"
 
-" Use Vundle to manage packages
-if !IsDirectory("~/.vim/bundle/Vundle.vim")
-	!git clone https://github.com/gmarik/Vundle.vim ~/.vim/bundle/Vundle.vim
+" Use neobundle to manage packages
+if !IsDirectory("~/.vim/bundle/neobundle.vim")
+	!git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 endif
 
-filetype off
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+filetype plugin off
+set runtimepath+=~/.vim/bundle/neobundle.vim
+call neobundle#begin(expand('~/.vim/bundle'))
 
 " NOTE: The package names _must_ be supplied with single quotes!
 " I guess it might be related to the fact that in vimscript,
 " single-quoted strings are 'literal' strings (ie with no escapes)
 " but still that's a pretty lame user experience, especially because
 " the error message is not helpful.
-Plugin 'gmarik/Vundle.vim'
+NeoBundle 'shougo/neobundle.vim'
 
 " NERDTree gives us a nice tree-based view of files and a nice interface for
 " interacting with said tree.
-Plugin 'scrooloose/nerdtree'
+NeoBundleLazy 'scrooloose/nerdtree', { 'autoload' : { 'insert' : 1 } }
 
 " 'ag' is grep on steroids and goes a long ways towards understanding which
 " files you probably care about (and excludes files you don't care about)
-Plugin 'rking/ag.vim'
+NeoBundle 'rking/ag.vim'
+
+" This gives me my favourite color scheme 'Tomorrow Night Bright'.
+NeoBundle 'flazz/vim-colorschemes'
 
 " Auto-pairing of delimiters. Unfortunately this does not play nicely with
 " neocomplete out of the box and so we need to disable autopair's handling of
@@ -39,70 +42,68 @@ Plugin 'rking/ag.vim'
 " TODO: Magically install powerline-ready fonts, so we get nice symbols.
 " However, since I'm probably using Vim from a terminal I'm not sure how
 " much utility there will be.
-Plugin 'bling/vim-airline'
-Plugin 'bling/vim-bufferline'
-
-" This gives me my favourite color scheme 'Tomorrow Night Bright'.
-Plugin 'flazz/vim-colorschemes'
+Define g:airline#extension#tagbar#enabled = 0
+NeoBundle 'bling/vim-airline'
+NeoBundle 'bling/vim-bufferline'
 
 " CTRL + P for quick file searching is wonderful.
 let g:ctrlp_follow_symlinks = 1
-Plugin 'ctrlpvim/ctrlp.vim'
+NeoBundle 'ctrlpvim/ctrlp.vim'
 
 " Not sure if I need this TBH.
-Plugin 'tacahiroy/ctrlp-funky'
+NeoBundle 'tacahiroy/ctrlp-funky'
 
 " Terry Ma's plugins are surprisingly nice -- using 'vim-expand-region' with
 " hotkeys for 'v' and '<S-v>' makes expanding/contracting regions very nice.
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'terryma/vim-expand-region'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'terryma/vim-expand-region'
 
 " Show substitution results as they're typed (e.g. for '%s|foo|bar|g')
-Plugin 'osyo-manga/vim-over'
+NeoBundle 'osyo-manga/vim-over'
 
 " Tim Pope is my hero. Unfortunately I have a hard time remembering what each
 " plugin does because the plugin names are too clever for me. But they are
 " clever.
 
 " Fix-up common spelling mistakes.
-Plugin 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-abolish'
 
 " Make '.' work better with plugin maps.
-Plugin 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-repeat'
 
 " Automagically infer shiftwidth, expandtab.
-Plugin 'tpope/vim-sleuth'
+NeoBundle 'tpope/vim-sleuth'
 
 " Surround various word objects with stuff.
-Plugin 'tpope/vim-surround'
+NeoBundle 'tpope/vim-surround'
 
 " Utility keybindings for moving around buffers and so on.
 " Mainly keyed off of '[' and ']'.
 "
 " In particular, I really like the 'file' movement commands; '[f' and ']f'.
-Plugin 'tpope/vim-unimpaired'
+NeoBundle 'tpope/vim-unimpaired'
 
 " Very nice 'git' interface from vim.
-Plugin 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive'
 
 " Automagically add 'end*' when appropriate.
-Plugin 'tpope/vim-endwise'
+NeoBundle 'tpope/vim-endwise'
 
 " Autocompletion of various pairs.
-Plugin 'jiangmiao/auto-pairs'
+NeoBundle 'jiangmiao/auto-pairs'
 
 " Comment management.
-Plugin 'tpope/vim-commentary'
+NeoBundle 'tpope/vim-commentary'
 
 " Use 'syntastic' for linting etc.
-Plugin 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic'
 
 " Nice vertical alignment. Although the package hasn't been updated in a
 " while, it seems to have 'solved' this particular problem.
-Plugin 'godlygeek/tabular'
+NeoBundle 'godlygeek/tabular'
 
 if executable('ctag')
-	Plugin 'majutsushi/tagbar'
+	NeoBundle 'majutsushi/tagbar'
 endif
 
 " Use Shougo's autocompletion. Because it requires a lot
@@ -111,14 +112,12 @@ endif
 Source "~/.vim/startup/extra/neocomplete.vim"
 
 " Python-related stuff. Note that I don't write python very often.
-
-" TODO: Does this play well with 'neocomplete'?
-Plugin 'davidhalter/jedi-vim'
+NeoBundleLazyFiletype 'davidhalter/jedi-vim' 'python'
 
 " JavaScript.
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'marijnh/tern_for_vim'
+NeoBundleLazyFiletype 'jelera/vim-javascript-syntax'  'javascript'
+NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
 
-call vundle#end()
-filetype plugin on
+call neobundle#end()
+filetype plugin indent on
 

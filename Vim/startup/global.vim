@@ -1,5 +1,7 @@
-" Colorschemes (in order of preference)
-ColorScheme Tomorrow-Night-Bright default
+" Load the colorscheme and refresh airline.
+ColorScheme Tomorrow-Night-Bright slate default
+silent! AirlineTheme dark
+silent! AirlineToggleWhitespace
 
 scriptencoding utf-8
 
@@ -12,6 +14,12 @@ if has("gui_running")
     set guioptions -=T
 endif
 
+" Smaller text width
+set textwidth=58
+
+" Nicer hlsearch
+highlight Search cterm=NONE ctermfg=4 ctermbg=237
+
 " Soft tabs
 set tabstop=4
 set softtabstop=4
@@ -22,13 +30,30 @@ set expandtab
 set wrap
 
 " Show line numbers
-set number
+if !&number
+    set number
+endif
 
 " Don't show punctuation characters by default.
 set nolist
 
 " Don't spellcheck.
 set nospell
+
+" Allow buffer switching without saving.
+set hidden
+
+" Show the current line.
+set cursorline
+
+" Make backups.
+set backup
+if has('persistent_undo')
+    set undofile
+    set undolevels=1000 
+    set undoreload=10000
+endif
+
 
 " Leader-key related functionality
 let mapleader="\<Space>"
@@ -46,13 +71,15 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>s :nohlsearch<CR>
 nnoremap <Leader>l :set list!<CR>
 
-noremap <Leader>\ :vsp<CR>
-noremap <Leader>- :sp<CR>
+nnoremap <Leader>\ :vsp<CR>
+nnoremap <Leader>- :sp<CR>
 
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
+nnoremap <Leader>/ :OverCommandLine<CR>
+
+NVMap <leader>y "+y
+NVMap <leader>d "+d
+NVMap <leader>p "+p
+NVMap <leader>P "+P
 
 " Make expand region behave nicely with v, <S-v>
 vmap v <Plug>(expand_region_expand)
