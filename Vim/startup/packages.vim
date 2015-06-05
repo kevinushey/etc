@@ -16,6 +16,9 @@ call neobundle#begin(expand('~/.vim/bundle'))
 " the error message is not helpful.
 NeoBundle 'shougo/neobundle.vim'
 
+" Utilites for deferring command execution.
+NeoBundle 'kevinushey/vim-deferred'
+
 " NERDTree gives us a nice tree-based view of files and a nice interface for
 " interacting with said tree.
 NeoBundleLazy 'scrooloose/nerdtree', { 'autoload' : { 'insert' : 1 } }

@@ -44,35 +44,17 @@ if !filereadable(expand("~/.vim/startup/spf13.vim"))
 	silent call Download(SPF13URL, Destination)
 endif
 
-" Source vimrc's lazily to improve startup time.
-let g:LazySources = ['~/.vim/startup/spf13.vim', '~/.vim/startup/global.vim']
-
-" Remap ':' to force a source.
-function! Colon()
-
-    for path in g:LazySources
-        let AlreadySourced = exists(LoadedName(path))
-        if !AlreadySourced
-            Source path
-        endif
-    endfor
-
-    nunmap :
-    redraw
-
-    return ":"
-
-endfunction
-nmap <expr>: Colon()
-
 " Turn off spf13 bundles -- we manage it on our own.
 let g:override_spf13_bundles = 1
 let g:spf13_bundle_groups = []
 let g:spf13_no_wrapRelMotion = 1
-LazySource "~/.vim/startup/spf13.vim"
 
-" Source global stuff
-LazySource "~/.vim/startup/global.vim"
+" Need to ensure all packages have finished loading before
+" calling these functions.
+autocmd VimEnter * Defer
+            \ :call Source('~/.vim/startup/spf13.vim') |
+            \ :call Source('~/.vim/startup/global.vim') |
+            \ redraw
 
 " Global overrides
 if filereadable(expand("~/.vimrc.after"))

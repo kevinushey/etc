@@ -1,8 +1,3 @@
-"" Utility functions (also exported as commands) to use at startup
-if !exists('g:DeferredEvents')
-    let g:DeferredEvents = 'CursorHold,CursorHoldI,CursorMovedI,CmdwinEnter,CmdwinLeave,InsertCharPre,TextChanged'
-endif
-
 " Ensure that a directory exists.
 " The system 'mkdir' is called and so the directory passed in will be
 " double-quoted and escaped.
@@ -64,48 +59,9 @@ command! -nargs=+ -complete=file Source call Source(<args>)
 
 " Lazily source a file.
 function! LazySource(path)
-    execute "Deferred " . g:DeferredEvents . " :call Source('" . a:path . "')"
+    execute "Defer :call Source('" . a:path . "')"
 endfunction
 command! -nargs=+ -complete=file LazySource call LazySource(<args>)
-
-" Execute a command deferred a single time. This function
-" should be called through its associated command
-" 'Deferred'.
-" 
-" The first string should be a set of comma-delimited
-" autocmd events (with no spaces); everything that follows
-" is a command to be executed.
-"
-" Example:
-"
-" Deferred CursorHoldI echo 'The cursor was held'
-function! DeferredImpl(quoted)
-
-    " Get a unique index for this deferred call
-    if !exists('g:DeferredCount')
-	let g:DeferredCount = 0
-    endif
-
-    let l:ID = g:DeferredCount
-    let g:DeferredCount += 1
-
-    " Split the quoted string into the events + actual
-    " command
-    let FirstSpaceIdx = stridx(a:quoted, ' ')
-
-    let Events = strpart(a:quoted, 0, FirstSpaceIdx)
-    let Command = strpart(a:quoted, FirstSpaceIdx + 1)
-
-    let GroupName = "Deferred_" . l:ID
-    let DeleteCommand = join(['autocmd!', GroupName, Events, '*'], ' ')
-
-    execute "augroup " . GroupName
-    execute "   autocmd!"
-    execute "   autocmd " . Events . " * " . Command . " | " . DeleteCommand
-    execute "augroup end"
-
-endfunction
-command! -nargs=* Deferred call DeferredImpl(<q-args>)
 
 " Utility function to allow the definition of a 'Define' command. The command
 " is passed in as-is, and is expected in the form:
