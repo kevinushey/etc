@@ -2,7 +2,12 @@ EnsureDirectory "~/.vim/bundle"
 
 " Use neobundle to manage packages
 if !IsDirectory("~/.vim/bundle/neobundle.vim")
-	!git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+        let DestinationPath = expand('~/.vim/bundle/neobundle.vim')
+        let Command = '!git clone ' .
+        \ 'https://github.com/Shougo/neobundle.vim ' .
+        \ DoubleQuotedEscaped(DestinationPath)
+        echomsg 'Installing NeoBundle...'
+        execute Command
 endif
 
 filetype plugin off
