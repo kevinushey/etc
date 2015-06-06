@@ -4,8 +4,6 @@ if filereadable(expand("~/.vimrc.before"))
 	source ~/.vimrc.before
 endif
 
-set number
-
 " Functions used in the startup process. This file must exist!
 if !exists('g:StartupFunctionsPath')
 	let g:StartupFunctionsPath = '~/.vim/startup/functions.vim'
@@ -27,6 +25,8 @@ EnsureDirectory "~/.vim/backup"
 " (so that they don't pollute the filesystem otherwise)
 set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/backup//
+
+Source "~/.vim/startup/before.vim"
 
 " Set up meta-data re: what system we're running on.
 Source "~/.vim/startup/platform.vim"
@@ -61,3 +61,4 @@ if filereadable(expand("~/.vimrc.after"))
 	source ~/.vimrc.after
 endif
 
+Source "~/.vim/startup/after.vim"
