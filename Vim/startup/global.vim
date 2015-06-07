@@ -76,6 +76,8 @@ nnoremap <Leader>- :sp<CR>
 
 nnoremap <Leader>/ :OverCommandLine<CR>
 
+map <Leader><Leader> <Plug>(easymotion-prefix)
+
 NVMap <leader>y "+y
 NVMap <leader>d "+d
 NVMap <leader>p "+p

@@ -18,7 +18,8 @@ call neobundle#begin(expand('~/.vim/bundle'))
 " I guess it might be related to the fact that in vimscript,
 " single-quoted strings are 'literal' strings (ie with no escapes)
 " but still that's a pretty lame user experience, especially because
-" the error message is not helpful.
+" the error message is not helpful. (This was true when I
+" was using 'vundle'; I am not sure if it is still true.)
 NeoBundle 'shougo/neobundle.vim'
 
 " Utilites for deferring command execution.
@@ -26,7 +27,7 @@ NeoBundle 'kevinushey/vim-deferred'
 
 " NERDTree gives us a nice tree-based view of files and a nice interface for
 " interacting with said tree.
-NeoBundleLazy 'scrooloose/nerdtree', { 'autoload' : { 'insert' : 1 } }
+NeoBundleLazy 'scrooloose/nerdtree', {'augroup' : 'NERDTree'}
 
 " 'ag' is grep on steroids and goes a long ways towards understanding which
 " files you probably care about (and excludes files you don't care about)
@@ -103,8 +104,10 @@ NeoBundle 'jiangmiao/auto-pairs'
 " Comment management.
 NeoBundle 'tpope/vim-commentary'
 
-" Use 'syntastic' for linting etc.
-NeoBundle 'scrooloose/syntastic'
+" Use 'syntastic' for linting etc. I only really use this
+" in JavaScript.
+NeoBundleLazy 'scrooloose/syntastic'
+autocmd FileType javascript NeoBundleSource "scrooloose/syntastic"
 
 " Nice vertical alignment. Although the package hasn't been updated in a
 " while, it seems to have 'solved' this particular problem.
@@ -125,6 +128,8 @@ NeoBundleLazyFiletype 'davidhalter/jedi-vim' 'python'
 " JavaScript.
 NeoBundleLazyFiletype 'jelera/vim-javascript-syntax'  'javascript'
 NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
+
+NeoBundle "Lokaltog/vim-easymotion"
 
 call neobundle#end()
 filetype plugin indent on
