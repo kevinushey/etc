@@ -105,11 +105,20 @@ function! SmartCR()
         return neocomplete#close_popup()
     endif
 
-    " Return an expression to do endwise + autopair work.
-    return "\<CR>" . Lazy("EndwiseDiscretionary()") . Lazy("AutoPairsReturn()")
+    let Statement = "\<CR>"
+    if exists('g:loaded_endwise')
+        let Statement .= Lazy("EndwiseDiscretionary()")
+    endif
+
+    if exists('g:AutoPairsLoaded')
+        let Statement .= Lazy("AutoPairsReturn()")
+    endif
+
+    return Statement
+
 endfunction
 
-inoremap <expr><CR> SmartCR()
+imap <expr><CR> SmartCR()
 
 "" C, C++ related editing stuff
 "Don't indent namespaces

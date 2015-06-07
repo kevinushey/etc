@@ -4,12 +4,12 @@
 function! EnsureDirectory(path)
 
     if IsDirectory(a:path)
-	return 1
+        return 1
     endif
 
     let l:mkdir_command = "mkdir -p"
     if has("win16") || has("win32") || has("win64")
-	let l:mkdir_command = "mkdir"
+        let l:mkdir_command = "mkdir"
     endif
 
     execute join(["silent!", "!" . l:mkdir_command, DoubleQuotedEscaped(expand(a:path))], " ")
@@ -46,12 +46,12 @@ endfunction
 function! Source(path)
 
     if IsFileAlreadySourced(a:path)
-	return
+        return
     endif
 
     if filereadable(expand(a:path))
-	call MarkFileSourced(a:path)
-	execute join(["source", expand(a:path)], " ")
+        call MarkFileSourced(a:path)
+        execute join(["source", expand(a:path)], " ")
     endif
 
 endfunction
@@ -79,7 +79,7 @@ function! DefineCommand(command)
     let l:index = stridx(a:command, " ")
     let l:name = strpart(a:command, 0, l:index)
     if !exists(l:name)
-	execute join(["let", a:command], " ")
+        execute join(["let", a:command], " ")
     endif
 endfunction
 command! -nargs=+ -complete=var Define call DefineCommand(<q-args>)
@@ -93,10 +93,10 @@ endfunction
 " for when I forget to install Tomorrow Night Bright but want a nice fallback.
 function! ColorScheme(...)
     for item in a:000
-	if !empty(globpath(&rtp, FilePath("colors", item . ".vim")))
-	    execute join(["colorscheme", item], " ")
-	    break
-	endif
+        if !empty(globpath(&rtp, FilePath("colors", item . ".vim")))
+            execute join(["colorscheme", item], " ")
+            break
+        endif
     endfor
 endfunction
 command! -nargs=+ -complete=color ColorScheme call ColorScheme(<f-args>)
@@ -129,7 +129,7 @@ endfunction
 " ex-command to enter normal mode. This may be because I am stupid.
 function! EnterNormalMode()
     if mode() != 'n'
-	call feedkeys("\<Esc>")
+        call feedkeys("\<Esc>")
     endif
 endfunction
 
@@ -151,7 +151,7 @@ function! StrRep(string, times)
     let result = ''
 
     for i in range(a:times)
-	let result .= a:string	
+        let result .= a:string	
     endfor
 
     return result
@@ -178,7 +178,7 @@ command! -nargs=* Echo redraw | echomsg <args>
 if !exists("g:ReloadDefined")
     let g:ReloadDefined = 1
     function! Reload()
-	source %
+        source %
     endfunction
 endif
 

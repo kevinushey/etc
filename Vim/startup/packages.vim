@@ -23,7 +23,7 @@ call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundle 'shougo/neobundle.vim'
 
 " Utilites for deferring command execution.
-NeoBundle 'kevinushey/vim-deferred'
+NeoBundle 'tpope/vim-deferred'
 
 " NERDTree gives us a nice tree-based view of files and a nice interface for
 " interacting with said tree.
@@ -35,10 +35,6 @@ NeoBundle 'rking/ag.vim'
 
 " This gives me my favourite color scheme 'Tomorrow Night Bright'.
 NeoBundle 'flazz/vim-colorschemes'
-
-" Auto-pairing of delimiters. Unfortunately this does not play nicely with
-" neocomplete out of the box and so we need to disable autopair's handling of
-" CR.
 
 " I briefly considered using 'powerline' here. It was a bad decision. I just
 " want to make a nice status bar, I shouldn't have to opt into a JSON-based
@@ -99,6 +95,8 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-endwise'
 
 " Autocompletion of various pairs.
+let g:AutoPairsMapCR = 0
+let g:AutoPairsMapSpace = 0
 NeoBundle 'jiangmiao/auto-pairs'
 
 " Comment management.
