@@ -122,14 +122,25 @@ endif
 " moved to a separate file.
 Source "~/.vim/startup/extra/neocomplete.vim"
 
+" Easy-motion. Like Ace jump. I don't know who came first.
+NeoBundle 'Lokaltog/vim-easymotion'
+
+NeoBundle 'nathanaelkane/vim-indent-guides'
+
+
 " Python-related stuff. Note that I don't write python very often.
 NeoBundleLazyFiletype 'davidhalter/jedi-vim' 'python'
 
 " JavaScript.
 NeoBundleLazyFiletype 'jelera/vim-javascript-syntax'  'javascript'
-NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
 
-NeoBundle "Lokaltog/vim-easymotion"
+" Autocompletion for JavaScript using Tern.
+if (!IsWindows())
+    if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
+        !cd ~/.vim/bundle/tern_for_vim && npm install
+    endif
+    NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
+endif
 
 call neobundle#end()
 filetype plugin indent on
