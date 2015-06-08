@@ -77,6 +77,9 @@ nnoremap <Leader>- :sp<CR>
 nnoremap <Leader>/ :OverCommandLine<CR>
 
 map <Leader><Leader> <Plug>(easymotion-prefix)
+for i in range(1, 9)
+    execute "nnoremap <Leader>" . i . " :b" . i . "<CR>"
+endfor
 
 NVMap <leader>y "+y
 NVMap <leader>d "+d
