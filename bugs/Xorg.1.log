@@ -1,0 +1,666 @@
+[    76.727] 
+X.Org X Server 1.17.1
+Release Date: 2015-02-10
+[    76.727] X Protocol Version 11, Revision 0
+[    76.727] Build Operating System: Linux 3.2.0-79-generic x86_64 Ubuntu
+[    76.727] Current Operating System: Linux kevin-Z68X-UD3H-B3 3.16.0-38-generic #52-Ubuntu SMP Thu May 7 10:51:21 UTC 2015 x86_64
+[    76.727] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-3.16.0-38-generic root=UUID=7cb7429e-756d-4b07-b226-ef75f21de60c ro quiet splash vt.handoff=7
+[    76.727] Build Date: 03 June 2015  04:44:17AM
+[    76.727] xorg-server 2:1.17.1-0ubuntu4 (For technical support please see http://www.ubuntu.com/support) 
+[    76.727] Current version of pixman: 0.32.6
+[    76.727] 	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+[    76.727] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[    76.727] (==) Log file: "/var/log/Xorg.1.log", Time: Mon Jun  8 17:53:37 2015
+[    76.727] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+[    76.727] (==) No Layout section.  Using the first Screen section.
+[    76.727] (==) No screen section available. Using defaults.
+[    76.727] (**) |-->Screen "Default Screen Section" (0)
+[    76.727] (**) |   |-->Monitor "<default monitor>"
+[    76.727] (==) No monitor specified for screen "Default Screen Section".
+	Using a default monitor configuration.
+[    76.727] (==) Automatically adding devices
+[    76.727] (==) Automatically enabling devices
+[    76.728] (==) Automatically adding GPU devices
+[    76.728] (WW) The directory "/usr/share/fonts/X11/cyrillic" does not exist.
+[    76.728] 	Entry deleted from font path.
+[    76.728] (WW) The directory "/usr/share/fonts/X11/100dpi/" does not exist.
+[    76.728] 	Entry deleted from font path.
+[    76.728] (WW) The directory "/usr/share/fonts/X11/75dpi/" does not exist.
+[    76.728] 	Entry deleted from font path.
+[    76.728] (WW) The directory "/usr/share/fonts/X11/100dpi" does not exist.
+[    76.728] 	Entry deleted from font path.
+[    76.728] (WW) The directory "/usr/share/fonts/X11/75dpi" does not exist.
+[    76.728] 	Entry deleted from font path.
+[    76.728] (==) FontPath set to:
+	/usr/share/fonts/X11/misc,
+	/usr/share/fonts/X11/Type1,
+	built-ins
+[    76.728] (==) ModulePath set to "/usr/lib/x86_64-linux-gnu/xorg/extra-modules,/usr/lib/xorg/extra-modules,/usr/lib/xorg/modules"
+[    76.728] (II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+[    76.728] (II) Loader magic: 0x7fa8f8970d80
+[    76.728] (II) Module ABI versions:
+[    76.728] 	X.Org ANSI C Emulation: 0.4
+[    76.728] 	X.Org Video Driver: 19.0
+[    76.728] 	X.Org XInput driver : 21.0
+[    76.728] 	X.Org Server Extension : 9.0
+[    76.728] (II) xfree86: Adding drm device (/dev/dri/card0)
+[    76.730] (--) PCI: (0:0:2:0) 8086:0162:1458:d000 rev 9, Mem @ 0xfb400000/4194304, 0xc0000000/268435456, I/O @ 0x0000ff00/64
+[    76.730] (--) PCI:*(0:1:0:0) 10de:1401:3842:3966 rev 161, Mem @ 0xf9000000/16777216, 0xd0000000/268435456, 0xee000000/33554432, I/O @ 0x0000cf00/128, BIOS @ 0x????????/524288
+[    76.730] (II) LoadModule: "glx"
+[    76.730] (II) Loading /usr/lib/xorg/modules/extensions/libglx.so
+[    76.743] (II) Module glx: vendor="X.Org Foundation"
+[    76.743] 	compiled for 1.17.1, module version = 1.0.0
+[    76.743] 	ABI class: X.Org Server Extension, version 9.0
+[    76.743] (==) AIGLX enabled
+[    76.743] (==) Matched intel as autoconfigured driver 0
+[    76.743] (==) Matched nvidia as autoconfigured driver 1
+[    76.743] (==) Matched nouveau as autoconfigured driver 2
+[    76.743] (==) Matched modesetting as autoconfigured driver 3
+[    76.743] (==) Matched fbdev as autoconfigured driver 4
+[    76.743] (==) Matched vesa as autoconfigured driver 5
+[    76.744] (==) Assigned the driver to the xf86ConfigLayout
+[    76.744] (II) LoadModule: "intel"
+[    76.744] (II) Loading /usr/lib/xorg/modules/drivers/intel_drv.so
+[    76.745] (EE) Failed to load /usr/lib/xorg/modules/drivers/intel_drv.so: /usr/lib/xorg/modules/drivers/intel_drv.so: undefined symbol: xorgMir
+[    76.745] (II) UnloadModule: "intel"
+[    76.745] (II) Unloading intel
+[    76.745] (EE) Failed to load module "intel" (loader failed, 7)
+[    76.745] (II) LoadModule: "nvidia"
+[    76.745] (II) Loading /usr/lib/xorg/modules/drivers/nvidia_drv.so
+[    76.748] (II) Module nvidia: vendor="NVIDIA Corporation"
+[    76.748] 	compiled for 4.0.2, module version = 1.0.0
+[    76.748] 	Module class: X.Org Video Driver
+[    76.748] (II) LoadModule: "nouveau"
+[    76.748] (II) Loading /usr/lib/xorg/modules/drivers/nouveau_drv.so
+[    76.749] (EE) Failed to load /usr/lib/xorg/modules/drivers/nouveau_drv.so: /usr/lib/xorg/modules/drivers/nouveau_drv.so: undefined symbol: xorgMir
+[    76.749] (II) UnloadModule: "nouveau"
+[    76.749] (II) Unloading nouveau
+[    76.749] (EE) Failed to load module "nouveau" (loader failed, 7)
+[    76.749] (II) LoadModule: "modesetting"
+[    76.749] (II) Loading /usr/lib/xorg/modules/drivers/modesetting_drv.so
+[    76.750] (II) Module modesetting: vendor="X.Org Foundation"
+[    76.750] 	compiled for 1.17.1, module version = 1.17.1
+[    76.750] 	Module class: X.Org Video Driver
+[    76.750] 	ABI class: X.Org Video Driver, version 19.0
+[    76.750] (II) LoadModule: "fbdev"
+[    76.750] (II) Loading /usr/lib/xorg/modules/drivers/fbdev_drv.so
+[    76.751] (II) Module fbdev: vendor="X.Org Foundation"
+[    76.751] 	compiled for 1.17.1, module version = 0.4.4
+[    76.751] 	Module class: X.Org Video Driver
+[    76.751] 	ABI class: X.Org Video Driver, version 19.0
+[    76.751] (II) LoadModule: "vesa"
+[    76.751] (II) Loading /usr/lib/xorg/modules/drivers/vesa_drv.so
+[    76.751] (II) Module vesa: vendor="X.Org Foundation"
+[    76.751] 	compiled for 1.17.1, module version = 2.3.3
+[    76.751] 	Module class: X.Org Video Driver
+[    76.751] 	ABI class: X.Org Video Driver, version 19.0
+[    76.751] (==) Matched intel as autoconfigured driver 0
+[    76.752] (==) Matched nvidia as autoconfigured driver 1
+[    76.752] (==) Matched nouveau as autoconfigured driver 2
+[    76.752] (==) Matched modesetting as autoconfigured driver 3
+[    76.752] (==) Matched fbdev as autoconfigured driver 4
+[    76.752] (==) Matched vesa as autoconfigured driver 5
+[    76.752] (==) Assigned the driver to the xf86ConfigLayout
+[    76.752] (II) LoadModule: "intel"
+[    76.752] (II) Loading /usr/lib/xorg/modules/drivers/intel_drv.so
+[    76.753] (EE) Failed to load /usr/lib/xorg/modules/drivers/intel_drv.so: /usr/lib/xorg/modules/drivers/intel_drv.so: undefined symbol: xorgMir
+[    76.753] (II) UnloadModule: "intel"
+[    76.753] (II) Unloading intel
+[    76.753] (EE) Failed to load module "intel" (loader failed, 7)
+[    76.753] (II) LoadModule: "nvidia"
+[    76.754] (II) Loading /usr/lib/xorg/modules/drivers/nvidia_drv.so
+[    76.754] (II) Module nvidia: vendor="NVIDIA Corporation"
+[    76.754] 	compiled for 4.0.2, module version = 1.0.0
+[    76.754] 	Module class: X.Org Video Driver
+[    76.754] (II) UnloadModule: "nvidia"
+[    76.754] (II) Unloading nvidia
+[    76.754] (II) Failed to load module "nvidia" (already loaded, 7)
+[    76.754] (II) LoadModule: "nouveau"
+[    76.754] (II) Loading /usr/lib/xorg/modules/drivers/nouveau_drv.so
+[    76.755] (EE) Failed to load /usr/lib/xorg/modules/drivers/nouveau_drv.so: /usr/lib/xorg/modules/drivers/nouveau_drv.so: undefined symbol: xorgMir
+[    76.755] (II) UnloadModule: "nouveau"
+[    76.755] (II) Unloading nouveau
+[    76.755] (EE) Failed to load module "nouveau" (loader failed, 7)
+[    76.755] (II) LoadModule: "modesetting"
+[    76.755] (II) Loading /usr/lib/xorg/modules/drivers/modesetting_drv.so
+[    76.755] (II) Module modesetting: vendor="X.Org Foundation"
+[    76.755] 	compiled for 1.17.1, module version = 1.17.1
+[    76.755] 	Module class: X.Org Video Driver
+[    76.755] 	ABI class: X.Org Video Driver, version 19.0
+[    76.755] (II) UnloadModule: "modesetting"
+[    76.755] (II) Unloading modesetting
+[    76.755] (II) Failed to load module "modesetting" (already loaded, 7)
+[    76.755] (II) LoadModule: "fbdev"
+[    76.755] (II) Loading /usr/lib/xorg/modules/drivers/fbdev_drv.so
+[    76.755] (II) Module fbdev: vendor="X.Org Foundation"
+[    76.755] 	compiled for 1.17.1, module version = 0.4.4
+[    76.755] 	Module class: X.Org Video Driver
+[    76.755] 	ABI class: X.Org Video Driver, version 19.0
+[    76.755] (II) UnloadModule: "fbdev"
+[    76.755] (II) Unloading fbdev
+[    76.755] (II) Failed to load module "fbdev" (already loaded, 7)
+[    76.755] (II) LoadModule: "vesa"
+[    76.755] (II) Loading /usr/lib/xorg/modules/drivers/vesa_drv.so
+[    76.755] (II) Module vesa: vendor="X.Org Foundation"
+[    76.755] 	compiled for 1.17.1, module version = 2.3.3
+[    76.755] 	Module class: X.Org Video Driver
+[    76.755] 	ABI class: X.Org Video Driver, version 19.0
+[    76.755] (II) UnloadModule: "vesa"
+[    76.755] (II) Unloading vesa
+[    76.755] (II) Failed to load module "vesa" (already loaded, 7)
+[    76.756] (II) NVIDIA dlloader X Driver  346.72  Tue May  5 16:47:26 PDT 2015
+[    76.756] (II) NVIDIA Unified Driver for all Supported NVIDIA GPUs
+[    76.756] (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+[    76.756] (II) FBDEV: driver for framebuffer: fbdev
+[    76.756] (II) VESA: driver for VESA chipsets: vesa
+[    76.756] (++) using VT number 7
+
+[    76.756] (II) Loading sub module "fb"
+[    76.756] (II) LoadModule: "fb"
+[    76.756] (II) Loading /usr/lib/xorg/modules/libfb.so
+[    76.757] (II) Module fb: vendor="X.Org Foundation"
+[    76.757] 	compiled for 1.17.1, module version = 1.0.0
+[    76.757] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    76.757] (II) Loading sub module "wfb"
+[    76.757] (II) LoadModule: "wfb"
+[    76.757] (II) Loading /usr/lib/xorg/modules/libwfb.so
+[    76.757] (II) Module wfb: vendor="X.Org Foundation"
+[    76.757] 	compiled for 1.17.1, module version = 1.0.0
+[    76.757] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    76.757] (II) Loading sub module "ramdac"
+[    76.757] (II) LoadModule: "ramdac"
+[    76.757] (II) Module "ramdac" already built-in
+[    76.760] (EE) NVIDIA: Failed to initialize the NVIDIA kernel module. Please see the
+[    76.760] (EE) NVIDIA:     system's kernel log for additional error messages and
+[    76.760] (EE) NVIDIA:     consult the NVIDIA README for details.
+[    76.762] (EE) NVIDIA: Failed to initialize the NVIDIA kernel module. Please see the
+[    76.762] (EE) NVIDIA:     system's kernel log for additional error messages and
+[    76.762] (EE) NVIDIA:     consult the NVIDIA README for details.
+[    76.762] (II) modeset(G0): using drv /dev/dri/card0
+[    76.762] (WW) Falling back to old probe method for modesetting
+[    76.762] (II) Loading sub module "fbdevhw"
+[    76.762] (II) LoadModule: "fbdevhw"
+[    76.762] (II) Loading /usr/lib/xorg/modules/libfbdevhw.so
+[    76.763] (II) Module fbdevhw: vendor="X.Org Foundation"
+[    76.763] 	compiled for 1.17.1, module version = 0.0.2
+[    76.763] 	ABI class: X.Org Video Driver, version 19.0
+[    76.763] (**) FBDEV(1): claimed PCI slot 1@0:0:0
+[    76.763] (II) FBDEV(1): using default device
+[    76.763] (WW) Falling back to old probe method for vesa
+[    76.763] (EE) Screen 0 deleted because of no matching config section.
+[    76.763] (II) UnloadModule: "modesetting"
+[    76.763] (II) FBDEV(0): Creating default Display subsection in Screen section
+	"Default Screen Section" for depth/fbbpp 24/32
+[    76.763] (==) FBDEV(0): Depth 24, (==) framebuffer bpp 32
+[    76.763] (==) FBDEV(0): RGB weight 888
+[    76.763] (==) FBDEV(0): Default visual is TrueColor
+[    76.763] (==) FBDEV(0): Using gamma correction (1.0, 1.0, 1.0)
+[    76.763] (II) FBDEV(0): hardware: inteldrmfb (video memory: 10240kB)
+[    76.763] (II) FBDEV(0): checking modes against framebuffer device...
+[    76.763] (II) FBDEV(0): checking modes against monitor...
+[    76.763] (--) FBDEV(0): Virtual size is 2048x1280 (pitch 2048)
+[    76.763] (**) FBDEV(0):  Built-in mode "current"
+[    76.764] (==) FBDEV(0): DPI set to (96, 96)
+[    76.764] (II) Loading sub module "fb"
+[    76.764] (II) LoadModule: "fb"
+[    76.764] (II) Loading /usr/lib/xorg/modules/libfb.so
+[    76.764] (II) Module fb: vendor="X.Org Foundation"
+[    76.764] 	compiled for 1.17.1, module version = 1.0.0
+[    76.764] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    76.764] (**) FBDEV(0): using shadow framebuffer
+[    76.764] (II) Loading sub module "shadow"
+[    76.764] (II) LoadModule: "shadow"
+[    76.764] (II) Loading /usr/lib/xorg/modules/libshadow.so
+[    76.764] (II) Module shadow: vendor="X.Org Foundation"
+[    76.764] 	compiled for 1.17.1, module version = 1.1.0
+[    76.764] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    76.764] (==) modeset(G0): Depth 24, (==) framebuffer bpp 32
+[    76.764] (==) modeset(G0): RGB weight 888
+[    76.764] (==) modeset(G0): Default visual is TrueColor
+[    76.764] (II) Loading sub module "glamoregl"
+[    76.764] (II) LoadModule: "glamoregl"
+[    76.765] (II) Loading /usr/lib/xorg/modules/libglamoregl.so
+[    76.770] (II) Module glamoregl: vendor="X.Org Foundation"
+[    76.770] 	compiled for 1.17.1, module version = 1.0.0
+[    76.770] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    76.770] (II) glamor: OpenGL accelerated X.org driver based.
+[    76.809] couldn't get display device
+[    76.809] (EE) modeset(G0): glamor initialization failed
+[    76.809] (II) modeset(G0): ShadowFB: preferred YES, enabled YES
+[    76.810] (II) modeset(G0): Output VGA-1-0 has no monitor section
+[    76.862] (II) modeset(G0): Output HDMI-1-0 has no monitor section
+[    76.916] (II) modeset(G0): Output DisplayPort-1-0 has no monitor section
+[    76.916] (II) modeset(G0): Output HDMI-1-1 has no monitor section
+[    76.916] (II) modeset(G0): Output HDMI-1-2 has no monitor section
+[    76.916] (II) modeset(G0): Output DisplayPort-1-1 has no monitor section
+[    76.916] (II) modeset(G0): Output DisplayPort-1-2 has no monitor section
+[    76.917] (II) modeset(G0): EDID for output VGA-1-0
+[    76.969] (II) modeset(G0): EDID for output HDMI-1-0
+[    76.969] (II) modeset(G0): Manufacturer: DEL  Model: a0c0  Serial#: 809848396
+[    76.969] (II) modeset(G0): Year: 2014  Week: 50
+[    76.969] (II) modeset(G0): EDID Version: 1.3
+[    76.969] (II) modeset(G0): Digital Display Input
+[    76.969] (II) modeset(G0): Max Image Size [cm]: horiz.: 53  vert.: 30
+[    76.969] (II) modeset(G0): Gamma: 2.20
+[    76.969] (II) modeset(G0): DPMS capabilities: StandBy Suspend Off
+[    76.969] (II) modeset(G0): Supported color encodings: RGB 4:4:4 YCrCb 4:4:4 
+[    76.969] (II) modeset(G0): First detailed timing is preferred mode
+[    76.969] (II) modeset(G0): redX: 0.659 redY: 0.334   greenX: 0.301 greenY: 0.639
+[    76.969] (II) modeset(G0): blueX: 0.149 blueY: 0.043   whiteX: 0.313 whiteY: 0.329
+[    76.969] (II) modeset(G0): Supported established timings:
+[    76.969] (II) modeset(G0): 720x400@70Hz
+[    76.969] (II) modeset(G0): 640x480@60Hz
+[    76.969] (II) modeset(G0): 640x480@75Hz
+[    76.969] (II) modeset(G0): 800x600@60Hz
+[    76.969] (II) modeset(G0): 800x600@75Hz
+[    76.969] (II) modeset(G0): 1024x768@60Hz
+[    76.969] (II) modeset(G0): 1024x768@75Hz
+[    76.969] (II) modeset(G0): 1280x1024@75Hz
+[    76.969] (II) modeset(G0): Manufacturer's mask: 0
+[    76.969] (II) modeset(G0): Supported standard timings:
+[    76.969] (II) modeset(G0): #0: hsize: 1152  vsize 864  refresh: 75  vid: 20337
+[    76.969] (II) modeset(G0): #1: hsize: 1280  vsize 1024  refresh: 60  vid: 32897
+[    76.969] (II) modeset(G0): #2: hsize: 1600  vsize 900  refresh: 60  vid: 49321
+[    76.969] (II) modeset(G0): #3: hsize: 1600  vsize 1200  refresh: 60  vid: 16553
+[    76.969] (II) modeset(G0): #4: hsize: 1920  vsize 1080  refresh: 60  vid: 49361
+[    76.969] (II) modeset(G0): #5: hsize: 2048  vsize 1280  refresh: 60  vid: 225
+[    76.969] (II) modeset(G0): Supported detailed timing:
+[    76.969] (II) modeset(G0): clock: 262.8 MHz   Image Size:  527 x 296 mm
+[    76.969] (II) modeset(G0): h_active: 3840  h_sync: 3888  h_sync_end 3920 h_blank_end 4000 h_border: 0
+[    76.969] (II) modeset(G0): v_active: 2160  v_sync: 2163  v_sync_end 2168 v_blanking: 2191 v_border: 0
+[    76.969] (II) modeset(G0): Serial No: Y9PCD4C80ENL
+[    76.969] (II) modeset(G0): Monitor name: DELL P2415Q
+[    76.969] (II) modeset(G0): Ranges: V min: 29 V max: 76 Hz, H min: 30 H max: 140 kHz, PixClock max 305 MHz
+[    76.969] (II) modeset(G0): Supported detailed timing:
+[    76.969] (II) modeset(G0): clock: 148.5 MHz   Image Size:  527 x 296 mm
+[    76.969] (II) modeset(G0): h_active: 1920  h_sync: 2008  h_sync_end 2052 h_blank_end 2200 h_border: 0
+[    76.969] (II) modeset(G0): v_active: 1080  v_sync: 1082  v_sync_end 1087 v_blanking: 1125 v_border: 0
+[    76.969] (II) modeset(G0): Supported detailed timing:
+[    76.969] (II) modeset(G0): clock: 74.2 MHz   Image Size:  527 x 296 mm
+[    76.969] (II) modeset(G0): h_active: 1920  h_sync: 2008  h_sync_end 2052 h_blank_end 2200 h_border: 0
+[    76.969] (II) modeset(G0): v_active: 540  v_sync: 542  v_sync_end 547 v_blanking: 562 v_border: 0
+[    76.969] (II) modeset(G0): Supported detailed timing:
+[    76.969] (II) modeset(G0): clock: 297.0 MHz   Image Size:  527 x 296 mm
+[    76.969] (II) modeset(G0): h_active: 3840  h_sync: 4016  h_sync_end 4104 h_blank_end 4400 h_border: 0
+[    76.969] (II) modeset(G0): v_active: 2160  v_sync: 2168  v_sync_end 2178 v_blanking: 2250 v_border: 0
+[    76.969] (II) modeset(G0): Supported detailed timing:
+[    76.969] (II) modeset(G0): clock: 241.5 MHz   Image Size:  527 x 296 mm
+[    76.969] (II) modeset(G0): h_active: 2560  h_sync: 2608  h_sync_end 2640 h_blank_end 2720 h_border: 0
+[    76.970] (II) modeset(G0): v_active: 1440  v_sync: 1443  v_sync_end 1448 v_blanking: 1481 v_border: 0
+[    76.970] (II) modeset(G0): Number of EDID sections to follow: 1
+[    76.970] (II) modeset(G0): EDID (in hex):
+[    76.970] (II) modeset(G0): 	00ffffffffffff0010acc0a04c4e4530
+[    76.970] (II) modeset(G0): 	3218010380351e78eae245a8554da326
+[    76.970] (II) modeset(G0): 	0b5054a54b00714f8180a9c0a940d1c0
+[    76.970] (II) modeset(G0): 	e10001010101a36600a0f0701f803020
+[    76.970] (II) modeset(G0): 	35000f282100001a000000ff00593950
+[    76.970] (II) modeset(G0): 	434434433830454e4c0a000000fc0044
+[    76.970] (II) modeset(G0): 	454c4c205032343135510a20000000fd
+[    76.970] (II) modeset(G0): 	001d4c1e8c1e000a202020202020015a
+[    76.970] (II) modeset(G0): 	02032af15390050402071601141f1213
+[    76.970] (II) modeset(G0): 	2720212203061115230907076d030c00
+[    76.970] (II) modeset(G0): 	1000303c200060030201023a80187138
+[    76.970] (II) modeset(G0): 	2d40582c25000f282100001f011d8018
+[    76.970] (II) modeset(G0): 	711c1620582c25000f282100009e0474
+[    76.970] (II) modeset(G0): 	0030f2705a80b0588a000f282100001e
+[    76.970] (II) modeset(G0): 	565e00a0a0a02950302035000f282100
+[    76.970] (II) modeset(G0): 	001a00000000000000000000000000f9
+[    76.970] (--) modeset(G0): HDMI max TMDS frequency 300000KHz
+[    76.970] (II) modeset(G0): Printing probed modes for output HDMI-1-0
+[    76.970] (II) modeset(G0): Modeline "2048x1280"x60.0  221.28  2048 2192 2416 2784  1280 1281 1284 1325 -hsync +vsync (79.5 kHz)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x60.0  148.50  1920 2008 2052 2200  1080 1082 1087 1125 +hsync +vsync (67.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x60.0  148.50  1920 2008 2052 2200  1080 1084 1089 1125 +hsync +vsync (67.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x50.0  148.50  1920 2448 2492 2640  1080 1084 1089 1125 +hsync +vsync (56.2 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x59.9  148.35  1920 2008 2052 2200  1080 1084 1089 1125 +hsync +vsync (67.4 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080i"x60.0   74.25  1920 2008 2052 2200  1080 1084 1094 1125 interlace +hsync +vsync (33.8 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080i"x50.0   74.25  1920 2448 2492 2640  1080 1084 1094 1125 interlace +hsync +vsync (28.1 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x30.0   74.25  1920 2008 2052 2200  1080 1084 1089 1125 +hsync +vsync (33.8 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x25.0   74.25  1920 2448 2492 2640  1080 1084 1089 1125 +hsync +vsync (28.1 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x24.0   74.25  1920 2558 2602 2750  1080 1084 1089 1125 +hsync +vsync (27.0 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080i"x59.9   74.18  1920 2008 2052 2200  1080 1084 1094 1125 interlace +hsync +vsync (33.7 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x30.0   74.18  1920 2008 2052 2200  1080 1084 1089 1125 +hsync +vsync (33.7 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080"x24.0   74.18  1920 2558 2602 2750  1080 1084 1089 1125 +hsync +vsync (27.0 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1920x1080i"x50.0   72.00  1920 1952 2120 2304  1080 1126 1136 1250 interlace +hsync -vsync (31.2 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1600x900"x60.0  118.96  1600 1696 1864 2128  900 901 904 932 -hsync +vsync (55.9 kHz)
+[    76.970] (II) modeset(G0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1280x720"x60.0   74.25  1280 1390 1430 1650  720 725 730 750 +hsync +vsync (45.0 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1280x720"x50.0   74.25  1280 1720 1760 1980  720 725 730 750 +hsync +vsync (37.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1280x720"x59.9   74.18  1280 1390 1430 1650  720 725 730 750 +hsync +vsync (45.0 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1440x576i"x50.0   27.00  1440 1464 1590 1728  576 580 586 625 interlace -hsync -vsync (15.6 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1024x768"x75.1   78.80  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.1 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1440x480i"x60.0   27.03  1440 1478 1602 1716  480 488 494 525 interlace -hsync -vsync (15.8 kHz e)
+[    76.970] (II) modeset(G0): Modeline "1440x480i"x59.9   27.00  1440 1478 1602 1716  480 488 494 525 interlace -hsync -vsync (15.7 kHz e)
+[    76.970] (II) modeset(G0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz e)
+[    76.970] (II) modeset(G0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz e)
+[    76.970] (II) modeset(G0): Modeline "720x576"x50.0   27.00  720 732 796 864  576 581 586 625 -hsync -vsync (31.2 kHz e)
+[    76.970] (II) modeset(G0): Modeline "720x480"x60.0   27.03  720 736 798 858  480 489 495 525 -hsync -vsync (31.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "720x480"x59.9   27.00  720 736 798 858  480 489 495 525 -hsync -vsync (31.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "640x480"x60.0   25.20  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "640x480"x59.9   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz e)
+[    76.970] (II) modeset(G0): Modeline "720x400"x70.1   28.32  720 738 846 900  400 412 414 449 -hsync +vsync (31.5 kHz e)
+[    77.024] (II) modeset(G0): EDID for output DisplayPort-1-0
+[    77.024] (II) modeset(G0): EDID for output HDMI-1-1
+[    77.024] (II) modeset(G0): EDID for output HDMI-1-2
+[    77.024] (II) modeset(G0): EDID for output DisplayPort-1-1
+[    77.024] (II) modeset(G0): EDID for output DisplayPort-1-2
+[    77.024] (II) modeset(G0): Using default gamma of (1.0, 1.0, 1.0) unless otherwise stated.
+[    77.024] (==) modeset(G0): DPI set to (96, 96)
+[    77.024] (II) Loading sub module "fb"
+[    77.024] (II) LoadModule: "fb"
+[    77.025] (II) Loading /usr/lib/xorg/modules/libfb.so
+[    77.025] (II) Module fb: vendor="X.Org Foundation"
+[    77.025] 	compiled for 1.17.1, module version = 1.0.0
+[    77.025] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    77.025] (II) Loading sub module "shadow"
+[    77.025] (II) LoadModule: "shadow"
+[    77.025] (II) Loading /usr/lib/xorg/modules/libshadow.so
+[    77.025] (II) Module shadow: vendor="X.Org Foundation"
+[    77.025] 	compiled for 1.17.1, module version = 1.1.0
+[    77.025] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    77.025] (II) UnloadModule: "vesa"
+[    77.025] (II) Unloading vesa
+[    77.025] (==) Depth 24 pixmap format is 32 bpp
+[    77.026] (==) modeset(G0): Backing store enabled
+[    77.026] (==) modeset(G0): Silken mouse enabled
+[    77.026] (II) modeset(G0): RandR 1.2 enabled, ignore the following RandR disabled message.
+[    77.026] (==) modeset(G0): DPMS enabled
+[    77.057] (==) FBDEV(0): Backing store enabled
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.057] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.058] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (EE) FBDEV(0): FBIOPUTCMAP: Device or resource busy
+[    77.059] (==) FBDEV(0): DPMS enabled
+[    77.059] (--) RandR disabled
+[    77.064] (II) SELinux: Disabled on system
+[    77.064] (II) AIGLX: Screen 0 is not DRI2 capable
+[    77.064] (EE) AIGLX: reverting to software rendering
+[    77.069] (EE) AIGLX error: dlopen of /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so failed (/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: undefined symbol: _glapi_tls_Dispatch)
+[    77.069] (EE) GLX: could not load software renderer
+[    77.069] (II) GLX: no usable GL providers found for screen 0
+[    77.069] (II) modeset(G0): Damage tracking initialized
+[    77.069] (EE) 
+[    77.069] (EE) Backtrace:
+[    77.069] (EE) 0: /usr/bin/X (xorg_backtrace+0x56) [0x7fa8f86e9346]
+[    77.069] (EE) 1: /usr/bin/X (0x7fa8f8536000+0x1b74a9) [0x7fa8f86ed4a9]
+[    77.069] (EE) 2: /lib/x86_64-linux-gnu/libc.so.6 (0x7fa8f61fb000+0x352f0) [0x7fa8f62302f0]
+[    77.069] (EE) 3: /usr/bin/X (RRSetChanged+0x50) [0x7fa8f864d4a0]
+[    77.069] (EE) 4: /usr/bin/X (RRScreenSetSizeRange+0x54) [0x7fa8f86519d4]
+[    77.069] (EE) 5: /usr/bin/X (xf86RandR12CreateScreenResources+0x2a5) [0x7fa8f860e965]
+[    77.069] (EE) 6: /usr/bin/X (0x7fa8f8536000+0xcbc00) [0x7fa8f8601c00]
+[    77.069] (EE) 7: /usr/bin/X (0x7fa8f8536000+0x5c094) [0x7fa8f8592094]
+[    77.069] (EE) 8: /lib/x86_64-linux-gnu/libc.so.6 (__libc_start_main+0xf0) [0x7fa8f621ba40]
+[    77.069] (EE) 9: /usr/bin/X (_start+0x29) [0x7fa8f857c5b9]
+[    77.069] (EE) 
+[    77.069] (EE) Segmentation fault at address 0xa0
+[    77.069] (EE) 
+Fatal server error:
+[    77.069] (EE) Caught signal 11 (Segmentation fault). Server aborting
+[    77.069] (EE) 
+[    77.069] (EE) 
+Please consult the The X.Org Foundation support 
+	 at http://wiki.x.org
+ for help. 
+[    77.069] (EE) Please also check the log file at "/var/log/Xorg.1.log" for additional information.
+[    77.069] (EE) 
+[    77.077] (EE) Server terminated with error (1). Closing log file.
