@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+LUA_PACKAGE_NAME=lua5.2
+
 check () {
 if test $? -ne 0; then
 	echo "$@"
@@ -34,9 +36,16 @@ cd ~/.vim/sources
 hg clone https://code.google.com/p/vim/
 cd vim
 
-# Install luajit, and create symlinks so Vim can find it
-sudo apt-get install -y -q "libluajit-5.1.2" "luajit"
-sudo ln -fvs /usr/include/luajit-2.0/*.h /usr/local/include/
+# Install lua, and create symlinks so Vim can find it
+sudo apt-get install -y -q \
+	${LUA_PACKAGE_NAME} \
+	lib${LUA_PACKAGE_NAME}-dev
+
+# Symlinks headers, libraries to /usr/local
+sudo ln -fvs /usr/include/${LUA_PACKAGE_NAME}/*.h /usr/local/include/
+sudo ln -fvs /usr/lib/x86_64-linux-gnu/liblua* /usr/local/lib/
+sudo ln -fvs /usr/local/lib/lib${LUA_PACKAGE_NAME}.so /usr/local/lib/liblua.so
+sudo ln -fvs /usr/local/lib/lib${LUA_PACKAGE_NAME}.a /usr/local/lib/liblua.a
 
 echo "Configuring Vim..."
 make distclean
@@ -48,7 +57,7 @@ make clean
 	--enable-multibyte \
 	--enable-largefile \
 	--enable-luainterp \
-	--with-luajit \
+	--with-lua \
 	--with-lua-prefix=/usr/local \
 	--enable-rubyinterp \
 	--enable-pythoninterp \
