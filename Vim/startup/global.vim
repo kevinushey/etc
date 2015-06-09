@@ -14,8 +14,7 @@ if has("gui_running")
     set guioptions -=T
 endif
 
-" Smaller text width
-set textwidth=58
+set textwidth=0
 
 " Nicer hlsearch
 highlight Search cterm=NONE ctermfg=4 ctermbg=237
