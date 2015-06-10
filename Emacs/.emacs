@@ -1154,7 +1154,6 @@ nil : Otherwise, return nil and run next lineup function."
        (push (current-column) positions)
        (require-def-deindent positions 0)))
    (ad-activate 'js2-indent-line)
-   (setq electric-indent-chars nil)
    (flymake-mode t)
    (tern-mode t)))
 
