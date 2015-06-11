@@ -140,7 +140,7 @@ if (!IsWindows())
     NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
 endif
 
-NeoBundleLazyFiletype 'mattn/emmet-vim' 'html'
+NeoBundle 'mattn/emmet-vim'
 
 call neobundle#end()
 filetype plugin indent on

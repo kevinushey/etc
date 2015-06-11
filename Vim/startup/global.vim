@@ -53,6 +53,16 @@ if has('persistent_undo')
     set undoreload=10000
 endif
 
+" Make tab expand snippets in HTML.
+function! HtmlTab()
+    let Expression = ''
+    if exists('g:loaded_emmet_vim') && emmet#isExpandable()
+        return "\<Plug>(emmet-expand-abbr)"
+    endif
+    return "\<Tab>"
+endfunction
+autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
+
 
 " Leader-key related functionality
 let mapleader="\<Space>"
