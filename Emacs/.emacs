@@ -1142,6 +1142,9 @@ nil : Otherwise, return nil and run next lineup function."
 (add-hook
  'js2-mode-hook
  (lambda ()
+   ;; Delay error checking a bit more.
+   (setq js2-idle-timer-delay 2)
+
    (defadvice js2-indent-line (around js2-indent-line-around)
      "Don't indent if we're within a 'define' function."
      ad-do-it
@@ -1151,6 +1154,7 @@ nil : Otherwise, return nil and run next lineup function."
        (push (current-column) positions)
        (require-def-deindent positions 0)))
    (ad-activate 'js2-indent-line)
+
    (flymake-mode t)
    (tern-mode t)))
 
