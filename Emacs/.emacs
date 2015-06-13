@@ -21,7 +21,6 @@
 (setq package-list '(ag
                       ace-jump-mode
                       auto-complete
-                      autopair
                       clang-format
                       company
                       company-irony
@@ -204,10 +203,8 @@
  '(show-paren-match ((((class color) (background light)) (:background "azure2")))))
 
 ;; automatically generate matching characters for (, {, ", etc...
-(require 'autopair)
-(autopair-global-mode 1)
-;; (require 'smartparens)
-;; (smartparens-global-mode 1)
+;; NOTE: Used autopair before but it was buggy in js2 mode.
+(add-hook 'prog-mode-hook (lambda () (electric-pair-mode)))
 
 ;; syntax coloring
 (global-font-lock-mode 1)
