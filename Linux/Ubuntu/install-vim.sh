@@ -25,10 +25,6 @@ sudo apt-get install -y -q \
 	ruby-dev \
 	mercurial
 
-## Remove the old version(s) of Vim
-echo "Purging old versions of Vim..."
-sudo apt-get remove vim vim-runtime gvim vim-tiny vim-common vim-gui-common
-
 ## Download the sources
 echo "Downloading Vim sources..."
 mkdir -p ~/.vim/sources

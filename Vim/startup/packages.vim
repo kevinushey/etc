@@ -52,8 +52,7 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'bling/vim-bufferline'
 
 " CTRL + P for quick file searching is wonderful.
-let g:ctrlp_follow_symlinks = 1
-NeoBundle 'ctrlpvim/ctrlp.vim'
+Source '~/.vim/startup/extra/ctrlp.vim'
 
 " Not sure if I need this TBH.
 NeoBundle 'tacahiroy/ctrlp-funky'
