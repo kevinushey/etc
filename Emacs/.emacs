@@ -19,43 +19,44 @@
 ;; I originally wanted this in alphabetical order, but order matters
 ;; since we don't resolve dependency ordering. *sad face*
 (setq package-list '(ag
-                      ace-jump-mode
-                      auto-complete
-                      clang-format
-                      company
-                      company-irony
-                      ess
-                      evil
-                      evil-leader
-                      evil-surround
-                      expand-region
-                      flx
-                      flx-ido
-                      flycheck
-                      go-autocomplete
-                      go-mode
-                      company-go
-                      grizzl
-                      helm
-                      ido-vertical-mode
-                      iedit
-                      imenu-anywhere
-                      irony
-                      js2-mode
-                      key-chord
-                      magit
-                      markdown-mode
-                      powerline
-                      powerline-evil
-                      projectile
-                      rainbow-mode
-                      rainbow-delimiters
-                      rtags
-                      smex
-                      tern
-                      tern-auto-complete
-                      web-mode
-                      yasnippet)
+                     ace-jump-mode
+                     ace-window
+                     auto-complete
+                     clang-format
+                     company
+                     company-irony
+                     ess
+                     evil
+                     evil-leader
+                     evil-surround
+                     expand-region
+                     flx
+                     flx-ido
+                     flycheck
+                     go-autocomplete
+                     go-mode
+                     company-go
+                     grizzl
+                     helm
+                     ido-vertical-mode
+                     iedit
+                     imenu-anywhere
+                     irony
+                     js2-mode
+                     key-chord
+                     magit
+                     markdown-mode
+                     powerline
+                     powerline-evil
+                     projectile
+                     rainbow-mode
+                     rainbow-delimiters
+                     rtags
+                     smex
+                     tern
+                     tern-auto-complete
+                     web-mode
+                     yasnippet)
       )
 
 ;; list the repositories containing them
@@ -600,6 +601,9 @@
 (require 'ace-jump-mode)
 (global-set-key (kbd "C-,") 'ace-jump-mode)
 
+(require 'ace-window)
+(global-set-key (kbd "M-p") 'ace-window)
+
 ;; company-mode
 (require 'company)
 (add-hook 'c-mode-common-hook (lambda ()
@@ -1142,6 +1146,7 @@ nil : Otherwise, return nil and run next lineup function."
 (add-hook
  'js2-mode-hook
  (lambda ()
+   
    ;; Delay error checking a bit more.
    (setq js2-idle-timer-delay 2)
 
@@ -1155,7 +1160,7 @@ nil : Otherwise, return nil and run next lineup function."
        (require-def-deindent positions 0)))
    (ad-activate 'js2-indent-line)
 
-   (flymake-mode t)
+   (flycheck-mode t)
    (tern-mode t)))
 
 (require 'tern)
