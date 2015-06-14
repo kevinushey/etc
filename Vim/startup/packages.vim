@@ -139,6 +139,7 @@ if (!IsWindows())
     NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
 endif
 
+NeoBundle 'kevinushey/vim-deferred'
 NeoBundle 'mattn/emmet-vim'
 
 call neobundle#end()
