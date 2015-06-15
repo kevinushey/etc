@@ -277,6 +277,10 @@ layers configuration."
         (evil-select-paren start-regex end-regex beg end type count t))
       (define-key evil-outer-text-objects-map "k" 'outer-name)))
 
+  (defun dotspacemacs/config/magit-diff-head ()
+    (interactive)
+    (magit-diff "HEAD"))
+
   ;; Add some extra motions for navigating buffers, windows quickly
   (evil-leader/set-key
 
@@ -285,6 +289,9 @@ layers configuration."
     "<down>" 'evil-window-down
     "<left>" 'evil-window-left
     "<right>" 'evil-window-right
+
+    ;; Git extensions
+    "gd" 'dotspacemacs/config/magit-diff-head
 
     ;; Miscellaneous commands
     "xf" 'dired
