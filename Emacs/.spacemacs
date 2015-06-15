@@ -225,7 +225,7 @@ layers configuration."
        (evil-replace-state-p)
        (evil-visual-state-p))
       [escape])
-    (t (kbd "C-g"))))
+     (t (kbd "C-g"))))
 
   (define-key key-translation-map (kbd "C-c")  'dotspacemacs/config/smart-ctrl-c)
   (define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
@@ -240,7 +240,7 @@ layers configuration."
       (interactive)
       (er/expand-region 1)))
 
-  (define-key evil-visual-state-map (kbd "v")
+  (define-key evil-visual-state-map (kbd "V")
     (lambda ()
       (interactive)
       (er/expand-region -1)))
@@ -277,8 +277,67 @@ layers configuration."
         (evil-select-paren start-regex end-regex beg end type count t))
       (define-key evil-outer-text-objects-map "k" 'outer-name)))
 
+  ;; Add some extra motions for navigating buffers, windows quickly
+  (evil-leader/set-key
 
-)
+    ;; Quickly select separate windows
+    "<up>" 'evil-window-up
+    "<down>" 'evil-window-down
+    "<left>" 'evil-window-left
+    "<right>" 'evil-window-right
+
+    ;; Miscellaneous commands
+    "xf" 'dired
+    )
+
+  ;;; JavaScript
+
+  ;; Don't indent within 'define' statements.
+  (defun require-def-deindent (list index)
+    (when (and (eq (nth 0 parse-status) 2)
+               (save-excursion
+                 (let ((tl-point (syntax-ppss-toplevel-pos parse-status)))
+                   (goto-char tl-point)
+                   (backward-word 1)
+                   (equal "define" (buffer-substring (point) tl-point))))
+               ;; only intercede if they are suggesting what the sexprs suggest
+               (let ((suggested-column (js2-proper-indentation parse-status)))
+                 (eq (nth index list) suggested-column))
+               )
+      (indent-line-to 0)
+      't
+      ))
+
+  (add-hook
+   'js2-mode-hook
+   (lambda ()
+     
+     ;; Delay error checking a bit more.
+     (setq js2-idle-timer-delay 2)
+
+     (defadvice js2-indent-line (around js2-indent-line-around)
+       "Don't indent if we're within a 'define' function."
+       ad-do-it
+       (let ((parse-status (save-excursion
+                             (parse-partial-sexp (point-min) (point-at-bol))))
+             positions)
+         (push (current-column) positions)
+         (require-def-deindent positions 0)))
+     (ad-activate 'js2-indent-line)
+
+     (flycheck-mode t)
+     (tern-mode t)))
+
+  ;;; HTML
+
+  ;; No indent within 'script', 'style'
+  (add-hook 'html-mode-hook (lambda()
+                              (web-mode)
+                              (setq web-mode-script-padding 0)
+                              (setq web-mode-style-padding 0)
+                              ))
+
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
