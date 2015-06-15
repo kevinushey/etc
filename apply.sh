@@ -41,7 +41,7 @@ ln -fs ${PWD}/R/.Rprofile ~/.Rprofile
 # go get -u code.google.com/p/go.tools/cmd/vet
 
 ## Emacs
-ln -fs ${PWD}/Emacs/.emacs ~/.emacs
+ln -fs ${PWD}/Emacs/.spacemacs ~/.spacemacs
 
 mkdir -p ~/.emacs.d
 ln -fs ${PWD}/Emacs/snippets ~/.emacs.d/snippets
