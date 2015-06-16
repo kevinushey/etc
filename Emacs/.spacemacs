@@ -301,9 +301,19 @@ layers configuration."
 
   ;;; Magit
 
-  ;; Make sure that ':q' behaves as a commit confirmation.
-  (add-hook magit-c)
+  ;; Make ':q', ':wq' perform commits in git commit mode.
+  (evil-define-command evil-quit-or-commit (&rest args)
+    (if (eq major-mode "git-commit-mode")
+        (git-commit-commit)
+      (funcall 'evil-quit args)))
 
+  (evil-define-command evil-save-and-close-or-commit (&rest args)
+    (if (eq major-mode "git-commit-mode")
+        (git-commit-commit)
+      (funcall 'evil-save-and-close args)))
+
+  (evil-ex-define-cmd "q[uit]" 'evil-quit-or-commit)
+  (evil-ex-define-cmd "wq" 'evil-save-and-close-or-commit)
 
   ;;; JavaScript
 
