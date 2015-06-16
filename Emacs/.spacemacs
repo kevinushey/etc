@@ -202,6 +202,11 @@ layers configuration."
 
   ;;; General
 
+  ;; Ensure /usr/local/bin is on the PATH. This is a manifestation of an OS X
+  ;; bug / feature where the PATH is not properly inheritted by child processes.
+  (if (system-is-mac)
+      (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH"))))
+
   ;; Don't highlight empty lines or trailing whitespace.
   (setq show-trailing-whitespace nil)
   (setq indicate-empty-lines nil)
