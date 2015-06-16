@@ -206,6 +206,9 @@ layers configuration."
   (setq show-trailing-whitespace nil)
   (setq indicate-empty-lines nil)
 
+  ;; Use a default separator that will display well with non-powerline fonts.
+  (setq powerline-default-separator 'arrow)
+
   ;; Remove projectile's C-c keybindings -- I prefer to just use the leader key
   ;; for these sorts of things
   (setq projectile-keymap-prefix (kbd "C-S-P"))
@@ -332,6 +335,14 @@ layers configuration."
       (indent-line-to 0)
       't
       ))
+
+  ;; Patch for company-tern (allow for nil depth)
+  (eval-after-load
+      'company-tern
+    (lambda ()
+      (defun company-tern-depth (candidate)
+        (let ((depth (get-text-property 0 'depth candidate)))
+          (if (eq depth nil) 0 depth)))))
 
   (add-hook
    'js2-mode-hook
