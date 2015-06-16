@@ -200,6 +200,12 @@ before layers configuration."
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
 
+  ;;; General
+
+  ;; Don't highlight empty lines or trailing whitespace.
+  (setq show-trailing-whitespace nil)
+  (setq indicate-empty-lines nil)
+
   ;; Remove projectile's C-c keybindings -- I prefer to just use the leader key
   ;; for these sorts of things
   (setq projectile-keymap-prefix (kbd "C-S-P"))
@@ -292,6 +298,12 @@ layers configuration."
     ;; Miscellaneous commands
     "xf" 'dired
     )
+
+  ;;; Magit
+
+  ;; Make sure that ':q' behaves as a commit confirmation.
+  (add-hook magit-c)
+
 
   ;;; JavaScript
 
