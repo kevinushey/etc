@@ -380,23 +380,19 @@ layers configuration."
 
   ;;; ESS
 
-  ;; No smart equals (it isn't smart enough)
-  (setq-default dotspacemacs-configuration-layers '((ess :variables ess-enable-smart-equals nil)))
-
   ;; Prefer spaces around ' = ' for argument completions
   (setq ess-ac-R-argument-suffix " = ")
 
   ;; Enable auto complete
   (setq ess-use-auto-complete t)
 
-  ;; Don't use smart equals (ie -- don't convert ' = ' to ' <- ')
-  (setq ess-enable-smart-equals nil)
-
   ;; Set up indentation + other useful keybindings
   (add-hook
    'ess-mode-hook
    (lambda ()
      (local-set-key (kbd "<s-return>") 'ess-eval-region-or-line-and-step)
+     (ess-smart-equals-mode nil)
+     (evil-local-set-key 'insert (kbd "=") 'self-insert-command)
      (show-paren-mode t)))
 
   ;; Nicer syntax highlighting
