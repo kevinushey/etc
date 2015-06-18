@@ -305,6 +305,7 @@ layers configuration."
 
     ;; Miscellaneous commands
     "xf" 'dired
+    "hC" 'evil-ex-nohighlight
     )
 
   ;;; Magit
