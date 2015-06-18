@@ -300,6 +300,9 @@ layers configuration."
     "<left>" 'evil-window-left
     "<right>" 'evil-window-right
 
+    ;; Make 'golden-ratio' more accessible
+    "we" 'golden-ratio
+
     ;; Git extensions
     "gd" #'(lambda () (interactive) (magit-diff "HEAD"))
 
@@ -355,10 +358,10 @@ layers configuration."
    (lambda ()
      
      ;; Delay error checking a bit more.
-     (setq js2-idle-timer-delay 2)
+     (setq js2-idle-timer-delay 1)
 
+     ;; Don't indent within 'define' functions.
      (defadvice js2-indent-line (around js2-indent-line-around)
-       "Don't indent if we're within a 'define' function."
        ad-do-it
        (let ((parse-status (save-excursion
                              (parse-partial-sexp (point-min) (point-at-bol))))
@@ -366,6 +369,9 @@ layers configuration."
          (push (current-column) positions)
          (require-def-deindent positions 0)))
      (ad-activate 'js2-indent-line)
+
+     ;; Disable electric mode.
+     (electric-indent-mode 0)
 
      (flycheck-mode t)
      (tern-mode t)))
