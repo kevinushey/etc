@@ -286,7 +286,7 @@ Emacs()
 }
 
 ## Start emacs in daemon mode
-e () {
+function e () {
     if test "$#" -eq 0; then
         ALTERNATE_EDITOR= emacsclient -t .
     else
@@ -327,7 +327,7 @@ function ec () {
 
 	fi
 
-	emacsclient \
+	ALTERNATE_EDITOR= emacsclient \
 		--create-frame \
 		--eval "${EMACSCLIENT_EVAL}"
 

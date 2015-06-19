@@ -11,9 +11,11 @@ elif [ "${UNAME}" = "Darwin" ]; then
 	IS_DARWIN=yes
 fi
 
-if [ -n "$(lsb_release --id | grep Ubuntu)" ]; then
-	echo "Linux Type: Ubuntu"
-	IS_UBUNTU=yes
+if [ -n "${IS_LINUX}" ]; then
+	if [ -n "$(lsb_release --id | grep Ubuntu)" ]; then
+		echo "Linux Type: Ubuntu"
+		IS_UBUNTU=yes
+	fi
 fi
 
 if [ -n "${IS_UBUNTU}" ]; then
@@ -28,6 +30,10 @@ else
 fi
 
 ln -fs ${PWD}/Bash/.bash_profile "${BASH_DOTFILE_PATH}"
+## Also symlink to '.bashrc' on OS X (primarily to help out Emacs)
+if [ -n "${IS_DARWIN}" ]; then
+	ln -fs ~/.bash_profile ~/.bashrc
+fi
 
 ## R
 ln -fs ${PWD}/R/.Rprofile ~/.Rprofile
@@ -47,7 +53,7 @@ mkdir -p ~/.emacs.d
 ln -fs ${PWD}/Emacs/snippets ~/.emacs.d/snippets
 
 if [ -n "${IS_DARWIN}" ]; then
-	cp "${PWD}/Mac/Emacs/Emacs Daemon.app" "/Applications/Emacs Daemon.app"
+	cp -R "${PWD}/Mac/Emacs/Emacs Daemon.app" "/Applications/Emacs Daemon.app"
 fi
 
 ## Vim
