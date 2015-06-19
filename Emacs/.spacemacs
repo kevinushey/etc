@@ -232,14 +232,18 @@ layers configuration."
 
   ;; Ensure that 'Ctrl + C' returns to Normal mode.
   (defun dotspacemacs/config/smart-ctrl-c (prompt)
-    (cond
-     ((or
-       (evil-insert-state-p)
-       (evil-normal-state-p)
-       (evil-replace-state-p)
-       (evil-visual-state-p))
-      [escape])
-     (t (kbd "C-g"))))
+    (if (not (eq company-pseudo-tooltip-overlay nil))
+        (progn
+          (company-pseudo-tooltip-hide)
+          (kbd "C-g"))
+      (cond
+       ((or
+         (evil-insert-state-p)
+         (evil-normal-state-p)
+         (evil-replace-state-p)
+         (evil-visual-state-p))
+        [escape])
+       (t (kbd "C-g")))))
 
   (define-key key-translation-map (kbd "C-c")  'dotspacemacs/config/smart-ctrl-c)
   (define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
@@ -394,6 +398,11 @@ layers configuration."
 
   ;; Enable auto complete
   (setq ess-use-auto-complete t)
+
+  ;; Don't skip whitespace in electric pair mode (too aggressive)
+  (setq electric-pair-skip-whitespace nil)
+
+  (add-hook 'ess-mode-hook (lambda () (electric-pair-mode 1)))
 
   ;; Set up indentation + other useful keybindings
   (add-hook
