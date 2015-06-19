@@ -283,13 +283,15 @@ layers configuration."
   (let ((start-regex "[[:space:]\\(\\)]")
         (end-regex "[[:space:]\\(\\)]\\|$"))
     (progn
-      (evil-define-text-object inner-name (count &optional beg end type)
-        (evil-select-paren start-regex end-regex beg end type count nil))
+      (eval
+       `(evil-define-text-object inner-name (count &optional beg end type)
+          (evil-select-paren ,start-regex ,end-regex beg end type count nil)))
       (define-key evil-inner-text-objects-map "k" 'inner-name)
 
-      (evil-define-text-object outer-name (count &optional beg end type)
-        (evil-select-paren start-regex end-regex beg end type count t))
-      (define-key evil-outer-text-objects-map "k" 'outer-name)))
+      (eval
+       `(evil-define-text-object outer-name (count &optional beg end type)
+          (evil-select-paren ,start-regex ,end-regex beg end type count t)))
+       (define-key evil-outer-text-objects-map "k" 'outer-name)))
 
   ;; Add some extra motions for navigating buffers, windows quickly
   (evil-leader/set-key
@@ -370,8 +372,8 @@ layers configuration."
          (require-def-deindent positions 0)))
      (ad-activate 'js2-indent-line)
 
-     ;; Disable electric mode.
-     (electric-indent-mode 0)
+     ;; Only indent following '{', '}'.
+     (setq electric-indent-chars (list ?{ ?}))
 
      (flycheck-mode t)
      (tern-mode t)))
