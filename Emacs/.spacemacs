@@ -19,7 +19,9 @@
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-sort-by-usage t)
      c-c++
      colors
      company-mode
@@ -462,7 +464,6 @@ layers configuration."
 
         ))
      ))
-  
 
   )
 
