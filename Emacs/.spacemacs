@@ -204,6 +204,10 @@ layers configuration."
 
   ;;; General
 
+  ;; Nicer linum formatting (I prefer a tiny bit of horizontal space after the
+  ;; numbers)
+  (setq linum-format "%3d ")
+
   ;; Ensure /usr/local/bin is on the PATH. This is a manifestation of an OS X
   ;; bug / feature where the PATH is not properly inheritted by child processes.
   (if (system-is-mac)
