@@ -203,6 +203,30 @@ before layers configuration."
 layers configuration."
 
   ;;; General
+  (defun replace-in-string (what with in)
+    (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
+
+  ;; Update change log, respecting current git changes. I swear this used to work
+  ;; automagically before; who knows what changed.
+  (defun dotspacemacs/config/update-change-log ()
+    (interactive)
+    (let* ((root (projectile-project-root))
+           (changelog-path (concat (file-name-as-directory root) "ChangeLog"))
+           (date (shell-command-to-string "echo -n $(date +%Y-%m-%d)"))
+           (name (user-full-name))
+           (email (replace-regexp-in-string "\n" "" (shell-command-to-string "git config user.email")))
+           (git-status (shell-command-to-string "git status --short --porcelain"))
+           (changes
+            (replace-regexp-in-string "\n" ":\n"
+                                      (replace-regexp-in-string "^[[:space:]]*[^[:space:]]+" "        *" git-status)))
+           (header (concat date "  " name "  <" email ">")))
+
+      (find-file (concat (file-name-as-directory root) "ChangeLog"))
+      (beginning-of-buffer)
+      (insert header "\n\n" changes "\n\n")))
+
+  ;; Display '~' in lines at end of buffer with no content
+  (vi-tilde-fringe-mode 1)
 
   ;; Nicer linum formatting (I prefer a tiny bit of horizontal space after the
   ;; numbers)
@@ -311,6 +335,12 @@ layers configuration."
     "<down>" 'evil-window-down
     "<left>" 'evil-window-left
     "<right>" 'evil-window-right
+
+    ;; Evaluate selection
+    "<RET>" 'eval-region
+
+    ;; change log
+    "aa" 'dotspacemacs/config/update-change-log
 
     ;; Make 'golden-ratio' more accessible
     "we" 'golden-ratio
@@ -473,3 +503,32 @@ layers configuration."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
+ '(ahs-idle-interval 0.25)
+ '(ahs-idle-timer 0 t)
+ '(ahs-inhibit-face-list nil)
+ '(ring-bell-function (quote ignore) t)
+ '(safe-local-variable-values
+   (quote
+    ((c-indent-level . 4)
+     (eval progn
+           (c-set-offset
+            (quote innamespace)
+            (quote 0))
+           (c-set-offset
+            (quote inline-open)
+            (quote 0)))
+     (indicate-empty-lines . t)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
