@@ -217,13 +217,16 @@ layers configuration."
            (email (replace-regexp-in-string "\n" "" (shell-command-to-string "git config user.email")))
            (git-status (shell-command-to-string "git status --short --porcelain"))
            (changes
-            (replace-regexp-in-string "\n" ":\n"
+            (replace-regexp-in-string "\n" ": \n"
                                       (replace-regexp-in-string "^[[:space:]]*[^[:space:]]+" "        *" git-status)))
            (header (concat date "  " name "  <" email ">")))
 
       (find-file (concat (file-name-as-directory root) "ChangeLog"))
       (beginning-of-buffer)
-      (insert header "\n\n" changes "\n\n")))
+      (insert header "\n\n" changes "\n\n")
+      (goto-line 4)
+      (backward-char 1)
+      ))
 
   ;; Display '~' in lines at end of buffer with no content
   (vi-tilde-fringe-mode 1)
