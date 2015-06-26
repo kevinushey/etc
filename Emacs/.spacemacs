@@ -209,6 +209,10 @@ layers configuration."
   (set-face-foreground 'highlight nil)
   (set-face-underline-p 'highlight nil)
 
+  ;; Don't use the default, terribly ugly, spacemacs coloring for highlight searches
+  (when (not (display-graphic-p))
+    (set-face-attribute 'evil-search-highlight-persist-highlight-face nil :background "#424"))
+
   ;; Ensure that command and alt behave on OS X
   (when (boundp 'mac-command-modifier)
     (setq mac-command-modifier 'super))
@@ -365,6 +369,9 @@ layers configuration."
     "xf" 'dired
     "hC" 'evil-ex-nohighlight
     )
+
+  ;;; C / C++
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
   ;;; Magit
 
