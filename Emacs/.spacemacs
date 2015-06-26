@@ -203,6 +203,14 @@ before layers configuration."
 layers configuration."
 
   ;;; General
+
+  ;; Ensure that command and alt behave on OS X
+  (when (boundp 'mac-command-modifier)
+    (setq mac-command-modifier 'super))
+
+  (when (boundp 'mac-option-modifier)
+    (setq mac-option-modifier 'meta))
+
   (defun replace-in-string (what with in)
     (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
 
