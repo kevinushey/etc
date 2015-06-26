@@ -88,7 +88,8 @@ before layers configuration."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
+   dotspacemacs-themes '(wombat
+                         monokai
                          solarized-light
                          solarized-dark
                          leuven
@@ -203,6 +204,10 @@ before layers configuration."
 layers configuration."
 
   ;;; General
+
+  ;; Override theme settings that over-aggressively highlight the current line
+  (set-face-foreground 'highlight nil)
+  (set-face-underline-p 'highlight nil)
 
   ;; Ensure that command and alt behave on OS X
   (when (boundp 'mac-command-modifier)
@@ -521,6 +526,9 @@ layers configuration."
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
+ '(custom-safe-themes
+   (quote
+    ("0f0087ed1f27aaa8bd4c7e1910a02256facf075182e303adb33db23d1611864b" default)))
  '(ring-bell-function (quote ignore) t)
  '(safe-local-variable-values
    (quote
