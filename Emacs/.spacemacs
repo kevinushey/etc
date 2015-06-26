@@ -236,9 +236,6 @@ layers configuration."
       (backward-char 1)
       ))
 
-  ;; Display '~' in lines at end of buffer with no content
-  (vi-tilde-fringe-mode 1)
-
   ;; Nicer linum formatting (I prefer a tiny bit of horizontal space after the
   ;; numbers)
   (setq linum-format "%3d ")
