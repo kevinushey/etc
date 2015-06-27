@@ -8,9 +8,10 @@ REM Make a symlink for .emacs
 set "EMACS_DOTFILE_FROM=%PWD%\Emacs\.spacemacs"
 set "EMACS_DOTFILE_TO=%HOME%\AppData\Roaming\.spacemacs"
 
-del "%EMACS_DOTFILE_TO%"
+if exist "%EMACS_DOTFILE_TO%" del "%EMACS_DOTFILE_TO%"
 
-REM Would prefer symlink here but that requires admin privileges.
+REM Would prefer symlink here but that requires admin privileges,
+REM something not supplied on non-professional Windows installs. :/
 mklink /H "%EMACS_DOTFILE_TO%" "%EMACS_DOTFILE_FROM%"
 
 REM Set up Git.

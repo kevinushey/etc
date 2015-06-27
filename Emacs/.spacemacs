@@ -205,6 +205,10 @@ layers configuration."
 
   ;;; General
 
+  ;; Workaround for yasnippet + smartparens incompatibility
+  (add-hook 'yas-before-expand-snippet-hook (lambda () (smartparens-mode -1)))
+  (add-hook 'yas-after-exit-snippet-hook (lambda () (smartparens-mode 1)))
+
   ;; Override theme settings that over-aggressively highlight the current line
   (set-face-foreground 'highlight nil)
   (set-face-underline-p 'highlight nil)
