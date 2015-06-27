@@ -5,8 +5,8 @@ set "PWD=%cd%"
 set "HOME=%USERPROFILE%"
 
 REM Make a symlink for .emacs
-set "EMACS_DOTFILE_FROM=%PWD%\Emacs\.emacs"
-set "EMACS_DOTFILE_TO=%HOME%\AppData\Roaming\.emacs"
+set "EMACS_DOTFILE_FROM=%PWD%\Emacs\.spacemacs"
+set "EMACS_DOTFILE_TO=%HOME%\AppData\Roaming\.spacemacs"
 
 del "%EMACS_DOTFILE_TO%"
 
