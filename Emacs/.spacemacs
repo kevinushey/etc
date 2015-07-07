@@ -426,6 +426,9 @@ layers configuration."
      ;; Delay error checking a bit more.
      (setq js2-idle-timer-delay 1)
 
+     ;; Use local .jshintrc
+     (setq flycheck-jshintrc "~/.emacs.d/.jshintrc")
+
      ;; Don't indent within 'define' functions.
      (defadvice js2-indent-line (around js2-indent-line-around)
        ad-do-it
