@@ -1,8 +1,10 @@
 " Load the colorscheme and refresh airline.
 ColorScheme wombat256mod slate default
-
 autocmd VimEnter * silent! AirlineTheme dark
 autocmd VimEnter * silent! AirlineToggleWhitespace
+
+" Override annoying files that try to force spell-checking
+autocmd BufEnter,BufWrite * set nospell
 
 scriptencoding utf-8
 
