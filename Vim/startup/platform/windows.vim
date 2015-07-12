@@ -1,7 +1,7 @@
 syntax on
 
 " Override the colorscheme to provide slate (much better than the Windows default)
-ColorScheme Tomorrow-Night-Bright slate default
+ColorScheme wombat256mod slate default
 
 " Use non-UTF8 characters on Windows
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<,nbsp:~

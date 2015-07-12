@@ -67,10 +67,8 @@ let g:spf13_no_omni_complete = 1
 
 " Need to ensure all packages have finished loading before
 " calling these functions.
-autocmd VimEnter * Defer
-            \ :call Source('~/.vim/startup/spf13.vim') |
-            \ :call Source('~/.vim/startup/global.vim') |
-            \ redraw
+Source "~/.vim/startup/spf13.vim"
+Source "~/.vim/startup/global.vim"
 
 " Global overrides
 if filereadable(expand("~/.vimrc.after"))

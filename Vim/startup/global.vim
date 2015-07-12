@@ -1,7 +1,8 @@
 " Load the colorscheme and refresh airline.
-ColorScheme Tomorrow-Night-Bright slate default
-silent! AirlineTheme dark
-silent! AirlineToggleWhitespace
+ColorScheme wombat256mod slate default
+
+autocmd VimEnter * silent! AirlineTheme dark
+autocmd VimEnter * silent! AirlineToggleWhitespace
 
 scriptencoding utf-8
 
@@ -168,3 +169,4 @@ endfunction
 if has("autocmd")
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
 endif
+
