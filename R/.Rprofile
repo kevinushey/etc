@@ -5,7 +5,7 @@ if (interactive()) {
   .__Rprofile.env__. <- new.env()
   
   ## use https repos
-  options(repos = "https://cran.rstudio.org")
+  options(repos = c(CRAN = "https://cran.rstudio.org"))
   
   ## always run Rcpp tests
   Sys.setenv(RunAllRcppTests = "yes")
