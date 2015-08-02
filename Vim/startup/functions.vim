@@ -99,7 +99,7 @@ function! ColorScheme(...)
         endif
     endfor
 endfunction
-command! -nargs=+ -complete=color ColorScheme call ColorScheme(<f-args>)
+command! -nargs=+ ColorScheme call ColorScheme(<f-args>)
 
 " Execute a command in a directory.
 function! InDir(directory, command)
