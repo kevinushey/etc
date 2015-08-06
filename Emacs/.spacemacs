@@ -314,11 +314,6 @@ layers configuration."
       (interactive)
       (er/expand-region -1)))
 
-  ;; Use 'jk' in insert mode to return to normal mode. Should probably put this
-  ;; in a layer.
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-force-normal-state)
-
   ;; Use <S-=>, <S--> to increase, decrease the font size
   (global-set-key
    (kbd "s-=")
