@@ -20,7 +20,7 @@ endif
 set textwidth=0
 
 " Nicer hlsearch
-highlight Search cterm=NONE ctermfg=4 ctermbg=237
+highlight Search cterm=NONE ctermfg=white ctermbg=12
 
 " Soft tabs
 set tabstop=4
