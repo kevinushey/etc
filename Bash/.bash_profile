@@ -39,9 +39,9 @@ export PKG_MAKE_DYM=yes
 
 # Utility aliases
 alias t="tmux attach 2> /dev/null || tmux"
-alias tc="nvim ~/.tmux.conf"
+alias tc="vim ~/.tmux.conf"
 
-alias v="nvim"
+alias v="vim"
 
 alias g="git"
 alias ga="git add -A :/"
@@ -388,7 +388,7 @@ rcip () {
 }
 
 vi () {
-  nvim -Nu ~/.vim/startup/sensible.vim "$@"
+  vim -Nu ~/.vim/startup/sensible.vim "$@"
 }
 
 remove-trailing-newline () {
