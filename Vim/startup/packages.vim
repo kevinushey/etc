@@ -52,7 +52,7 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'bling/vim-bufferline'
 
 " CTRL + P for quick file searching is wonderful.
-Source '~/.vim/startup/extra/ctrlp.vim'
+Source '~/.vim/startup/package/ctrlp.vim'
 
 " Not sure if I need this TBH.
 NeoBundle 'tacahiroy/ctrlp-funky'
@@ -117,13 +117,12 @@ endif
 " Use Shougo's autocompletion. Because it requires a lot
 " of configuration to make sure it works well, everything is
 " moved to a separate file.
-Source "~/.vim/startup/extra/neocomplete.vim"
+Source "~/.vim/startup/package/neocomplete.vim"
 
 " Easy-motion. Like Ace jump. I don't know who came first.
 NeoBundle 'Lokaltog/vim-easymotion'
 
 NeoBundle 'nathanaelkane/vim-indent-guides'
-
 
 " Python-related stuff. Note that I don't write python very often.
 NeoBundleLazyFiletype 'davidhalter/jedi-vim' 'python'
