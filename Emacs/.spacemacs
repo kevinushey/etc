@@ -205,6 +205,10 @@ layers configuration."
 
   ;;; General
 
+  ;; Tell smartparens to indent when inserting newline within '()'
+  (sp-with-modes '(c-mode c++-mode js2-mode ess-mode)
+    (sp-local-pair "(" ")" :post-handlers '(("||\n[i]" "RET"))))
+
   ;; Workaround for yasnippet + smartparens incompatibility
   (add-hook 'yas-before-expand-snippet-hook (lambda () (smartparens-mode -1)))
   (add-hook 'yas-after-exit-snippet-hook (lambda () (smartparens-mode 1)))
@@ -303,6 +307,10 @@ layers configuration."
   ;; Allow <DEL> to delete the selection in visual mode.
   (define-key evil-visual-state-map (kbd "DEL") 'evil-delete)
 
+  ;; Shortcuts for selecting previous, next windows
+  (global-set-key (kbd "<M-s-left>") 'evil-prev-buffer)
+  (global-set-key (kbd "<M-s-right>") 'evil-next-buffer)
+
   ;; Use 'v', 'S-v' to expand/contract region in visual mode.
   (define-key evil-visual-state-map (kbd "v")
     (lambda ()
@@ -341,7 +349,7 @@ layers configuration."
       (eval
        `(evil-define-text-object outer-name (count &optional beg end type)
           (evil-select-paren ,start-regex ,end-regex beg end type count t)))
-       (define-key evil-outer-text-objects-map "k" 'outer-name)))
+      (define-key evil-outer-text-objects-map "k" 'outer-name)))
 
   ;; Add some extra motions for navigating buffers, windows quickly
   (evil-leader/set-key
@@ -417,9 +425,9 @@ layers configuration."
   (add-hook
    'js2-mode-hook
    (lambda ()
-     
+
      ;; Delay error checking a bit more.
-     (setq js2-idle-timer-delay 1)
+     (setq js2-idle-timer-delay 0.7)
 
      ;; Use local .jshintrc
      (setq flycheck-jshintrc "~/.emacs.d/.jshintrc")
@@ -434,11 +442,17 @@ layers configuration."
          (require-def-deindent positions 0)))
      (ad-activate 'js2-indent-line)
 
-     ;; Only indent following '{', '}'.
      (setq electric-indent-chars (list ?{ ?}))
 
      (flycheck-mode t)
      (tern-mode t)))
+
+  ;;; Elisp
+  (add-hook
+   'emacs-lisp-mode-hook
+   (lambda()
+     (local-set-key (kbd "<s-return>") 'eval-region)
+     ))
 
   ;;; HTML
 
