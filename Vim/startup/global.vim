@@ -6,6 +6,9 @@ autocmd VimEnter * silent! AirlineToggleWhitespace
 " Override annoying files that try to force spell-checking
 autocmd BufEnter,BufWrite * set nospell
 
+" Re-draw on entry to ensure we get no tmux background artefacts
+autocmd VimEnter,BufEnter,BufWinEnter * redraw!
+
 scriptencoding utf-8
 
 " Disable menu-stuff (for GUIs)
