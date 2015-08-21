@@ -205,6 +205,10 @@ layers configuration."
 
   ;;; General
 
+  ;; Make the current line highlighting a bit less prominent (so it doesn't
+  ;; mask the current selection)
+  (set-face-background 'hl-line "#2F2F2F")
+
   ;; Tell smartparens to indent when inserting newline within '()'
   (sp-with-modes '(c-mode c++-mode js2-mode ess-mode)
     (sp-local-pair "(" ")" :post-handlers '(("||\n[i]" "RET"))))

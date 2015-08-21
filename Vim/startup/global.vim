@@ -19,7 +19,11 @@ endif
 
 set textwidth=0
 
-" Nicer hlsearch
+" Better indentation defaults. See ':help cino' for documentation
+" on the options.
+set cinoptions=N-s,g0,m1,(s
+
+" Nicer hlsearch background colors
 highlight Search cterm=NONE ctermfg=white ctermbg=12
 
 " Soft tabs
@@ -58,14 +62,12 @@ endif
 
 " Make tab expand snippets in HTML.
 function! HtmlTab()
-    let Expression = ''
     if exists('g:loaded_emmet_vim') && emmet#isExpandable()
         return "\<Plug>(emmet-expand-abbr)"
     endif
     return "\<Tab>"
 endfunction
 autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
-
 
 " Leader-key related functionality
 let mapleader="\<Space>"
@@ -105,7 +107,7 @@ vmap <S-v> <Plug>(expand_region_shrink)
 " Don't let the stupid console thing popup
 map q: :q
 
-" Use '## ' for commas in R scripts
+" Use '## ' for comments in R scripts
 if has("autocmd")
 	autocmd FileType r set commentstring=##\ %s
 endif
@@ -136,11 +138,6 @@ endfunction
 imap <expr><CR> SmartCR()
 
 "" C, C++ related editing stuff
-"Don't indent namespaces
-set cinoptions=N-s
-
-"Don't indent public:, private:
-set cinoptions=g0
 
 " Don't indent namespace and template
 function! CppNoNamespaceAndTemplateIndent()
