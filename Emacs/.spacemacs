@@ -166,7 +166,7 @@ before layers configuration."
    dotspacemacs-inactive-transparency 90
 
    ;; If non nil unicode symbols are displayed in the mode line.
-   dotspacemacs-mode-line-unicode-symbols nil
+   dotspacemacs-mode-line-unicode-symbols t
 
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
@@ -267,8 +267,9 @@ layers configuration."
       (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH"))))
 
   ;; Don't highlight empty lines or trailing whitespace.
-  (setq show-trailing-whitespace nil)
-  (setq indicate-empty-lines nil)
+  (setq-default show-trailing-whitespace nil)
+  (setq-default spacemacs-show-trailing-whitespace nil)
+  (setq-default indicate-empty-lines nil)
 
   ;; Use a default separator that will display well with non-powerline fonts.
   (setq powerline-default-separator 'arrow)
@@ -424,7 +425,7 @@ layers configuration."
     (lambda ()
       (defun company-tern-depth (candidate)
         (let ((depth (get-text-property 0 'depth candidate)))
-          (if (eq depth nil) 0 depth)))))
+          (if (eq depth nil) 100 depth)))))
 
   (add-hook
    'js2-mode-hook
