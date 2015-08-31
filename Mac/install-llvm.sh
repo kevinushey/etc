@@ -3,49 +3,52 @@
 ## These steps are compiled from the Clang 'getting started' guide at
 ## http://clang.llvm.org/get_started.html
 
+## Configuration variables
+: ${LLVM_BUILD_DIR:="$HOME/.llvm"}
+: ${LLVM_INSTALL_DIR:="/usr/local/llvm"}
+: ${LLVM_MAKE_SYMLINKS:="yes"}
+: ${LLVM_SYMLINK_DIR:="/usr/local/bin"}
+
 ## Make sure we build things using Apple clang
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
-INSTALLATION_DIR=/usr/local/llvm
-LLVM_HOME=~/.llvm
 
-## We'll put everything in a .llvm folder in the home directory.
-mkdir ${LLVM_HOME}
+mkdir ${LLVM_BUILD_DIR}
 
 ## Checkout LLVM:
-cd ${LLVM_HOME}
+cd ${LLVM_BUILD_DIR}
 svn co https://llvm.org/svn/llvm-project/llvm/trunk llvm
 
 ## Checkout clang
-cd ${LLVM_HOME}/llvm/tools
+cd ${LLVM_BUILD_DIR}/llvm/tools
 svn co https://llvm.org/svn/llvm-project/cfe/trunk clang
 
 ## Get the optional Clang tools, as well
-cd ${LLVM_HOME}/llvm/tools/clang/tools
+cd ${LLVM_BUILD_DIR}/llvm/tools/clang/tools
 svn co https://llvm.org/svn/llvm-project/clang-tools-extra/trunk extra
 
 ## Checkout Compiler-RT
-cd ${LLVM_HOME}/llvm/projects
+cd ${LLVM_BUILD_DIR}/llvm/projects
 svn co https://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt
 
 ## Checkout libc++
 ## Steps copied from http://libcxx.llvm.org/
-cd ${LLVM_HOME}
+cd ${LLVM_BUILD_DIR}
 svn co https://llvm.org/svn/llvm-project/libcxx/trunk libcxx
 
 ## Build libc++
-cd ${LLVM_HOME}/libcxx/lib
+cd ${LLVM_BUILD_DIR}/libcxx/lib
 export TRIPLE=-apple-
 ./buildit
-ln -sf libc++.1.dylib libc++.dylib
+ln -fs libc++.1.dylib libc++.dylib
 
 ## Try building Clang
 ## Make sure we build the SVN clang using Apple clang
-cd ${LLVM_HOME}
+cd ${LLVM_BUILD_DIR}
 mkdir build
 cd build
 ../llvm/configure \
-    --prefix=${INSTALLATION_DIR} \
+    --prefix=${LLVM_INSTALL_DIR} \
     --enable-optimized \
     --enable-libcpp \
     --enable-cxx11 \
@@ -61,11 +64,16 @@ CLANG_VERSION=$(grep "^PACKAGE_VERSION" config.log |
     sed "s/'//g")
 
 ## Copy the libc++ files to a directory where Clang will find it
-cp -R ${LLVM_HOME}/libcxx/include ${INSTALLATION_DIR}/lib/clang/${CLANG_VERSION}
-cp -R ${LLVM_HOME}/libcxx/lib ${INSTALLATION_DIR}/lib/clang/${CLANG_VERSION}
+cp -R ${LLVM_BUILD_DIR}/libcxx/include ${LLVM_INSTALL_DIR}/lib/clang/${CLANG_VERSION}
+cp -R ${LLVM_BUILD_DIR}/libcxx/lib ${LLVM_INSTALL_DIR}/lib/clang/${CLANG_VERSION}
 
 ## Make some symlinks
-ln -fs ${INSTALLATION_DIR}/bin/llvm-config /usr/local/bin/llvm-config
+if [ "${LLVM_MAKE_SYMLINKS}" = "yes" ]; then
+	echo "Symlinking clang utilities to '${LLVM_SYMLINK_DIR}'..."
+	ln -fs ${LLVM_INSTALL_DIR}/bin/llvm-config ${LLVM_SYMLINK_DIR}/llvm-config
+	ln -fs ${LLVM_INSTALL_DIR}/bin/clang ${LLVM_SYMLINK_DIR}/clang
+	ln -fs ${LLVM_INSTALL_DIR}/bin/clang++ ${LLVM_SYMLINK_DIR}/clang++
+fi
 
-ln -fs ${INSTALLATION_DIR}/bin/clang /usr/local/bin/clang
-ln -fs ${INSTALLATION_DIR}/bin/clang++ /usr/local/bin/clang++
+echo "Installation complete!"
+
