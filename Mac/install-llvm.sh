@@ -6,7 +6,7 @@
 ## Configuration variables
 : ${LLVM_BUILD_DIR:="$HOME/.llvm"}
 : ${LLVM_INSTALL_DIR:="/usr/local/llvm"}
-: ${LLVM_MAKE_SYMLINKS:="yes"}
+: ${LLVM_MAKE_SYMLINKS:="no"}
 : ${LLVM_SYMLINK_DIR:="/usr/local/bin"}
 
 ## Make sure we build things using Apple clang
