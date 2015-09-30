@@ -198,7 +198,11 @@ before layers configuration."
 
   )
 
-(defun dotspacemacs/config ()
+;; Doesn't exist anymore?
+(defun system-is-mac ()
+ (eq system-type 'darwin))
+
+(defun dotspacemacs/user-config ()
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
