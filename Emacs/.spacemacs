@@ -27,7 +27,6 @@
      company-mode
      emacs-lisp
      ess
-     git
      (git :variables
           git-gutter-use-fringe t)
      html
