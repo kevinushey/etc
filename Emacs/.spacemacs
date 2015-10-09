@@ -208,6 +208,9 @@ layers configuration."
 
   ;;; General
 
+  ;; Don't remap 'Y' to 'y$'. C'mon spacemacs.
+  (setq dotspacemacs-remap-Y-to-y$ nil)
+
   ;; Make the current line highlighting a bit less prominent (so it doesn't
   ;; mask the current selection)
   (set-face-background 'hl-line "#2F2F2F")
