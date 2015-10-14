@@ -29,7 +29,7 @@ sudo apt-get install -y -q \
 echo "Downloading Vim sources..."
 mkdir -p ~/.vim/sources
 cd ~/.vim/sources
-hg clone https://code.google.com/p/vim/
+git clone https://github.com/vim/vim
 cd vim
 
 # Install lua, and create symlinks so Vim can find it
