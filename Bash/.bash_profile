@@ -55,7 +55,7 @@ alias gs="git status"
 
 alias bp="vim ~/.bash_profile"
 
-PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin/opt/X11/bin:/usr/texbin" 
+PATH="/usr/local/bin:/usr/local/sbin:/Library/TeX/texbin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin/opt/X11/bin:/usr/texbin" 
 
 # Ensure we use git in /usr/local/bin
 if [ -n "${IS_DARWIN}" ] && [ -e /usr/local/bin/git ]; then
