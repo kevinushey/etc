@@ -4,6 +4,18 @@ if (interactive()) {
   
   .__Rprofile.env__. <- new.env()
   
+  ## ensure user library
+  userLibs <- Sys.getenv("R_LIBS_USER")
+  if (length(userLibs) && is.character(userLibs)) {
+    lapply(userLibs, function(lib) {
+      if (!file.exists(lib)) {
+        if (!dir.create(lib, recursive = TRUE)) {
+          warning("failed to create user library '", lib, "'")
+        }
+      }
+    })
+  }
+  
   ## use https repos
   options(repos = c(CRAN = "https://cran.rstudio.org"))
   
