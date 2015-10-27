@@ -4,22 +4,29 @@ PWD=`pwd`
 ## Some initial setup to figure out who we are
 UNAME=`uname`
 if [ "${UNAME}" = "Linux" ]; then
-	echo "System: Linux"
-	IS_LINUX=yes
+    echo "System: Linux"
+    IS_LINUX=yes
 elif [ "${UNAME}" = "Darwin" ]; then
-	echo "System: Darwin"
-	IS_DARWIN=yes
+    echo "System: Darwin"
+    IS_DARWIN=yes
 fi
 
 if [ -n "${IS_LINUX}" ]; then
-	if [ -n "$(lsb_release --id | grep Ubuntu)" ]; then
-		echo "Linux Type: Ubuntu"
-		IS_UBUNTU=yes
-	fi
+    if [ -f "/etc/redhat-release" ]; then
+	echo "Linux Type: Red Hat"
+	IS_REDHAT=yes
+    elif [ -n "$(lsb_release --id | grep Ubuntu)" ]; then
+	echo "Linux Type: Ubuntu"
+	IS_UBUNTU=yes
+    fi
 fi
 
 if [ -n "${IS_UBUNTU}" ]; then
-	./apply-ubuntu.sh
+    ./apply-ubuntu.sh
+fi
+
+if [ -n "${IS_REDHAT}" ]; then
+    ./apply-redhat.sh
 fi
 
 ## Set the 'bash' dotfile path
@@ -32,7 +39,7 @@ fi
 ln -fs ${PWD}/Bash/.bash_profile "${BASH_DOTFILE_PATH}"
 ## Also symlink to '.bashrc' on OS X (primarily to help out Emacs)
 if [ -n "${IS_DARWIN}" ]; then
-	ln -fs ~/.bash_profile ~/.bashrc
+    ln -fs ~/.bash_profile ~/.bashrc
 fi
 
 ## R
@@ -53,7 +60,7 @@ mkdir -p ~/.emacs.d
 ln -fs ${PWD}/Emacs/snippets ~/.emacs.d/snippets
 
 if [ -n "${IS_DARWIN}" ]; then
-	cp -R "${PWD}/Mac/Emacs/Emacs Daemon.app" "/Applications/Emacs Daemon.app"
+    cp -R "${PWD}/Mac/Emacs/Emacs Daemon.app" "/Applications/Emacs Daemon.app"
 fi
 
 ## Vim
@@ -67,7 +74,7 @@ ln -fs $HOME/.vimrc $HOME/.nvimrc
 ln -fs ${PWD}/.tigrc ~/.tigrc
 
 ## Git
-git config --global core.editor "vi"
+git config --global core.editor "vim"
 git config --global user.name "Kevin Ushey"
 git config --global push.default simple
 

@@ -15,6 +15,7 @@ if (interactive()) {
       }
     })
   }
+  .libPaths(userLibs)
   
   ## use https repos
   options(repos = c(CRAN = "https://cran.rstudio.org"))

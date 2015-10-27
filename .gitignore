@@ -4,4 +4,5 @@
 ## emacs temporary files
 \#*
 
+*.rpm
 .DS_Store
