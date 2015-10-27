@@ -21,7 +21,7 @@ export TERM="xterm-256color"
 # Hacky since we're just looking for the resolution but in practice
 # only high DPI displays will have such large resolutions.
 if [ -n "${IS_LINUX}" ]; then
-	RESOLUTION=`xrandr -q | grep '*' | head -n 1 | awk '{print($1)}'`
+	RESOLUTION=`xrandr -q 2> /dev/null | grep '*' | head -n 1 | awk '{print($1)}'`
 	RESOLUTION_X=`echo "${RESOLUTION}" | cut -d"x" -f1`
 	RESOLUTION_Y=`echo "${RESOLUTION}" | cut -d"x" -f2`
 	if test "${RESOLUTION_X}" -ge 3840 -a "${RESOLUTION_Y}" -ge 2160; then
