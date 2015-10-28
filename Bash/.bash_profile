@@ -338,7 +338,7 @@ if [ -n "${IS_DARWIN}" ]; then
   rstudio-dev () {
       OWD="$(pwd)"
       cd ~/git/rstudio/src/xcode-build
-      ./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio &
+      ./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio "$@" &
       cd $OWD
   }
 

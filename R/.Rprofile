@@ -5,17 +5,19 @@ if (interactive()) {
   .__Rprofile.env__. <- new.env()
   
   ## ensure user library
-  userLibs <- Sys.getenv("R_LIBS_USER")
-  if (length(userLibs) && is.character(userLibs)) {
-    lapply(userLibs, function(lib) {
-      if (!file.exists(lib)) {
-        if (!dir.create(lib, recursive = TRUE)) {
-          warning("failed to create user library '", lib, "'")
+  local({
+    userLibs <- Sys.getenv("R_LIBS_USER")
+    if (length(userLibs) && is.character(userLibs)) {
+      lapply(userLibs, function(lib) {
+        if (!file.exists(lib)) {
+          if (!dir.create(lib, recursive = TRUE)) {
+            warning("failed to create user library '", lib, "'")
+          }
         }
-      }
-    })
-  }
-  .libPaths(userLibs)
+      })
+    }
+    .libPaths(userLibs)
+  })
   
   ## use https repos
   options(repos = c(CRAN = "https://cran.rstudio.org"))
@@ -25,11 +27,13 @@ if (interactive()) {
   
   ## ensure custom library path available
   if (Sys.info()[["sysname"]] == "Darwin") {
-    rVersion <- unclass(getRversion())[[1]]
-    string <- paste(rVersion[1], rVersion[2], sep = ".")
-    libPath <- file.path("~/Library/R", string, "library")
-    if (!file.exists(libPath))
-      dir.create(libPath, recursive = TRUE)
+    local({
+      rVersion <- unclass(getRversion())[[1]]
+      string <- paste(rVersion[1], rVersion[2], sep = ".")
+      libPath <- file.path("~/Library/R", string, "library")
+      if (!file.exists(libPath))
+        dir.create(libPath, recursive = TRUE)
+    })
   }
   
   try_library <- function(x) {
