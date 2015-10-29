@@ -34,9 +34,6 @@ fi
 color_prompt=yes
 force_color_prompt=yes
 
-# Ask R to kindly keep debugging symbols
-export PKG_MAKE_DYM=yes
-
 # Utility aliases
 alias t="tmux attach 2> /dev/null || tmux"
 alias tc="vim ~/.tmux.conf"
