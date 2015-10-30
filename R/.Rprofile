@@ -22,6 +22,15 @@ if (interactive()) {
   ## use https repos
   options(repos = c(CRAN = "https://cran.rstudio.org"))
   
+  ## if using 'curl', ensure stderr redirected
+  local({
+    method <- getOption("download.file.method")
+    if (is.null(method) && Sys.which("curl") != "") {
+      options(download.file.method = "curl")
+      options(download.file.extra = "-L -f --stderr -")
+    }
+  })
+  
   ## always run Rcpp tests
   Sys.setenv(RunAllRcppTests = "yes")
   
@@ -46,13 +55,6 @@ if (interactive()) {
     )
   }
   
-  if (!suppressMessages(require(BiocInstaller))) {
-    warning("Could not load 'BiocInstaller'! Trying to install...")
-    library(utils)
-    source("http://bioconductor.org/biocLite.R")
-    biocLite()
-  }
-
   tryGet <- function(...) {
     lapply(list(...), function(package) {
       if (!suppressMessages(suppressWarnings(require(package, character.only = TRUE)))) {
