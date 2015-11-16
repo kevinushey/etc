@@ -22,9 +22,6 @@ call neobundle#begin(expand('~/.vim/bundle'))
 " was using 'vundle'; I am not sure if it is still true.)
 NeoBundle 'shougo/neobundle.vim'
 
-" Utilites for deferring command execution.
-NeoBundle 'tpope/vim-deferred'
-
 " NERDTree gives us a nice tree-based view of files and a nice interface for
 " interacting with said tree.
 NeoBundleLazy 'scrooloose/nerdtree', {'augroup' : 'NERDTree'}
