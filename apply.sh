@@ -30,17 +30,8 @@ if [ -n "${IS_REDHAT}" ]; then
 fi
 
 ## Set the 'bash' dotfile path
-if [ -n "${IS_LINUX}" ]; then
-    BASH_DOTFILE_PATH="${HOME}/.bashrc"
-else
-    BASH_DOTFILE_PATH="${HOME}/.bash_profile"
-fi
-
-ln -fs ${PWD}/Bash/.bash_profile "${BASH_DOTFILE_PATH}"
-## Also symlink to '.bashrc' on OS X (primarily to help out Emacs)
-if [ -n "${IS_DARWIN}" ]; then
-    ln -fs ~/.bash_profile ~/.bashrc
-fi
+ln -fs ${PWD}/Bash/.bash* ~/
+ln -fs ~/.bash_profile ~/.bashrc
 
 ## R
 ln -fs ${PWD}/R/.Rprofile ~/.Rprofile
