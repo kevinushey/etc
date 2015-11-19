@@ -50,6 +50,16 @@ replace () {
 
 }
 
+program-exists () {
+
+	if [ "$#" -ne 1 ]; then
+		echo "Usage: program-exists [program]"
+		return 1
+	fi
+
+	command -v "$1" > /dev/null 2>&1
+}
+
 # This is a cool function because the flags passed to
 # perl are 'pie' and we are 'chomp'ing.
 remove-trailing-newline () {

@@ -91,6 +91,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-endwise'
 
 " Autocompletion of various pairs.
+let g:AutoPairsMultilineClose = 0
 NeoBundle 'jiangmiao/auto-pairs'
 
 " Comment management.
