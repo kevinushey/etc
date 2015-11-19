@@ -58,12 +58,30 @@ alias gs="git status"
 
 alias bp="vim ~/.bash_profile"
 
+joined () {
+		local IFS="$1"
+		shift
+		echo "$*"
+}
+
+define-joined () {
+		local VARIABLE="$1"
+		shift
+		export "$VARIABLE"=`joined $*`
+}
+
 # Manually set up the PATH, just to ensure that all utilities we might want are
 # available (in the right order).
-#
-# TODO: I wonder if there's some way I could declare this as an array and then
-# join it as a string. Unfortunately, Bash doesn't make it so easy.
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/sbin/opt/X11/bin:/Library/TeX/texbin:/usr/texbin"
+define-joined PATH ":"              \
+							"/usr/local/bin"      \
+							"/usr/local/sbin"     \
+							"/usr/bin"            \
+							"/usr/sbin"           \
+							"/bin"                \
+							"/sbin"               \
+							"/sbin/opt/X11/bin"   \
+							"/Library/TeX/texbin" \
+							"/usr/texbin"
 
 ## Colors
 
