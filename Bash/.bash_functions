@@ -2,12 +2,34 @@
 
 ## Generic
 joined () {
+
+	if [ "$#" -le 1 ]; then
+		echo "Usage: joined [delimiter] [values...]"
+		return 1
+	fi
+
 	local IFS="$1"
 	shift
 	echo "$*"
 }
 
+define () {
+
+	if [ "$#" -ne 2 ]; then
+		echo "Usage: define [variable] [value]"
+		return 1
+	fi
+
+	export "$1"="$2"
+}
+
 define-joined () {
+
+	if [ "$#" -le 2 ]; then
+		echo "Usage: define-joined [variable] [delimiter] [values...]"
+		return 1
+	fi
+
 	local VARIABLE="$1"
 	shift
 	export "$VARIABLE"=`joined "$@"`
@@ -19,8 +41,8 @@ rot13 () {
 
 replace () {
 
-	if [ $# -ne 2 ]; then
-		echo "Usage: replace (from) (to)";
+	if [ "$#" -ne 2 ]; then
+		echo "Usage: replace [from] [to]";
 		return 1
 	fi
 
@@ -70,11 +92,11 @@ mov2gif () {
 
 ## Emacs
 increase-transparency () {
-	convert $1 -alpha on -channel a -evaluate Divide 1.25 +channel $1
+	convert "$1" -alpha on -channel a -evaluate Divide 1.25 +channel "$1"
 }
 
 reduce-transparency () {
-	convert $1 -alpha on -channel a -evaluate Divide 0.8 +channel $1
+	convert "$1" -alpha on -channel a -evaluate Divide 0.8 +channel "$1"
 }
 
 e () {
