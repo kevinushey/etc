@@ -61,13 +61,13 @@ alias bp="vim ~/.bash_profile"
 joined () {
 		local IFS="$1"
 		shift
-		echo "$*"
+		echo "$@"
 }
 
 define-joined () {
 		local VARIABLE="$1"
 		shift
-		export "$VARIABLE"=`joined $*`
+		export "$VARIABLE"=`joined "$@"`
 }
 
 # Manually set up the PATH, just to ensure that all utilities we might want are
