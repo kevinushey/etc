@@ -11,6 +11,7 @@ alias R="R_GC_MEM_GROW=3 R --min-vsize=2048M --min-nsize=20M --no-restore"
 
 if [ -n "${IS_DARWIN}" ]; then
 		alias ll='ls -laGFh'
+		alias lsregister=`locate lsregister`
 elif [ -n "${IS_LINUX}" ]; then
 		alias ls='ls --color'
 		alias ll='ls -laGFh --color'

@@ -187,5 +187,18 @@ if [ -n "${IS_DARWIN}" ]; then
 		cd $OWD
 	}
 
+	# Clear the launc services registry
+	lsregister-clear () {
+		lsregister -kill -r -domain local -domain user -domain system
+	}
+
+  clear-icon-cache () {
+      sudo find /private/var/folders/ -name com.apple.dock.iconcache -exec rm {} \; 2> /dev/null
+      sudo find /private/var/folders/ -name com.apple.iconservices -exec rm -rf {} \; 2> /dev/null
+      sudo rm -rf /Library/Caches/com.apple.iconservices.store
+
+      echo "Icon cache cleared. The icons will be refreshed next time you restart your system."
+  }
+
 fi
 
