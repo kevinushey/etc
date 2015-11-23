@@ -313,7 +313,6 @@ layers configuration."
 
   (define-key key-translation-map (kbd "C-c")  'dotspacemacs/config/smart-ctrl-c)
   (define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
-  (set-quit-char "C-c")
 
   ;; Allow <DEL> to delete the selection in visual mode.
   (define-key evil-visual-state-map (kbd "DEL") 'evil-delete)
