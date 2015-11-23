@@ -50,7 +50,7 @@ fi
 
 # Manually set up the PATH, just to ensure that all utilities we might want are
 # available (in the right order).
-define-joined PATH :                \
+define-joined PATH ":"              \
 			  "/usr/local/bin"      \
 			  "/usr/local/sbin"     \
 			  "/usr/bin"            \
@@ -134,7 +134,7 @@ git_prompt () {
 prompt_command () {
 	GIT_PROMPT=$(git_prompt)
 	# export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
-	export PS1="${Cyan}kevin:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
+	export PS1="${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
 }
 
 export PROMPT_COMMAND=prompt_command
