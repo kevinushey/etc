@@ -35,6 +35,7 @@ ln -fs ~/.bash_profile ~/.bashrc
 
 ## Emacs
 mkdir -p ~/.emacs.d
+rm -rf ~/.emacs.d/snippets
 ln -fs ${PWD}/editor/emacs/snippets ~/.emacs.d/snippets
 
 ## Vim
