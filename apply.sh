@@ -15,7 +15,7 @@ if [ -n "${IS_LINUX}" ]; then
     if [ -f "/etc/redhat-release" ]; then
 	echo "Linux Type: Red Hat"
 	IS_REDHAT=yes
-    elif [ -n "$(lsb_release --id | grep Ubuntu)" ]; then
+    elif [ -n `lsb_release --id | grep Ubuntu` ]; then
 	echo "Linux Type: Ubuntu"
 	IS_UBUNTU=yes
     fi
@@ -30,14 +30,10 @@ if [ -n "${IS_REDHAT}" ]; then
 fi
 
 ## Symlink all dotfiles
-ln -fs ${PWD}/misc/.[^.]* ~/
+ln -fs ${PWD}/dotfiles/.[^.]* ~/
 ln -fs ~/.bash_profile ~/.bashrc
 
-## R
-ln -fs ${PWD}/lang/r/.Rprofile ~/.Rprofile
-
 ## Emacs
-ln -fs ${PWD}/editor/emacs/.spacemacs ~/.spacemacs
 mkdir -p ~/.emacs.d
 ln -fs ${PWD}/editor/emacs/snippets ~/.emacs.d/snippets
 
