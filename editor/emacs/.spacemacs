@@ -146,7 +146,7 @@ before layers configuration."
    dotspacemacs-fullscreen-at-startup nil
 
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
-   ;; Use to disable fullscreen animations in OSX."
+   ;; Use to disable fullscreen animations in OSX.
    dotspacemacs-fullscreen-use-non-native nil
 
    ;; If non nil the frame is maximized when Emacs starts up.

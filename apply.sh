@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 PWD=`pwd`
 
 ## Some initial setup to figure out who we are
@@ -29,40 +29,23 @@ if [ -n "${IS_REDHAT}" ]; then
     ./apply-redhat.sh
 fi
 
-## Set the 'bash' dotfile path
-ln -fs ${PWD}/Bash/.bash* ~/
+## Symlink all dotfiles
+ln -fs ${PWD}/misc/.[^.]* ~/
 ln -fs ~/.bash_profile ~/.bashrc
 
 ## R
-ln -fs ${PWD}/R/.Rprofile ~/.Rprofile
-
-## go
-# echo "Installing Go utilities..."
-# go get -u github.com/nsf/gocode
-# go get -u code.google.com/p/go.tools/cmd/goimports
-# go get -u code.google.com/p/rog-go/exp/cmd/godef
-# go get -u code.google.com/p/go.tools/cmd/godoc
-# go get -u code.google.com/p/go.tools/cmd/vet
+ln -fs ${PWD}/lang/r/.Rprofile ~/.Rprofile
 
 ## Emacs
-ln -fs ${PWD}/Emacs/.spacemacs ~/.spacemacs
-
+ln -fs ${PWD}/editor/emacs/.spacemacs ~/.spacemacs
 mkdir -p ~/.emacs.d
-ln -fs ${PWD}/Emacs/snippets ~/.emacs.d/snippets
-
-if [ -n "${IS_DARWIN}" ]; then
-    cp -R "${PWD}/Mac/Emacs/Emacs Daemon.app" "/Applications/Emacs Daemon.app"
-fi
+ln -fs ${PWD}/editor/emacs/snippets ~/.emacs.d/snippets
 
 ## Vim
 mkdir -p ~/.vim
-rm -f ~/.vim/startup
-ln -fs $PWD/Vim/startup ~/.vim/startup
-ln -fs $PWD/Vim/.vimrc ~/.vimrc
-ln -fs $HOME/.vimrc $HOME/.nvimrc
-
-## tig
-ln -fs ${PWD}/.tigrc ~/.tigrc
+rm -rf ~/.vim/startup
+ln -fs ${PWD}/editor/vim/startup ~/.vim/startup
+ln -fs ~/.vimrc ~/.nvimrc
 
 ## Git
 git config --global core.editor "vim"
@@ -74,10 +57,7 @@ mkdir -p ~/.config/QtProject/qtcreator/styles
 mkdir -p ~/.config/QtProject/qtcreator/schemes
 mkdir -p ~/.config/QtProject/qtcreator/snippets
 
-cp ${PWD}/QtCreator/styles/*.xml ~/.config/QtProject/qtcreator/styles/
-cp ${PWD}/QtCreator/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
-cp ${PWD}/QtCreator/schemes/* ~/.config/QtProject/qtcreator/schemes/
-
-## Tmux
-ln -fs ${PWD}/tmux/.tmux.conf* ~/
+cp ${PWD}/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
+cp ${PWD}/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
+cp ${PWD}/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
 
