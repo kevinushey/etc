@@ -5,7 +5,7 @@ echo "Ubuntu flavour: '${FLAVOUR}'"
 
 CRAN_URL=http://cran.rstudio.com/bin/linux/ubuntu
 
-if [ -z `grep ${CRAN_URL} /etc/apt/sources.list` ]; then
+if [ -z "`grep ${CRAN_URL} /etc/apt/sources.list`" ]; then
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 	sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu ${FLAVOUR}/ >> /etc/apt/sources.list"
 	sudo apt-get update -y

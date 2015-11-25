@@ -15,7 +15,7 @@ if [ -n "${IS_LINUX}" ]; then
     if [ -f "/etc/redhat-release" ]; then
 	echo "Linux Type: Red Hat"
 	IS_REDHAT=yes
-    elif [ -n `lsb_release --id | grep Ubuntu` ]; then
+    elif [ -n "`lsb_release --id | grep 'Ubuntu'`" ]; then
 	echo "Linux Type: Ubuntu"
 	IS_UBUNTU=yes
     fi
