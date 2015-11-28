@@ -8,9 +8,11 @@ joined () {
 		return 1
 	fi
 
-	local IFS="$1"
+	OLD_IFS_="${IFS}"
+	IFS="$1"
 	shift
 	echo "$*"
+	IFS="${OLD_IFS_}"
 }
 
 defvar () {
@@ -37,6 +39,7 @@ defjoined () {
 	DEFJOINED_VARIABLE_="$1"
 	shift
 	defvar "${DEFJOINED_VARIABLE_}" `joined "$@"`
+	unset DEFJOINED_VARIABLE_
 }
 
 rot13 () {
