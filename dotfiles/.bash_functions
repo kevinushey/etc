@@ -4,7 +4,7 @@
 joined () {
 
 	if [ "$#" -le 1 ]; then
-		echo "Usage: joined [delimiter] [values...]"
+		echo "Usage: joined delimiter [values...]"
 		return 1
 	fi
 
@@ -13,26 +13,26 @@ joined () {
 	echo "$*"
 }
 
-define () {
+defvar () {
 
 	if [ "$#" -ne 2 ]; then
-		echo "Usage: define [variable] [value]"
+		echo "Usage: defvar variable value"
 		return 1
 	fi
 
-	export "$1"="$2"
+	eval "$1='$2'" && export "$1"
 }
 
-define-joined () {
+defjoined () {
 
 	if [ "$#" -le 2 ]; then
-		echo "Usage: define-joined [variable] [delimiter] [values...]"
+		echo "Usage: defjoined [variable] [delimiter] [values...]"
 		return 1
 	fi
 
-	local VARIABLE="$1"
+	DEFJOINED_VARIABLE_="$1"
 	shift
-	export "$VARIABLE"=`joined "$@"`
+	defvar "${DEFJOINED_VARIABLE_}" `joined "$@"`
 }
 
 rot13 () {
@@ -42,7 +42,7 @@ rot13 () {
 replace () {
 
 	if [ "$#" -ne 2 ]; then
-		echo "Usage: replace [from] [to]";
+		echo "Usage: replace from to";
 		return 1
 	fi
 
@@ -50,24 +50,24 @@ replace () {
 
 }
 
-program-exists () {
+hascmd () {
 
 	if [ "$#" -ne 1 ]; then
-		echo "Usage: program-exists [program]"
+		echo "Usage: hascmd command"
 		return 1
 	fi
 
 	command -v "$1" > /dev/null 2>&1
 }
 
-# This is a cool function because the flags passed to
-# perl are 'pie' and we are 'chomp'ing.
-remove-trailing-newline () {
-	perl -p -i -e 'chomp if eof' "$@"
-}
-
 # Navigate up a number of directories.
 up () {
+
+	if [ "$#" -eq 0 ]; then
+		echo "Usage: up n"
+		return 1
+	fi
+
 	COUNT=1
 	if test "$#" -eq 1
 	then
@@ -81,7 +81,13 @@ up () {
 }
 
 # Go to the directory for the first file with some name.
-goto-file () {
+goto () {
+
+	if [ "$#" -eq 0 ]; then
+		echo "Usage: goto file"
+		return 1
+	fi
+
 	cd `ag -g $1 | head -n 1 | xargs dirname`
 }
 
@@ -89,6 +95,11 @@ goto-file () {
 # Primarily used for quickly converting screencasts
 # into gifs (which can then be viewed online easily)
 mov2gif () {
+
+	if [ "$#" -eq 0 ]; then
+		echo "Usage: mov2gif input [output]"
+		return 1
+	fi
 
 	if test "$#" -eq 1; then
 		OUTPUT="$1"
@@ -101,13 +112,6 @@ mov2gif () {
 }
 
 ## Emacs
-increase-transparency () {
-	convert "$1" -alpha on -channel a -evaluate Divide 1.25 +channel "$1"
-}
-
-reduce-transparency () {
-	convert "$1" -alpha on -channel a -evaluate Divide 0.8 +channel "$1"
-}
 
 e () {
 	if test "$#" -eq 0; then
@@ -164,7 +168,7 @@ if [ -n "${IS_DARWIN}" ]; then
 	}
 
 	# Quickly switch between multiple versions of R.
-	r-switch () {
+	rswitch () {
 
 		if test "$#" -ne 1
 		then
@@ -180,25 +184,12 @@ if [ -n "${IS_DARWIN}" ]; then
 	}
 	# Launch the development version of RStudio. Presumes that
 	# it's been built in 'git/rstudio/src/xcode-build'.
-	rstudio-dev () {
+	rstudiodev () {
 		OWD="$(pwd)"
 		cd ~/git/rstudio/src/xcode-build
 		./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio "$@" &
 		cd $OWD
 	}
-
-	# Clear the launc services registry
-	lsregister-clear () {
-		lsregister -kill -r -domain local -domain user -domain system
-	}
-
-  clear-icon-cache () {
-      sudo find /private/var/folders/ -name com.apple.dock.iconcache -exec rm {} \; 2> /dev/null
-      sudo find /private/var/folders/ -name com.apple.iconservices -exec rm -rf {} \; 2> /dev/null
-      sudo rm -rf /Library/Caches/com.apple.iconservices.store
-
-      echo "Icon cache cleared. The icons will be refreshed next time you restart your system."
-  }
 
 fi
 

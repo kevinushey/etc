@@ -50,7 +50,7 @@ fi
 
 # Manually set up the PATH, just to ensure that all utilities we might want are
 # available (in the right order).
-define-joined PATH ":"              \
+defjoined PATH ":"                  \
 			  "/usr/local/bin"      \
 			  "/usr/local/sbin"     \
 			  "/usr/bin"            \
