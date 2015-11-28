@@ -1,27 +1,26 @@
 # -*- tab-width: 4, indent-tabs-mode: t -*-
 
-if [ -f ~/.bash_platform ]; then
-	. ~/.bash_platform
-fi
+import () {
 
-if [ -f ~/.bash_colors ]; then
-	. ~/.bash_colors
-fi
+	while test "$#" -ne 0; do
+		. "$1"
+		shift
+	done
 
-if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
-fi
+}
 
-if [ -f ~/.bash_functions ]; then
-	. ~/.bash_functions
-fi
+import                \
+	~/.bash_platform  \
+	~/.bash_colors    \
+	~/.bash_aliases   \
+	~/.bash_functions
 
 # Forcibly declare the terminal as 256 color
 defvar TERM "xterm-256color"
 
 # Figure out if we're running on a high DPI display. Primarily done
 # to work around bugs in Qt Creator on Linux
-if [ -n "${IS_LINUX}" ]; then
+if test -n "${IS_LINUX}"; then
 	RESOLUTION=`xrandr -q 2> /dev/null | grep '*' | head -n 1 | awk '{print($1)}'`
 	RESOLUTION_X=`echo "${RESOLUTION}" | cut -d"x" -f1`
 	RESOLUTION_Y=`echo "${RESOLUTION}" | cut -d"x" -f2`
@@ -60,11 +59,11 @@ defvar                                                  \
 
 # Go
 export GOPATH=~/goprojects
-if [ -n "${IS_DARWIN}" ]; then
+if test -n "${IS_DARWIN}"; then
 	defvar GOROOT "/usr/local/opt/go/libxec"
 fi
 
-if [ -n "${GOROOT}" ]; then
+if test -n "${GOROOT}"; then
 	defvar PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
 fi
 
