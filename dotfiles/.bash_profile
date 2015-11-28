@@ -43,80 +43,87 @@ defjoined PATH ":"                  \
 			  "/Library/TeX/texbin" \
 			  "/usr/texbin"
 
-## Exports
-export color_prompt=yes
-export force_color_prompt=yes
-
-export EDITOR="vim"
-export PYTHONSTARTUP=".pythonstartup.py"
-export NODE_PATH="/usr/local/lib/node"
-export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
-
-export GNUTERM='x11'
-
-export NAME=`rot13 "Xriva Hfurl"`
-export EMAIL=`rot13 "xrivahfurl@tznvy.pbz"`
+# Exports variables
+defvar                                                  \
+    NAME               "`rot13 'Xriva Hfurl'`"          \
+    EMAIL              "`rot13 'xrivahfurl@tznvy.pbz'`" \
+    EDITOR             "vim"                            \
+    GNUTERM            "x11"                            \
+                                                        \
+    color_prompt       "yes"                            \
+    force_color_prompt "yes"                            \
+    CLICOLORS          "1"                              \
+    LSCOLORS           "ExFxBxDxCxegedabagacad"         \
+                                                        \
+    PYTHONSTARTUP      ".pythonstartup.py"              \
+    NODE_PATH          "/usr/local/lib/node"
 
 # Go
 export GOPATH=~/goprojects
 if [ -n "${IS_DARWIN}" ]; then
-	export GOROOT=/usr/local/opt/go/libexec
+	defvar GOROOT "/usr/local/opt/go/libxec"
 fi
 
 if [ -n "${GOROOT}" ]; then
-	PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
+	defvar PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
 fi
 
-# Enable bash + git completion using Homebrew on OS X
-if [ -n "${IS_DARWIN}" ]; then
+# Enable Bash-specific features
+if test -n "$BASH"; then
 
-	if [ -f $(brew --prefix)/etc/bash_completion ]; then
-		. $(brew --prefix)/etc/bash_completion
-	fi
+	# Homebrew-related completion for bash on OS X
+	if test -n "${IS_DARWIN}"; then
 
-	if [ -f $(brew --prefix)/etc/bash_completion.d ]; then
-		. $(brew --prefix)/etc/bash_completion.d
-	fi
-
-	if [ -f ~/git-completion.bash ]; then
-		source ~/git-completion.bash
-	fi
-
-fi
-
-# Enable git completion on Linux
-if [ -n "${IS_LINUX}" ]; then
-
-	if [ ! -f ~/.git-completion.bash ]; then
-		curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
-	fi
-	source ~/.git-completion.bash
-fi
-
-# For git-managed directories, make a nice prompt.
-git_prompt () {
-
-	GIT_STATUS=$(git status -sb --porcelain 2> /dev/null | head -n 1)
-
-	if test -n "${GIT_STATUS}"
-	then
-		GIT_STATUS=$(echo "${GIT_STATUS}" | sed 's|## *||')
-		GIT_START=$(echo "${GIT_STATUS}" | sed 's|\.\.\..*||g')
-		if [[ "${GIT_START}" =~ "no branch" ]]; then
-			GIT_START=$(git -c color.status=false status | head -n 1)
+		if [ -f $(brew --prefix)/etc/bash_completion ]; then
+			. $(brew --prefix)/etc/bash_completion
 		fi
-		echo -e " ${Red}[${GIT_START}]${Color_Off}"
-	else
-		echo ""
+
+		if [ -f $(brew --prefix)/etc/bash_completion.d ]; then
+			. $(brew --prefix)/etc/bash_completion.d
+		fi
+
+		if [ -f ~/git-completion.bash ]; then
+			. ~/git-completion.bash
+		fi
+
 	fi
-}
 
-# Override prompt_command to use the aforementioned git_prompt
-prompt_command () {
-	GIT_PROMPT=$(git_prompt)
-	# export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
-	export PS1="${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
-}
+	# Enable git completion on Linux
+	if [ -n "${IS_LINUX}" ]; then
 
-export PROMPT_COMMAND=prompt_command
+		if [ ! -f ~/.git-completion.bash ]; then
+			curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+		fi
+		. ~/.git-completion.bash
+	fi
+
+	# For git-managed directories, make a nice prompt.
+	git_prompt () {
+
+		GIT_STATUS=$(git status -sb --porcelain 2> /dev/null | head -n 1)
+
+		if test -n "${GIT_STATUS}"
+		then
+			GIT_STATUS=$(echo "${GIT_STATUS}" | sed 's|## *||')
+			GIT_START=$(echo "${GIT_STATUS}" | sed 's|\.\.\..*||g')
+			if [[ "${GIT_START}" =~ "no branch" ]]; then
+				GIT_START=$(git -c color.status=false status | head -n 1)
+			fi
+			echo -e " ${Red}[${GIT_START}]${Color_Off}"
+		else
+			echo ""
+		fi
+	}
+
+	# Override prompt_command to use the aforementioned git_prompt
+	prompt_command () {
+		GIT_PROMPT=$(git_prompt)
+		# export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
+		export PS1="${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
+	}
+
+	export PROMPT_COMMAND=prompt_command
+
+
+fi
+
