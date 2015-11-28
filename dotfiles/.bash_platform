@@ -1,0 +1,27 @@
+# NOTE: Although I normally prefer to indent with spaces,
+# because we use heredocs within (and those only respect
+# leading tabs properly, not spaces), we use Tabs instead.
+
+# Since I use the same .bash_profile (.bashrc) for both
+# Linux and OS X systems, I need to check whether the current
+# System is actually Linux or OS X for some commands.
+
+if [ "`uname`" = "Darwin" ]; then
+	IS_DARWIN="yes"
+	export IS_DARWIN
+elif [ "`uname`" = "Linux" ]; then
+	IS_LINUX="yes"
+	export IS_LINUX
+fi
+
+# Try to figure out what type of Linux distribution we're
+# running with. So far, we just detect Ubuntu.
+if test -n "`command -v lsb_release 2> /dev/null`"; then
+	DISTRO=`lsb_release -i | cut -d":" -f2 | sed "s|[ \t]||g"`
+	if [ "${DISTRO}" = "Ubuntu" ]; then
+		IS_UBUNTU="yes"
+		export IS_UBUNTU
+	fi
+fi
+
+

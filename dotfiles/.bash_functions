@@ -15,18 +15,22 @@ joined () {
 
 defvar () {
 
-	if [ "$#" -ne 2 ]; then
-		echo "Usage: defvar variable value"
+	if test "$#" -eq 0; then
+		echo "Usage: defvar [variable value]+"
 		return 1
 	fi
 
-	eval "$1='$2'" && export "$1"
+	while test "$#" -ge 2; do
+		eval "$1='$2'" && export "$1"
+		shift 2
+	done
+
 }
 
 defjoined () {
 
 	if [ "$#" -le 2 ]; then
-		echo "Usage: defjoined [variable] [delimiter] [values...]"
+		echo "Usage: defjoined variable delimiter [values...]"
 		return 1
 	fi
 
