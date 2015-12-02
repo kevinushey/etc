@@ -215,9 +215,12 @@ layers configuration."
   ;; mask the current selection)
   (set-face-background 'hl-line "#2F2F2F")
 
-  ;; Tell smartparens to indent when inserting newline within '()'
-  (sp-with-modes '(c-mode c++-mode js2-mode ess-mode)
-    (sp-local-pair "(" ")" :post-handlers '(("||\n[i]" "RET"))))
+  ;; Tell smartparens to indent when inserting newline within '()'.
+  (add-hook
+   'smartparens-mode-hook
+   (lambda ()
+     (sp-with-modes '(c-mode c++-mode js2-mode ess-mode)
+       (sp-local-pair "(" ")" :post-handlers '(("||\n[i]" "RET"))))))
 
   ;; Workaround for yasnippet + smartparens incompatibility
   (add-hook 'yas-before-expand-snippet-hook (lambda () (smartparens-mode -1)))
