@@ -309,18 +309,23 @@ layers configuration."
 
   ;; Ensure that 'Ctrl + C' returns to Normal mode.
   (defun dotspacemacs/config/smart-ctrl-c (prompt)
-    (if (not (eq company-pseudo-tooltip-overlay nil))
-        (progn
-          (company-pseudo-tooltip-hide)
-          (kbd "C-g"))
-      (cond
-       ((or
-         (evil-insert-state-p)
-         (evil-normal-state-p)
-         (evil-replace-state-p)
-         (evil-visual-state-p))
-        [escape])
-       (t (kbd "C-g")))))
+    (cond
+
+     ((not (eq company-pseudo-tooltip-overlay nil))
+      (progn
+        (company-pseudo-tooltip-hide)
+        (kbd "C-g")))
+
+     ((string-equal (file-name-base (buffer-file-name)) "COMMIT_EDITMSG")
+      (kbd "C-c"))
+
+     ((or (evil-insert-state-p)
+          (evil-normal-state-p)
+          (evil-replace-state-p)
+          (evil-visual-state-p))
+      [escape])
+
+     (t (kbd "C-g"))))
 
   (define-key key-translation-map (kbd "C-c")  'dotspacemacs/config/smart-ctrl-c)
   (define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
