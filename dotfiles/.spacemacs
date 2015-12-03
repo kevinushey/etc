@@ -312,20 +312,24 @@ layers configuration."
   (defun dotspacemacs/config/smart-ctrl-c (prompt)
     (cond
 
+     ;; Allow C-c to close a (company) autocompletion popup.
      ((not (eq company-pseudo-tooltip-overlay nil))
       (progn
         (company-pseudo-tooltip-hide)
         (kbd "C-g")))
 
+     ;; Allow C-c C-c to perform a commit.
      ((string-equal (file-name-base (buffer-file-name)) "COMMIT_EDITMSG")
       (kbd "C-c"))
 
+     ;; Allow C-c to return to normal mode from various other modes.
      ((or (evil-insert-state-p)
           (evil-normal-state-p)
           (evil-replace-state-p)
           (evil-visual-state-p))
       [escape])
 
+     ;; Otherwise, treat it as a generic quit.
      (t (kbd "C-g"))))
 
   (define-key key-translation-map (kbd "C-c")  'dotspacemacs/config/smart-ctrl-c)
