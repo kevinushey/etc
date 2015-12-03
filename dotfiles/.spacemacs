@@ -20,12 +20,13 @@
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
 
-     ;; Languages
      (auto-completion
       :variables
       auto-completion-enable-snippets-in-popup t
       auto-completion-enable-help-tooltip t
       auto-completion-enable-sort-by-usage t)
+     (c-c++
+      c-c++-enable-clang-support t)
      colors
      emacs-lisp
      ess
