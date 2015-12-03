@@ -208,7 +208,7 @@ before layers configuration."
 
 ;; Doesn't exist anymore?
 (defun system-is-mac ()
- (eq system-type 'darwin))
+  (eq system-type 'darwin))
 
 (defun dotspacemacs/user-config ()
   "Configuration function.
@@ -319,7 +319,7 @@ layers configuration."
         (kbd "C-g")))
 
      ;; Allow C-c C-c to perform a commit.
-     ((string-equal (file-name-base (buffer-file-name)) "COMMIT_EDITMSG")
+     ((equal (file-name-base (or (buffer-file-name) "")) "COMMIT_EDITMSG")
       (kbd "C-c"))
 
      ;; Allow C-c to return to normal mode from various other modes.
@@ -332,6 +332,8 @@ layers configuration."
      ;; Otherwise, treat it as a generic quit.
      (t (kbd "C-g"))))
 
+  ;; Place the binding in the 'key-translation-map' so that
+  ;; it comes into effect before anyone else gets a chance to touch it.
   (define-key key-translation-map (kbd "C-c")  'dotspacemacs/config/smart-ctrl-c)
   (define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
 
