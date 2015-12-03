@@ -19,16 +19,19 @@
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     (auto-completion :variables
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t)
-     c-c++
+
+     ;; Languages
+     (auto-completion
+      :variables
+      auto-completion-enable-snippets-in-popup t
+      auto-completion-enable-help-tooltip t
+      auto-completion-enable-sort-by-usage t)
      colors
-     company-mode
      emacs-lisp
      ess
-     (git :variables
-          git-gutter-use-fringe t)
+     (git
+      :variables
+      git-gutter-use-fringe t)
      html
      javascript
      markdown
@@ -37,6 +40,11 @@
      smex
      syntax-checking
      ycmd
+
+     evil-commentary
+     unimpaired
+     vim-empty-lines
+     vinegar
      )
 
    ;; List of additional packages that will be installed wihout being
