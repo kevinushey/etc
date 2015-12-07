@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+set -evx
+
 PWD=`pwd`
 
 ## Some initial setup to figure out who we are
@@ -30,7 +32,7 @@ if [ -n "${IS_REDHAT}" ]; then
 fi
 
 ## Symlink all dotfiles
-ln -fs ${PWD}/dotfiles/.[^.]* ~/
+ln -fs ${PWD}/dotfiles/.??* ~/
 ln -fs ~/.bash_profile ~/.bashrc
 
 ## Emacs
