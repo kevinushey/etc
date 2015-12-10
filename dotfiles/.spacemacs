@@ -26,6 +26,7 @@
       auto-completion-enable-help-tooltip t
       auto-completion-enable-sort-by-usage t)
      (c-c++
+      :variables
       c-c++-enable-clang-support t)
      colors
      emacs-lisp
