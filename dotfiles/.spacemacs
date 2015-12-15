@@ -19,34 +19,28 @@
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-
      (auto-completion
       :variables
       auto-completion-enable-snippets-in-popup t
       auto-completion-enable-help-tooltip t
       auto-completion-enable-sort-by-usage t)
-     (c-c++
-      :variables
-      c-c++-enable-clang-support t)
      colors
      emacs-lisp
      ess
-     (git
-      :variables
-      git-gutter-use-fringe t)
+     evil-commentary
+     git
      html
+     irony
      javascript
      markdown
      ruby
      shell
      smex
      syntax-checking
-     ycmd
-
-     evil-commentary
      unimpaired
      vim-empty-lines
      vinegar
+     ycmd
      )
 
    ;; List of additional packages that will be installed wihout being
@@ -217,6 +211,9 @@ before layers configuration."
 layers configuration."
 
   ;;; General
+
+  ;; Enable ycmd.
+  (setq ycmd-server-command `("python" ,(expand-file-name "~/.ycmd")))
 
   ;; Don't remap 'Y' to 'y$'. C'mon spacemacs.
   (setq dotspacemacs-remap-Y-to-y$ nil)
