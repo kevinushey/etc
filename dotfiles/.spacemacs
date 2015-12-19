@@ -205,6 +205,31 @@ before layers configuration."
 (defun system-is-mac ()
   (eq system-type 'darwin))
 
+(defun dotspacemacs/ensure-irony-server-installed ()
+
+  (let ((irony-server-path (expand-file-name "~/.emacs.d/irony/bin/irony-server")))
+
+    (when (not (file-exists-p dotspacemacs//irony-server-path))
+      (irony-install-server))
+
+    (when (system-is-mac)
+      (let* ((rpath-from "@rpath/libclang.dylib")
+             (rpath-to "/usr/local/opt/llvm/lib/libclang.dylib")
+             (command (mapconcat
+              'identity
+              `(
+                "install_name_tool"
+                "-change"
+                ,rpath-from
+                ,rpath-to
+                ,irony-server-path) " ")))
+        (shell-command command))
+      )
+    )
+  )
+
+(dotspacemacs/ensure-irony-server-installed)
+
 (defun dotspacemacs/user-config ()
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
