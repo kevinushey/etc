@@ -3,6 +3,7 @@
 alias t="tmux attach 2> /dev/null || tmux"
 alias tc="vim ~/.tmux.conf"
 alias v="vim"
+alias vi="vim -u ~/.vim/startup/sensible.vim"
 
 alias rgrep="grep -r"
 alias untar="tar -xvf"
