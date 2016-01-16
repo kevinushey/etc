@@ -426,6 +426,27 @@ layers configuration."
     )
 
   ;;; C / C++
+
+  ;; Indentation rules
+  (setq-default c-default-style "java"
+                c-indent-tabs-mode nil
+                c-basic-offset 4)
+
+  (c-set-offset 'substatement-open '0)
+  (c-set-offset 'inline-open '+)
+  (c-set-offset 'block-open '+)
+  (c-set-offset 'brace-list-open '+)
+  (c-set-offset 'case-label '+)
+  (c-set-offset 'innamespace 0)
+
+  (defun c++-template-args-cont (el)
+    (save-excursion
+      (beginning-of-line)
+      (if (re-search-forward "^[\t ]*>" (line-end-position) t)
+          0)))
+
+  (c-set-offset 'template-args-cont '(c++-template-args-cont c-lineup-template-args +))
+
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
   ;;; Magit
