@@ -118,8 +118,6 @@ Source "~/.vim/startup/package/neocomplete.vim"
 " Easy-motion. Like Ace jump. I don't know who came first.
 NeoBundle 'Lokaltog/vim-easymotion'
 
-NeoBundle 'nathanaelkane/vim-indent-guides'
-
 " Python-related stuff. Note that I don't write python very often.
 NeoBundleLazyFiletype 'davidhalter/jedi-vim' 'python'
 
