@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -evx
 
-PWD=`pwd`
+DIR=`pwd`
 
 ## Some initial setup to figure out who we are
 UNAME=`uname`
@@ -32,21 +32,27 @@ if [ -n "${IS_REDHAT}" ]; then
 fi
 
 ## Symlink all dotfiles
-ln -fs ${PWD}/dotfiles/.??* ~/
+ln -fs ${DIR}/dotfiles/.??* ~/
 ln -fs ~/.bash_profile ~/.bashrc
 
 ## Emacs
-mkdir -p ~/.emacs.d
+if [ ! -d ~/.emacs.d ]; then
+    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+fi
+
+cd ~/.emacs.d
+git reset --hard origin/master
+cd ${DIR}
 
 rm -rf ~/.emacs.d/snippets
-ln -fs ${PWD}/editor/emacs/snippets ~/.emacs.d/snippets
+ln -fs ${DIR}/editor/emacs/snippets ~/.emacs.d/snippets
 rm -rf ~/.emacs.d/private
-ln -fs ${PWD}/editor/emacs/private-layers ~/.emacs.d/private
+ln -fs ${DIR}/editor/emacs/private-layers ~/.emacs.d/private
 
 ## Vim
 mkdir -p ~/.vim
 rm -rf ~/.vim/startup
-ln -fs ${PWD}/editor/vim/startup ~/.vim/startup
+ln -fs ${DIR}/editor/vim/startup ~/.vim/startup
 ln -fs ~/.vimrc ~/.nvimrc
 
 ## Git
@@ -59,7 +65,7 @@ mkdir -p ~/.config/QtProject/qtcreator/styles
 mkdir -p ~/.config/QtProject/qtcreator/schemes
 mkdir -p ~/.config/QtProject/qtcreator/snippets
 
-cp ${PWD}/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
-cp ${PWD}/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
-cp ${PWD}/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
+cp ${DIR}/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
+cp ${DIR}/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
+cp ${DIR}/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
 
