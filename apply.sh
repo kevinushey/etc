@@ -24,11 +24,11 @@ if [ -n "${IS_LINUX}" ]; then
 fi
 
 if [ -n "${IS_UBUNTU}" ]; then
-    ./apply-ubuntu.sh
+    ./apply/apply-ubuntu.sh
 fi
 
 if [ -n "${IS_REDHAT}" ]; then
-    ./apply-redhat.sh
+    ./apply/apply-redhat.sh
 fi
 
 ## Symlink all dotfiles
