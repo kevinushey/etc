@@ -23,7 +23,8 @@ sudo apt-get install -y -q \
 	libxt-dev \
 	python-dev \
 	ruby-dev \
-	mercurial
+	mercurial \
+	ruby
 
 ## Download the sources
 echo "Downloading Vim sources..."
