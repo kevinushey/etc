@@ -117,6 +117,7 @@ if has("lua")
     Source "~/.vim/startup/package/neocomplete.vim"
 else
     NeoBundle 'ervandew/supertab'
+    let g:SuperTabDefaultCompletionType = "<c-n>"
 endif
 
 " Easy-motion. Like Ace jump. I don't know who came first.
