@@ -235,6 +235,13 @@ layers configuration."
   ;; Don't remap 'Y' to 'y$'. C'mon spacemacs.
   (setq dotspacemacs-remap-Y-to-y$ nil)
 
+  ;; Ensure that 'usr/local/bin' is on the exec-path. This ensures that
+  ;; e.g. 'ag' can be located on OS X.
+  (when (and
+         (not (eq system-type 'windows-nt))
+         (not (member "/usr/local/bin" exec-path)))
+    (setq exec-path (append '("/usr/local/bin") exec-path)))
+
   ;; Make the current line highlighting a bit less prominent (so it doesn't
   ;; mask the current selection)
   (set-face-background 'hl-line "#2F2F2F")
