@@ -24,7 +24,7 @@ git config --global credential.helper wincred
 
 REM Set up _vimrc.
 if not exist "%HOME%\.vim" mkdir "%HOME%\.vim"
-set "VIMRC_DOTFILE_FROM=%PWD%\editor\vim\.vimrc"
+set "VIMRC_DOTFILE_FROM=%PWD%\dotfiles\.vimrc"
 set "VIMRC_DOTFILE_TO=%HOME%\_vimrc"
 
 rm "%VIMRC_DOTFILE_TO%"
