@@ -113,7 +113,11 @@ endif
 " Use Shougo's autocompletion. Because it requires a lot
 " of configuration to make sure it works well, everything is
 " moved to a separate file.
-Source "~/.vim/startup/package/neocomplete.vim"
+if has("lua")
+    Source "~/.vim/startup/package/neocomplete.vim"
+else
+    NeoBundle 'ervandew/supertab'
+endif
 
 " Easy-motion. Like Ace jump. I don't know who came first.
 NeoBundle 'Lokaltog/vim-easymotion'
