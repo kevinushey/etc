@@ -66,8 +66,12 @@ let g:spf13_leader = "\<Space>"
 let g:spf13_no_omni_complete = 1
 
 " Need to ensure all packages have finished loading before
-" calling these functions.
+" calling these functions. Also avoid spf13.vim munging the
+" runtimepath.
+let g:RunTimePath = &rtp
 Source "~/.vim/startup/spf13.vim"
+let &runtimepath = g:RunTimePath
+
 Source "~/.vim/startup/global.vim"
 
 " Global overrides
