@@ -167,6 +167,10 @@ ec () {
 
 }
 
+b64encode () {
+	openssl base64 -in $1 | tr -d '\n'
+}
+
 
 if [ -n "${IS_DARWIN}" ]; then
 
