@@ -1,9 +1,8 @@
 if (interactive()) {
 
   .Start.time <- as.numeric(Sys.time())
-  
   .__Rprofile.env__. <- new.env()
-  
+
   ## ensure user library
   local({
     userLibs <- Sys.getenv("R_LIBS_USER")
@@ -18,10 +17,38 @@ if (interactive()) {
     }
     .libPaths(userLibs)
   })
-  
+
+  ## ensure Rtools on PATH for Windows
+  if (Sys.info()[["sysname"]] == "Windows") {
+    PATH <- Sys.getenv("PATH", unset = "")
+    paths <- strsplit(PATH, .Platform$path.sep, fixed = TRUE)[[1]]
+    hasRtools <- any(file.exists(file.path(paths, "Rtools.txt")))
+    if (!hasRtools) {
+      candidates <- c("C:\\Rtools")
+      discovered <- FALSE
+      for (candidate in candidates) {
+        if (file.exists(file.path(candidate, "Rtools.txt"))) {
+          new <- c(file.path(candidate, "bin", fsep = "\\"),
+                   file.path(candidate, "gcc-4.6.3\\bin", fsep = "\\"))
+          PATH <- paste(
+            paste(new, collapse = ";"),
+            PATH,
+            sep = ";"
+          )
+          Sys.setenv(PATH = PATH)
+          discovered <- TRUE
+          break
+        }
+      }
+
+      if (!discovered)
+        warning("Failed to discover Rtools on the PATH")
+    }
+  }
+
   ## use https repos
   options(repos = c(CRAN = "https://cran.rstudio.org"))
-  
+
   ## if using 'curl', ensure stderr redirected
   local({
     method <- getOption("download.file.method")
@@ -30,10 +57,10 @@ if (interactive()) {
       options(download.file.extra = "-L -f --stderr -")
     }
   })
-  
+
   ## always run Rcpp tests
   Sys.setenv(RunAllRcppTests = "yes")
-  
+
   ## ensure custom library path available
   if (Sys.info()[["sysname"]] == "Darwin") {
     local({
@@ -44,7 +71,7 @@ if (interactive()) {
         dir.create(libPath, recursive = TRUE)
     })
   }
-  
+
   try_library <- function(x) {
     tryCatch(
       library(match.call()$x),
@@ -54,7 +81,7 @@ if (interactive()) {
         invisible(NULL)
     )
   }
-  
+
   tryGet <- function(...) {
     lapply(list(...), function(package) {
       if (!suppressMessages(suppressWarnings(require(package, character.only = TRUE)))) {
@@ -124,7 +151,7 @@ if (interactive()) {
   attr(.template, "class") <- "__template__"
   print.__template__ <- function(x, ...)
     file.edit("~/Dropbox/R/kPackages/Kmisc/inst/resources/markdown_HTML_template.html", ...)
-  
+
   assign(".template", .template, envir = .__Rprofile.env__.)
   assign("print.__template__", print.__template__, envir = .__Rprofile.env__.)
 
@@ -218,24 +245,24 @@ if (interactive()) {
 
     rm(.CSS, envir = .GlobalEnv)
     rm(print.__CSS__, envir = .GlobalEnv)
-    
+
     rm(.Rprofile, envir = .GlobalEnv)
     rm(print.__Rprofile__, envir = .GlobalEnv)
-    
+
     rm(.template, envir = .GlobalEnv)
     rm(print.__template__, envir = .GlobalEnv)
-    
+
     rm(Makevars, envir = .GlobalEnv)
     rm(print.__Makevars__, envir = .GlobalEnv)
-    
+
     rm(nametree, envir = .GlobalEnv)
-    
+
     rm(try_library, envir = .GlobalEnv)
     rm(ig, envir = .GlobalEnv)
-    
+
     ## clean up the git statu
     rm(git, envir = .GlobalEnv)
-    
+
     rm(git_status, envir = .GlobalEnv)
     rm(print.__git_status__, envir = .GlobalEnv)
 

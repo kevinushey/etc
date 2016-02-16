@@ -27,13 +27,18 @@ if not exist "%HOME%\.vim" mkdir "%HOME%\.vim"
 set "VIMRC_DOTFILE_FROM=%PWD%\dotfiles\.vimrc"
 set "VIMRC_DOTFILE_TO=%HOME%\_vimrc"
 
-rm "%VIMRC_DOTFILE_TO%"
+del "%VIMRC_DOTFILE_TO%"
 mklink /H "%VIMRC_DOTFILE_TO%" "%VIMRC_DOTFILE_FROM%"
 mklink /H "%HOME%\.vimrc" "%VIMRC_DOTFILE_TO%"
 
 REM Link in other supporting Vim files.
 set "VIM_STARTUP_DIR=%PWD%\editor\vim\startup"
 mklink /J "%HOME%\.vim\startup" "%VIM_STARTUP_DIR%"
+
+REM Copy over the .Rprofile.
+set "RPROFILE_DOTFILE_FROM=%PWD%\dotfiles\.Rprofile"
+set "RPROFILE_DOTFILE_TO=%HOME%\.Rprofile"
+mklink /H %RPROFILE_DOTFILE_TO% %RPROFILE_DOTFILE_FROM%
 
 REM Copy over Qt Creator related items.
 set "QT_CREATOR_DIR=%HOME%\AppData\Roaming\QtProject\qtcreator"
