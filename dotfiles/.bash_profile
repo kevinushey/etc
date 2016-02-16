@@ -22,6 +22,10 @@ if test -n "${IS_LINUX}"; then
 			. /etc/bash_completion
 		fi
 	fi
+
+	# work around Qt Creator crashes
+	LIBGL_ALWAYS_SOFTWARE=1
+	export LIBGL_ALWAYS_SOFTWARE
 fi
 
 # Forcibly declare the terminal as 256 color
