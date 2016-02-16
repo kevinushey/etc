@@ -16,5 +16,6 @@ if [ -n "${IS_DARWIN}" ]; then
 elif [ -n "${IS_LINUX}" ]; then
 		alias ls='ls --color'
 		alias ll='ls -laGFh --color'
+		alias qtcreator="qtcreator -noload Welcome -noload QmlDesigner -noload QmlProfiler"
 fi
 
