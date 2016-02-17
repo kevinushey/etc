@@ -120,12 +120,12 @@ if (interactive()) {
   if (!suppressMessages(require(knitr)))
     message("Warning: 'knitr' could not be loaded!")
 
-  opts_chunk$set(
-    fig.height = 5,
-    fig.width  = 7.5,
-    out.extra  = '',
-    tidy       = FALSE,
-    results    = "asis"
+  opts_chunk$set(NULL
+    , fig.height = 5
+    , fig.width  = 7.5
+    , out.extra  = ''
+    , tidy       = FALSE
+    # , results    = "asis"
   )
 
   ## .Rprofile opens .Rprofile for editing
