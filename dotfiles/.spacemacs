@@ -474,22 +474,6 @@ layers configuration."
 
   ;;; JavaScript
 
-  ;; Don't indent within 'define' statements.
-  (defun require-def-deindent (list index)
-    (when (and (eq (nth 0 parse-status) 2)
-               (save-excursion
-                 (let ((tl-point (syntax-ppss-toplevel-pos parse-status)))
-                   (goto-char tl-point)
-                   (backward-word 1)
-                   (equal "define" (buffer-substring (point) tl-point))))
-               ;; only intercede if they are suggesting what the sexprs suggest
-               (let ((suggested-column (js2-proper-indentation parse-status)))
-                 (eq (nth index list) suggested-column))
-               )
-      (indent-line-to 0)
-      't
-      ))
-
   ;; Patch for company-tern (allow for nil depth)
   (eval-after-load
       'company-tern
@@ -508,16 +492,7 @@ layers configuration."
      ;; Use local .jshintrc
      (setq flycheck-jshintrc "~/.emacs.d/.jshintrc")
 
-     ;; Don't indent within 'define' functions.
-     (defadvice js2-indent-line (around js2-indent-line-around)
-       ad-do-it
-       (let ((parse-status (save-excursion
-                             (parse-partial-sexp (point-min) (point-at-bol))))
-             positions)
-         (push (current-column) positions)
-         (require-def-deindent positions 0)))
-     (ad-activate 'js2-indent-line)
-
+     ;; Electric indent for '{', '}'
      (setq electric-indent-chars (list ?{ ?}))
 
      (flycheck-mode t)
