@@ -18,12 +18,6 @@ sudo apt-get check neovim || (
    sudo apt-get install -y neovim
 )
 
-sudo apt-get check emacs-snapshot || (
-   sudo add-apt-repository ppa:ubuntu:elisp/ppa
-   sudo apt-get update
-   sudo apt-get install -y emacs-snapshot emacs-snapshot-el
-)
-
 sudo apt-get install -y        \
 	vim                    \
 	libxml2-dev            \
