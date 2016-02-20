@@ -41,11 +41,16 @@ NeoBundle 'flazz/vim-colorschemes'
 "    2. The defaults are _really_ nice. So nice that I don't even feel like
 "       bothering with configuration.
 "
+" Unfortunately this is becoming less true as now I need to install
+" a separate plugin that provides airline themes, I mean seriously
+" I just want a fancy little line thing stop over-engineering it
+"
 " TODO: Magically install powerline-ready fonts, so we get nice symbols.
 " However, since I'm probably using Vim from a terminal I'm not sure how
 " much utility there will be.
 Define g:airline#extension#tagbar#enabled = 0
-NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'bling/vim-bufferline'
 
 " CTRL + P for quick file searching is wonderful.
