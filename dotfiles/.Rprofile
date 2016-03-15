@@ -18,6 +18,9 @@ if (interactive()) {
     .libPaths(userLibs)
   })
 
+  ## work around R setting TAR to incorrect PATH
+  Sys.setenv(TAR = Sys.which("tar"))
+
   ## ensure Rtools on PATH for Windows
   if (Sys.info()[["sysname"]] == "Windows") {
     PATH <- Sys.getenv("PATH", unset = "")
