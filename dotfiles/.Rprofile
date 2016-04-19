@@ -154,6 +154,39 @@
   
   assign("git", Git, envir = .__Rprofile.env__.)
   
+  # ensure commonly-used packages are installed, loaded
+  quietly <- function(expr) {
+    status <- FALSE
+    suppressWarnings(suppressMessages(
+      utils::capture.output(status <- expr)
+    ))
+    status
+  }
+  
+  install <- function(package) {
+    code <- sprintf(
+      "utils::install.packages('%s', lib = '%s', repos = '%s')",
+      package,
+      .libPaths()[[1]],
+      getOption("repos")[["CRAN"]]
+    )
+    R <- file.path(R.home("bin"), "R")
+    cmd <- paste(shQuote(R), "-e", shQuote(code))
+    system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
+  }
+  
+  packages <- c("devtools", "roxygen2", "knitr", "rmarkdown")
+  invisible(lapply(packages, function(package) {
+    
+    if (quietly(require(package, character.only = TRUE, quietly = TRUE)))
+      return()
+    
+    message("Installing '", package, "' ... ", appendLF = FALSE)
+    status <- install(package)
+    message(if (!status) "OK" else "FAIL")
+    
+  }))
+  
   # display startup message(s)
   msg <- if (length(.libPaths()) > 1)
     "Using libraries at paths:\n"
