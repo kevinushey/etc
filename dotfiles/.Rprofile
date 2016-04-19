@@ -40,7 +40,7 @@
   })
   
   # Ensure TAR is set (for e.g. Snow Leopard builds of R)
-  TAR <- Sys.getenv("TAR")
+  TAR <- Sys.which("tar")
   if (nzchar(TAR)) Sys.setenv(TAR = TAR)
   
   # ensure Rtools on PATH for Windows
