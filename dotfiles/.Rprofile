@@ -191,6 +191,9 @@
     status <- install(package)
     message(if (!status) "OK" else "FAIL")
     
+    if (!status)
+      require(package, character.only = TRUE, quietly = TRUE)
+    
   }))
   
   # display startup message(s)
