@@ -71,25 +71,10 @@
     }
   }
   
-  # use https repos
-  options(repos = c(CRAN = "https://cran.rstudio.org"))
-  
-  # if using 'curl' with RStudio, ensure stderr redirected
-  method <- getOption("download.file.method")
-  if (is.null(method) && nzchar(Sys.which("curl"))) {
-    options(
-      download.file.method = "curl",
-      download.file.extra = "-L -f --stderr -"
-    )
-  }
-  
-  # always run Rcpp tests
-  Sys.setenv(RunAllRcppTests = "yes")
-  
-  # auto-completion of package names in `require`, `library`
-  utils::rc.settings(ipck = TRUE)
-  
   options(
+    # CRAN
+    repos = c(CRAN = "https://cran.rstudio.org"),
+    
     # no tcltk
     menu.graphics = FALSE,
     
@@ -113,6 +98,21 @@
     
     devtools.name = NAME
   )
+  
+  # if using 'curl' with RStudio, ensure stderr redirected
+  method <- getOption("download.file.method")
+  if (is.null(method) && nzchar(Sys.which("curl"))) {
+    options(
+      download.file.method = "curl",
+      download.file.extra = "-L -f --stderr -"
+    )
+  }
+  
+  # always run Rcpp tests
+  Sys.setenv(RunAllRcppTests = "yes")
+  
+  # auto-completion of package names in `require`, `library`
+  utils::rc.settings(ipck = TRUE)
   
   # generate some useful aliases, for editing common files
   alias <- function(name, action) {
