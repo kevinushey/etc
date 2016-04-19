@@ -91,7 +91,7 @@
     # devtools related options
     devtools.desc = list(
       Author = NAME,
-      Maintainer = paste(NAME, "<", EMAIL, ">", sep = ""),
+      Maintainer = paste(NAME, " <", EMAIL, ">", sep = ""),
       License = "MIT + file LICENSE",
       Version = "0.0.1"
     ),
