@@ -123,6 +123,7 @@
   
   # open .Rprofile for editing
   alias(".Rprofile", function(...) file.edit("~/.Rprofile"))
+  alias(".Renviron", function(...) file.edit("~/.Renviron"))
   
   # open Makevars for editing
   alias("Makevars", function(...) {
@@ -132,7 +133,7 @@
   })
   
   # simple CLI to git
-  Git <- new.env(parent = emptyenv())
+  git <- new.env(parent = emptyenv())
   commands <- c("clone", "init", "add", "mv", "reset", "rm",
                 "bisect", "grep", "log", "show", "status", "stash",
                 "branch", "checkout", "commit", "diff", "merge",
@@ -148,11 +149,11 @@
     
     fn <- eval(call("function", pairlist(... = quote(expr = )), code))
     
-    assign(command, fn, envir = Git)
+    assign(command, fn, envir = git)
     
   }
   
-  assign("git", Git, envir = .__Rprofile.env__.)
+  assign("git", git, envir = .__Rprofile.env__.)
   
   # ensure commonly-used packages are installed, loaded
   quietly <- function(expr) {
