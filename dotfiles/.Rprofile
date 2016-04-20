@@ -3,6 +3,10 @@
   # only run in interactive mode
   if (!interactive())
     return()
+   
+  # avoid re-entrancy
+  if ("local:rprofile" %in% search())
+    return()
   
   # create .Rprofile env
   .__Rprofile.env__. <- attach(NULL, name = "local:rprofile")

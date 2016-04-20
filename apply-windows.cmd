@@ -38,6 +38,7 @@ mklink /J "%HOME%\.vim\startup" "%VIM_STARTUP_DIR%"
 REM Copy over the .Rprofile.
 set "RPROFILE_DOTFILE_FROM=%PWD%\dotfiles\.Rprofile"
 set "RPROFILE_DOTFILE_TO=%HOME%\.Rprofile"
+if exist "%RPROFILE_DOTFILE_TO%" del "%RPROFILE_DOTFILE_TO%"
 mklink /H %RPROFILE_DOTFILE_TO% %RPROFILE_DOTFILE_FROM%
 
 REM Copy over Qt Creator related items.
