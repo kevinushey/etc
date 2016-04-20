@@ -3,10 +3,6 @@
   # only run in interactive mode
   if (!interactive())
     return()
-   
-  # avoid re-entrancy
-  if ("local:rprofile" %in% search())
-    return()
   
   # create .Rprofile env
   .__Rprofile.env__. <- attach(NULL, name = "local:rprofile")
@@ -199,6 +195,18 @@
       require(package, character.only = TRUE, quietly = TRUE)
     
   }))
+  
+  # clean up extra attached envs
+  addTaskCallback(function(...) {
+    count <- sum(search() == "local:rprofile")
+    if (count == 0)
+      return(FALSE)
+     
+    for (i in seq_len(count - 1))
+      detach("local:rprofile")
+     
+    return(FALSE)
+  })
   
   # display startup message(s)
   msg <- if (length(.libPaths()) > 1)
