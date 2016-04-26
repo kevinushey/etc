@@ -136,10 +136,12 @@ NeoBundleLazyFiletype 'jelera/vim-javascript-syntax'  'javascript'
 
 " Autocompletion for JavaScript using Tern.
 if (!IsWindows())
-    if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
-        !cd ~/.vim/bundle/tern_for_vim && npm install
+    if IsDirectory("~/.vim/bundle/tern_for_vim")
+        if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
+            !cd ~/.vim/bundle/tern_for_vim && npm install
+        endif
+        NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
     endif
-    NeoBundleLazyFiletype 'marijnh/tern_for_vim'          'javascript'
 endif
 
 NeoBundle 'kevinushey/vim-deferred'
