@@ -189,11 +189,10 @@
       return()
     
     message("Installing '", package, "' ... ", appendLF = FALSE)
-    status <- install(package)
-    message(if (!status) "OK" else "FAIL")
+    install(package)
     
-    if (!status)
-      require(package, character.only = TRUE, quietly = TRUE)
+    success <- quietly(require(package, character.only = TRUE, quietly = TRUE))
+    message(if (success) "OK" else "FAIL")
     
   }))
   
