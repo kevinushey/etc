@@ -8,15 +8,17 @@ fi
 # Preferred settings
 : ${PREFIX="$HOME/r-san"}
 : ${ENABLE_R_FRAMEWORK="no"}
-: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"}
+: ${CC_SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"}
+: ${CXX_SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"}
 
 # Set up compiler variables
-CC="${CLANG} -std=gnu99 ${SANFLAGS}"
+CC="${CLANG} -std=gnu99 ${CC_SANFLAGS}"
 CFLAGS="-g -Wall -pedantic -mtune=native"
-CXX="${CLANG}++ ${SANFLAGS}"
+CXX="${CLANG}++ ${CXX_SANFLAGS}"
 CXXFLAGS="-g -Wall -pedantic -mtune=native"
 F77="gfortran"
 FC="gfortran"
+MAIN_LD="${CLANG}++ -fsanitize=undefined"
 
 # Invoke install homebrew script with these variables
 . ./install-homebrew.sh
