@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+if [ -z "${VERSION}" ] && [ "$#" -eq "0" ]; then
+    echo "Usage: "$0" [major.minor.patch]"
+    exit 1
+fi
+
+: ${VERSION="$1"}
+
+: ${LLVM_DOWNLOAD_URL="http://llvm.org/releases/${VERSION}/clang+llvm-${VERSION}-x86_64-apple-darwin.tar.xz"}
+: ${LLVM_DOWNLOAD_TARGET="${TMPDIR}/clang-${VERSION}.tar.xz"}
+: ${LLVM_INSTALL_DIR_BASE="${HOME}/clang"}
+: ${LLVM_INSTALL_DIR="${LLVM_INSTALL_DIR_BASE}/${VERSION}"}
+
+if [ -d "${LLVM_INSTALL_DIR}" ]; then
+    echo "clang-${VERSION} is already installed."
+    exit 1
+fi
+
+echo "Installing clang ${VERSION}..."
+mkdir -p "${LLVM_INSTALL_DIR_BASE}"
+
+wget -c "${LLVM_DOWNLOAD_URL}" -O "${LLVM_DOWNLOAD_TARGET}" || {
+    echo "Failed to download clang from '${LLVM_DOWNLOAD_URL}'."
+    exit 1
+}
+
+tar xf "${LLVM_DOWNLOAD_TARGET}" -C "${LLVM_INSTALL_DIR_BASE}" || {
+    echo "Failed to unpack archive clang-${VERSION}.tar.xz"
+    exit 1
+}
+
+mv \
+    "${LLVM_INSTALL_DIR_BASE}/clang+llvm-${VERSION}-x86_64-apple-darwin" \
+    "${LLVM_INSTALL_DIR}"
+
+## Install clang symlinks
+symlink () {
+    if [ ! -f "$2" ]; then
+	echo "Symlinking '$1' to '$2'"
+	if [ -w "`dirname $2`" ]; then
+	    ln -fs "$1" "$2"
+	else
+	    sudo ln -fs "$1" "$2"
+	fi
+    fi
+}
+
+VERSION_2=`cut -d"." -f1,2`
+symlink "${LLVM_INSTALL_DIR}/bin/clang"   "/usr/local/bin/clang-${VERSION_2}"
+symlink "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-${VERSION_2}"
+
