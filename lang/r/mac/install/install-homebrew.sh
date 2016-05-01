@@ -32,6 +32,7 @@
 : ${OBJCFLAGS:=${CFLAGS}}
 : ${MAKE:=make}
 : ${MAKEFLAGS:=-j10}
+: ${MAIN_LD:=clang}
 
 ## ----- END CONFIGURATION VARIABLES ----- ##
 
@@ -151,6 +152,7 @@ OBJC="${OBJC}"
 OBJCFLAGS="${OBJCFLAGS}"
 MAKE="${MAKE}"
 MAKEFLAGS="${MAKEFLAGS}"
+MAIN_LD="${MAIN_LD}"
 EOM
 
 make distclean
