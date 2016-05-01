@@ -39,10 +39,10 @@
 ## detect whether we want to build with a framework
 echo "> Prefix: ${PREFIX}"
 if [ "${ENABLE_R_FRAMEWORK}" = "yes" ]; then
-	echo "> R Framework: ENABLED"
+    echo "> R Framework: ENABLED"
     R_FRAMEWORK='--enable-R-framework'
 else
-	echo "> R Framework: DISABLED"
+    echo "> R Framework: DISABLED"
     R_FRAMEWORK='--disable-R-framework'
 fi
 
@@ -58,7 +58,7 @@ else
 fi
 
 export TMP=${TMP}
-mkdir ${TMP} 2> /dev/null
+mkdir -p ${TMP}
 
 missing () {
     if ! test -z `brew ls | grep ^$1$`; then
@@ -173,18 +173,16 @@ make clean
     --prefix=${PREFIX} \
     $@
 
-STATUS=$?
+STATUS="$?"
 if [ "${STATUS}" -ne 0 ]; then
     echo 'Configure failed!'
     exit ${STATUS}
 fi
 
-make -j10
-STATUS=$?
-if [ "${STATUS}" -ne 0 ]; then
-    echo 'make failed!'
-    exit ${STATUS}
-fi
+make -j10 || {
+    echo "Make failed!"
+    exit 1
+}
 
 if test "${PREFIX}" = "/Library/Frameworks"; then
     INSTALL="sudo make install"
@@ -192,12 +190,10 @@ else
     INSTALL="make install"
 fi
 
-${INSTALL}
-STATUS=$?
-if [ "${STATUS}" -ne 0 ]; then
-    echo 'make install failed!'
-    exit ${STATUS}
-fi
+${INSTALL} || {
+    echo "Installation failed!"
+    exit 1
+}
 
 echo 'Installation completed successfully!'
 cd ${OWD}
