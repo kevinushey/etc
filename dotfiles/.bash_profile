@@ -66,6 +66,9 @@ defvar                                                  \
     PYTHONSTARTUP      ".pythonstartup.py"              \
     NODE_PATH          "/usr/local/lib/node"
 
+## R
+PKG_MAKE_DSYM="yes"
+
 # Go
 export GOPATH=~/goprojects
 if test -n "${IS_DARWIN}"; then

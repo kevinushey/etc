@@ -6,6 +6,7 @@ fi
 
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-san"}
+: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"}
 : ${ENABLE_R_FRAMEWORK="no"}
 : ${R_NO_BASE_COMPILE="yes"}
 
