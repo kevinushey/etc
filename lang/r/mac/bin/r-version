@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+if [ "$#" -ne "1" ]; then
+    echo "Usage: $0 version"
+    exit 1
+fi
+
+VERSIONS_PATH=/Library/Frameworks/R.framework/Versions
+if [ ! -e "${VERSIONS_PATH}/$1" ]; then
+    echo "R version $1 not installed in ${VERSIONS_PATH}."
+    exit 1
+fi
+
+ln -fs "$1" "${VERSIONS_PATH}/Current"
+ln -fs "/Library/Frameworks/R.framework/Resources/bin/R" "/usr/local/bin/R"
+
+echo "Using R $1."
+

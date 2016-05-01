@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-CURRENT=/Library/Frameworks/R.framework/Versions/Current
-ln -fs "$1" "${CURRENT}"

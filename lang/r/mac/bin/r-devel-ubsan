@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+if [ "$#" -ne "0" ]; then
+    echo "Usage: $0"
+    exit 1
+fi
+
+: ${R="${HOME}/r/r-devel-san"}
+if [ ! -e "${R}" ]; then
+    echo "No R installation found at '${R}'."
+    exit 1
+fi
+
+ln -fs "${R}/bin/R" "/usr/local/bin/R"
+echo "Using R development version (with sanitizers)"
+
