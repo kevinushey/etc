@@ -183,10 +183,11 @@ make -j10 || {
     exit 1
 }
 
-if test "${PREFIX}" = "/Library/Frameworks"; then
-    INSTALL="sudo make install"
-else
+mkdir -p "${PREFIX}"
+if [ -d "${PREFIX}" ] && [ -w "${PREFIX}" ]; then
     INSTALL="make install"
+else
+    INSTALL="sudo make install"
 fi
 
 ${INSTALL} || {
