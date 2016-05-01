@@ -3,8 +3,8 @@
 ## This script installs the latest R devel, using clang, the latest
 ## version of gfortran, and also OpenBLAS for faster matrix operations.
 ##
-## Note: this script will install Homebrew, a Mac package manager,
-## for easy downloading of gfortran, OpenBLAS, LAPACK.
+## NOTE: this script will install Homebrew, a Mac package manager,
+## for easy downloading of gfortran, OpenBLAS, and LAPACK.
 ##
 ## NOTE: If you get weird linker errors related to `lapack` in grDevices
 ## on load, it's probably because you updated gcc / gfortran and now
@@ -96,7 +96,7 @@ GFORTRAN_SEARCH_PATHS_STRING=`"${GFORTRAN}" -print-search-dirs | tail -n 1 | sed
 IFS=':' read -a GFORTRAN_SEARCH_PATHS <<< "${GFORTRAN_SEARCH_PATHS_STRING}"
 for FILEPATH in "${GFORTRAN_SEARCH_PATHS[@]}"; do
     if test -e "${FILEPATH}/libgfortran.dylib"; then
-	echo "Found gfortran libraries in:\n${FILEPATH}"
+	echo -e "Found gfortran libraries in:\n${FILEPATH}"
 	GFORTRAN_LIBPATH=`greadlink -f "${FILEPATH}"`
     fi
 done
@@ -114,7 +114,6 @@ for FILEPATH in ${GFORTRAN_LIBPATH}/libgfortran*; do
 done
 
 ## Download R-devel from SVN
-cd ~
 mkdir -p ${SOURCEDIR} &> /dev/null
 cd ${SOURCEDIR}
 echo "Checking out latest R..."

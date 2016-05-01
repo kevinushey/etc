@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ## Install clang-3.8.0.
 ## 
 ## If you already have a suitable version of clang installed,
@@ -27,13 +29,19 @@ if [ ! -d "${LLVM_INSTALL_DIR}" ]; then
 fi
 
 ## Install clang symlinks
-if [ ! -f "/usr/local/bin/clang-3.8" ]; then
-    ln -fs "${LLVM_INSTALL_DIR}/bin/clang" "/usr/local/bin/clang-3.8"
-fi
+symlink () {
+    if [ ! -f "$2" ]; then
+	echo "Symlinking '$1' to '$2'"
+	if [ -w "`dirname $2`" ]; then
+	    ln -fs "$1" "$2"
+	else
+	    sudo ln -fs "$1" "$2"
+	fi
+    fi
+}
 
-if [ ! -f "/usr/local/bin/clang++-3.8" ]; then
-    ln -fs "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-3.8"
-fi
+symlink "${LLVM_INSTALL_DIR}/bin/clang"   "/usr/local/bin/clang-3.8"
+symlink "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-3.8"
 
 ## Compiler + Sanitizer settings
 : ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"}
@@ -50,7 +58,16 @@ fi
 : ${CXXFLAGS="-g -O2 -Wall -pedantic"}
 : ${F77="gfortran"}
 : ${FC="gfortran"}
-: ${MAIN_LD="${CLANG}++ -fsanitize=undefined -L\"${LLVM_INSTALL_DIR}/lib/clang/3.8.0/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
+
+## Make sure that we use the clang++ compiler when building
+## the R executable, so that sanitizer machinery gets compiled
+## in. Note that we need to use clang++ to enable e.g. the 'vptr'
+## sanitizer for C++ code. See:
+##
+##   https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer 
+##
+## for more information.
+: ${MAIN_LD="clang++-3.8 -fsanitize=undefined -L\"${LLVM_INSTALL_DIR}/lib/clang/3.8.0/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
 
 ## Invoke install homebrew script with these variables
 . ./install-homebrew.sh
