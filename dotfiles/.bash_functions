@@ -172,6 +172,10 @@ b64encode () {
 	openssl base64 -in $1 | tr -d '\n'
 }
 
+dock () {
+	docker-machine start docker-dev
+	eval $(docker-machine env docker-dev)
+}
 
 if [ -n "${IS_DARWIN}" ]; then
 
