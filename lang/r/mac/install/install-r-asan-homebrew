@@ -4,24 +4,6 @@ if [ -f "install-clang" ]; then
     ./install-clang 3.8.0
 fi
 
-## Install clang symlinks
-symlink () {
-    if [ ! -f "$2" ]; then
-	echo "Symlinking '$1' to '$2'"
-	if [ -w "`dirname $2`" ]; then
-	    ln -fs "$1" "$2"
-	else
-	    sudo ln -fs "$1" "$2"
-	fi
-    fi
-}
-
-symlink "${LLVM_INSTALL_DIR}/bin/clang"   "/usr/local/bin/clang-3.8"
-symlink "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-3.8"
-
-## Compiler + Sanitizer settings
-: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"}
-
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-san"}
 : ${ENABLE_R_FRAMEWORK="no"}
@@ -29,6 +11,7 @@ symlink "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-3.8"
 
 ## R compilation flags
 ## Note that compilation takes too long with optimization enabled.
+: ${CLANG="clang-3.8"}
 : ${CC="clang-3.8 -std=gnu99 ${SANFLAGS}"}
 : ${CFLAGS="-g -Wall -pedantic"}
 : ${CXX="clang++-3.8 ${SANFLAGS}"}
@@ -44,7 +27,8 @@ symlink "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-3.8"
 ##   https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer 
 ##
 ## for more information.
-: ${MAIN_LD="clang++-3.8 -fsanitize=undefined -L\"${LLVM_INSTALL_DIR}/lib/clang/3.8.0/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
+: ${LLVM_BIN_DIR="$(dirname `which clang-3.8 | xargs readlink`))"}
+: ${MAIN_LD="clang++-3.8 -fsanitize=undefined -L\"${LLVM_BIN_DIR}/../lib/clang/3.8.0/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
 
 ## Invoke install homebrew script with these variables
 . install-r-homebrew
