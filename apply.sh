@@ -55,6 +55,11 @@ rm -rf ~/.vim/startup
 ln -fs ${DIR}/editor/vim/startup ~/.vim/startup
 ln -fs ~/.vimrc ~/.nvimrc
 
+## R
+if [ -n "${IS_DARWIN}" ]; then
+    sudo ln -fs ${DIR}/lang/r/mac/bin/* /usr/local/bin/
+fi
+
 ## Git
 git config --global core.editor "vim"
 git config --global user.name "Kevin Ushey"
