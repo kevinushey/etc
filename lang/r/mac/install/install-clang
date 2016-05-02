@@ -14,7 +14,7 @@ fi
 
 if [ -d "${LLVM_INSTALL_DIR}" ]; then
     echo "clang-${VERSION} is already installed."
-    exit 1
+    exit 0
 fi
 
 echo "Installing clang ${VERSION}..."
