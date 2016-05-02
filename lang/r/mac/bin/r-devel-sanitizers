@@ -4,7 +4,7 @@ if [ "$#" -ne "0" ]; then
     exit 1
 fi
 
-: ${R="${HOME}/r/r-devel-san"}
+: ${R="${HOME}/r/r-devel-sanitizers"}
 if [ ! -e "${R}" ]; then
     echo "No R installation found at '${R}'."
     exit 1
