@@ -18,26 +18,27 @@ if [ -d "${LLVM_INSTALL_DIR}" ]; then
 fi
 
 echo "Installing clang ${VERSION}..."
-mkdir -p "${LLVM_INSTALL_DIR_BASE}"
-
+echo "Downloading '${LLVM_DOWNLOAD_URL}' to '${LLVM_DOWNLOAD_TARGET}'..."
 wget -c "${LLVM_DOWNLOAD_URL}" -O "${LLVM_DOWNLOAD_TARGET}" || {
     echo "Failed to download clang from '${LLVM_DOWNLOAD_URL}'."
     exit 1
 }
 
+echo "Extracting 'clang-${VERSION}'..."
+mkdir -p "${LLVM_INSTALL_DIR_BASE}"
 tar xf "${LLVM_DOWNLOAD_TARGET}" -C "${LLVM_INSTALL_DIR_BASE}" || {
-    echo "Failed to unpack archive clang-${VERSION}.tar.xz"
+    echo "Failed to unpack archive 'clang-${VERSION}.tar.xz'."
     exit 1
 }
 
-mv \
-    "${LLVM_INSTALL_DIR_BASE}/clang+llvm-${VERSION}-x86_64-apple-darwin" \
-    "${LLVM_INSTALL_DIR}"
+SOURCE="${LLVM_INSTALL_DIR_BASE}/clang+llvm-${VERSION}-x86_64-apple-darwin"
+TARGET="${LLVM_INSTALL_DIR}"
+mv "${SOURCE}" "${TARGET}"
 
 ## Install clang symlinks
 symlink () {
     if [ ! -f "$2" ]; then
-	echo "Symlinking '$1' to '$2'"
+	echo "Symlinking '$1' to '$2'."
 	if [ -w "`dirname $2`" ]; then
 	    ln -fs "$1" "$2"
 	else
@@ -46,7 +47,7 @@ symlink () {
     fi
 }
 
-VERSION_2=`cut -d"." -f1,2`
-symlink "${LLVM_INSTALL_DIR}/bin/clang"   "/usr/local/bin/clang-${VERSION_2}"
-symlink "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-${VERSION_2}"
+VERSION_MAJOR_MINOR=`echo "${VERSION}" | cut -d"." -f1,2`
+symlink "${LLVM_INSTALL_DIR}/bin/clang"   "/usr/local/bin/clang-${VERSION_MAJOR_MINOR}"
+symlink "${LLVM_INSTALL_DIR}/bin/clang++" "/usr/local/bin/clang++-${VERSION_MAJOR_MINOR}"
 
