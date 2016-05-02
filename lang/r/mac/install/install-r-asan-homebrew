@@ -42,3 +42,8 @@ cat << EOF >> "${PREFIX}/lib/R/etc/Renviron"
 R_MAKEVARS_USER='~/.R/Makevars.san'
 R_LIBS_USER='${PREFIX}/library'
 EOF
+
+## Ensure 'Makevars.san' exists (otherwise R configure can break)
+mkdir -p "~/.R"
+touch "~/.R/Makevars.san"
+
