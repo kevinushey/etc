@@ -1,8 +1,24 @@
 #!/usr/bin/env bash
+: ${CLANG_VERSION="3.8.0"}
+: ${CLANG_VERSION_MAJOR_MINOR="$(echo ${CLANG_VERSION} | cut -d'.' -f1,2)"}
 
 if [ -f "install-clang" ]; then
-    ./install-clang 3.8.0
+    ./install-clang "${CLANG_VERSION}"
 fi
+
+## Ensure requisite version of clang on PATH
+: ${CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"}
+: ${CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"}
+
+command -v "${CLANG}" > /dev/null || {
+    echo "${CLANG} not found on PATH; aborting"
+    exit 1
+}
+
+command -v "${CLANGPP}" > /dev/null || {
+    echo "${CLANGPP} not found on PATH; aborting"
+    exit 1
+}
 
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-san"}
@@ -12,10 +28,9 @@ fi
 
 ## R compilation flags
 ## Note that compilation takes too long with optimization enabled.
-: ${CLANG="clang-3.8"}
-: ${CC="clang-3.8 -std=gnu99 ${SANFLAGS}"}
+: ${CC="${CLANG} -std=gnu99 ${SANFLAGS}"}
 : ${CFLAGS="-g -Wall -pedantic"}
-: ${CXX="clang++-3.8 ${SANFLAGS}"}
+: ${CXX="${CLANGPP} ${SANFLAGS}"}
 : ${CXXFLAGS="-g -Wall -pedantic"}
 : ${F77="gfortran"}
 : ${FC="gfortran"}
@@ -28,8 +43,8 @@ fi
 ##   https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer 
 ##
 ## for more information.
-: ${LLVM_BIN_DIR="$(dirname `which clang-3.8 | xargs readlink`))"}
-: ${MAIN_LD="clang++-3.8 -fsanitize=undefined -L\"${LLVM_BIN_DIR}/../lib/clang/3.8.0/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
+: ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs readlink`))"}
+: ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
 
 ## Invoke install homebrew script with these variables
 . install-r-homebrew || {
