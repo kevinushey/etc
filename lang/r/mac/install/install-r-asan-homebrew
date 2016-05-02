@@ -32,5 +32,13 @@ fi
 : ${MAIN_LD="clang++-3.8 -fsanitize=undefined -L\"${LLVM_BIN_DIR}/../lib/clang/3.8.0/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
 
 ## Invoke install homebrew script with these variables
-. install-r-homebrew
+. install-r-homebrew || {
+    echo "Failed to install R!"
+    exit 1
+}
 
+## Update Renviron so that we don't make use of '~/.R/Makevars'
+cat << EOF >> "${PREFIX}/lib/R/etc/Renviron"
+R_MAKEVARS_USER='~/.R/Makevars.san'
+R_LIBS_USER='${PREFIX}/library'
+EOF
