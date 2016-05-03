@@ -48,7 +48,7 @@ command -v "${CLANGPP}" > /dev/null || {
 
 ## Invoke install homebrew script with these variables
 . install-r-homebrew || {
-    echo "Failed to install R!"
+    echo "Failed to install R; aborting"
     exit 1
 }
 

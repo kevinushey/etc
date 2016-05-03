@@ -182,7 +182,7 @@
     system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
   }
   
-  packages <- c("devtools", "roxygen2", "knitr", "rmarkdown")
+  packages <- c("devtools", "roxygen2", "knitr", "rmarkdown", "testthat")
   invisible(lapply(packages, function(package) {
     
     if (quietly(require(package, character.only = TRUE, quietly = TRUE)))
