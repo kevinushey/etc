@@ -43,8 +43,8 @@ command -v "${CLANGPP}" > /dev/null || {
 ##   https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer 
 ##
 ## for more information.
-: ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs readlink`))"}
-: ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\" -lclang_rt.asan_osx_dynamic"}
+: ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs readlink`)"}
+: ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic"}
 
 ## Invoke install homebrew script with these variables
 . install-r-homebrew || {
