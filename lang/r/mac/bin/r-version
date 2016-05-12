@@ -10,6 +10,7 @@ if [ ! -e "${VERSIONS_PATH}/$1" ]; then
     exit 1
 fi
 
+unlink "${VERSIONS_PATH}/Current"
 ln -fs "$1" "${VERSIONS_PATH}/Current"
 ln -fs "/Library/Frameworks/R.framework/Resources/bin/R" "/usr/local/bin/R"
 
