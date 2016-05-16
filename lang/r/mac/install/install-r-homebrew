@@ -16,23 +16,23 @@
 ## ----- CONFIGURATION VARIABLES ----- ##
 
 # Installation-related
-: ${PREFIX:=/Library/Frameworks}            # NOTE: needs 'sudo' on make install
-: ${SOURCEDIR:=~/R-devel}                   # checked out R sources will live here
-: ${TMP:=${HOME}/tmp}                       # temporary dir used on installation
-: ${ENABLE_R_FRAMEWORK:=yes}
+: ${PREFIX="/Library/Frameworks"}            # NOTE: needs 'sudo' on make install
+: ${SOURCEDIR="~/R-devel"}                   # checked out R sources will live here
+: ${TMP="${HOME}/tmp"}                       # temporary dir used on installation
+: ${ENABLE_R_FRAMEWORK="yes"}
 
 ## Compiler-specific
-: ${CC:=clang}
-: ${CXX:=clang++}
-: ${CFLAGS:=-g -O3 -Wall -pedantic}
-: ${CXXFLAGS:=-g -O3 -Wall -pedantic}
-: ${FORTRAN:=gfortran}
-: ${FFLAGS:=-g -O3} 
-: ${OBJC:=clang}
-: ${OBJCFLAGS:=${CFLAGS}}
-: ${MAKE:=make}
-: ${MAKEFLAGS:=-j10}
-: ${MAIN_LD:=clang}
+: ${CC="clang"}
+: ${CXX="clang++"}
+: ${CFLAGS="-g -O3 -Wall -pedantic"}
+: ${CXXFLAGS="-g -O3 -Wall -pedantic"}
+: ${FORTRAN="gfortran"}
+: ${FFLAGS="-g -O3"} 
+: ${OBJC="clang"}
+: ${OBJCFLAGS="${CFLAGS}"}
+: ${MAKE="make"}
+: ${MAKEFLAGS="-j10"}
+: ${MAIN_LD="clang"}
 
 ## ----- END CONFIGURATION VARIABLES ----- ##
 
@@ -40,17 +40,17 @@
 echo "> Prefix: ${PREFIX}"
 if [ "${ENABLE_R_FRAMEWORK}" = "yes" ]; then
     echo "> R Framework: ENABLED"
-    R_FRAMEWORK='--enable-R-framework'
+    R_FRAMEWORK="--enable-R-framework"
 else
     echo "> R Framework: DISABLED"
-    R_FRAMEWORK='--disable-R-framework'
+    R_FRAMEWORK="--disable-R-framework"
 fi
 
 OWD=`pwd`
 
 ## check if homebrew is installed
 echo "Checking for Homebrew..."
-if command -v brew > /dev/null 2>&1 ; then
+if command -v brew &> /dev/null; then
     echo "> Homebrew already installed."
 else
     echo "> Installing homebrew..."
@@ -62,14 +62,14 @@ mkdir -p ${TMP}
 
 missing () {
     if ! test -z `brew ls | grep ^$1$`; then
-        echo 1
+	echo 1
     fi
 }
 
 install () {
     if test -z `missing $1`; then
-        brew install $@
-        brew link --force $1
+	brew install $@
+	brew link --force $1
     fi
 }
 
@@ -89,7 +89,7 @@ install cairo --with-x11           # image write support
 
 ## Make sure the gfortran libraries get symlinked.
 if command -v gfortran &> /dev/null; then
-	GFORTRAN=gfortran
+    GFORTRAN=gfortran
 fi
 
 GFORTRAN_SEARCH_PATHS_STRING=`"${GFORTRAN}" -print-search-dirs | tail -n 1 | sed 's|.*=||'`
@@ -114,8 +114,8 @@ for FILEPATH in ${GFORTRAN_LIBPATH}/libgfortran*; do
 done
 
 ## Download R-devel from SVN
-mkdir -p ${SOURCEDIR} &> /dev/null
-cd ${SOURCEDIR}
+mkdir -p "${SOURCEDIR}" &> /dev/null
+cd "${SOURCEDIR}"
 echo "Checking out latest R..."
 svn checkout https://svn.r-project.org/R/trunk/
 cd trunk
@@ -129,7 +129,7 @@ echo "Syncing recommended R packages..."
 ## 'Rinterface.h' in multiple translation units (we were encountering
 ## linker errors)
 if test -n "`grep "^int R_running_as_main_program" src/include/Rinterface.h`"; then
-    echo Adding a missing extern in 'Rinterface.h'...
+    echo "Adding a missing extern in 'Rinterface.h'..."
     sed -i '' 's/^int R_running_as_main_program/extern int R_running_as_main_program/g' src/include/Rinterface.h
 fi
 
@@ -175,11 +175,11 @@ make clean
 STATUS="$?"
 if [ "${STATUS}" -ne 0 ]; then
     echo 'Configure failed!'
-    exit ${STATUS}
+    exit "${STATUS}"
 fi
 
 make -j10 || {
-    echo "Make failed!"
+    echo 'Make failed!'
     exit 1
 }
 

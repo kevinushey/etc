@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+# Declare clang version and install if necessary
 : ${CLANG_VERSION="3.8.0"}
 : ${CLANG_VERSION_MAJOR_MINOR="$(echo ${CLANG_VERSION} | cut -d'.' -f1,2)"}
 
