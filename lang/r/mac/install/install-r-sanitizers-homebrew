@@ -2,7 +2,7 @@
 
 # Declare clang version and install if necessary
 : ${CLANG_VERSION="3.8.0"}
-: ${CLANG_VERSION_MAJOR_MINOR="$(echo ${CLANG_VERSION} | cut -d'.' -f1,2)"}
+: ${CLANG_VERSION_MAJOR_MINOR="$(echo "${CLANG_VERSION}" | cut -d'.' -f1,2)"}
 
 if [ -f "install-clang" ]; then
     ./install-clang "${CLANG_VERSION}"
@@ -12,12 +12,12 @@ fi
 : ${CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"}
 : ${CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"}
 
-command -v "${CLANG}" > /dev/null || {
+command -v "${CLANG}" &> /dev/null || {
     echo "${CLANG} not found on PATH; aborting"
     exit 1
 }
 
-command -v "${CLANGPP}" > /dev/null || {
+command -v "${CLANGPP}" &> /dev/null || {
     echo "${CLANGPP} not found on PATH; aborting"
     exit 1
 }
@@ -26,7 +26,6 @@ command -v "${CLANGPP}" > /dev/null || {
 : ${PREFIX="${HOME}/r/r-devel-sanitizers"}
 : ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero"}
 : ${ENABLE_R_FRAMEWORK="no"}
-: ${R_NO_BASE_COMPILE="yes"}
 
 ## R compilation flags
 ## Note that compilation takes too long with optimization enabled.
@@ -48,18 +47,11 @@ command -v "${CLANGPP}" > /dev/null || {
 : ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs readlink`)"}
 : ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic"}
 
-## Temporarily move '~/.R/Makevars' out of the way
-## so it doesn't influence compilation of R packages
-cleanup () {
-    if [ -f "~/.R/Makevars.backup" ]; then
-	mv "~/.R/Makevars.backup" "~/.R/Makevars"
-    fi
-}
-
-if [ -f "~/.R/Makevars" ]; then
-    mv "~/.R/Makevars" "~/.R/Makevars.backup"
-    trap cleanup EXIT
-fi
+## Create and use dummy Makevars.san
+mkdir -p "${HOME}/.R"
+R_MAKEVARS_USER="${HOME}/.R/Makevars.san"
+touch "${R_MAKEVARS_USER}"
+export R_MAKEVARS_USER
 
 ## Invoke install homebrew script with these variables
 . install-r-homebrew || {
@@ -74,10 +66,4 @@ if [ "${ENABLE_R_FRAMEWORK}" = "yes" ]; then
     R_LIBS_USER='${PREFIX}/library'
     EOF
 fi
-
-
-## Ensure 'Makevars.san' exists (otherwise R configure can break
-## when installing some packages)
-mkdir -p "~/.R"
-touch "~/.R/Makevars.san"
 
