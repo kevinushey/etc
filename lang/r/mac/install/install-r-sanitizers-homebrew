@@ -59,11 +59,13 @@ export R_MAKEVARS_USER
     exit 1
 }
 
-## Update Renviron so that we don't make use of '~/.R/Makevars'
+# Update Renviron so that we don't make use of '~/.R/Makevars'
+read -r -d '' R_ENVIRON_VARS <<- EOF
+	R_MAKEVARS_USER='~/.R/Makevars.san'
+	R_LIBS_USER='${PREFIX}/library'
+EOF
+    
 if [ "${ENABLE_R_FRAMEWORK}" = "yes" ]; then
-    cat <<- EOF >> "${PREFIX}/lib/R/etc/Renviron"
-    R_MAKEVARS_USER='~/.R/Makevars.san'
-    R_LIBS_USER='${PREFIX}/library'
-    EOF
+    echo "${R_ENVIRON_VARS}" >> "${PREFIX}/lib/R/etc/Renviron"
 fi
 
