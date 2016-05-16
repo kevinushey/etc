@@ -48,6 +48,19 @@ command -v "${CLANGPP}" > /dev/null || {
 : ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs readlink`)"}
 : ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic"}
 
+## Temporarily move '~/.R/Makevars' out of the way
+## so it doesn't influence compilation of R packages
+cleanup () {
+    if [ -f "~/.R/Makevars.backup" ]; then
+	mv "~/.R/Makevars.backup" "~/.R/Makevars"
+    fi
+}
+
+if [ -f "~/.R/Makevars" ]; then
+    mv "~/.R/Makevars" "~/.R/Makevars.backup"
+    trap cleanup EXIT
+fi
+
 ## Invoke install homebrew script with these variables
 . install-r-homebrew || {
     echo "Failed to install R; aborting"
@@ -55,12 +68,16 @@ command -v "${CLANGPP}" > /dev/null || {
 }
 
 ## Update Renviron so that we don't make use of '~/.R/Makevars'
-cat << EOF >> "${PREFIX}/lib/R/etc/Renviron"
-R_MAKEVARS_USER='~/.R/Makevars.san'
-R_LIBS_USER='${PREFIX}/library'
-EOF
+if [ "${ENABLE_R_FRAMEWORK}" = "yes" ]; then
+    cat <<- EOF >> "${PREFIX}/lib/R/etc/Renviron"
+    R_MAKEVARS_USER='~/.R/Makevars.san'
+    R_LIBS_USER='${PREFIX}/library'
+    EOF
+fi
 
-## Ensure 'Makevars.san' exists (otherwise R configure can break)
+
+## Ensure 'Makevars.san' exists (otherwise R configure can break
+## when installing some packages)
 mkdir -p "~/.R"
 touch "~/.R/Makevars.san"
 

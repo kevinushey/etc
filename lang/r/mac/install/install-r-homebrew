@@ -17,7 +17,7 @@
 
 # Installation-related
 : ${PREFIX="/Library/Frameworks"}            # NOTE: needs 'sudo' on make install
-: ${SOURCEDIR="~/R-devel"}                   # checked out R sources will live here
+: ${SOURCEDIR="${HOME}/R-devel"}                   # checked out R sources will live here
 : ${TMP="${HOME}/tmp"}                       # temporary dir used on installation
 : ${ENABLE_R_FRAMEWORK="yes"}
 
