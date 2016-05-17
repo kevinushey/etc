@@ -11,5 +11,5 @@ if [ ! -e "${R}" ]; then
 fi
 
 ln -fs "${R}/bin/R" "/usr/local/bin/R"
-echo "Using R development version (with sanitizers)"
+echo "Using R development version with sanitizers [${R}]"
 

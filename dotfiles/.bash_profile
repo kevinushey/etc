@@ -137,3 +137,8 @@ if test -n "$BASH"; then
 
 fi
 
+# Autojump
+if [ -s "$(brew --prefix)/etc/profile.d/autojump.sh" ]; then
+    . "$(brew --prefix)/etc/profile.d/autojump.sh"
+fi
+
