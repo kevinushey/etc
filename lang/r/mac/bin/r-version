@@ -17,5 +17,6 @@ fi
 ln -fs "$1" "${VERSIONS_PATH}/Current"
 ln -fs "/Library/Frameworks/R.framework/Resources/bin/R" "/usr/local/bin/R"
 
-echo "Using R $1."
+R_SESSION_INFO=`/usr/local/bin/R --vanilla --slave -e "utils::sessionInfo()"`
+echo "${R_SESSION_INFO}" | head -n 3
 
