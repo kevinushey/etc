@@ -4,4 +4,16 @@
 : ${R_HOME="`cd \`R RHOME\`; pwd -P`"}
 : ${R_EXEC="${R_HOME}/bin/exec/R"}
 
-R_HOME=${R_HOME} lldb --batch --file "${R_EXEC}" -o "process launch -- $*"
+## Be nicer when attempting to run with '-e', '-f' flags
+R_LLDB_LAUNCH="process launch -- $*"
+if [ "$1" = "-f" ]; then
+    shift
+    R_LLDB_ARGS=`echo "$@" | sed 's|"|\\\\"|g'`
+    R_LLDB_LAUNCH="process launch -- -f \"${R_LLDB_ARGS}\""
+elif [ "$1" = "-e" ]; then
+    shift
+    R_LLDB_ARGS=`echo "$@" | sed 's|"|\\\\"|g'`
+    R_LLDB_LAUNCH="process launch -- -e \"${R_LLDB_ARGS}\""
+fi
+
+R_HOME=${R_HOME} lldb --batch --file "${R_EXEC}" -o "${R_LLDB_LAUNCH}"
