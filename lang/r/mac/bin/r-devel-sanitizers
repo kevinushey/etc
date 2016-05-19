@@ -11,5 +11,6 @@ if [ ! -e "${R}" ]; then
 fi
 
 ln -fs "${R}/bin/R" "/usr/local/bin/R"
-echo "Using R development version with sanitizers [${R}]"
+R_SESSION_INFO=`"${R}/bin/R" --vanilla --slave -e "sessionInfo()"`
+echo "${R_SESSION_INFO}" | head -n 3
 
