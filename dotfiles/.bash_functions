@@ -116,7 +116,7 @@ mov2gif () {
 	fi
 
 	ffmpeg -i "$1" -r 20 -f image2pipe -vcodec ppm - | \
-		convert -delay 5 -fuzz 5% -white-threshold 95% -black-threshold 5% -layers Optimize -loop 0 - "${OUTPUT}"
+		convert -delay 5 -fuzz 2% -layers Optimize -loop 0 - "${OUTPUT}"
 }
 
 ## Emacs
