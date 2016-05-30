@@ -16,4 +16,8 @@ elif [ "$1" = "-e" ]; then
     R_LLDB_LAUNCH="process launch -- -e \"${R_LLDB_ARGS}\""
 fi
 
-R_HOME=${R_HOME} lldb --batch --file "${R_EXEC}" -o "${R_LLDB_LAUNCH}"
+## Ensure R libraries are found in the appropriate places
+DYLD_FALLBACK_LIBRARY_PATH="${R_HOME}/lib"
+export DYLD_FALLBACK_LIBRARY_PATH
+
+R_HOME="${R_HOME}" lldb --batch --file "${R_EXEC}" -o "${R_LLDB_LAUNCH}"
