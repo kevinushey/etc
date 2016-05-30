@@ -22,3 +22,10 @@ for (exec in paths) {
   system(paste("otool -L", exec))
   cat("\n")
 }
+
+shared_objects <- list.files(.libPaths(), pattern = "so$", full.names = TRUE, recursive = TRUE)
+for (so in shared_objects) {
+  fmt <- "install_name_tool -change '%s' '%s' '%s'"
+  cmd <- sprintf(fmt, "libR.dylib", paths[["libR.dylib"]], so)
+  system(cmd)
+}
