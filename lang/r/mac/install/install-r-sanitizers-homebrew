@@ -8,6 +8,11 @@ if [ -f "install-clang" ]; then
     ./install-clang "${CLANG_VERSION}"
 fi
 
+## Ensure coreutils (for 'greadlink')
+if [ -z "`which greadlink`" ]; then
+    brew install coreutils
+fi
+
 ## Ensure requisite version of clang on PATH
 : ${CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"}
 : ${CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"}
@@ -44,8 +49,8 @@ command -v "${CLANGPP}" &> /dev/null || {
 ##   https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer 
 ##
 ## for more information.
-: ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs readlink`)"}
-: ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic"}
+: ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs greadlink -f`)"}
+: ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic"}
 
 ## Create and use dummy Makevars.san
 mkdir -p "${HOME}/.R"
