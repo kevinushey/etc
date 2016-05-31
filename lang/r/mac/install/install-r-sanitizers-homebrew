@@ -70,7 +70,7 @@ read -r -d '' R_ENVIRON_VARS <<- EOF
 	R_LIBS_USER='${PREFIX}/library'
 EOF
     
-if [ "${ENABLE_R_FRAMEWORK}" = "yes" ]; then
+if [ "${ENABLE_R_FRAMEWORK}" = "no" ]; then
     echo "${R_ENVIRON_VARS}" >> "${PREFIX}/lib/R/etc/Renviron"
 fi
 
