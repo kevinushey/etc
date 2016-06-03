@@ -14,11 +14,16 @@
 # Where to check out LLDB sources?
 : ${LLDB_SOURCE_DIR="${HOME}/lldb"}
 
+# What branch to build from? Try e.g. release_38
+: ${LLDB_BRANCH="master"}
+
 # Create the directory, and clone the lldb directory
 mkdir -p ${LLDB_SOURCE_DIR}
 cd ${LLDB_SOURCE_DIR}
 git clone http://llvm.org/git/lldb.git
 cd lldb
+git pull
+git checkout "${LLDB_BRANCH}"
 
 # Build it!
 #
