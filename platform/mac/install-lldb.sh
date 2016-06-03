@@ -12,18 +12,13 @@
 ## be automated too but I am currently too lazy.
 
 # Where to check out LLDB sources?
-: ${LLDB_SOURCE_DIR:=${HOME}/lldb}
+: ${LLDB_SOURCE_DIR="${HOME}/lldb"}
 
 # Create the directory, and clone the lldb directory
 mkdir -p ${LLDB_SOURCE_DIR}
 cd ${LLDB_SOURCE_DIR}
 git clone http://llvm.org/git/lldb.git
 cd lldb
-
-# For some reason, svn checkouts fail with 'http://'
-# so we use 'sed' to switch to 'https://'
-ag -Q -l "http://llvm.org" \
-	| xargs sed -i '' 's|http://llvm.org|https://llvm.org|g'
 
 # Build it!
 #
@@ -38,10 +33,14 @@ ag -Q -l "http://llvm.org" \
 #     http://comments.gmane.org/gmane.comp.debugging.lldb.devel/6202codebuild
 #
 # and so that's what we do.
-xcodebuild -configuration Release -target lldb-tool
+xcodebuild -configuration Release -target lldb-tool || {
+    echo 'xcodebuild failed!'
+    exit 1
+}
 
 # Symlink to /usr/local/bin so we can use it
-FROMPATH=${LLDB_SOURCE_DIR}/lldb/build/Release/lldb
-TOPATH=/usr/local/bin/lldb
-ln -fs "${FROMPATH}" "${TOPATH}"
+SOURCE="${LLDB_SOURCE_DIR}/lldb/build/Release/lldb"
+TARGET="/usr/local/bin/lldb"
+ln -fs "${SOURCE}" "${TARGET}"
+echo "Symlinked '${SOURCE}' -> '${TARGET}'"
 
