@@ -29,7 +29,7 @@ command -v "${CLANGPP}" &> /dev/null || {
 
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-sanitizers"}
-: ${SANFLAGS="-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero"}
+: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero"}
 : ${ENABLE_R_FRAMEWORK="no"}
 
 ## R compilation flags
