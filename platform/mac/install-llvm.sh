@@ -3,72 +3,81 @@
 ## These steps are compiled from the Clang 'getting started' guide at
 ## http://clang.llvm.org/get_started.html
 
-## Configuration variables
-: ${LLVM_ROOT_DIR="$HOME/.llvm"}
-: ${LLVM_BUILD_DIR="${LLVM_ROOT_DIR}/build"}
+: ${LLVM_ROOT_DIR="${HOME}"}
 : ${LLVM_INSTALL_DIR="/usr/local/llvm"}
-: ${LLVM_MAKE_SYMLINKS="no"}
-: ${LLVM_SYMLINK_DIR="/usr/local/bin"}
+: ${LLVM_BRANCH="master"}
 
-## Make sure we build things using Apple clang
-export CC=/usr/bin/clang
-export CXX=/usr/bin/clang++
+enter () {
+    echo "* Entering '$1'"
+    mkdir -p "$1"
+    cd "$1"
+}
 
-mkdir -p "${LLVM_ROOT_DIR}" 2> /dev/null
+checkout () {
 
-## Checkout LLVM:
-cd ${LLVM_ROOT_DIR}
-svn co https://llvm.org/svn/llvm-project/llvm/trunk llvm
+    if [ ! -e "$1" ]; then
+	git clone http://llvm.org/git/$1.git
+    fi
 
-## Checkout clang
-cd ${LLVM_ROOT_DIR}/llvm/tools
-svn co https://llvm.org/svn/llvm-project/cfe/trunk clang
+    cd "$1"
+    git pull --rebase
+    cd ..
+}
 
-## Get the optional Clang tools, as well
-cd ${LLVM_ROOT_DIR}/llvm/tools/clang/tools
-svn co https://llvm.org/svn/llvm-project/clang-tools-extra/trunk extra
+# Checkout LLVM sources
+enter "${LLVM_ROOT_DIR}"
+checkout llvm
 
-## Checkout Compiler-RT
-cd ${LLVM_ROOT_DIR}/llvm/projects
-svn co https://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt
+# Checkout clang
+enter "${LLVM_ROOT_DIR}/llvm/tools" 
+checkout clang
+checkout lldb
 
-## Checkout libc++
-## Steps copied from http://libcxx.llvm.org/
-cd ${LLVM_ROOT_DIR}
-svn co https://llvm.org/svn/llvm-project/libcxx/trunk libcxx
+# Checkout compiler-rt (required for sanitizers)
+enter "${LLVM_ROOT_DIR}/llvm/projects"
+checkout compiler-rt
+checkout openmp
+checkout libcxx
+checkout libcxxabi
 
-## Build libc++
-cd ${LLVM_ROOT_DIR}/libcxx/lib
-export TRIPLE=-apple-
-./buildit
-ln -fs libc++.1.dylib libc++.dylib
-
-# Start building clang
-rm -rf "${LLVM_BUILD_DIR}"
-mkdir -p "${LLVM_BUILD_DIR}" 2> /dev/null
-cd "${LLVM_BUILD_DIR}"
-cmake -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL_DIR} ../llvm
+# Enter build directory
+enter "${LLVM_ROOT_DIR}/llvm/build"
+cmake -G "Ninja" ..                       \
+    -DCMAKE_C_COMPILER=/usr/bin/clang     \
+    -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
+    -DCMAKE_BUILD_TYPE=Release            \
+    -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}"
 
 cmake --build .
 cmake --build . --target install
 
-## Figure out the Clang version
-CLANG_VERSION=$(grep "^PACKAGE_VERSION" config.log |
-    sed 's/PACKAGE_VERSION=//' |
-    sed "s/svn//" |
-    sed "s/'//g")
+# discover the clang version
+cmakevar () {
+    grep "${1}:" "${LLVM_ROOT_DIR}/llvm/build/CMakeCache.txt" | cut -d'=' -f2
+}
 
-## Copy the libc++ files to a directory where Clang will find it
-cp -R ${LLVM_ROOT_DIR}/libcxx/include ${LLVM_INSTALL_DIR}/lib/clang/${CLANG_VERSION}
-cp -R ${LLVM_ROOT_DIR}/libcxx/lib ${LLVM_INSTALL_DIR}/lib/clang/${CLANG_VERSION}
+CLANG_VERSION=`cmakevar "CLANG_EXECUTABLE_VERSION"`
 
-## Make some symlinks
-if [ "${LLVM_MAKE_SYMLINKS}" = "yes" ]; then
-	echo "Symlinking clang utilities to '${LLVM_SYMLINK_DIR}'..."
-	ln -fs ${LLVM_INSTALL_DIR}/bin/llvm-config ${LLVM_SYMLINK_DIR}/llvm-config
-	ln -fs ${LLVM_INSTALL_DIR}/bin/clang ${LLVM_SYMLINK_DIR}/clang
-	ln -fs ${LLVM_INSTALL_DIR}/bin/clang++ ${LLVM_SYMLINK_DIR}/clang++
-fi
+# generate symlinks
+symlink () {
 
-echo "Installation complete!"
+    SOURCE=`greadlink -f "${LLVM_INSTALL_DIR}/bin/$1"`
+
+    if [ "$#" = "2" ]; then
+	TARGET="/usr/local/bin/$2"
+    else
+	TARGET="/usr/local/bin/$1-${CLANG_VERSION}"
+    fi
+
+    if [ -e "${SOURCE}" ]; then
+	echo "Symlinking '${SOURCE}' => '${TARGET}'"
+	ln -fs "${SOURCE}" "${TARGET}"
+    else
+	echo "No file at path '${SOURCE}'"
+    fi
+}
+
+symlink "clang"
+symlink "clang++"
+symlink "lldb" "lldb"
 
