@@ -12,7 +12,7 @@ fi
 : ${LLVM_INSTALL_DIR_BASE="${HOME}/clang"}
 : ${LLVM_INSTALL_DIR="${LLVM_INSTALL_DIR_BASE}/${VERSION}"}
 
-if [ -d "${LLVM_INSTALL_DIR}" ]; then
+if [ "$(command -v clang-"${VERSION}")" ]; then
     echo "clang-${VERSION} is already installed."
     exit 0
 fi
