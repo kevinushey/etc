@@ -146,6 +146,7 @@ endif
 
 NeoBundle 'kevinushey/vim-deferred'
 NeoBundle 'mattn/emmet-vim'
+NeoBundle 'derekwyatt/vim-scala'
 
 call neobundle#end()
 filetype plugin indent on
