@@ -3,19 +3,19 @@
 # Declare clang version and install if necessary
 : ${CLANG_VERSION="3.8.0"}
 : ${CLANG_VERSION_MAJOR_MINOR="$(echo "${CLANG_VERSION}" | cut -d'.' -f1,2)"}
+: ${CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"}
+: ${CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"}
 
-if [ -f "install-clang" ]; then
-    ./install-clang "${CLANG_VERSION}"
+if [ ! "$(command -v "${CLANG}" 2> /dev/null)" ]; then
+    if [ -f "install-clang" ]; then
+	./install-clang "${CLANG_VERSION}"
+    fi
 fi
 
 ## Ensure coreutils (for 'greadlink')
 if [ -z "`which greadlink`" ]; then
     brew install coreutils
 fi
-
-## Ensure requisite version of clang on PATH
-: ${CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"}
-: ${CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"}
 
 command -v "${CLANG}" &> /dev/null || {
     echo "${CLANG} not found on PATH; aborting"
@@ -29,15 +29,15 @@ command -v "${CLANGPP}" &> /dev/null || {
 
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-sanitizers"}
-: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero"}
+: ${SANFLAGS="-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero"}
 : ${ENABLE_R_FRAMEWORK="no"}
 
 ## R compilation flags
 ## Note that compilation takes too long with optimization enabled.
 : ${CC="${CLANG} -std=gnu99 ${SANFLAGS}"}
-: ${CFLAGS="-g -Wall -pedantic"}
+: ${CFLAGS="-g -O1 -Wall -pedantic"}
 : ${CXX="${CLANGPP} ${SANFLAGS}"}
-: ${CXXFLAGS="-g -Wall -pedantic"}
+: ${CXXFLAGS="-g -O1 -Wall -pedantic"}
 : ${F77="gfortran"}
 : ${FC="gfortran"}
 
