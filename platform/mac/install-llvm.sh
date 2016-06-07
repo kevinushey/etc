@@ -7,6 +7,11 @@
 : ${LLVM_INSTALL_DIR="/usr/local/llvm"}
 : ${LLVM_BRANCH="master"}
 
+command -v "ninja" || {
+    echo 'ninja not found on PATH; exiting'
+    exit 1
+}
+
 enter () {
     echo "* Entering '$1'"
     mkdir -p "$1"
@@ -46,10 +51,20 @@ cmake -G "Ninja" ..                       \
     -DCMAKE_C_COMPILER=/usr/bin/clang     \
     -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
     -DCMAKE_BUILD_TYPE=Release            \
-    -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}"
+    -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}" || {
+	echo 'Failed to configure LLVM!'
+	exit 1
+    }
 
-cmake --build .
-cmake --build . --target install
+cmake --build . || {
+    echo 'Failed to build LLVM!'
+    exit 1
+}
+
+cmake --build . --target install || {
+    echo 'Failed to install LLVM!'
+    exit 1
+}
 
 # discover the clang version
 cmakevar () {
