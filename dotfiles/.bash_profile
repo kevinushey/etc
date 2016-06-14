@@ -2,8 +2,8 @@
 
 import () {
     while test "$#" -ne 0; do
-	. "$1"
-	shift
+        . "$1"
+        shift
     done
 }
 
@@ -16,11 +16,11 @@ import                \
 if test -n "${IS_LINUX}"; then
     # enable bash completion in interactive shells
     if ! shopt -oq posix; then
-	if [ -f /usr/share/bash-completion/bash_completion ]; then
-	    . /usr/share/bash-completion/bash_completion
-	elif [ -f /etc/bash_completion ]; then
-	    . /etc/bash_completion
-	fi
+        if [ -f /usr/share/bash-completion/bash_completion ]; then
+            . /usr/share/bash-completion/bash_completion
+        elif [ -f /etc/bash_completion ]; then
+            . /etc/bash_completion
+        fi
     fi
 fi
 
@@ -34,7 +34,7 @@ if test -n "${IS_LINUX}"; then
     RESOLUTION_X=`echo "${RESOLUTION}" | cut -d"x" -f1`
     RESOLUTION_Y=`echo "${RESOLUTION}" | cut -d"x" -f2`
     if test "${RESOLUTION_X}" -ge 3840 -a "${RESOLUTION_Y}" -ge 2160; then
-	defvar QT_DEVICE_PIXEL_RATIO 2
+        defvar QT_DEVICE_PIXEL_RATIO 2
     fi
 fi
 
@@ -57,12 +57,12 @@ defvar                                                  \
     EMAIL              "`rot13 'xrivahfurl@tznvy.pbz'`" \
     EDITOR             "vim"                            \
     GNUTERM            "x11"                            \
-                                                        \
+    \
     color_prompt       "yes"                            \
     force_color_prompt "yes"                            \
     CLICOLORS          "1"                              \
     LSCOLORS           "ExFxBxDxCxegedabagacad"         \
-                                                        \
+    \
     PYTHONSTARTUP      ".pythonstartup.py"              \
     NODE_PATH          "/usr/local/lib/node"
 
@@ -85,60 +85,62 @@ if test -n "$BASH"; then
     # Homebrew-related completion for bash on OS X
     if test -n "${IS_DARWIN}"; then
 
-	if [ -f $(brew --prefix)/etc/bash_completion ]; then
-	    . $(brew --prefix)/etc/bash_completion
-	fi
+        if [ -f $(brew --prefix)/etc/bash_completion ]; then
+            . $(brew --prefix)/etc/bash_completion
+        fi
 
-	if [ -f $(brew --prefix)/etc/bash_completion.d ]; then
-	    . $(brew --prefix)/etc/bash_completion.d
-	fi
+        if [ -f $(brew --prefix)/etc/bash_completion.d ]; then
+            . $(brew --prefix)/etc/bash_completion.d
+        fi
 
-	if [ -f ~/git-completion.bash ]; then
-	    . ~/git-completion.bash
-	fi
+        if [ -f ~/git-completion.bash ]; then
+            . ~/git-completion.bash
+        fi
+
+        # Autojump
+        if [ -s "$(brew --prefix)/etc/profile.d/autojump.sh" ]; then
+            . "$(brew --prefix)/etc/profile.d/autojump.sh"
+        fi
 
     fi
 
     # Enable git completion on Linux
     if [ -n "${IS_LINUX}" ]; then
 
-	if [ ! -f ~/.git-completion.bash ]; then
-	    curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
-	fi
-	. ~/.git-completion.bash
+        if [ ! -f ~/.git-completion.bash ]; then
+            curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+        fi
+        . ~/.git-completion.bash
     fi
 
     # For git-managed directories, make a nice prompt.
     git_prompt () {
 
-	GIT_STATUS=$(git status -sb --porcelain 2> /dev/null | head -n 1)
+        GIT_STATUS=$(git status -sb --porcelain 2> /dev/null | head -n 1)
 
-	if test -n "${GIT_STATUS}"
-	then
-	    GIT_STATUS=$(echo "${GIT_STATUS}" | sed 's|## *||')
-	    GIT_START=$(echo "${GIT_STATUS}" | sed 's|\.\.\..*||g')
-	    if [[ "${GIT_START}" =~ "no branch" ]]; then
-		GIT_START=$(git -c color.status=false status | head -n 1)
-	    fi
-	    echo -e " ${Red}[${GIT_START}]${Color_Off}"
-	else
-	    echo ""
-	fi
+        if test -n "${GIT_STATUS}"
+        then
+            GIT_STATUS=$(echo "${GIT_STATUS}" | sed 's|## *||')
+            GIT_START=$(echo "${GIT_STATUS}" | sed 's|\.\.\..*||g')
+            if [[ "${GIT_START}" =~ "no branch" ]]; then
+                GIT_START=$(git -c color.status=false status | head -n 1)
+            fi
+            echo -e " ${Red}[${GIT_START}]${Color_Off}"
+        else
+            echo ""
+        fi
     }
 
     # Override prompt_command to use the aforementioned git_prompt
     prompt_command () {
-	GIT_PROMPT=$(git_prompt)
-	# export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
-	export PS1="${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
+        GIT_PROMPT=$(git_prompt)
+        # export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
+        export PS1="${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
     }
+
+
 
     export PROMPT_COMMAND=prompt_command
 
-fi
-
-# Autojump
-if [ -s "$(brew --prefix)/etc/profile.d/autojump.sh" ]; then
-    . "$(brew --prefix)/etc/profile.d/autojump.sh"
 fi
 
