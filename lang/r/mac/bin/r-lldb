@@ -6,18 +6,20 @@
 
 ## Be nicer when attempting to run with '-e', '-f' flags
 R_LLDB_LAUNCH="process launch -- $*"
-if [ "$1" = "-f" ]; then
-    shift
-    R_LLDB_ARGS=`echo "$@" | sed 's|"|\\\\"|g'`
-    R_LLDB_LAUNCH="process launch -- -f \"${R_LLDB_ARGS}\""
-elif [ "$1" = "-e" ]; then
-    shift
-    R_LLDB_ARGS=`echo "$@" | sed 's|"|\\\\"|g'`
-    R_LLDB_LAUNCH="process launch -- -e \"${R_LLDB_ARGS}\""
+if [ "`command -v sed 2> /dev/null`" ]; then
+    if [ "$1" = "-f" ]; then
+	shift
+	R_LLDB_ARGS=`echo "$@" | sed 's|"|\\\\"|g'`
+	R_LLDB_LAUNCH="process launch -- -f \"${R_LLDB_ARGS}\""
+    elif [ "$1" = "-e" ]; then
+	shift
+	R_LLDB_ARGS=`echo "$@" | sed 's|"|\\\\"|g'`
+	R_LLDB_LAUNCH="process launch -- -e \"${R_LLDB_ARGS}\""
+    fi
 fi
 
 ## Ensure R libraries are found in the appropriate places
-DYLD_FALLBACK_LIBRARY_PATH="${R_HOME}/lib"
+DYLD_FALLBACK_LIBRARY_PATH="${DYLD_FALLBACK_LIBRARY_PATH}:${R_HOME}/lib"
 export DYLD_FALLBACK_LIBRARY_PATH
 
 R_HOME="${R_HOME}" lldb --batch --file "${R_EXEC}" -o "${R_LLDB_LAUNCH}"
