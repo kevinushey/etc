@@ -44,7 +44,8 @@
   if (nzchar(TAR)) Sys.setenv(TAR = TAR)
   
   # ensure Rtools on PATH for Windows
-  if (Sys.info()[["sysname"]] == "Windows") {
+  isWindows <- Sys.info()[["sysname"]] == "Windows"
+  if (isWindows) {
     PATH <- Sys.getenv("PATH", unset = "")
     paths <- strsplit(PATH, .Platform$path.sep, fixed = TRUE)[[1]]
     hasRtools <- any(file.exists(file.path(paths, "Rtools.txt")))
@@ -69,6 +70,13 @@
       if (!discovered)
         warning("Failed to discover Rtools on the PATH")
     }
+  }
+  
+  # Ensure /usr/local/bin is first on the PATH
+  if (!isWindows) {
+    PATH <- strsplit(Sys.getenv("PATH"), .Platform$path.sep, fixed = TRUE)[[1]]
+    PATH <- unique(c("/usr/local/bin", PATH))
+    Sys.setenv(PATH = paste(PATH, collapse = .Platform$path.sep))
   }
   
   options(
