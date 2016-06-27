@@ -158,7 +158,7 @@
   for (command in commands) {
 
     code <- substitute(
-      system(paste(path, command, ...)),
+      system(paste(path, "-c color.status=false", command, ...)),
       list(path = quote(shQuote(normalizePath(Sys.which("git")))),
            command = command)
     )
