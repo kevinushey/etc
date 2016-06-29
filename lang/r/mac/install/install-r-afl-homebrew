@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# Declare clang version and install if necessary
+: ${CLANG="afl-clang"}
+: ${CLANGPP="afl-clang++"}
+
+## Ensure coreutils (for 'greadlink')
+if [ -z "`which greadlink`" ]; then
+    brew install coreutils
+fi
+
+command -v "${CLANG}" &> /dev/null || {
+    echo "${CLANG} not found on PATH; aborting"
+    exit 1
+}
+
+command -v "${CLANGPP}" &> /dev/null || {
+    echo "${CLANGPP} not found on PATH; aborting"
+    exit 1
+}
+
+## R configure settings
+: ${PREFIX="${HOME}/r/r-devel-afl"}
+: ${ENABLE_R_FRAMEWORK="no"}
+
+## R compilation flags
+## Note that compilation takes too long with optimization enabled.
+: ${CC="${CLANG} -std=gnu99 ${SANFLAGS}"}
+: ${CFLAGS="-g -O2 -Wall -pedantic"}
+: ${CXX="${CLANGPP}"}
+: ${CXXFLAGS="-g -O2 -Wall -pedantic"}
+: ${F77="gfortran"}
+: ${FC="gfortran"}
+
+## Create and use dummy Makevars.afl
+mkdir -p "${HOME}/.R"
+R_MAKEVARS_USER="${HOME}/.R/Makevars.afl"
+touch "${R_MAKEVARS_USER}"
+export R_MAKEVARS_USER
+
+## Invoke install homebrew script with these variables
+. install-r-homebrew || {
+    echo "Failed to install R; aborting"
+    exit 1
+}
+
+# Update Renviron so that we don't make use of '~/.R/Makevars'
+read -r -d '' R_ENVIRON_VARS <<- EOF
+	R_MAKEVARS_USER='~/.R/Makevars.afl'
+	R_LIBS_USER='${PREFIX}/library'
+EOF
+    
+if [ "${ENABLE_R_FRAMEWORK}" = "no" ]; then
+    echo "${R_ENVIRON_VARS}" >> "${PREFIX}/lib/R/etc/Renviron"
+fi
+

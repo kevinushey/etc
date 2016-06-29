@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+# Figure out path to R_EXEC
+: ${R_HOME="`cd \`R RHOME\`; pwd -P`"}
+: ${R_EXEC="${R_HOME}/bin/exec/R"}
+: ${AFL_INPUT="afl/input"}
+: ${AFL_OUTPUT="afl/output"}
+
+# Ensure input, output directories exist
+mkdir -p "${AFL_INPUT}"
+mkdir -p "${AFL_OUTPUT}"
+
+# Ensure R libraries are found in the appropriate places
+DYLD_FALLBACK_LIBRARY_PATH="${DYLD_FALLBACK_LIBRARY_PATH}:${R_HOME}/lib"
+export DYLD_FALLBACK_LIBRARY_PATH
+
+R_HOME="${R_HOME}" afl-fuzz -i afl/input -o afl/output "${R_EXEC}" "-f" "@@"
+
