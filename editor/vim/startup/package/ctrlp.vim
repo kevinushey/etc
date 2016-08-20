@@ -1,4 +1,4 @@
-NeoBundle 'ctrlpvim/ctrlp.vim'
+call dein#add('ctrlpvim/ctrlp.vim')
 
 " Copied from spf13-vim. Want these bindings to be loaded
 " eagerly.

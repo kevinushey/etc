@@ -1,10 +1,7 @@
-" NOTE: This should be called in a context when Vundle is ready to accept new
-" plugins.
-
-NeoBundle 'Shougo/neocomplete.vim.git'
+call dein#add('Shougo/neocomplete.vim.git')
 
 " For the life of me, I cannot get neosnippet to play nicely with endwise
-" or autopair. Unfortunately, I like thoes plugins much more than I like
+" or autopair. Unfortunately, I like those plugins much more than I like
 " snippets.
 
 " Set up a basic configuration for 'Neocomplete'.

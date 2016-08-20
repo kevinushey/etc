@@ -198,12 +198,6 @@ function! IsUnix()
     return has("unix")
 endfunction
 
-function! NeoBundleLazyFiletype(package, filetype)
-    let AutoLoadCommand =  "{ 'autoload' : { 'filetype' : " . a:filetype . " } }"
-    execute join(['NeoBundleLazy', a:package . ', ', AutoLoadCommand], ' ')
-endfunction
-command! -nargs=* NeoBundleLazyFiletype call NeoBundleLazyFiletype(<f-args>)
-
 function! NVMap(expr)
     execute "nmap " . a:expr
     execute "vmap " . a:expr
