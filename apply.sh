@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -evx
+set -e
 
 DIR=`pwd`
 
@@ -55,9 +55,21 @@ rm -rf ~/.vim/startup
 ln -fs ${DIR}/editor/vim/startup ~/.vim/startup
 ln -fs ~/.vimrc ~/.nvimrc
 
-## R
+
+## Scripts
+SCRIPT_PATHS=`find ${PWD} -type d -path */bin`
 if [ -n "${IS_DARWIN}" ]; then
-    sudo ln -fs ${DIR}/lang/r/mac/bin/* /usr/local/bin/
+    OSX_SCRIPT_PATHS=`echo ${SCRIPT_PATHS} | grep /mac/`
+    for SCRIPT_PATH in ${OSX_SCRIPT_PATHS}; do
+	sudo ln -fs ${SCRIPT_PATH}/* /usr/local/bin/
+    done
+fi
+
+if [ -n "${IS_LINUX}" ]; then
+    LINUX_SCRIPT_PATHS=`echo ${SCRIPT_PATHS} | grep /linux/`
+    for SCRIPT_PATH in ${LINUX_SCRIPT_PATHS}; do
+	sudo ln -fs ${SCRIPT_PATH}/* /usr/local/bin/
+    done
 fi
 
 ## Git
