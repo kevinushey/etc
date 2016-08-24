@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+section () {
+    echo -e "\033[1;94m==>\033[0m \033[1;97mUpdating $1...\033[0m"
+}
+
+update-homebrew () {
+    section homebrew
+    brew update && brew upgrade && brew cleanup
+}
+
+update-spacemacs () {
+    section Spacemacs
+    cd ~/.emacs.d && git fetch && git reset --hard origin/master
+}
+
+update-emacs () {
+    section Emacs
+    emacs --batch -Q \
+	--eval="(package-list-packages t)" \
+	--eval="(package-menu-mark-upgrades)" \
+	--eval="(package-menu-execute t)"
+}
+
+if [ "$#" -eq 0 ]; then
+    update-homebrew
+    update-spacemacs
+    update-emacs
+fi
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+	--emacs     ) update-emacs ;;
+	--spacemacs ) update-spacemacs ;;
+	--homebrew  ) update-homebrew ;;
+	*           ) echo "Unrecognized argument '$1'" ;;
+    esac
+    shift
+done
+
