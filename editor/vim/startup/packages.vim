@@ -133,7 +133,7 @@ if (!IsWindows())
         if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
             !cd ~/.vim/bundle/tern_for_vim && npm install
         endif
-        call dein#add('marijnh/tern_for_vim')
+        call dein#add('ternjs/tern_for_vim', { 'if': 'executable("tern")' })
     endif
 endif
 
