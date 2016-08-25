@@ -8,7 +8,9 @@ read -r -d '' UPDATE_EMACS_COMMAND <<- EOF
   package-archives
   '(
     ("melpa" . "https://melpa.org/packages/")
+    ("org"   . "http://orgmode.org/elpa/")
     ("gnu"   . "https://elpa.gnu.org/packages/")))
+ (package-initialize)
  (package-refresh-contents)
  (package-list-packages t)
  (package-menu-mark-upgrades)
