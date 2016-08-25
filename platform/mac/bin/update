@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+# Used by update-emacs
+read -r -d '' UPDATE_EMACS_COMMAND <<- EOF
+(progn
+ (require 'package)
+ (setq
+  package-archives
+  '(
+    ("melpa" . "https://melpa.org/packages/")
+    ("gnu"   . "https://elpa.gnu.org/packages/")))
+ (package-refresh-contents)
+ (package-list-packages t)
+ (package-menu-mark-upgrades)
+ (package-menu-execute t))
+EOF
+
 section () {
     echo -e "\033[1;94m==>\033[0m \033[1;97mUpdating $1...\033[0m"
 }
@@ -16,10 +31,8 @@ update-spacemacs () {
 
 update-emacs () {
     section Emacs
-    emacs --batch -Q \
-	--eval="(package-list-packages t)" \
-	--eval="(package-menu-mark-upgrades)" \
-	--eval="(package-menu-execute t)"
+
+    emacs --batch --eval="${UPDATE_EMACS_COMMAND}"
 }
 
 if [ "$#" -eq 0 ]; then
