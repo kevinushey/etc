@@ -17,6 +17,14 @@ read -r -d '' UPDATE_EMACS_COMMAND <<- EOF
  (package-menu-execute t))
 EOF
 
+# Used by update-r-packages
+read -r -d '' UPDATE_R_PACKAGES_COMMAND <<- EOF
+options(install.packages.compile.from.source = TRUE)
+options(repos = c(CRAN = "https://cran.rstudio.com"))
+utils::update.packages(ask = FALSE)
+EOF
+UPDATE_R_PACKAGES_COMMAND="$(echo "${UPDATE_R_PACKAGES_COMMAND}" | tr '\n' ';')"
+
 section () {
     echo -e "\033[1;94m==>\033[0m \033[1;97mUpdating $1...\033[0m"
 }
@@ -33,22 +41,28 @@ update-spacemacs () {
 
 update-emacs () {
     section Emacs
-
     emacs --batch --eval="${UPDATE_EMACS_COMMAND}"
+}
+
+update-r-packages () {
+    section 'R Packages'
+    R --vanilla --slave -e "${UPDATE_R_PACKAGES_COMMAND}"
 }
 
 if [ "$#" -eq 0 ]; then
     update-homebrew
     update-spacemacs
     update-emacs
+    update-r-package
 fi
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
-	--emacs     ) update-emacs ;;
-	--spacemacs ) update-spacemacs ;;
-	--homebrew  ) update-homebrew ;;
-	*           ) echo "Unrecognized argument '$1'" ;;
+	--emacs      ) update-emacs ;;
+	--spacemacs  ) update-spacemacs ;;
+	--homebrew   ) update-homebrew ;;
+	--r-packages ) update-r-packages ;;
+	*            ) echo "Unrecognized argument '$1'" ;;
     esac
     shift
 done
