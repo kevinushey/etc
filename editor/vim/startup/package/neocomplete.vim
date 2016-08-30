@@ -1,4 +1,4 @@
-call dein#add('Shougo/neocomplete.vim.git')
+Plug 'Shougo/neocomplete.vim.git'
 
 " For the life of me, I cannot get neosnippet to play nicely with endwise
 " or autopair. Unfortunately, I like those plugins much more than I like
@@ -44,3 +44,4 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
 endif
 
 autocmd VimEnter call neocomplete#initialize()
+

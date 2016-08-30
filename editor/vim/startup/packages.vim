@@ -1,31 +1,30 @@
 EnsureDirectory "~/.vim/bundle"
 
-" Use dein.vim to manage packages
-if !IsDirectory("~/.vim/bundle/dein.vim")
-        let DestinationPath = expand('~/.vim/bundle/dein.vim')
+" Use vim-plug to manage packages
+" Make vim pretend that it's a vim package
+if !IsDirectory("~/.vim/bundle/vim-plug/autoload")
+        let DestinationPath = expand('~/.vim/bundle/vim-plug/autoload')
         let Command = '!git clone ' .
-            \ 'https://github.com/Shougo/dein.vim ' .
+            \ 'https://github.com/junegunn/vim-plug ' .
             \ DoubleQuotedEscaped(DestinationPath)
-        echomsg 'Installing ''dein.vim''...'
+        echomsg 'Installing ''vim-plug''...'
         execute Command
 endif
 
 filetype plugin off
-set runtimepath+=~/.vim/bundle/dein.vim
-call dein#begin(expand('~/.vim/bundle'))
-
-call dein#add(expand('~/.vim/bundle/dein.vim'))
+set runtimepath+=~/.vim/bundle/vim-plug
+call plug#begin('~/.vim/bundle')
 
 " NERDTree gives us a nice tree-based view of files and a nice interface for
 " interacting with said tree.
-call dein#add('scrooloose/nerdtree')
+Plug 'scrooloose/nerdtree'
 
 " 'ag' is grep on steroids and goes a long ways towards understanding which
 " files you probably care about (and excludes files you don't care about)
-call dein#add('rking/ag.vim')
+Plug 'rking/ag.vim'
 
 " This gives me my favourite color scheme 'Tomorrow Night Bright'.
-call dein#add('flazz/vim-colorschemes')
+Plug 'flazz/vim-colorschemes'
 
 " I briefly considered using 'powerline' here. It was a bad decision. I just
 " want to make a nice status bar, I shouldn't have to opt into a JSON-based
@@ -43,69 +42,69 @@ call dein#add('flazz/vim-colorschemes')
 " However, since I'm probably using Vim from a terminal I'm not sure how
 " much utility there will be.
 Define g:airline#extension#tagbar#enabled = 0
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
-call dein#add('bling/vim-bufferline')
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'bling/vim-bufferline'
 
 " CTRL + P for quick file searching is wonderful.
 Source '~/.vim/startup/package/ctrlp.vim'
 
 " Not sure if I need this TBH.
-call dein#add('tacahiroy/ctrlp-funky')
+Plug 'tacahiroy/ctrlp-funky'
 
 " Terry Ma's plugins are surprisingly nice -- using 'vim-expand-region' with
 " hotkeys for 'v' and '<S-v>' makes expanding/contracting regions very nice.
-call dein#add('terryma/vim-multiple-cursors')
-call dein#add('terryma/vim-expand-region')
+Plug 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-expand-region'
 
 " Show substitution results as they're typed (e.g. for '%s|foo|bar|g')
-call dein#add('osyo-manga/vim-over')
+Plug 'osyo-manga/vim-over'
 
 " Tim Pope is my hero. Unfortunately I have a hard time remembering what each
 " plugin does because the plugin names are too clever for me. But they are
 " clever.
 
 " Fix-up common spelling mistakes.
-call dein#add('tpope/vim-abolish')
+Plug 'tpope/vim-abolish'
 
 " Make '.' work better with plugin maps.
-call dein#add('tpope/vim-repeat')
+Plug 'tpope/vim-repeat'
 
 " Automagically infer shiftwidth, expandtab.
-call dein#add('tpope/vim-sleuth')
+Plug 'tpope/vim-sleuth'
 
 " Surround various word objects with stuff.
-call dein#add('tpope/vim-surround')
+Plug 'tpope/vim-surround'
 
 " Utility keybindings for moving around buffers and so on.
 " Mainly keyed off of '[' and ']'.
 "
 " In particular, I really like the 'file' movement commands; '[f' and ']f'.
-call dein#add('tpope/vim-unimpaired')
+Plug 'tpope/vim-unimpaired'
 
 " Very nice 'git' interface from vim.
-call dein#add('tpope/vim-fugitive')
+Plug 'tpope/vim-fugitive'
 
 " Automagically add 'end*' when appropriate.
-call dein#add('tpope/vim-endwise')
+Plug 'tpope/vim-endwise'
 
 " Autocompletion of various pairs.
 let g:AutoPairsMultilineClose = 0
-call dein#add('jiangmiao/auto-pairs')
+Plug 'jiangmiao/auto-pairs'
 
 " Comment management.
-call dein#add('tpope/vim-commentary')
+Plug 'tpope/vim-commentary'
 
 " Use 'syntastic' for linting etc. I only really use this
 " in JavaScript.
-call dein#add('scrooloose/syntastic')
+Plug 'scrooloose/syntastic'
 
 " Nice vertical alignment. Although the package hasn't been updated in a
 " while, it seems to have 'solved' this particular problem.
-call dein#add('godlygeek/tabular')
+Plug 'godlygeek/tabular'
 
 if executable('ctag')
-	call dein#add('majutsushi/tagbar')
+	Plug 'majutsushi/tagbar'
 endif
 
 " Use Shougo's autocompletion. Because it requires a lot
@@ -114,18 +113,18 @@ endif
 if has("lua")
     Source "~/.vim/startup/package/neocomplete.vim"
 else
-    call dein#add('ervandew/supertab')
+    Plug 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "<c-n>"
 endif
 
 " Easy-motion. Like Ace jump. I don't know who came first.
-call dein#add('Lokaltog/vim-easymotion')
+Plug 'Lokaltog/vim-easymotion'
 
 " Python-related stuff. Note that I don't write python very often.
-call dein#add('davidhalter/jedi-vim')
+Plug 'davidhalter/jedi-vim'
 
 " JavaScript.
-call dein#add('jelera/vim-javascript-syntax')
+Plug 'jelera/vim-javascript-syntax'
 
 " Autocompletion for JavaScript using Tern.
 if (!IsWindows())
@@ -133,14 +132,16 @@ if (!IsWindows())
         if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
             !cd ~/.vim/bundle/tern_for_vim && npm install
         endif
-        call dein#add('ternjs/tern_for_vim', { 'if': 'executable("tern")' })
+        if executable('tern')
+            Plug 'ternjs/tern_for_vim'
+        endif
     endif
 endif
 
-call dein#add('kevinushey/vim-deferred')
-call dein#add('mattn/emmet-vim')
-call dein#add('derekwyatt/vim-scala')
+Plug 'kevinushey/vim-deferred'
+Plug 'mattn/emmet-vim'
+Plug 'derekwyatt/vim-scala'
 
-call dein#end()
+call plug#end()
 filetype plugin indent on
 
