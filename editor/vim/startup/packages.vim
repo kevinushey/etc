@@ -107,15 +107,7 @@ if executable('ctag')
 	Plug 'majutsushi/tagbar'
 endif
 
-" Use Shougo's autocompletion. Because it requires a lot
-" of configuration to make sure it works well, everything is
-" moved to a separate file.
-if has("lua")
-    Source "~/.vim/startup/package/neocomplete.vim"
-else
-    Plug 'ervandew/supertab'
-    let g:SuperTabDefaultCompletionType = "<c-n>"
-endif
+Source "~/.vim/startup/package/youcompleteme.vim"
 
 " Easy-motion. Like Ace jump. I don't know who came first.
 Plug 'Lokaltog/vim-easymotion'
