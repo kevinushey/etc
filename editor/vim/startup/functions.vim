@@ -216,3 +216,52 @@ function! Download(URL, destination)
     execute join(["!wget -c", a:URL, "-O", a:destination], ' ')
 endfunction
 
+function! SmartCR()
+
+    let Statement = "\<CR>"
+    if exists('g:loaded_endwise')
+        let Statement .= Lazy("EndwiseDiscretionary()")
+    endif
+
+    if exists('g:AutoPairsLoaded')
+        let Statement .= Lazy("AutoPairsReturn()")
+    endif
+
+    return Statement
+
+endfunction
+
+" Don't indent namespace and template
+function! CppNoNamespaceAndTemplateIndent()
+    let l:cline_num = line('.')
+    let l:cline = getline(l:cline_num)
+    let l:pline_num = prevnonblank(l:cline_num - 1)
+    let l:pline = getline(l:pline_num)
+    while l:pline =~# '\(^\s*{\s*\|^\s*//\|^\s*/\*\|\*/\s*$\)'
+        let l:pline_num = prevnonblank(l:pline_num - 1)
+        let l:pline = getline(l:pline_num)
+    endwhile
+    let l:retv = cindent('.')
+    let l:pindent = indent(l:pline_num)
+    if l:pline =~# '^\s*template\s*\s*$'
+        let l:retv = l:pindent
+    elseif l:pline =~# '\s*typename\s*.*,\s*$'
+        let l:retv = l:pindent
+    elseif l:cline =~# '^\s*>\s*$'
+        let l:retv = l:pindent - &shiftwidth
+    elseif l:pline =~# '\s*typename\s*.*>\s*$'
+        let l:retv = l:pindent - &shiftwidth
+    elseif l:pline =~# '^\s*namespace.*'
+        let l:retv = 0
+    endif
+    return l:retv
+endfunction
+
+" Make tab expand snippets in HTML.
+function! HtmlTab()
+    if exists('g:loaded_emmet_vim') && emmet#isExpandable()
+        return "\<Plug>(emmet-expand-abbr)"
+    endif
+    return "\<Tab>"
+endfunction
+
