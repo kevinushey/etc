@@ -25,6 +25,7 @@ set textwidth=0
 " Better indentation defaults. See ':help cino' for documentation
 " on the options.
 set cinoptions=N-s,g0,m1,(s
+set formatoptions+=j
 
 " Nicer hlsearch background colors
 highlight Search cterm=NONE ctermfg=white ctermbg=12
@@ -174,4 +175,5 @@ endfunction
 if has("autocmd")
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
 endif
+
 
