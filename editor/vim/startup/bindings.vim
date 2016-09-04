@@ -22,6 +22,14 @@ nnoremap <Leader>\ :vsp<CR>
 nnoremap <Leader>- :sp<CR>
 nnoremap <Leader>/ :OverCommandLine<CR>
 
+" Helpers for searching with Ag
+map <Leader>f :Ag -U --ignore tags --ignore *.a --ignore *.min.* --ignore *.cache.js <cword><CR>
+vnoremap <Leader>s :call AgSearch()<CR>
+function! AgSearch()
+    call feedkeys('"0y')
+    call feedkeys(":Ag -U \<C-R>0\<CR>")
+endfunction
+
 NVMap <leader>y "+y
 NVMap <leader>d "+d
 NVMap <leader>p "+p
