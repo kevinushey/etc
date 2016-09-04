@@ -1,17 +1,18 @@
 scriptencoding utf-8
 
-ColorScheme wombat256mod slate default
+highlight Normal ctermfg=15 ctermbg=16
 highlight Search cterm=NONE ctermfg=white ctermbg=12
+ColorScheme wombat256mod slate default
 
 if has('autocmd')
+    autocmd BufEnter * set t_ut=
+    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
     autocmd BufEnter,BufWrite * set nospell
+    autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
+    autocmd FileType r set commentstring=##\ %s
     autocmd VimEnter * silent! AirlineTheme dark
     autocmd VimEnter * silent! AirlineToggleWhitespace
     autocmd VimEnter,BufEnter,BufWinEnter * redraw!
-    autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
-    autocmd FileType r set commentstring=##\ %s
-    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} \
-        setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
 endif
 
 " Disable menu-stuff (for GUIs)
@@ -38,6 +39,6 @@ set nospell
 set hidden
 set cursorline
 set backup
-set undofile
 set undolevels=1000 
 set undoreload=10000
+
