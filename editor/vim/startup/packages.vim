@@ -134,6 +134,10 @@ Plug 'kevinushey/vim-deferred'
 Plug 'mattn/emmet-vim'
 Plug 'derekwyatt/vim-scala'
 
+let g:UltiSnipsSnippetDir = "~/.vim/snippets"
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
 call plug#end()
 filetype plugin indent on
 
