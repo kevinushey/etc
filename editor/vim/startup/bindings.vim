@@ -27,11 +27,38 @@ NVMap <leader>d "+d
 NVMap <leader>p "+p
 NVMap <leader>P "+P
 
-vmap v <Plug>(expand_region_expand)
-vmap <S-v> <Plug>(expand_region_shrink)
+vnoremap . :normal .<CR>
+vnoremap < <gv
+vnoremap > >gv
+vnoremap v <Plug>(expand_region_expand)
+vnoremap <S-v> <Plug>(expand_region_shrink)
 
 cnoremap q: :q
 
 inoremap <expr> <CR> SmartCR()
 inoremap jk <Esc>
 
+if isdirectory(expand("~/.vim/bundle/tabular"))
+    NVMap <Leader>a&     :Tabularize /&<CR>
+    NVMap <Leader>a,     :Tabularize /,<CR>
+    NVMap <Leader>a,,    :Tabularize /,\zs<CR>
+    NVMap <Leader>a:     :Tabularize /:<CR>
+    NVMap <Leader>a::    :Tabularize /:\zs<CR>
+    NVMap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    NVMap <Leader>a=     :Tabularize /^[^=]*\zs=<CR>
+    NVMap <Leader>a=>    :Tabularize /=><CR>
+endif
+
+if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
+    nnoremap <silent> <leader>gs :Gstatus<CR>
+    nnoremap <silent> <leader>gd :Gdiff<CR>
+    nnoremap <silent> <leader>gc :Gcommit<CR>
+    nnoremap <silent> <leader>gb :Gblame<CR>
+    nnoremap <silent> <leader>gl :Glog<CR>
+    nnoremap <silent> <leader>gp :Git push<CR>
+    nnoremap <silent> <leader>gr :Gread<CR>
+    nnoremap <silent> <leader>gw :Gwrite<CR>
+    nnoremap <silent> <leader>ge :Gedit<CR>
+    nnoremap <silent> <leader>gi :Git add -p %<CR>
+    nnoremap <silent> <leader>gg :SignifyToggle<CR>
+endif

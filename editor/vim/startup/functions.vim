@@ -264,3 +264,12 @@ function! HtmlTab()
     endif
     return "\<Tab>"
 endfunction
+
+" Restore cursor position
+function! RestoreCursorPosition()
+    if line("'\"") <= line("$")
+        silent! normal! g`"
+        return 1
+    endif
+endfunction
+

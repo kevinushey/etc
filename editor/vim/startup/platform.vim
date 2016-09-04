@@ -1,6 +1,3 @@
-" Source platform-specific configuration files.
-let g:system_name = "unknown"
-
 " The most common conflicts occur as a result of Windows vs. non-Windows, so
 " provide 'escape hatches' for each case.
 if IsWindows()

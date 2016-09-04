@@ -22,6 +22,7 @@ elseif executable('ack')
 else
     let s:ctrlp_fallback = 'find %s -type f'
 endif
+
 if exists("g:ctrlp_user_command")
     unlet g:ctrlp_user_command
 endif
