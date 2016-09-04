@@ -4,6 +4,7 @@ set number
 EnsureDirectory "~/.vim/startup"
 EnsureDirectory "~/.vim/swapfiles"
 EnsureDirectory "~/.vim/backup"
+EnsureDirectory "~/.vim/views"
 
 " Ensure that helptags are generated for the vim help directory
 let g:DocPath = expand("$VIMRUNTIME/doc")
@@ -14,8 +15,9 @@ endif
 
 " Set up directories for swapfiles and backup files
 " (so that they don't pollute the filesystem otherwise)
-set directory=$HOME/.vim/swapfiles//
-set backupdir=$HOME/.vim/backup//
+set directory=~/.vim/swapfiles//
+set backupdir=~/.vim/backup//
+set viewdir=~/.vim/views//
 
 " Set a default background, foreground color.
 highlight Normal ctermfg=15 ctermbg=16

@@ -26,7 +26,6 @@ endif
 set textwidth=0
 set cinoptions=N-s,g0,m1,(s
 set formatoptions+=j
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -42,4 +41,3 @@ set backup
 set undofile
 set undolevels=1000 
 set undoreload=10000
-

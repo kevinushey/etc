@@ -2,15 +2,16 @@ let mapleader="\<Space>"
 set timeoutlen=500
 
 " Remap leader + direction to choose window
-let g:ArrowKeys = ['<Up>', '<Down>', '<Left>', '<Right>']
-for key in g:ArrowKeys
-    execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], " ")
+for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+	execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], " ")
 endfor
 
-map <Leader><Leader> <Plug>(easymotion-prefix)
+" Quickly navigate to buffers based on index
 for i in range(1, 9)
     execute "nnoremap <Leader>" . i . " :b" . i . "<CR>"
 endfor
+
+map <Leader><Leader> <Plug>(easymotion-prefix)
 
 nnoremap <Leader>r :call Reload() \| Echo "Reloaded '" . @% . "'."<CR>
 nnoremap <Leader>o :CtrlP<CR>
@@ -31,6 +32,6 @@ vmap <S-v> <Plug>(expand_region_shrink)
 
 cnoremap q: :q
 
-imap <expr><CR> SmartCR()
+inoremap <expr> <CR> SmartCR()
 inoremap jk <Esc>
 
