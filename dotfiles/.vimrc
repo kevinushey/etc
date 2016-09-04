@@ -5,7 +5,6 @@ endif
 
 execute join(['source', '~/.vim/startup/functions.vim'], ' ')
 
-Source "~/.vim/startup/before.vim"
 Source "~/.vim/startup/platform.vim"
 Source "~/.vim/startup/sensible.vim"
 Source "~/.vim/startup/packages.vim"
