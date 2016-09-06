@@ -8,6 +8,7 @@ Plug 'Shougo/neco-vim'
 " Set up a basic configuration for 'Neocomplete'.
 " Copied + modified from 'https://github.com/Shougo/neocomplete.vim'.
 let g:acp_enableAtStartup                           = 0
+let g:neocomplete#auto_complete_delay               = 300
 let g:neocomplete#cursor_hold_i_time                = 300
 let g:neocomplete#enable_at_startup                 = 1
 let g:neocomplete#enable_auto_close_preview         = 1
