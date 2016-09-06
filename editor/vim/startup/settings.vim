@@ -72,7 +72,6 @@ set iskeyword-=#
 set iskeyword-=-
 set iskeyword-=.
 set linespace=0
-set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set nojoinspaces
 set nolist
@@ -101,3 +100,4 @@ set wildmenu
 set wildmode=list:longest,full
 set winminheight=0
 set wrap
+
