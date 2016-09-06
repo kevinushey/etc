@@ -31,9 +31,10 @@ if has('autocmd')
     autocmd BufEnter * set t_ut=
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
     autocmd BufWinEnter * call RestoreCursorPosition()
-    autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+    autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
     autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
-    autocmd FileType r set commentstring=##\ %s
+    autocmd FileType r setlocal commentstring=##\ %s
+    autocmd FileType vimscript setlocal omnifunc=vimcom
     autocmd VimEnter * silent! AirlineTheme dark
     autocmd VimEnter * silent! AirlineToggleWhitespace
     autocmd VimEnter,BufEnter,BufWinEnter * redraw!
@@ -99,5 +100,4 @@ set whichwrap=b,s,h,l,<,>,[,]
 set wildmenu
 set wildmode=list:longest,full
 set winminheight=0
-set wrap
 

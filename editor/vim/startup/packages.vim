@@ -107,7 +107,7 @@ if executable('ctag')
 	Plug 'majutsushi/tagbar'
 endif
 
-Source "~/.vim/startup/packages/youcompleteme.vim"
+Source "~/.vim/startup/packages/neocomplete.vim"
 
 " Easy-motion. Like Ace jump. I don't know who came first.
 Plug 'Lokaltog/vim-easymotion'

@@ -1,4 +1,5 @@
 Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neco-vim'
 
 " For the life of me, I cannot get neosnippet to play nicely with endwise
 " or autopair. Unfortunately, I like those plugins much more than I like
