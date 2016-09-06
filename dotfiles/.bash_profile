@@ -72,10 +72,7 @@ PKG_MAKE_DSYM="yes"
 # Go
 export GOPATH=~/goprojects
 if test -n "${IS_DARWIN}"; then
-    defvar GOROOT "/usr/local/opt/go/libxec"
-fi
-
-if test -n "${GOROOT}"; then
+    defvar GOROOT "/usr/local/opt/go/libexec"
     defvar PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
 fi
 
