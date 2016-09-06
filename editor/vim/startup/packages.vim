@@ -47,7 +47,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-bufferline'
 
 " CTRL + P for quick file searching is wonderful.
-Source '~/.vim/startup/package/ctrlp.vim'
+Source '~/.vim/startup/packages/ctrlp.vim'
 
 " Not sure if I need this TBH.
 Plug 'tacahiroy/ctrlp-funky'
@@ -107,7 +107,7 @@ if executable('ctag')
 	Plug 'majutsushi/tagbar'
 endif
 
-Source "~/.vim/startup/package/youcompleteme.vim"
+Source "~/.vim/startup/packages/youcompleteme.vim"
 
 " Easy-motion. Like Ace jump. I don't know who came first.
 Plug 'Lokaltog/vim-easymotion'
