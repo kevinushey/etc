@@ -218,6 +218,10 @@ endfunction
 
 function! SmartCR()
 
+    if pumvisible()
+        return "\<C-y>"
+    endif
+
     let Statement = "\<CR>"
     if exists('g:loaded_endwise')
         let Statement .= Lazy("EndwiseDiscretionary()")

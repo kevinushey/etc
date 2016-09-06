@@ -100,4 +100,3 @@ set whichwrap=b,s,h,l,<,>,[,]
 set wildmenu
 set wildmode=list:longest,full
 set winminheight=0
-

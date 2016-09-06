@@ -41,10 +41,9 @@ vnoremap > >gv
 vnoremap v <Plug>(expand_region_expand)
 vnoremap <S-v> <Plug>(expand_region_shrink)
 
-cnoremap q: :q
-
 inoremap <expr> <CR> SmartCR()
-inoremap jk <Esc>
+
+cnoremap q: :q
 
 if isdirectory(expand("~/.vim/bundle/tabular"))
     NVMap <Leader>a&     :Tabularize /&<CR>
