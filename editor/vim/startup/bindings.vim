@@ -27,7 +27,7 @@ map <Leader>f :Ag -U --ignore tags --ignore *.a --ignore *.min.* --ignore *.cach
 vnoremap <Leader>s :call AgSearch()<CR>
 function! AgSearch()
     call feedkeys('"0y')
-    call feedkeys(":Ag -U \<C-R>0\<CR>")
+    call feedkeys(":Ag -U \<C-R>0")
 endfunction
 
 NVMap <leader>y "+y
@@ -38,10 +38,11 @@ NVMap <leader>P "+P
 vnoremap . :normal .<CR>
 vnoremap < <gv
 vnoremap > >gv
-vnoremap v <Plug>(expand_region_expand)
-vnoremap <S-v> <Plug>(expand_region_shrink)
 
-inoremap <expr> <CR> SmartCR()
+vmap v <Plug>(expand_region_expand)
+vmap <S-v> <Plug>(expand_region_shrink)
+
+imap <expr> <CR> SmartCR()
 
 cnoremap q: :q
 
@@ -56,7 +57,7 @@ if isdirectory(expand("~/.vim/bundle/tabular"))
     NVMap <Leader>a=>    :Tabularize /=><CR>
 endif
 
-if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
+if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <silent> <leader>gs :Gstatus<CR>
     nnoremap <silent> <leader>gd :Gdiff<CR>
     nnoremap <silent> <leader>gc :Gcommit<CR>
