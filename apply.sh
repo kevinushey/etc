@@ -53,8 +53,8 @@ ln -fs ${DIR}/editor/emacs/private-layers ~/.emacs.d/private
 mkdir -p ~/.vim
 rm -rf ~/.vim/startup
 ln -fs ${DIR}/editor/vim/startup ~/.vim/startup
+ln -fs ${DIR}/editor/vim/startup.vim ~/.vim/startup.vim
 ln -fs ~/.vimrc ~/.nvimrc
-
 
 ## Scripts
 SCRIPT_PATHS=`find ${PWD} -type d -path */bin`

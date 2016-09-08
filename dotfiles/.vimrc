@@ -3,13 +3,7 @@ if filereadable(expand("~/.vimrc.before"))
 	source ~/.vimrc.before
 endif
 
-execute join(['source', '~/.vim/startup/functions.vim'], ' ')
-
-Source "~/.vim/startup/platform.vim"
-Source "~/.vim/startup/sensible.vim"
-Source "~/.vim/startup/packages.vim"
-Source "~/.vim/startup/settings.vim"
-Source "~/.vim/startup/bindings.vim"
+source ~/.vim/startup.vim
 
 " Global overrides
 if filereadable(expand("~/.vimrc.after"))

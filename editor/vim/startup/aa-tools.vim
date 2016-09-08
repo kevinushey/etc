@@ -1,6 +1,4 @@
 " Ensure that a directory exists.
-" The system 'mkdir' is called and so the directory passed in will be
-" double-quoted and escaped.
 function! EnsureDirectory(path)
 
     if IsDirectory(a:path)
@@ -16,17 +14,11 @@ function! EnsureDirectory(path)
     return IsDirectory(a:path)
 
 endfunction
+command! -nargs=+ -complete=file EnsureDirectory call EnsureDirectory(<args>)
 
 function! IsDirectory(path)
     return isdirectory(expand(a:path))
 endfunction
-
-" Call 'EnsureDirectory' as a command. The use of '<args>' ensures that
-" variables will be expanded.
-" 
-"     EnsureDirectory "~/.vim"
-"     EnsureDirectory g:directory_path
-command! -nargs=+ -complete=file EnsureDirectory call EnsureDirectory(<args>)
 
 function! MarkFileSourced(path)
     let VariableName = LoadedName(a:path)
@@ -41,8 +33,7 @@ function! IsFileAlreadySourced(path)
     return exists(LoadedName(a:path))
 endfunction
 
-" Source a file (if it exists).
-" Does nothing if the file does not exist.
+" Source a file if it exists. Avoids reloading an already-loaded file.
 function! Source(path)
 
     if IsFileAlreadySourced(a:path)
@@ -75,14 +66,14 @@ command! -nargs=+ -complete=file LazySource call LazySource(<args>)
 "     let g:bar = 2     " `g:bar` is 2
 "     Define g:bar = 3  " no change as `g:bar` is already defined
 "
-function! DefineCommand(command)
+function! Define(command)
     let l:index = stridx(a:command, " ")
     let l:name = strpart(a:command, 0, l:index)
     if !exists(l:name)
         execute join(["let", a:command], " ")
     endif
 endfunction
-command! -nargs=+ -complete=var Define call DefineCommand(<q-args>)
+command! -nargs=+ -complete=var Define call Define(<q-args>)
 
 " Form a file path. Uses '/' slashes.
 function! FilePath(...)
