@@ -57,12 +57,12 @@ defvar                                                  \
     EMAIL              "`rot13 'xrivahfurl@tznvy.pbz'`" \
     EDITOR             "vim"                            \
     GNUTERM            "x11"                            \
-    \
+                                                        \
     color_prompt       "yes"                            \
     force_color_prompt "yes"                            \
     CLICOLORS          "1"                              \
     LSCOLORS           "ExFxBxDxCxegedabagacad"         \
-    \
+                                                        \
     PYTHONSTARTUP      ".pythonstartup.py"              \
     NODE_PATH          "/usr/local/lib/node"
 
@@ -70,7 +70,7 @@ defvar                                                  \
 PKG_MAKE_DSYM="yes"
 
 # Go
-export GOPATH=~/goprojects
+export GOPATH="${HOME}/goprojects"
 if test -n "${IS_DARWIN}"; then
     defvar GOROOT "/usr/local/opt/go/libexec"
     defvar PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
