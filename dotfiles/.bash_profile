@@ -82,21 +82,21 @@ if test -n "$BASH"; then
     # Homebrew-related completion for bash on OS X
     if test -n "${IS_DARWIN}"; then
 
-        if [ -f $(brew --prefix)/etc/bash_completion ]; then
-            . $(brew --prefix)/etc/bash_completion
+        BREW_PREFIX="$(brew --prefix)"
+        if test -s "${BREW_PREFIX}/etc/bash_completion"; then
+            . "${BREW_PREFIX}/etc/bash_completion"
         fi
 
-        if [ -f $(brew --prefix)/etc/bash_completion.d ]; then
-            . $(brew --prefix)/etc/bash_completion.d
+        if test -s "${BREW_PREFIX}/etc/bash_completion.d"; then
+            . "${BREW_PREFIX}/etc/bash_completion.d"
         fi
 
-        if [ -f ~/git-completion.bash ]; then
-            . ~/git-completion.bash
+        if test -s "${BREW_PREFIX}/etc/profile.d/autojump.sh"; then
+            . "${BREW_PREFIX}/etc/profile.d/autojump.sh"
         fi
 
-        # Autojump
-        if [ -s "$(brew --prefix)/etc/profile.d/autojump.sh" ]; then
-            . "$(brew --prefix)/etc/profile.d/autojump.sh"
+        if test -s "${HOME}/git-completion.bash"; then
+            . "${HOME}/git-completion.bash"
         fi
 
     fi
