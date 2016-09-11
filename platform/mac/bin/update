@@ -44,6 +44,11 @@ update-emacs () {
     emacs --batch --eval="${UPDATE_EMACS_COMMAND}"
 }
 
+update-vim () {
+    section Vim
+    vim -N -es -S ~/.vimrc -c PlugUpdate -c PlugUpgrade -c :quitall
+}
+
 update-r-packages () {
     section 'R Packages'
     R --vanilla --slave -e "${UPDATE_R_PACKAGES_COMMAND}"
@@ -53,14 +58,16 @@ if [ "$#" -eq 0 ]; then
     update-homebrew
     update-spacemacs
     update-emacs
+    update-vim
     update-r-packages
 fi
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
-	--emacs      ) update-emacs ;;
-	--spacemacs  ) update-spacemacs ;;
 	--homebrew   ) update-homebrew ;;
+	--spacemacs  ) update-spacemacs ;;
+	--emacs      ) update-emacs ;;
+	--vim        ) update-vim ;;
 	--r-packages ) update-r-packages ;;
 	*            ) echo "Unrecognized argument '$1'" ;;
     esac
