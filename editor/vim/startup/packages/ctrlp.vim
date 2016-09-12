@@ -1,7 +1,6 @@
 Plug 'ctrlpvim/ctrlp.vim'
 
-" Copied from spf13-vim. Want these bindings to be loaded
-" eagerly.
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 let g:ctrlp_working_path_mode = 'ra'
 nnoremap <silent> <D-t> :CtrlP<CR>
 nnoremap <silent> <D-r> :CtrlPMRU<CR>
