@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+section () {
+  echo -e "\033[1;94m==>\033[0m \033[1;97mUpdating $1...\033[0m"
+}
+
+error () {
+  echo -e "\033[1;91mERROR:\033[0m $*"
+}
+
 # Used by update-emacs
 read -r -d '' UPDATE_EMACS_COMMAND <<- EOF
 (progn
@@ -25,32 +33,31 @@ utils::update.packages(ask = FALSE)
 EOF
 UPDATE_R_PACKAGES_COMMAND="$(echo "${UPDATE_R_PACKAGES_COMMAND}" | tr '\n' ';')"
 
-section () {
-    echo -e "\033[1;94m==>\033[0m \033[1;97mUpdating $1...\033[0m"
-}
-
 update-homebrew () {
-    section homebrew
+    section "Homebrew"
     brew update && brew upgrade && brew cleanup
+    if [ "$#" -eq 0 ]; then
+      success
+    fi
 }
 
 update-spacemacs () {
-    section Spacemacs
+    section "Spacemacs"
     cd ~/.emacs.d && git fetch && git reset --hard origin/master
 }
 
 update-emacs () {
-    section Emacs
+    section "Emacs"
     emacs --batch --eval="${UPDATE_EMACS_COMMAND}"
 }
 
 update-vim () {
-    section Vim
+    section "Vim"
     vim -N -es -S ~/.vimrc -c PlugUpdate -c PlugUpgrade -c :quitall
 }
 
 update-r-packages () {
-    section 'R Packages'
+    section "R Packages"
     R --vanilla --slave -e "${UPDATE_R_PACKAGES_COMMAND}"
 }
 
@@ -69,7 +76,7 @@ while [ "$#" -gt 0 ]; do
 	--emacs      ) update-emacs ;;
 	--vim        ) update-vim ;;
 	--r-packages ) update-r-packages ;;
-	*            ) echo "Unrecognized argument '$1'" ;;
+	*            ) error "Unrecognized argument '$1'" ;;
     esac
     shift
 done
