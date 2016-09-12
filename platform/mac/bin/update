@@ -34,50 +34,50 @@ EOF
 UPDATE_R_PACKAGES_COMMAND="$(echo "${UPDATE_R_PACKAGES_COMMAND}" | tr '\n' ';')"
 
 update-homebrew () {
-    section "Homebrew"
-    brew update && brew upgrade && brew cleanup
-    if [ "$#" -eq 0 ]; then
-      success
-    fi
+  section "Homebrew"
+  brew update && brew upgrade && brew cleanup
+  if [ "$#" -eq 0 ]; then
+    success
+  fi
 }
 
 update-spacemacs () {
-    section "Spacemacs"
-    cd ~/.emacs.d && git fetch && git reset --hard origin/master
+  section "Spacemacs"
+  cd ~/.emacs.d && git fetch && git reset --hard origin/master
 }
 
 update-emacs () {
-    section "Emacs"
-    emacs --batch --eval="${UPDATE_EMACS_COMMAND}"
+  section "Emacs"
+  emacs --batch --eval="${UPDATE_EMACS_COMMAND}"
 }
 
 update-vim () {
-    section "Vim"
-    vim -N -es -S ~/.vimrc -c PlugUpdate -c PlugUpgrade -c :quitall
+  section "Vim"
+  vim -N -es -S ~/.vimrc -c PlugUpdate -c PlugUpgrade -c :quitall
 }
 
 update-r-packages () {
-    section "R Packages"
-    R --vanilla --slave -e "${UPDATE_R_PACKAGES_COMMAND}"
+  section "R Packages"
+  R --vanilla --slave -e "${UPDATE_R_PACKAGES_COMMAND}"
 }
 
 if [ "$#" -eq 0 ]; then
-    update-homebrew
-    update-spacemacs
-    update-emacs
-    update-vim
-    update-r-packages
+  update-homebrew
+  update-spacemacs
+  update-emacs
+  update-vim
+  update-r-packages
 fi
 
 while [ "$#" -gt 0 ]; do
-    case "$1" in
-	--homebrew   ) update-homebrew ;;
-	--spacemacs  ) update-spacemacs ;;
-	--emacs      ) update-emacs ;;
-	--vim        ) update-vim ;;
-	--r-packages ) update-r-packages ;;
-	*            ) error "Unrecognized argument '$1'" ;;
-    esac
-    shift
+  case "$1" in
+    --homebrew   ) update-homebrew ;;
+    --spacemacs  ) update-spacemacs ;;
+    --emacs      ) update-emacs ;;
+    --vim        ) update-vim ;;
+    --r-packages ) update-r-packages ;;
+    *            ) error "Unrecognized argument '$1'" ;;
+  esac
+  shift
 done
 

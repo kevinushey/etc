@@ -34,6 +34,7 @@ if has('autocmd')
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
     autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
     autocmd FileType r setlocal commentstring=##\ %s
+    autocmd FileType sh setlocal iskeyword=@,48-57,_,-,192-255
     autocmd FileType vimscript setlocal omnifunc=vimcom
     autocmd VimEnter * silent! AirlineTheme dark
     autocmd VimEnter * silent! AirlineToggleWhitespace
