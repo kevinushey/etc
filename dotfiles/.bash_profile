@@ -83,19 +83,19 @@ if test -n "$BASH"; then
     if test -n "${IS_DARWIN}"; then
 
         BREW_PREFIX="$(brew --prefix)"
-        if test -s "${BREW_PREFIX}/etc/bash_completion"; then
+        if test -f "${BREW_PREFIX}/etc/bash_completion"; then
             . "${BREW_PREFIX}/etc/bash_completion"
         fi
 
-        if test -s "${BREW_PREFIX}/etc/bash_completion.d"; then
+        if test -f "${BREW_PREFIX}/etc/bash_completion.d"; then
             . "${BREW_PREFIX}/etc/bash_completion.d"
         fi
 
-        if test -s "${BREW_PREFIX}/etc/profile.d/autojump.sh"; then
+        if test -f "${BREW_PREFIX}/etc/profile.d/autojump.sh"; then
             . "${BREW_PREFIX}/etc/profile.d/autojump.sh"
         fi
 
-        if test -s "${HOME}/git-completion.bash"; then
+        if test -f "${HOME}/git-completion.bash"; then
             . "${HOME}/git-completion.bash"
         fi
 
