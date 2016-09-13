@@ -1,0 +1,20 @@
+# Compiled artefacts ----
+**/*.class
+**/*.com
+**/*.dll
+**/*.dylib
+**/*.exe
+**/*.o
+**/*.pyc
+**/*.pyo
+**/*.so
+
+# Temporary Files ----
+**/*~
+**/*#
+**/*.bak
+**/*.swp
+
+# Miscellaneous ----
+**/.DS_Store
+
