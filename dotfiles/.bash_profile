@@ -82,6 +82,7 @@ if test -n "$BASH"; then
     # Homebrew-related completion for bash on OS X
     if test -n "${IS_DARWIN}"; then
         BREW_PREFIX="$(brew --prefix)"
+        export FZF_TMUX=0
         import                                       \
             ${BREW_PREFIX}/etc/bash_completion.d/*   \
             ${BREW_PREFIX}/etc/profile.d/*           \
