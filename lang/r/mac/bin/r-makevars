@@ -1,0 +1,78 @@
+#!/usr/bin/env Rscript
+library(whisker)
+
+env <- Sys.getenv
+
+# utility function for extracting fortran library path
+fortran_library_paths <- function() {
+  gfortran <- Sys.getenv("F77", unset = "gfortran")
+  search_dirs <- system(paste(gfortran, "-print-search-dirs"), intern = TRUE)
+  library_dirs <- sub("^libraries: =", "", grep("^libraries:", search_dirs, value = TRUE))
+  library_dirs_split <- strsplit(library_dirs, ":", fixed = TRUE)[[1]]
+  existing_paths <- Filter(function(path) file.exists(path), library_dirs_split)
+  normalized_paths <- normalizePath(existing_paths)
+  paste("-L", normalized_paths, sep = "", collapse = " ")
+}
+
+# makevars template
+MAKEVARS <- "
+# C
+CC={{CC}}
+CFLAGS={{CFLAGS}}
+
+# C++
+CXX={{CXX}}
+CXXFLAGS={{CXXFLAGS}}
+
+# C++11
+CXX1X={{CXX1X}}
+CXX1XFLAGS={{CXX1XFLAGS}}
+
+# Fortran
+F77={{F77}}
+FFLAGS={{FFLAGS}}
+FC={{FC}}
+FCFLAGS={{FCFLAGS}}
+FLIBS={{FLIBS}}
+
+# Makefile
+MAKEFLAGS={{MAKEFLAGS}}
+"
+
+# default values
+data <- list(
+  # C
+  CC = "clang",
+  CFLAGS = "-g -O2 -Wall -pedantic -mtune=native",
+
+  # C++
+  CXX = "clang++",
+  CXXFLAGS = "-g -O2 -Wall -pedantic -mtune=native -Wno-unused-local-typedef",
+
+  # C++11
+  CXX1X = "clang++ -std=c++11",
+  CXX1XFLAGS = "-g -O2 -Wall -pedantic -mtune=native -Wno-unused-local-typedef",
+
+  # Fortran
+  F77 = "gfortran",
+  FFLAGS = "-g -O2 -mtune=native",
+  FC = "gfortran",
+  FCFLAGS = "-g -O2 -mtune=native",
+  FLIBS = fortran_library_paths(),
+
+  # Makefile
+  MAKEFLAGS = "-j8"
+)
+
+# override with environment
+for (i in seq_along(data)) {
+  key <- names(data)[[i]]
+  env <- Sys.getenv(key, unset = NA)
+  if (!is.na(env))
+    data[[key]] <- env
+}
+
+# render
+rendered <- whisker.render(MAKEVARS, data)
+trimmed <- gsub("^\\s*|\\s*$", "", rendered)
+cat(trimmed, sep = "\n")
