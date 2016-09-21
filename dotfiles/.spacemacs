@@ -534,6 +534,7 @@ layers configuration."
      (local-set-key (kbd "<s-return>") 'ess-eval-region-or-line-and-step)
      (ess-smart-equals-mode nil)
      (evil-local-set-key 'insert (kbd "=") 'self-insert-command)
+     (setq electric-indent-inhibit t)
      (show-paren-mode t)))
 
   ;; Nicer syntax highlighting
