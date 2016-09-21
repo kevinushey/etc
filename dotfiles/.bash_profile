@@ -40,15 +40,16 @@ fi
 
 # Manually set up the PATH, just to ensure that all utilities we might want are
 # available (in the right order).
-defjoined PATH ":"        \
-    "/usr/local/bin"      \
-    "/usr/local/sbin"     \
-    "/usr/bin"            \
-    "/usr/sbin"           \
-    "/bin"                \
-    "/sbin"               \
-    "/sbin/opt/X11/bin"   \
-    "/Library/TeX/texbin" \
+defjoined PATH ":"               \
+    "/usr/local/opt/texinfo/bin" \
+    "/usr/local/bin"             \
+    "/usr/local/sbin"            \
+    "/usr/bin"                   \
+    "/usr/sbin"                  \
+    "/bin"                       \
+    "/sbin"                      \
+    "/sbin/opt/X11/bin"          \
+    "/Library/TeX/texbin"        \
     "/usr/texbin"
 
 # Exports variables
