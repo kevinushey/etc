@@ -2,7 +2,7 @@
 
 import () {
     while test "$#" -ne 0; do
-        . "$1"
+        source "$1"
         shift
     done
 }
@@ -81,24 +81,11 @@ if test -n "$BASH"; then
 
     # Homebrew-related completion for bash on OS X
     if test -n "${IS_DARWIN}"; then
-
         BREW_PREFIX="$(brew --prefix)"
-        if test -f "${BREW_PREFIX}/etc/bash_completion"; then
-            . "${BREW_PREFIX}/etc/bash_completion"
-        fi
-
-        if test -f "${BREW_PREFIX}/etc/bash_completion.d"; then
-            . "${BREW_PREFIX}/etc/bash_completion.d"
-        fi
-
-        if test -f "${BREW_PREFIX}/etc/profile.d/autojump.sh"; then
-            . "${BREW_PREFIX}/etc/profile.d/autojump.sh"
-        fi
-
-        if test -f "${HOME}/git-completion.bash"; then
-            . "${HOME}/git-completion.bash"
-        fi
-
+        import                                       \
+            ${BREW_PREFIX}/etc/bash_completion.d/*   \
+            ${BREW_PREFIX}/etc/profile.d/*           \
+            ${HOME}/.fzf.bash
     fi
 
     # Enable git completion on Linux
