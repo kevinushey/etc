@@ -38,6 +38,7 @@ checkout () {
 
     section "Checking out '$1'"
     cd "$1"
+    git checkout "${LLVM_BRANCH}"
     git pull --rebase
     cd ..
 }
@@ -58,6 +59,7 @@ checkout openmp
 checkout libcxx
 checkout libcxxabi
 
+# add include flags (needed for compilation)
 read -r -d '' INCLUDE_FLAGS << EOF || true
 -I/usr/local/include
 -I/usr/local/opt/libxml2/include/libxml2
@@ -65,18 +67,27 @@ read -r -d '' INCLUDE_FLAGS << EOF || true
 EOF
 INCLUDE_FLAGS="$(echo ${INCLUDE_FLAGS} | tr '\n' ' ')"
 
+# use current git revision for installation
+GIT_REVISION="$(git rev-parse --short HEAD)"
+CMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}/${GIT_REVISION}"
+
+# generate installation folder (create as root then
+# re-assign ownership)
+sudo mkdir -p "${CMAKE_INSTALL_PREFIX}"
+sudo chown -R "${USER}" "${CMAKE_INSTALL_PREFIX}"
+
 # enter build directory
 section "Configuring LLVM"
 enter "${LLVM_ROOT_DIR}/llvm/build"
-cmake -G "Ninja" ..                                \
-    -DCMAKE_C_COMPILER=/usr/bin/clang              \
-    -DCMAKE_C_FLAGS="${INCLUDE_FLAGS}"             \
-    -DCMAKE_CXX_COMPILER=/usr/bin/clang++          \
-    -DCMAKE_CXX_FLAGS="${INCLUDE_FLAGS}"           \
-    -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/lib" \
-    -DCMAKE_BUILD_TYPE=Release                     \
-    -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}"
-
+cmake -G "Ninja" ..                                  \
+    -DCMAKE_C_COMPILER=/usr/bin/clang                \
+    -DCMAKE_C_FLAGS="${INCLUDE_FLAGS}"               \
+    -DCMAKE_CXX_COMPILER=/usr/bin/clang++            \
+    -DCMAKE_CXX_FLAGS="${INCLUDE_FLAGS}"             \
+    -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/lib"   \
+    -DCMAKE_BUILD_TYPE=Release                       \
+    -DCMAKE_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}" \
+    -DLLVM_ENABLE_CXX1Y=Yes                          \
 
 if [ "$?" -ne "0" ]; then
     echo 'ERROR: Failed to configure LLVM!'
@@ -105,7 +116,7 @@ CLANG_VERSION=`cmakevar "CLANG_EXECUTABLE_VERSION"`
 # generate symlinks
 symlink () {
 
-    SOURCE=`greadlink -f "${LLVM_INSTALL_DIR}/bin/$1"`
+    SOURCE=`greadlink -f "${CMAKE_INSTALL_PREFIX}/bin/$1"`
 
     if [ "$#" = "2" ]; then
 	TARGET="/usr/local/bin/$2"
