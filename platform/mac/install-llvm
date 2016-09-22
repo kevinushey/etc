@@ -3,17 +3,28 @@
 ## These steps are compiled from the Clang 'getting started' guide at
 ## http://clang.llvm.org/get_started.html
 
+
+#!/usr/bin/env bash
+
+section () {
+  echo -e "\033[1;94m==>\033[0m \033[1;97m$1\033[0m"
+}
+
+error () {
+  echo -e "\033[1;91mERROR:\033[0m $*"
+}
+
 : ${LLVM_ROOT_DIR="${HOME}"}
 : ${LLVM_INSTALL_DIR="/usr/local/llvm"}
 : ${LLVM_BRANCH="master"}
 
-command -v "ninja" || {
+command -v "ninja" > /dev/null || {
     echo 'ninja not found on PATH; exiting'
     exit 1
 }
 
 enter () {
-    echo "* Entering '$1'"
+    section "Entering '$1'"
     mkdir -p "$1"
     cd "$1"
 }
@@ -21,48 +32,66 @@ enter () {
 checkout () {
 
     if [ ! -e "$1" ]; then
+	section "Cloning '$1'"
 	git clone http://llvm.org/git/$1.git
     fi
 
+    section "Checking out '$1'"
     cd "$1"
     git pull --rebase
     cd ..
 }
 
-# Checkout LLVM sources
+# checkout LLVM sources
 enter "${LLVM_ROOT_DIR}"
 checkout llvm
 
-# Checkout clang
+# checkout clang
 enter "${LLVM_ROOT_DIR}/llvm/tools" 
 checkout clang
 checkout lldb
 
-# Checkout compiler-rt (required for sanitizers)
+# checkout compiler-rt (required for sanitizers)
 enter "${LLVM_ROOT_DIR}/llvm/projects"
 checkout compiler-rt
 checkout openmp
 checkout libcxx
 checkout libcxxabi
 
-# Enter build directory
-enter "${LLVM_ROOT_DIR}/llvm/build"
-cmake -G "Ninja" ..                       \
-    -DCMAKE_C_COMPILER=/usr/bin/clang     \
-    -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
-    -DCMAKE_BUILD_TYPE=Release            \
-    -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}" || {
-	echo 'Failed to configure LLVM!'
-	exit 1
-    }
+read -r -d '' INCLUDE_FLAGS << EOF || true
+-I/usr/local/include
+-I/usr/local/opt/libxml2/include/libxml2
+-I/usr/local/Cellar/python/2.7.12/Frameworks/Python.framework/Versions/2.7/include/python2.7
+EOF
+INCLUDE_FLAGS="$(echo ${INCLUDE_FLAGS} | tr '\n' ' ')"
 
+# enter build directory
+section "Configuring LLVM"
+enter "${LLVM_ROOT_DIR}/llvm/build"
+cmake -G "Ninja" ..                                \
+    -DCMAKE_C_COMPILER=/usr/bin/clang              \
+    -DCMAKE_C_FLAGS="${INCLUDE_FLAGS}"             \
+    -DCMAKE_CXX_COMPILER=/usr/bin/clang++          \
+    -DCMAKE_CXX_FLAGS="${INCLUDE_FLAGS}"           \
+    -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/lib" \
+    -DCMAKE_BUILD_TYPE=Release                     \
+    -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}"
+
+
+if [ "$?" -ne "0" ]; then
+    echo 'ERROR: Failed to configure LLVM!'
+    exit 1
+fi
+
+section "Building LLVM"
 cmake --build . || {
-    echo 'Failed to build LLVM!'
+    echo 'ERROR: Failed to build LLVM!'
     exit 1
 }
 
+section "Installing LLVM"
 cmake --build . --target install || {
-    echo 'Failed to install LLVM!'
+    echo 'ERROR: Failed to install LLVM'
     exit 1
 }
 
@@ -92,6 +121,7 @@ symlink () {
     fi
 }
 
+section "Generating symlinks"
 symlink "clang"
 symlink "clang++"
 symlink "lldb" "lldb"
