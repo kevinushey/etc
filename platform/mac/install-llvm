@@ -74,7 +74,7 @@ CMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}/${GIT_REVISION}"
 # generate installation folder (create as root then
 # re-assign ownership)
 sudo mkdir -p "${CMAKE_INSTALL_PREFIX}"
-sudo chown -R "${USER}" "${CMAKE_INSTALL_PREFIX}"
+sudo chown -R "${USER}" "${LLVM_INSTALL_DIR}"
 
 # enter build directory
 section "Configuring LLVM"
