@@ -13,8 +13,5 @@ let $PATH .= ';C:\Program Files (x86)\Git\bin'
 let $PATH .= ';' . substitute(FilePath($HOME, 'bin'), '/', '\\', 'g')
 
 " Ensure a nice font
-silent! set guifont=Inconsolata:h12
-if &guifont != 'Inconsolata:h12'
-	set guifont=Consolas:h12
-endif
+set guifont=Consolas:h12
 
