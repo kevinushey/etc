@@ -34,6 +34,7 @@ mklink /H "%HOME%\.vimrc" "%VIMRC_DOTFILE_TO%"
 REM Link in other supporting Vim files.
 set "VIM_STARTUP_DIR=%PWD%\editor\vim\startup"
 mklink /J "%HOME%\.vim\startup" "%VIM_STARTUP_DIR%"
+mklink /H "%HOME%\.vim\startup.vim" "%VIM_STARTUP_DIR%.vim"
 
 REM Copy over the .Rprofile.
 set "RPROFILE_DOTFILE_FROM=%PWD%\dotfiles\.Rprofile"
