@@ -1,0 +1,4 @@
+# Workarounds for macOS sierra
+set -g default-shell $SHELL
+set -g default-command "reattach-to-user-namespace -l ${SHELL}"
+
