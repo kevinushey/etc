@@ -19,6 +19,9 @@ call plug#begin('~/.vim/bundle')
 " interacting with said tree.
 Plug 'scrooloose/nerdtree'
 
+" Comment / uncomment lines easily.
+Plug 'scrooloose/nerdcommenter'
+
 " 'ag' is grep on steroids and goes a long ways towards understanding which
 " files you probably care about (and excludes files you don't care about)
 Plug 'rking/ag.vim'
