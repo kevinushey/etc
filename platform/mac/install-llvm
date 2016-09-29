@@ -85,7 +85,8 @@ cmake -G "Ninja" ..                                  \
     -DCMAKE_BUILD_TYPE=Release                       \
     -DCMAKE_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}" \
     -DLLVM_ENABLE_EH=Yes                             \
-    -DLLVM_ENABLE_RTTI=Yes
+    -DLLVM_ENABLE_RTTI=Yes                           \
+    -DSANITIZER_CAN_USE_CXXABI=Yes
 
 if [ "$?" -ne "0" ]; then
     echo 'ERROR: Failed to configure LLVM!'
