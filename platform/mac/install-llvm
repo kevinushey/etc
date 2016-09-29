@@ -3,9 +3,6 @@
 ## These steps are compiled from the Clang 'getting started' guide at
 ## http://clang.llvm.org/get_started.html
 
-
-#!/usr/bin/env bash
-
 section () {
   echo -e "\033[1;94m==>\033[0m \033[1;97m$1\033[0m"
 }
@@ -18,7 +15,7 @@ error () {
 : ${LLVM_INSTALL_DIR="/usr/local/llvm"}
 : ${LLVM_BRANCH="master"}
 
-command -v "ninja" > /dev/null || {
+command -v "ninja" &> /dev/null || {
     echo 'ninja not found on PATH; exiting'
     exit 1
 }
