@@ -41,13 +41,16 @@ if [ ! -d ~/.emacs.d ]; then
 fi
 
 cd ~/.emacs.d
-git reset --hard origin/master
+git fetch && git reset --hard origin/master
 cd ${DIR}
 
 rm -rf ~/.emacs.d/snippets
 ln -fs ${DIR}/editor/emacs/snippets ~/.emacs.d/snippets
 rm -rf ~/.emacs.d/private
 ln -fs ${DIR}/editor/emacs/private-layers ~/.emacs.d/private
+
+ln -fs ${DIR}/editor/emacs/user-config.el ~/.emacs.d/user-config.el
+ln -fs ${DIR}/editor/emacs/user-init.el ~/.emacs.d/user-init.el
 
 ## Vim
 mkdir -p ~/.vim

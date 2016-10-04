@@ -305,75 +305,75 @@
                             (setq web-mode-style-padding 0)
                             ))
 
-  ;;; ESS
-
-;; Prefer spaces around ' = ' for argument completions
-(setq ess-ac-R-argument-suffix " = ")
-
-;; Enable auto complete
-(setq ess-use-auto-complete t)
-
-;; Don't skip whitespace in electric pair mode (too aggressive)
-(setq electric-pair-skip-whitespace nil)
-
-(add-hook 'ess-mode-hook (lambda () (electric-pair-mode 1)))
-
-;; Set up indentation + other useful keybindings
-(add-hook
- 'ess-mode-hook
- (lambda ()
-   (local-set-key (kbd "<s-return>") 'ess-eval-region-or-line-and-step)
-   (ess-smart-equals-mode nil)
-   (evil-local-set-key 'insert (kbd "=") 'self-insert-command)
-   (setq electric-indent-inhibit t)
-   (show-paren-mode t)))
-
-;; Nicer syntax highlighting
-(defun R-operators-regex ()
-  (interactive)
-
-  (defvar R-operators "$@!%^&*(){}[]-+=/<>")
-  (defvar R-operators-split (split-string R-operators "" t))
-  (concat
-   "\\("
-   (mapconcat (lambda (x) (concat "\\\\" x)) R-operators-split "\\|")
-   "\\)"
-   )
-  )
-
-
-;; Nicer syntax highlighting
-(add-hook
- 'ess-mode-hook
- (lambda()
-   (font-lock-add-keywords
-    nil
-    '(
-
-      ;; base keyword highlighting
-      ("\\<\\(if\\|for\\|while\\|function\\|return\\)\\>[\n[:blank:]]*(" 1
-       font-lock-keyword-face)
-
-      ;; highlight function names (ie, words with a '(' following)
-      ("\\<\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*(" 1
-       font-lock-function-name-face)
-
-      ;; highlight named arguments in a function call, e.g. foo(x=bar, y=baz)
-      ("\\([(,]\\|[\n[:blank:]]*\\)\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*=[^=]"
-       2 font-lock-reference-face)
-
-      ;; highlight numbers
-      ("\\(-?[0-9]*\\.?[0-9]*[eE]?-?[0-9]+[iL]?\\)" 1 font-lock-type-face)
-
-      ;; crazy garbage to highlight operators
-      ;; no I don't understand emacs regex escaping rules
-      ("\\(\\$\\|\\@\\|\\!\\|\\%\\|\\^\\|\\&\\|\\*\\|\(\\|\)\\|\{\\|\}\\|\\[\\|\\]\\|\\-\\|\\+\\|\=\\|\\/\\|\<\\|\>\\|:\\|~\\)" 1 font-lock-builtin-face)
-
-      ;; highlight S4 stuff
-      ("\\(setMethod\\|setGeneric\\|setGroupGeneric\\|setClass\\|setRefClass\\|setReplaceMethod\\)" 1 font-lock-reference-face)
-
-      ;; highlight packages called through ::, :::
-      ("\\(\\w+\\):\\{2,3\\}" 1 font-lock-constant-face)
-
-      ))
-   ))
+;; ;;; ESS
+;; 
+;; ;; Prefer spaces around ' = ' for argument completions
+;; (setq ess-ac-R-argument-suffix " = ")
+;; 
+;; ;; Enable auto complete
+;; (setq ess-use-auto-complete t)
+;; 
+;; ;; Don't skip whitespace in electric pair mode (too aggressive)
+;; (setq electric-pair-skip-whitespace nil)
+;; 
+;; (add-hook 'ess-mode-hook (lambda () (electric-pair-mode 1)))
+;; 
+;; ;; Set up indentation + other useful keybindings
+;; (add-hook
+;;  'ess-mode-hook
+;;  (lambda ()
+;;    (local-set-key (kbd "<s-return>") 'ess-eval-region-or-line-and-step)
+;;    (ess-smart-equals-mode nil)
+;;    (evil-local-set-key 'insert (kbd "=") 'self-insert-command)
+;;    (setq electric-indent-inhibit t)
+;;    (show-paren-mode t)))
+;; 
+;; ;; Nicer syntax highlighting
+;; (defun R-operators-regex ()
+;;   (interactive)
+;; 
+;;   (defvar R-operators "$@!%^&*(){}[]-+=/<>")
+;;   (defvar R-operators-split (split-string R-operators "" t))
+;;   (concat
+;;    "\\("
+;;    (mapconcat (lambda (x) (concat "\\\\" x)) R-operators-split "\\|")
+;;    "\\)"
+;;    )
+;;   )
+;; 
+;; 
+;; ;; Nicer syntax highlighting
+;; (add-hook
+;;  'ess-mode-hook
+;;  (lambda()
+;;    (font-lock-add-keywords
+;;     nil
+;;     '(
+;; 
+;;       ;; base keyword highlighting
+;;       ("\\<\\(if\\|for\\|while\\|function\\|return\\)\\>[\n[:blank:]]*(" 1
+;;        font-lock-keyword-face)
+;; 
+;;       ;; highlight function names (ie, words with a '(' following)
+;;       ("\\<\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*(" 1
+;;        font-lock-function-name-face)
+;; 
+;;       ;; highlight named arguments in a function call, e.g. foo(x=bar, y=baz)
+;;       ("\\([(,]\\|[\n[:blank:]]*\\)\\([.A-Za-z][._A-Za-z0-9]*\\)[\n[:blank:]]*=[^=]"
+;;        2 font-lock-reference-face)
+;; 
+;;       ;; highlight numbers
+;;       ("\\(-?[0-9]*\\.?[0-9]*[eE]?-?[0-9]+[iL]?\\)" 1 font-lock-type-face)
+;; 
+;;       ;; crazy garbage to highlight operators
+;;       ;; no I don't understand emacs regex escaping rules
+;;       ("\\(\\$\\|\\@\\|\\!\\|\\%\\|\\^\\|\\&\\|\\*\\|\(\\|\)\\|\{\\|\}\\|\\[\\|\\]\\|\\-\\|\\+\\|\=\\|\\/\\|\<\\|\>\\|:\\|~\\)" 1 font-lock-builtin-face)
+;; 
+;;       ;; highlight S4 stuff
+;;       ("\\(setMethod\\|setGeneric\\|setGroupGeneric\\|setClass\\|setRefClass\\|setReplaceMethod\\)" 1 font-lock-reference-face)
+;; 
+;;       ;; highlight packages called through ::, :::
+;;       ("\\(\\w+\\):\\{2,3\\}" 1 font-lock-constant-face)
+;; 
+;;       ))
+;;    ))
