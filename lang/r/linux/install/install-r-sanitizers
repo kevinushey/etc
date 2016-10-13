@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+## ----- CONFIGURATION VARIABLES ----- ##
+
+# Installation-related
+: ${PREFIX="${HOME}/r/r-devel-sanitizers"}
+: ${SOURCEDIR="${HOME}/r-devel"}
+: ${TMP="${HOME}/tmp"}
+
+## Compiler-specific
+: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero -fuse-ld=gold"}
+: ${CC="gcc-5 -std=gnu99 ${SANFLAGS}"}
+: ${CXX="g++-5 ${SANFLAGS}"}
+: ${CFLAGS="-g -O1 -Wall -pedantic"}
+: ${CXXFLAGS="-g -O1 -Wall -pedantic"}
+: ${FORTRAN="gfortran"}
+: ${FFLAGS="-g -O3"}
+: ${OBJC="clang"}
+: ${OBJCFLAGS="${CFLAGS}"}
+: ${MAKE="make"}
+: ${MAKEFLAGS="-j10"}
+: ${MAIN_LD="g++-5 ${SANFLAGS}"}
+
+## ----- END CONFIGURATION VARIABLES ----- ##
+
+
+## Download R-devel from SVN
+mkdir -p "${SOURCEDIR}" &> /dev/null
+cd "${SOURCEDIR}"
+echo "Checking out latest R..."
+svn checkout https://svn.r-project.org/R/trunk/
+cd trunk
+
+## After downloading the R sources you should also download
+## the recommended packages by entering the R source tree and running
+echo "Syncing recommended R packages..."
+./tools/rsync-recommended
+
+## modify config.site so that it gets the appropriate compilers etc
+cat > config.site <<- EOM
+CC="${CC}"
+CFLAGS="${CFLAGS}"
+CXX="${CXX}"
+CXXFLAGS="${CXXFLAGS}"
+F77="${FORTRAN}"
+FFLAGS="${FFLAGS}"
+FC="${FORTRAN}"
+FCFLAGS="${FFLAGS}"
+OBJC="${OBJC}"
+OBJCFLAGS="${OBJCFLAGS}"
+MAKE="${MAKE}"
+MAKEFLAGS="${MAKEFLAGS}"
+MAIN_LD="${MAIN_LD}"
+EOM
+
+make distclean
+make clean
+
+## configure
+./configure                           \
+    --enable-R-shlib                  \
+    --enable-R-profiling              \
+    --enable-memory-profiling         \
+    --with-valgrind-instrumentation=2 \
+    --prefix=${PREFIX}                \
+    $@
+
+STATUS="$?"
+if [ "${STATUS}" -ne 0 ]; then
+    echo 'Configure failed!'
+    exit "${STATUS}"
+fi
+
+make -j10 || {
+    echo 'Make failed!'
+    exit 1
+}
+
+mkdir -p "${PREFIX}"
+if [ -d "${PREFIX}" ] && [ -w "${PREFIX}" ]; then
+    INSTALL="make install"
+else
+    INSTALL="sudo make install"
+fi
+
+${INSTALL} || {
+    echo "Installation failed!"
+    exit 1
+}
+
+read -r -d '' R_ENVIRON_VARS <<- EOF
+R_MAKEVARS_USER='~/.R/Makevars.san'
+R_LIBS_USER='${PREFIX}/library'
+EOF
+echo "${R_ENVIRON_VARS}" >> "${PREFIX}/lib/R/etc/Renviron"
+
+echo 'Installation completed successfully!'
+cd ${OWD}
+
