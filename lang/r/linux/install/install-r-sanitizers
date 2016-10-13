@@ -13,12 +13,15 @@
 : ${CXX="g++-5 ${SANFLAGS}"}
 : ${CFLAGS="-g -O1 -Wall -pedantic"}
 : ${CXXFLAGS="-g -O1 -Wall -pedantic"}
-: ${FORTRAN="gfortran"}
+: ${FC="gfortran-5"}
+: ${F77="gfortran-5"}
+: ${FORTRAN="gfortran-5"}
 : ${FFLAGS="-g -O3"}
 : ${OBJC="clang"}
 : ${OBJCFLAGS="${CFLAGS}"}
 : ${MAKE="make"}
 : ${MAKEFLAGS="-j10"}
+: ${LD="gold"}
 : ${MAIN_LD="g++-5 ${SANFLAGS}"}
 
 ## ----- END CONFIGURATION VARIABLES ----- ##
