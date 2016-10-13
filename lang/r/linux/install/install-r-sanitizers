@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# Sanitizer flags
+read -r -d '' DEFAULT_SANFLAGS <<- EOF
+-fsanitize=address,undefined
+-fsanitize-recover=address,undefined
+-fno-omit-frame-pointer
+-fno-sanitize=float-divide-by-zero
+-fuse-ld=gold
+EOF
+DEFAULT_SANFLAGS="$(echo "${DEFAULT_SANFLAGS}" | tr '\n' ' ')"
+
 ## ----- CONFIGURATION VARIABLES ----- ##
 
 # Installation-related
@@ -8,21 +18,19 @@
 : ${TMP="${HOME}/tmp"}
 
 ## Compiler-specific
-: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero -fuse-ld=gold"}
-: ${CC="gcc-5 -std=gnu99 ${SANFLAGS}"}
-: ${CXX="g++-5 ${SANFLAGS}"}
+: ${SANFLAGS="${DEFAULT_SANFLAGS}"}
+: ${CC="gcc-6 -std=gnu99 ${SANFLAGS}"}
+: ${CXX="g++-6 ${SANFLAGS}"}
 : ${CFLAGS="-g -O1 -Wall -pedantic"}
 : ${CXXFLAGS="-g -O1 -Wall -pedantic"}
-: ${FC="gfortran-5"}
-: ${F77="gfortran-5"}
 : ${FORTRAN="gfortran-5"}
-: ${FFLAGS="-g -O3"}
+: ${FFLAGS="-g -O1"}
 : ${OBJC="clang"}
 : ${OBJCFLAGS="${CFLAGS}"}
 : ${MAKE="make"}
 : ${MAKEFLAGS="-j10"}
 : ${LD="gold"}
-: ${MAIN_LD="g++-5 ${SANFLAGS}"}
+: ${MAIN_LD="${CXX} ${SANFLAGS}"}
 
 ## ----- END CONFIGURATION VARIABLES ----- ##
 
@@ -74,10 +82,17 @@ if [ "${STATUS}" -ne 0 ]; then
     exit "${STATUS}"
 fi
 
-make -j10 || {
+# Move Makevars out of the way
+mv ~/.R/Makevars ~/.R/Makevars.bak
+
+make -j10
+STATUS="$?"
+
+mv ~/.R/Makevars.bak ~/.R/Makevars
+if [ "${STATUS}" -ne "0" ]; then
     echo 'Make failed!'
     exit 1
-}
+fi
 
 mkdir -p "${PREFIX}"
 if [ -d "${PREFIX}" ] && [ -w "${PREFIX}" ]; then
