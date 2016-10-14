@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
 OWD="${PWD}"
-
-: ${BOOST_HOME="${HOME}/boost"}
-
-section () {
-    echo "==> $1 Boost ${BOOST_VERSION_DOTS} ..."
-}
-
-error () {
-    echo "ERROR: $1 failed\!"
-}
+DIR="$(dirname "$(readlink -f "$0")")" 
+echo "Directory: ${DIR}"
 
 if [ "$#" -eq "0" ]; then
     echo "Usage: '$0' [boost-version]"
@@ -18,6 +10,45 @@ fi
 
 BOOST_VERSION="$1"
 shift
+
+while [ "$#" -ne "0" ]; do
+    case "$1" in
+    --no-build     ) BOOST_BUILD=0 ;;
+    --no-bootstrap ) BOOST_BOOTSTRAP=0 ;;
+    *              ) error "Unrecognized argument '$1'" ;;
+    esac
+    shift
+done
+
+read -r -d '' DEFAULT_CXXFLAGS <<- EOF
+-g -O1 -fsanitize=address
+-Wno-unused-local-typedefs -Wno-unused-variable
+EOF
+DEFAULT_CXXFLAGS="$(echo "${DEFAULT_CXXFLAGS}" | tr '\n' ' ')"
+
+# Configuration
+: ${BOOST_HOME="${HOME}/.boost"}
+: ${BOOST_BUILD="1"}
+: ${BOOST_BOOTSTRAP="1"}
+: ${BUILDDIR="build"}
+: ${TOOLSET="gcc-5"}
+: ${PREFIX="/opt/local/boost-${BOOST_VERSION}-${TOOLSET}"}
+: ${CXXFLAGS="${DEFAULT_CXXFLAGS}"}
+: ${LDFLAGS="-fsanitize=address -fuse-ld=gold"}
+: ${INCLUDE="/usr/include/x86_64-linux-gnu"}
+
+section () {
+    echo -e "\033[1;94m==>\033[0m \033[1;97m$1 Boost ${BOOST_VERSION_DOTS} ...\033[0m"
+}
+
+success () {
+     echo -e "\033[1;92m==>\033[0m \033[1;97m$1\033[0m"
+}
+
+error () {
+    echo -e "\033[1;91mERROR: $1 failed! $2\033[0m"
+    exit 1
+}
 
 BOOST_VERSION_DOTS="$(echo "${BOOST_VERSION}" | tr '_' '.')"
 BOOST_FOLDER="$(echo "boost_${BOOST_VERSION}" | tr '.' '_')"
@@ -30,23 +61,61 @@ mkdir -p "${BOOST_HOME}"
 cd "${BOOST_HOME}"
 
 if [ ! -f "${BOOST_ARCHIVE}" ]; then
-
     section "Downloading"
-    wget -c "${URL}" || error "Downloading"
+    wget -c "${URL}" || error "Download"
+fi
 
+if [ ! -d "${BOOST_FOLDER}" ]; then
     section "Extracting"
-    tar zxvf "${BOOST_ARCHIVE}" || error "Extracting"
-
+    tar zxf "${BOOST_ARCHIVE}" || error "Extraction"
 fi
 
 cd "${BOOST_FOLDER}"
 
-section "Bootstrapping"
-./bootstrap.sh || error "Bootstrap"
+read -r -d '' JAM <<- EOF
+using gcc : 6 : g++-6 ;
+using gcc : 5 : g++-5 ;
+EOF
 
-section "Building"
-./b2 "$@" || error "Building"
+if [ "${BOOST_BOOTSTRAP}" -ne "0" ]; then
 
-echo "Installation completed successfully."
+    section "Jamming"
+    echo "${JAM}" > ~/user-config.jam
+
+    section "Bootstrapping"
+    ./bootstrap.sh --prefix="${PREFIX}" || error "Bootstrap"
+fi
+
+if [ "${BOOST_BUILD}" -ne "0" ]; then
+
+    section "Patching"
+    for PATCH in ${DIR}/install-boost.patch/boost-${BOOST_VERSION_DOTS}*; do
+	if ! patch -R -p0 --dry-run --silent < "${PATCH}"; then
+	    patch -Np0 -r - < "${PATCH}"
+	fi
+    done
+
+    section "Building"
+    if [ -d "${PREFIX}" ] && [ -w "${PREFIX}" ]; then
+	BUILD="./b2 install"
+    else
+	BUILD="sudo ./b2 install"
+    fi
+
+    ${BUILD}                      \
+	--prefix="${PREFIX}"      \
+	--build-dir="${BUILDDIR}" \
+	--toolset="${TOOLSET}"    \
+	include="${INCLUDE}"      \
+	cxxflags="${CXXFLAGS}"    \
+	linkflags="${LDFLAGS}"    \
+	-q                        \
+	"$@"                      \
+	&> build.log              \
+	|| error "Build" "Please see 'build.log' for more information."
+
+    success "Installation completed successfully!"
+fi
+
 cd "${OWD}"
 

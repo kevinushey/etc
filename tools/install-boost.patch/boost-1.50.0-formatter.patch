@@ -1,0 +1,11 @@
+--- libs/locale/src/icu/formatter.cpp	2016-10-14 12:06:23.128830001 -0700
++++ libs/locale/src/icu/formatter.cpp	2016-10-14 12:06:04.548830001 -0700
+@@ -58,7 +58,7 @@
+             virtual string_type format(int64_t value,size_t &code_points) const
+             {
+                 icu::UnicodeString tmp;
+-                icu_fmt_->format(value,tmp);
++                icu_fmt_->format(::int64_t(value),tmp);
+                 code_points=tmp.countChar32();
+                 return cvt_.std(tmp);
+             }

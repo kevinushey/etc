@@ -1,6 +1,20 @@
 # -*- tab-width: 4, indent-tabs-mode: t -*-
 
 ## Generic
+
+section () {
+    echo -e "\033[1;94m==>\033[0m \033[1;97m$1\033[0m"
+}
+
+success () {
+    echo -e "\033[1;92m==>\033[0m \033[1;97m$1\033[0m"
+}
+
+error () {
+    echo -e "\033[1;91mERROR: $1\033[0m"
+    exit 1
+}
+
 joined () {
 
 	if [ "$#" -le 1 ]; then
