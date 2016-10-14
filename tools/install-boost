@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+OWD="${PWD}"
+
+: ${BOOST_HOME="${HOME}/boost"}
+
+section () {
+    echo "==> $1 Boost ${BOOST_VERSION_DOTS} ..."
+}
+
+error () {
+    echo "ERROR: $1 failed\!"
+}
+
+if [ "$#" -eq "0" ]; then
+    echo "Usage: '$0' [boost-version]"
+    exit 0
+fi
+
+BOOST_VERSION="$1"
+shift
+
+BOOST_VERSION_DOTS="$(echo "${BOOST_VERSION}" | tr '_' '.')"
+BOOST_FOLDER="$(echo "boost_${BOOST_VERSION}" | tr '.' '_')"
+BOOST_ARCHIVE="${BOOST_FOLDER}.tar.gz"
+
+URL_BASE="https://sourceforge.net/projects/boost/files/boost"
+URL="${URL_BASE}/${BOOST_VERSION}/${BOOST_ARCHIVE}"
+
+mkdir -p "${BOOST_HOME}"
+cd "${BOOST_HOME}"
+
+if [ ! -f "${BOOST_ARCHIVE}" ]; then
+
+    section "Downloading"
+    wget -c "${URL}" || error "Downloading"
+
+    section "Extracting"
+    tar zxvf "${BOOST_ARCHIVE}" || error "Extracting"
+
+fi
+
+cd "${BOOST_FOLDER}"
+
+section "Bootstrapping"
+./bootstrap.sh || error "Bootstrap"
+
+section "Building"
+./b2 "$@" || error "Building"
+
+echo "Installation completed successfully."
+cd "${OWD}"
+
