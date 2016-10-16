@@ -2,8 +2,8 @@ EnsureDirectory "~/.vim/bundle"
 
 " Use vim-plug to manage packages
 " Make vim pretend that it's a vim package
-if !IsDirectory("~/.vim/bundle/vim-plug/autoload")
-        let DestinationPath = expand('~/.vim/bundle/vim-plug/autoload')
+if !IsDirectory("~/.vim/vim-plug/autoload")
+        let DestinationPath = expand('~/.vim/vim-plug/autoload')
         let Command = '!git clone ' .
             \ 'https://github.com/junegunn/vim-plug ' .
             \ DoubleQuotedEscaped(DestinationPath)
@@ -12,7 +12,7 @@ if !IsDirectory("~/.vim/bundle/vim-plug/autoload")
 endif
 
 filetype plugin off
-set runtimepath+=~/.vim/bundle/vim-plug
+set runtimepath+=~/.vim/vim-plug
 call plug#begin('~/.vim/bundle')
 
 " NERDTree gives us a nice tree-based view of files and a nice interface for
