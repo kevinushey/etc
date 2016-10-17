@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-LUA_PACKAGE_NAME=lua5.2
+LUA=lua5.2
 
 check () {
 	if test $? -ne 0; then
@@ -24,7 +24,9 @@ sudo apt-get install -y -q \
 	python-dev             \
 	ruby-dev               \
 	mercurial              \
-	ruby
+	ruby                   \
+	${LUA}                 \
+	lib${LUA}-dev
 
 ## clone from GitHub
 if [ ! -d ~/.vim/sources ]; then
@@ -41,16 +43,11 @@ else
 fi
 git checkout "${VIM_GIT_BRANCH}"
 
-# Install lua, and create symlinks so Vim can find it
-sudo apt-get install -y -q \
-	${LUA_PACKAGE_NAME}    \
-	lib${LUA_PACKAGE_NAME}-dev
-
 # Symlinks headers, libraries to /usr/local
-sudo ln -fvs /usr/include/${LUA_PACKAGE_NAME}/*.h /usr/local/include/
+sudo ln -fvs /usr/include/${LUA}/*.h /usr/local/include/
 sudo ln -fvs /usr/lib/x86_64-linux-gnu/liblua* /usr/local/lib/
-sudo ln -fvs /usr/local/lib/lib${LUA_PACKAGE_NAME}.so /usr/local/lib/liblua.so
-sudo ln -fvs /usr/local/lib/lib${LUA_PACKAGE_NAME}.a /usr/local/lib/liblua.a
+sudo ln -fvs /usr/local/lib/lib${LUA}.so /usr/local/lib/liblua.so
+sudo ln -fvs /usr/local/lib/lib${LUA}.a /usr/local/lib/liblua.a
 
 echo "Configuring Vim..."
 make distclean
