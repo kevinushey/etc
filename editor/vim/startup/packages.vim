@@ -3,7 +3,7 @@ EnsureDirectory "~/.vim/bundle"
 " Use vim-plug to manage packages
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
@@ -102,7 +102,7 @@ Plug 'scrooloose/syntastic'
 Plug 'godlygeek/tabular'
 
 if executable('ctag')
-	Plug 'majutsushi/tagbar'
+  Plug 'majutsushi/tagbar'
 endif
 
 Source "~/.vim/startup/packages/neocomplete.vim"
@@ -118,14 +118,18 @@ Plug 'jelera/vim-javascript-syntax'
 
 " Autocompletion for JavaScript using Tern.
 if (!IsWindows())
-    if IsDirectory("~/.vim/bundle/tern_for_vim")
-        if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
-            !cd ~/.vim/bundle/tern_for_vim && npm install
-        endif
-        if executable('tern')
-            Plug 'ternjs/tern_for_vim'
-        endif
+
+  " Build node modules folder for tern as needed
+  if IsDirectory("~/.vim/bundle/tern_for_vim")
+    if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
+      !cd ~/.vim/bundle/tern_for_vim && npm install
     endif
+  endif
+
+  if executable('tern')
+    Plug 'ternjs/tern_for_vim'
+  endif
+
 endif
 
 Plug 'kevinushey/vim-deferred'
