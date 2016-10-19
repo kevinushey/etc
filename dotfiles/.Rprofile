@@ -126,6 +126,19 @@
 
   # always run Rcpp tests
   Sys.setenv(RunAllRcppTests = "yes")
+  
+  # attempt to set JAVA_HOME if not already set
+  if (is.na(Sys.getenv("JAVA_HOME", unset = NA)) &&
+      file.exists("/usr/libexec/java_home"))
+  {
+    JAVA_HOME <- tryCatch(
+      system("/usr/libexec/java_home", intern = TRUE),
+      error = function(e) ""
+    )
+    
+    if (nzchar(JAVA_HOME))
+      Sys.setenv(JAVA_HOME = JAVA_HOME)
+  }
 
   # auto-completion of package names in `require`, `library`
   utils::rc.settings(ipck = TRUE)
@@ -170,36 +183,36 @@
   }
 
   assign("git", git, envir = .__Rprofile.env__.)
-  
+
   # tools for munging the PATH
   PATH <- (function() {
-    
+
     read <- function() {
       strsplit(Sys.getenv("PATH"), .Platform$path.sep, TRUE)[[1]]
     }
-    
+
     write <- function(path) {
       Sys.setenv(PATH = paste(path, collapse = .Platform$path.sep))
       invisible(path)
     }
-    
+
     prepend <- function(dir) {
       dir <- normalizePath(dir, mustWork = TRUE)
       path <- c(dir, setdiff(read(), dir))
       write(path)
     }
-    
+
     append <- function(dir) {
       dir <- normalizePath(dir, mustWork = TRUE)
       path <- c(setdiff(read(), dir), dir)
       write(path)
     }
-    
+
     remove <- function(dir) {
       path <- setdiff(read(), dir)
       write(path)
     }
-    
+
     list(
       read = read,
       write = write,
@@ -207,10 +220,10 @@
       append = append,
       remove = remove
     )
-    
+
   })()
   assign("PATH", PATH, envir = .__Rprofile.env__.)
-  
+
 
   # ensure commonly-used packages are installed, loaded
   quietly <- function(expr) {
@@ -273,3 +286,4 @@
   libs <- paste("-", .libPaths(), collapse = "\n")
   message(msg, libs, sep = "")
 }
+
