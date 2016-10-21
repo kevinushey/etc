@@ -73,7 +73,6 @@ fi
 cd "${BOOST_FOLDER}"
 
 read -r -d '' JAM <<- EOF
-using gcc : 6 : g++-6 ;
 using gcc : 5 : g++-5 ;
 EOF
 
@@ -90,9 +89,7 @@ if [ "${BOOST_BUILD}" -ne "0" ]; then
 
     section "Patching"
     for PATCH in ${DIR}/install-boost.patch/boost-${BOOST_VERSION_DOTS}*; do
-	if ! patch -R -p0 --dry-run --silent < "${PATCH}"; then
-	    patch -Np0 -r - < "${PATCH}"
-	fi
+	patch -Np0 -r - < "${PATCH}"
     done
 
     section "Building"

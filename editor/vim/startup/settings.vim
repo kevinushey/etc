@@ -30,6 +30,8 @@ ColorScheme wombat256mod slate default
 if has('autocmd')
     autocmd BufEnter * set t_ut=
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
+    autocmd BufEnter .Rprofile set filetype=r
+    autocmd BufEnter .Renviron set filetype=sh
     autocmd BufWinEnter * call RestoreCursorPosition()
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
     autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
