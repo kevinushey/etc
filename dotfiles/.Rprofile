@@ -166,7 +166,7 @@
   commands <- c("clone", "init", "add", "mv", "reset", "rm",
                 "bisect", "grep", "log", "show", "status", "stash",
                 "branch", "checkout", "commit", "diff", "merge",
-                "rebase", "tag", "fetch", "pull", "push")
+                "rebase", "tag", "fetch", "pull", "push", "clean")
 
   for (command in commands) {
 
