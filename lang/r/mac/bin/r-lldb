@@ -4,6 +4,7 @@
 : ${LLDB="`which lldb`"}
 : ${R_HOME="`cd \`R RHOME\`; pwd -P`"}
 : ${R_EXEC="${R_HOME}/bin/exec/R"}
+: ${R_LDPATHS="${R_HOME}/etc/ldpaths"}
 
 ## Be nicer when attempting to run with '-e', '-f' flags
 R_LLDB_LAUNCH="process launch -- $*"
@@ -19,4 +20,5 @@ if [ "`command -v sed 2> /dev/null`" ]; then
     fi
 fi
 
+source "${R_LDPATHS}"
 R_HOME="${R_HOME}" "${LLDB}" --batch --file "${R_EXEC}" -o "${R_LLDB_LAUNCH}"
