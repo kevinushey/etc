@@ -61,8 +61,12 @@ if has("gui_running")
     set guioptions -=T
 endif
 
+" Automatic encryption of files.
+autocmd BufReadPre *.secret silent! source ~/.vim/secret.vim
+
 set autoindent
 set cinoptions=N-s,g0,m1,(s
+set cryptmethod=blowfish2
 set cursorline
 set expandtab
 set foldenable
