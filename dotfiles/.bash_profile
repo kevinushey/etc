@@ -13,6 +13,12 @@ import                \
     ~/.bash_aliases   \
     ~/.bash_functions
 
+# Ensure LANG is set
+if test -z "${LANG}"; then
+    LANG=en_US.UTF-8
+    export LANG
+fi
+
 if test -n "${IS_LINUX}"; then
     # enable bash completion in interactive shells
     if ! shopt -oq posix; then
