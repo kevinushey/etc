@@ -156,7 +156,7 @@
 
   # generate some useful aliases, for editing common files
   alias <- function(name, action) {
-    placeholder <- structure(NULL, class = sprintf("__%s__", name))
+    placeholder <- structure(list(), class = sprintf("__%s__", name))
     assign(name, placeholder, envir = .__Rprofile.env__.)
     assign(sprintf("print.__%s__", name), action, envir = .__Rprofile.env__.)
   }
