@@ -4,5 +4,5 @@ execute join(["cd", "~/.vim/startup"], ' ')
 for Path in split(globpath(".", "*.vim"), '\n')
     execute join(['source', Path], ' ')
 endfor
-execute join(["cd", Directory], ' ')
+execute join(["cd", substitute(Directory, " ", "\\\\ ", "g")], ' ')
 
