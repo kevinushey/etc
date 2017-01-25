@@ -19,6 +19,11 @@ if test -z "${LANG}"; then
     export LANG
 fi
 
+# Run 'fasd' setup
+if `command -v fasd 2> /dev/null`; then
+    eval "$(fasd --init auto)"
+fi
+
 if test -n "${IS_LINUX}"; then
     # enable bash completion in interactive shells
     if ! shopt -oq posix; then
