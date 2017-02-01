@@ -3,10 +3,12 @@
 
   "env": {
     "browser": true,
-    "amd": true
+    "amd": true,
+    "jquery": true
   },
 
   "rules": {
+    "no-console": 0,
     "no-unused-vars": 0,
     "semi": 2
   }
