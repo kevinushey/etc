@@ -141,3 +141,7 @@ if test -n "$BASH"; then
 
 fi
 
+
+import                                      \
+    ~/google-cloud-sdk/path.bash.inc        \
+    ~/google-cloud-sdk/completion.bash.inc
