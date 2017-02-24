@@ -216,7 +216,7 @@ if [ -n "${IS_DARWIN}" ]; then
 	# it's been built in 'git/rstudio/src/xcode-build'.
 	rstudiodev () {
 		OWD="$(pwd)"
-		cd ~/git/rstudio/src/xcode-build
+		cd ~/rstudio/src/xcode-build
 		./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio "$@" &
 		cd $OWD
 	}
