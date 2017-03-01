@@ -7,11 +7,13 @@ import () {
     done
 }
 
-import                \
-    ~/.bash_platform  \
-    ~/.bash_colors    \
-    ~/.bash_aliases   \
-    ~/.bash_functions
+import                                     \
+    ~/.bash_platform                       \
+    ~/.bash_colors                         \
+    ~/.bash_aliases                        \
+    ~/.bash_functions                      \
+    ~/google-cloud-sdk/path.bash.inc       \
+    ~/google-cloud-sdk/completion.bash.inc
 
 # Ensure LANG is set
 if test -z "${LANG}"; then
@@ -140,8 +142,3 @@ if test -n "$BASH"; then
     export PROMPT_COMMAND=prompt_command
 
 fi
-
-
-import                                      \
-    ~/google-cloud-sdk/path.bash.inc        \
-    ~/google-cloud-sdk/completion.bash.inc
