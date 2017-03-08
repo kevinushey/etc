@@ -4,9 +4,11 @@
   <style name="Link" foreground="#7aa6da"/>
   <style name="Selection" foreground="#eaeaea" background="#424242"/>
   <style name="LineNumber" foreground="#424242"/>
-  <style name="SearchResult" foreground="#000000" background="#e7c547"/>
+  <style name="SearchResult" foreground="#000000" background="#26374c"/>
   <style name="SearchScope" foreground="#eaeaea"/>
   <style name="Parentheses" foreground="#eaeaea" background="#424242"/>
+  <style name="ParenthesesMismatch" background="#ff00ff"/>
+  <style name="AutoComplete" foreground="#000080" background="#c0c0ff"/>
   <style name="CurrentLine" foreground="#eaeaea" background="#2a2a2a"/>
   <style name="CurrentLineNumber" foreground="#ffff00" bold="true"/>
   <style name="Occurrences" foreground="#eaeaea" background="#424242"/>
@@ -16,6 +18,7 @@
   <style name="String" foreground="#b9ca4a"/>
   <style name="Type" foreground="#7aa6da"/>
   <style name="Local" foreground="#eaeaea"/>
+  <style name="Global"/>
   <style name="Field" foreground="#eaeaea"/>
   <style name="Static" foreground="#e78c45"/>
   <style name="VirtualMethod" foreground="#7aa6da" italic="true"/>
@@ -51,4 +54,11 @@
   <style name="DiffSourceChar" foreground="#0000ff" background="#008b8b" bold="true"/>
   <style name="DiffDestLine" foreground="#eaeaea" background="#8b008b"/>
   <style name="DiffDestChar" foreground="#eaeaea" background="#00008b"/>
+  <style name="LogChangeLine" foreground="#c00000"/>
+  <style name="Warning" underlineColor="#ffbe00" underlineStyle="SingleUnderline"/>
+  <style name="WarningContext" underlineColor="#ffbe00" underlineStyle="DotLine"/>
+  <style name="Error" underlineColor="#ff0000" underlineStyle="SingleUnderline"/>
+  <style name="ErrorContext" underlineColor="#ff0000" underlineStyle="DotLine"/>
+  <style name="Declaration"/>
+  <style name="C_OUTPUT_ARGUMENT"/>
 </style-scheme>
