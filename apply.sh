@@ -86,7 +86,7 @@ mkdir -p ~/.config/QtProject/qtcreator/styles
 mkdir -p ~/.config/QtProject/qtcreator/schemes
 mkdir -p ~/.config/QtProject/qtcreator/snippets
 
-cp ${DIR}/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
-cp ${DIR}/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
-cp ${DIR}/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
+ln -fs ${DIR}/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
+ln -fs ${DIR}/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
+ln -fs ${DIR}/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
 
