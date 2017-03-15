@@ -2,7 +2,9 @@
 
 import () {
     while test "$#" -ne 0; do
-        source "$1"
+        if test -e "$1"; then
+            source "$1"
+        fi
         shift
     done
 }
