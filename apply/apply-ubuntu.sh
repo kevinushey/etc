@@ -3,6 +3,16 @@
 FLAVOUR=`lsb_release -c | tail -n 1 | cut -d: -f2 | sed 's/\t//g'`
 echo "Ubuntu flavour: '${FLAVOUR}'"
 
+# if we're running Linux under VMWare, then
+# make sure we install the 'open-vm' packages
+SCSI=`cat /proc/scsi/scsi | grep -i vmware`
+if [ -n "${SCSI}" ]; then
+   sudo apt-get install      \
+      open-vm-tools         \
+      open-vm-tools-desktop \
+      open-vm-tools-dkms
+fi
+
 CRAN_URL=http://cran.rstudio.com/bin/linux/ubuntu
 
 if [ -z "`grep ${CRAN_URL} /etc/apt/sources.list`" ]; then
