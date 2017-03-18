@@ -216,20 +216,20 @@ function! Download(URL, Destination)
 
     call EnsureDirectory(Dirname(Destination))
 
-    if executable("wget")
-        execute join(["!wget -c", URL, "-O", Destination], ' ')
-    elseif executable("curl")
-        execute join(["!curl -L -f -C -", URL, "-o", Destination], ' ')
-    elseif IsWindows()
+    if IsWindows()
         let Command = [
                     \ "!bitsadmin",
                     \ "/transfer vimdownload",
                     \ URL,
                     \ Destination
                     \ ]
-
         execute join(Command, ' ')
+    elseif executable("wget")
+        execute join(["!wget -c", URL, "-O", Destination], ' ')
+    elseif executable("curl")
+        execute join(["!curl -L -f -C -", URL, "-o", Destination], ' ')
     endif
+
 endfunction
 
 function! SmartCR()
