@@ -33,6 +33,7 @@ if has('autocmd')
     autocmd BufEnter .eslintrc set filetype=json
     autocmd BufEnter .Rprofile set filetype=r
     autocmd BufEnter .Renviron set filetype=sh
+    autocmd BufEnter CMake*.txt set filetype=cmake
     autocmd BufWinEnter * call RestoreCursorPosition()
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
     autocmd FileType html imap <buffer><expr><Tab> HtmlTab()

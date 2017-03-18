@@ -155,6 +155,7 @@ let cmdline_app["sh"]   = "bash"
 let cmdline_app["bash"] = "bash"
 
 Plug 'jalvesaq/vimcmdline'
+Plug 'nickhutchinson/vim-cmake-syntax'
 
 let g:UltiSnipsSnippetDir = "~/.vim/snippets"
 " TODO: Complains that Python's site module is not loadable?
