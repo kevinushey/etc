@@ -201,23 +201,32 @@ function! NVNoRemap(expr)
 endfunction
 command! -nargs=* NVNoRemap call NVNoRemap(<q-args>)
 
-function! Download(URL, destination)
+function! Dirname(path)
+    return fnamemodify(expand(a:path), ":h")
+endfunction
+
+function! Basename(path)
+    return fnamemodify(expand(a:path), ":t")
+endfunction
+
+function! Download(URL, Destination)
+        
+    let URL = expand(a:URL)
+    let Destination = expand(a:Destination)
+
+    call EnsureDirectory(Dirname(Destination))
 
     if executable("wget")
-        execute join(["!wget -c", a:URL, "-O", a:destination], ' ')
+        execute join(["!wget -c", URL, "-O", Destination], ' ')
     elseif executable("curl")
-        execute join(["!curl -L -f -C -", a:URL, "-o", a:destination], ' ')
+        execute join(["!curl -L -f -C -", URL, "-o", Destination], ' ')
     elseif IsWindows()
-        let URL = expand(URL)
-        let destination = expand(destination)
         let Command = [
-                    \ "bitsadmin",
+                    \ "!bitsadmin",
                     \ "/transfer vimdownload",
-                    \ "/download",
-                    \ "/priority normal",
                     \ URL,
-                    \ destination
-        ]
+                    \ Destination
+                    \ ]
 
         execute join(Command, ' ')
     endif

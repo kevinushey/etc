@@ -1,9 +1,15 @@
 EnsureDirectory "~/.vim/bundle"
 
 " Use vim-plug to manage packages
-if empty(glob('~/.vim/autoload/plug.vim'))
+if IsWindows()
+  let VimPlugDestination = "~/vimfiles/autoload/plug.vim"
+else
+  let VimPlugDestination = "~/.vim/autoload/plug.vim"
+endif
+
+if empty(glob(VimPlugDestination))
   let VimPlugURL = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-  call Download(VimPlugURL, "~/.vim/autoload/plug.vim")
+  call Download(VimPlugURL, VimPlugDestination)
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
