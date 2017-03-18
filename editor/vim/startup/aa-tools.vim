@@ -202,9 +202,25 @@ endfunction
 command! -nargs=* NVNoRemap call NVNoRemap(<q-args>)
 
 function! Download(URL, destination)
-    let URL = DoubleQuotedEscaped(URL)
-    let destination = DoubleQuotedEscaped(destination)
-    execute join(["!wget -c", a:URL, "-O", a:destination], ' ')
+
+    if executable("wget")
+        execute join(["!wget -c", a:URL, "-O", a:destination], ' ')
+    elseif executable("curl")
+        execute join(["!curl -L -f -C -", a:URL, "-o", a:destination], ' ')
+    elseif IsWindows()
+        let URL = expand(URL)
+        let destination = expand(destination)
+        let Command = [
+                    \ "bitsadmin",
+                    \ "/transfer vimdownload",
+                    \ "/download",
+                    \ "/priority normal",
+                    \ URL,
+                    \ destination
+        ]
+
+        execute join(Command, ' ')
+    endif
 endfunction
 
 function! SmartCR()

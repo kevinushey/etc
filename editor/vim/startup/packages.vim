@@ -1,16 +1,10 @@
 EnsureDirectory "~/.vim/bundle"
 
 " Use vim-plug to manage packages
-if IsWindows()
-  " TODO
-else
-
-  if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall | source $MYVIMRC
-  endif
-
+if empty(glob('~/.vim/autoload/plug.vim'))
+  let VimPlugURL = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  call Download(VimPlugURL, "~/.vim/autoload/plug.vim")
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
 filetype plugin off
