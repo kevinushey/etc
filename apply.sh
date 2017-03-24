@@ -78,7 +78,7 @@ fi
 ## Git
 git config --global core.editor "vim"
 git config --global user.name "Kevin Ushey"
-git config --global push.default simple
+git config --global push.default current
 git config --global core.excludesfile '~/.gitignore'
 
 ## Qt Creator
