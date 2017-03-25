@@ -16,11 +16,13 @@ endif
 
 " Set up directories for swapfiles and backup files
 " (so that they don't pollute the filesystem otherwise)
-set undofile
 set directory=~/.vim/swapfiles//
 set backupdir=~/.vim/backup//
 set viewdir=~/.vim/views//
-set undodir=~/.vim/undo//
+if exists('+undofile')
+    set undofile
+    set undodir=~/.vim/undo//
+endif
 
 set background=dark
 highlight Normal ctermfg=15 ctermbg=16
@@ -68,11 +70,9 @@ autocmd BufReadPre *.secret silent! source ~/.vim/secret.vim
 
 set autoindent
 set cinoptions=N-s,g0,m1,(s
-set cryptmethod=blowfish2
 set cursorline
 set expandtab
 set foldenable
-set formatoptions+=j
 set hidden
 set history=1000
 set hlsearch
@@ -102,10 +102,16 @@ set splitright
 set tabstop=4
 set textwidth=0
 set undolevels=1000 
-set undoreload=10000
 set viewoptions=folds,options,cursor,unix,slash
 set virtualedit=onemore
 set whichwrap=b,s,h,l,<,>,[,]
 set wildmenu
 set wildmode=list:longest,full
 set winminheight=0
+
+if v:version > 703
+    set cryptmethod=blowfish2
+    set formatoptions+=j
+    set undoreload=10000
+endif
+

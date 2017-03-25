@@ -224,10 +224,10 @@ function! Download(URL, Destination)
                     \ Destination
                     \ ]
         execute join(Command, ' ')
-    elseif executable("wget")
-        execute join(["!wget -c", URL, "-O", Destination], ' ')
     elseif executable("curl")
         execute join(["!curl -L -f -C -", URL, "-o", Destination], ' ')
+    elseif executable("wget")
+        execute join(["!wget -c", URL, "-O", Destination], ' ')
     endif
 
 endfunction

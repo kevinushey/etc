@@ -18,7 +18,9 @@ call plug#begin('~/.vim/bundle')
 
 " NERDTree gives us a nice tree-based view of files and a nice interface for
 " interacting with said tree.
-Plug 'scrooloose/nerdtree'
+if v:version > 703
+  Plug 'scrooloose/nerdtree'
+endif
 
 " Comment / uncomment lines easily.
 Plug 'scrooloose/nerdcommenter'
@@ -101,7 +103,9 @@ Plug 'tpope/vim-commentary'
 
 " Use 'syntastic' for linting etc. I only really use this
 " in JavaScript.
-Plug 'scrooloose/syntastic'
+if v:version > 703
+  Plug 'scrooloose/syntastic'
+endif
 
 " Nice vertical alignment. Although the package hasn't been updated in a
 " while, it seems to have 'solved' this particular problem.
@@ -111,7 +115,9 @@ if executable('ctag')
   Plug 'majutsushi/tagbar'
 endif
 
-Source "~/.vim/startup/packages/neocomplete.vim"
+if has('lua')
+  Source "~/.vim/startup/packages/neocomplete.vim"
+endif
 
 " Easy-motion. Like Ace jump. I don't know who came first.
 Plug 'Lokaltog/vim-easymotion'
