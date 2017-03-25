@@ -37,10 +37,10 @@ if has('autocmd')
     autocmd BufEnter .Renviron set filetype=sh
     autocmd BufEnter CMake*.txt set filetype=cmake
     autocmd BufWinEnter * call RestoreCursorPosition()
+    autocmd BufWritePost * call UpdateFileType()
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
     autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
     autocmd FileType r  setlocal commentstring=##\ %s
-    autocmd FileType sh call InitSh()
     autocmd FileType vimscript setlocal omnifunc=vimcom
     autocmd VimEnter * silent! AirlineTheme dark
     autocmd VimEnter * silent! AirlineToggleWhitespace

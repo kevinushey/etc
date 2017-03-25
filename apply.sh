@@ -54,10 +54,11 @@ ln -fs ${DIR}/editor/emacs/user-init.el ~/.emacs.d/user-init.el
 
 ## Vim
 mkdir -p ~/.vim
-rm -rf ~/.vim/startup
-ln -fs ${DIR}/editor/vim/startup ~/.vim/startup
-ln -fs ${DIR}/editor/vim/startup.vim ~/.vim/startup.vim
+rm -rf ~/.vim/startup ~/.vim/after
 ln -fs ~/.vimrc ~/.nvimrc
+for FILE in "${DIR}"/editor/vim/*; do
+    ln -fs "${FILE}" ~/.vim/
+done
 
 ## Scripts
 SCRIPT_PATHS=`find ${PWD} -type d -path */bin`

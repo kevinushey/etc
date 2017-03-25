@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+Emacs () {
+	"/Applications/Emacs.app/Contents/MacOS/Emacs" $@ &
+}
+
+r-switch () {
+
+	if test "$#" -ne 1
+	then
+		echo "Usage: r-switch [R-version]; e.g. 'r-switch 3.1' to use R 3.1"
+		return
+	fi
+
+	local OWD="$(pwd)"
+	cd /Library/Frameworks/R.framework/Versions
+	sudo rm -f Current
+	sudo ln -fs "$1" Current
+	cd "${OWD}"
+}
+
+rstudio-dev () {
+	local OWD="$(pwd)"
+	cd ~/rstudio/src/xcode-build
+	./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio "$@" &
+	cd "${OWD}"
+}
+
+

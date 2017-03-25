@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# enable bash completion in interactive shells
+if ! shopt -oq posix; then
+	import \
+		/usr/share/bash-completion/bash_completion \
+		/etc/bash_completion
+fi
+
+# figure out if we're using a high DPI display; if so,
+# then set the QT_DEVICE_PIXEL_RATIO variable
+if has-command xrandr; then
+	RESOLUTION=`xrandr -q 2> /dev/null | grep '*' | head -n 1 | awk '{print($1)}'`
+	RESOLUTION_X=`echo "${RESOLUTION}" | cut -d"x" -f1`
+	RESOLUTION_Y=`echo "${RESOLUTION}" | cut -d"x" -f2`
+	if test "${RESOLUTION_X}" -ge 3840 -a "${RESOLUTION_Y}" -ge 2160; then
+		QT_DEVICE_PIXEL_RATIO=2
+	fi
+fi
+
+if [ ! -f ~/.git-completion.bash ]; then
+	has-command curl && \
+		curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+fi
+
+import ~/.git-completion.bash

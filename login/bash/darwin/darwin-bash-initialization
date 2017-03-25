@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Manually set up the PATH, just to ensure that all utilities we might want are
+# available (in the right order).
+defjoined PATH ":" \
+	"/usr/local/opt/texinfo/bin" \
+	"/usr/local/bin"             \
+	"/usr/local/sbin"            \
+	"/usr/bin"                   \
+	"/usr/sbin"                  \
+	"/bin"                       \
+	"/sbin"                      \
+	"/sbin/opt/X11/bin"          \
+	"/Library/TeX/texbin"        \
+	"/usr/texbin"
+
+BREW_PREFIX="$(brew --prefix)"
+import \
+	"${BREW_PREFIX}"/etc/bash_completion.d/* \
+	"${BREW_PREFIX}"/etc/profile.d/*         \
+	"${HOME}"/.fzf.bash
+

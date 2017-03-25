@@ -293,3 +293,26 @@ function! RestoreCursorPosition()
     endif
 endfunction
 
+" Update the file type if it's changed
+function! MaybeSetFileType(Filetype)
+    if a:Filetype != &filetype
+        execute "set filetype=" . a:Filetype
+    endif
+endfunction
+
+" Set the file type based on the file extension
+function! UpdateFileType()
+    let Line = getline(1)
+    if Line =~ "sh$"
+        call MaybeSetFileType("sh")
+    elseif Line =~ "Rscript$"
+        call MaybeSetFileType("r")
+    endif
+endfunction
+
+function! UseTabIndent()
+
+endfunction
+command! -range=% -nargs=0 UseSpaceIndent execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
+command! -range=% -nargs=0 UseTabIndent execute '<line1>,<line2>s#^\( \{' . &ts . '\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
+

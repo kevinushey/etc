@@ -1,32 +1,43 @@
-# -*- tab-width: 4, indent-tabs-mode: t -*-
+#!/usr/bin/env bash
 
-## Generic
+import () {
+	while test "$#" -ne 0; do
+		if test -e "$1"; then
+			source "$1"
+		fi
+		shift
+	done
+}
+
+has-command () {
+	command -v "$1" &> /dev/null
+}
 
 section () {
-    echo -e "\033[1;94m==>\033[0m \033[1;97m$1\033[0m"
+	echo -e "\033[1;94m==>\033[0m \033[1;97m$1\033[0m"
 }
 
 success () {
-    echo -e "\033[1;92m==>\033[0m \033[1;97m$1\033[0m"
+	echo -e "\033[1;92m==>\033[0m \033[1;97m$1\033[0m"
 }
 
 error () {
-    echo -e "\033[1;91mERROR: $1\033[0m"
-    exit 1
+	echo -e "\033[1;91mERROR: $1\033[0m"
+	exit 1
 }
 
 joined () {
 
-	if [ "$#" -le 1 ]; then
+	if test "$#" -le 2; then
 		echo "Usage: joined delimiter [values...]"
 		return 1
 	fi
 
-	OLD_IFS_="${IFS}"
+	local SAVEIFS="${IFS}"
 	IFS="$1"
 	shift
 	echo "$*"
-	IFS="${OLD_IFS_}"
+	IFS="${SAVEIFS}"
 }
 
 defvar () {
@@ -50,10 +61,9 @@ defjoined () {
 		return 1
 	fi
 
-	DEFJOINED_VARIABLE_="$1"
+	local VARIABLE="$1"
 	shift
-	defvar "${DEFJOINED_VARIABLE_}" `joined "$@"`
-	unset DEFJOINED_VARIABLE_
+	defvar "${VARIABLE}" `joined "$@"`
 }
 
 rot13 () {
@@ -97,19 +107,8 @@ up () {
 
 	for i in `seq 1 ${COUNT}`
 	do
-		cd ../
+		cd ..
 	done
-}
-
-# Go to the directory for the first file with some name.
-goto () {
-
-	if [ "$#" -eq 0 ]; then
-		echo "Usage: goto file"
-		return 1
-	fi
-
-	cd `ag -g $1 | head -n 1 | xargs dirname`
 }
 
 # Use ffpmeg to quickly convert a .mov to a .gif.
@@ -123,8 +122,7 @@ mov2gif () {
 	fi
 
 	if test "$#" -eq 1; then
-		OUTPUT="$1"
-		OUTPUT="${OUTPUT%.mov}".gif
+		OUTPUT="${1%.mov}".gif
 	else
 		OUTPUT="$2"
 	fi
@@ -148,7 +146,7 @@ e () {
 # I wasted way too much time making this work, but apparently
 # emacsclient doesn't allow e.g.
 #
-#    emacsclient file.txt -c -e "(print \"Sucker\")"
+#	 emacsclient file.txt -c -e "(print \"Sucker\")"
 #
 # so I ended up pasting the file visiting into the eval statement.
 ec () {
@@ -157,9 +155,9 @@ ec () {
 
 		read -r -d '' EMACSCLIENT_EVAL <<- EOM
 		(progn
-			(select-frame-set-input-focus (selected-frame))
-			(set-frame-font "Droid Sans Mono-14" nil t)
-			(find-file "$1")
+		(select-frame-set-input-focus (selected-frame))
+		(set-frame-font "Droid Sans Mono-14" nil t)
+		(find-file "$1")
 		)
 		EOM
 
@@ -169,57 +167,25 @@ ec () {
 
 		read -r -d '' EMACSCLIENT_EVAL <<- EOM
 		(progn
-			(select-frame-set-input-focus (selected-frame))
-			(set-frame-font "Droid Sans Mono-14" nil t)
+		(select-frame-set-input-focus (selected-frame))
+		(set-frame-font "Droid Sans Mono-14" nil t)
 		)
 		EOM
 
 	fi
 
 	ALTERNATE_EDITOR= emacsclient \
-					--create-frame \
-					--eval "${EMACSCLIENT_EVAL}"
+		--create-frame \
+		--eval "${EMACSCLIENT_EVAL}"
 
 }
 
 b64encode () {
-	openssl base64 -in $1 | tr -d '\n'
+	openssl base64 -in "$1" | tr -d '\n'
 }
 
 dock () {
 	docker-machine start docker-dev
 	eval $(docker-machine env docker-dev)
 }
-
-if [ -n "${IS_DARWIN}" ]; then
-
-	Emacs () {
-		"/Applications/Emacs.app/Contents/MacOS/Emacs" $@ &
-	}
-
-	# Quickly switch between multiple versions of R.
-	rswitch () {
-
-		if test "$#" -ne 1
-		then
-			echo "Usage: r-switch [R-version]; e.g. 'r-switch 3.1' to use R 3.1"
-			return
-		fi
-
-		OWD=$(pwd)
-		cd /Library/Frameworks/R.framework/Versions/
-		sudo rm -f Current
-		sudo ln -fs $1 Current
-		cd ${OWD}
-	}
-	# Launch the development version of RStudio. Presumes that
-	# it's been built in 'git/rstudio/src/xcode-build'.
-	rstudiodev () {
-		OWD="$(pwd)"
-		cd ~/rstudio/src/xcode-build
-		./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio "$@" &
-		cd $OWD
-	}
-
-fi
 

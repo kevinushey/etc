@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# For git-managed directories, make a nice prompt.
+git-prompt () {
+
+	if ! has-command git; then
+		return 0
+	fi
+
+	GIT_STATUS="$(git status -sb --porcelain 2> /dev/null | head -n 1)"
+
+	if test -n "${GIT_STATUS}"
+	then
+		GIT_STATUS="$(echo "${GIT_STATUS}" | sed 's|## *||')"
+		GIT_START="$(echo "${GIT_STATUS}" | sed 's|\.\.\..*||g')"
+		if [[ "${GIT_START}" =~ "no branch" ]]; then
+			GIT_START="$(git -c color.status=false status | head -n 1)"
+		fi
+		echo -e " ${Red}[${GIT_START}]${Color_Off}"
+	else
+		echo ""
+	fi
+}
+
+# Override prompt_command to use the aforementioned git_prompt
+prompt-command () {
+	GIT_PROMPT="$(git-prompt)"
+	# export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
+	export PS1="${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
+}
+
+PROMPT_COMMAND="prompt-command"
+export PROMPT_COMMAND

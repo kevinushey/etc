@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+is-darwin () {
+	test "$(uname)" = "Darwin"
+}
+
+is-linux () {
+	test "$(uname)" = "Linux"
+}
+
+is-ubuntu () {
+	is-linux && test -n "$(lsb_release -i | grep "Ubuntu")"
+}
+
+is-redhat () {
+	is-linux && test -f /etc/redhat-release
+}
+
+is-centos () {
+	is-linux && test -n "$(lsb_release -i | grep "CentOS")"
+}
+
+if is-darwin; then
+	for SCRIPT in ~/.login/bash/darwin/darwin-bash-*; do . "${SCRIPT}"; done
+fi
+
+if is-linux; then
+	for SCRIPT in ~/.login/bash/linux/linux-bash-*; do . "${SCRIPT}"; done
+fi
+
