@@ -14,21 +14,14 @@ endfor
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
 nnoremap <Leader>r :call Reload() \| Echo "Reloaded '" . @% . "'."<CR>
-nnoremap <Leader>o :CtrlP<CR>
+nnoremap <Leader>o :Files<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>s :nohlsearch<CR>
 nnoremap <Leader>l :set list!<CR>
 nnoremap <Leader>\ :vsp<CR>
 nnoremap <Leader>- :sp<CR>
 nnoremap <Leader>/ :OverCommandLine<CR>
-
-" Helpers for searching with Ag
-map <Leader>f :Ag -U --ignore tags --ignore *.a --ignore *.min.* --ignore *.cache.js <cword><CR>
-vnoremap <Leader>s :call AgSearch()<CR>
-function! AgSearch()
-    call feedkeys('"0y')
-    call feedkeys(":Ag -U \<C-R>0")
-endfunction
+nnoremap <Leader>b :Buffers<CR>
 
 NVMap <leader>y "+y
 NVMap <leader>d "+d
@@ -39,7 +32,7 @@ vnoremap . :normal .<CR>
 vnoremap < <gv
 vnoremap > >gv
 
-vmap v <Plug>(expand_region_expand)
+vmap v     <Plug>(expand_region_expand)
 vmap <S-v> <Plug>(expand_region_shrink)
 
 imap <expr> <CR> SmartCR()
@@ -55,6 +48,7 @@ if isdirectory(expand("~/.vim/bundle/tabular"))
     NVMap <Leader>a<Bar> :Tabularize /<Bar><CR>
     NVMap <Leader>a=     :Tabularize /^[^=]*\zs=<CR>
     NVMap <Leader>a=>    :Tabularize /=><CR>
+    NVMap <Leader>a\     :Tabularize /\\/
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
@@ -70,3 +64,9 @@ if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <silent> <leader>gi :Git add -p %<CR>
     nnoremap <silent> <leader>gg :SignifyToggle<CR>
 endif
+
+if isdirectory(expand("~/.vim/bundle/fzf.vim"))
+    NVMap <Leader>f :ProjectFiles<CR>
+    NVMap <Leader>b :Buffers<CR>
+endif
+

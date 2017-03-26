@@ -20,6 +20,18 @@ function! IsDirectory(path)
     return isdirectory(expand(a:path))
 endfunction
 
+function! DirName(path)
+    return fnamemodify(expand(a:path), ":h")
+endfunction
+
+function! BaseName(path)
+    return fnamemodify(expand(a:path), ":t")
+endfunction
+
+function! FilePath(...)
+    return join(a:000, '/')
+endfunction
+
 function! MarkFileSourced(path)
     let VariableName = LoadedName(a:path)
     execute "let " . VariableName . " = 1"
@@ -322,4 +334,21 @@ function! LoadIf(condition, ...)
                 \ ? dots
                 \ : extends(dots, {'on': [], 'for': []})
 endfunction
+
+function! ProjectRoot()
+    let Directory = expand(getcwd())
+    let Anchors = [".git"]
+
+    while Directory != "/"
+        for Anchor in Anchors
+            if isdirectory(FilePath(Directory, Anchor))
+                return Directory
+            endif
+        endfor
+        let Directory = DirName(Directory)
+    endwhile
+
+    return getcwd()
+endfunction
+command! ProjectFiles execute 'Files' ProjectRoot()
 
