@@ -1,5 +1,1 @@
-if v:version < 704
-    finish
-endif
-
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', LoadIf(v:version >= 704)

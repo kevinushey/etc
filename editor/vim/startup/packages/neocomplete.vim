@@ -1,9 +1,9 @@
+Plug 'Shougo/neocomplete.vim', LoadIf(has('lua'))
+Plug 'Shougo/neco-vim',        LoadIf(has('lua'))
+
 if !has('lua')
   finish
 endif
-
-Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/neco-vim'
 
 " For the life of me, I cannot get neosnippet to play nicely with endwise
 " or autopair. Unfortunately, I like those plugins much more than I like

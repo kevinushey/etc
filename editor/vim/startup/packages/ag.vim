@@ -1,1 +1,1 @@
-Plug 'rking/ag.vim'
+Plug 'rking/ag.vim', LoadIf(executable('ag'))
