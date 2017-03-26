@@ -1,3 +1,7 @@
+if !has('lua')
+  finish
+endif
+
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neco-vim'
 

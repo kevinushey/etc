@@ -1,0 +1,1 @@
+Plug 'rking/ag.vim'
