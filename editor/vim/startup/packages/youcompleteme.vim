@@ -1,3 +1,5 @@
+finish
+
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer --tern-completer' }
 
 " ensure npmlog is installed, to avoid errors during ycm install
