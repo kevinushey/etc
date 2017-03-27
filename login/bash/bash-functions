@@ -1,8 +1,25 @@
 #!/usr/bin/env bash
 
+is-file () {
+	test -f "$1"
+}
+
+is-dir () {
+	test -d "$1"
+}
+
+is-empty () {
+	test -z "$1"
+}
+
+is-nonempty () {
+	test -n "$1"
+}
+
 import () {
 	while test "$#" -ne 0; do
 		if test -e "$1"; then
+			# shellcheck disable=SC1090
 			source "$1"
 		fi
 		shift
@@ -48,6 +65,7 @@ defvar () {
 	fi
 
 	while test "$#" -ge 2; do
+		# shellcheck disable=SC2163
 		eval "$1='$2'" && export "$1"
 		shift 2
 	done
@@ -63,11 +81,11 @@ defjoined () {
 
 	local VARIABLE="$1"
 	shift
-	defvar "${VARIABLE}" `joined "$@"`
+	defvar "${VARIABLE}" "$(joined "$@")"
 }
 
 rot13 () {
-	echo "$@" | tr "[A-Za-z]" "[N-ZA-Mn-za-m]"
+	echo "$@" | tr "A-Za-z" "N-ZA-Mn-za-m"
 }
 
 replace () {
@@ -105,9 +123,9 @@ up () {
 		COUNT=$1
 	fi
 
-	for i in `seq 1 ${COUNT}`
-	do
+	while [ "${COUNT}" -ne 0 ]; do
 		cd ..
+		let COUNT=COUNT-1
 	done
 }
 
@@ -135,9 +153,9 @@ mov2gif () {
 
 e () {
 	if test "$#" -eq 0; then
-		ALTERNATE_EDITOR= emacsclient -t .
+		ALTERNATE_EDITOR="" emacsclient -t .
 	else
-		ALTERNATE_EDITOR= emacsclient -t "$@"
+		ALTERNATE_EDITOR="" emacsclient -t "$@"
 	fi
 }
 
@@ -174,7 +192,7 @@ ec () {
 
 	fi
 
-	ALTERNATE_EDITOR= emacsclient \
+	ALTERNATE_EDITOR="" emacsclient \
 		--create-frame \
 		--eval "${EMACSCLIENT_EVAL}"
 
@@ -186,6 +204,6 @@ b64encode () {
 
 dock () {
 	docker-machine start docker-dev
-	eval $(docker-machine env docker-dev)
+	eval "$(docker-machine env docker-dev)"
 }
 

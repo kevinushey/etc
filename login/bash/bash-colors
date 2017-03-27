@@ -3,7 +3,7 @@
 # Reset
 Color_Off="\[\033[m\]"     # Text Reset
 
-                           # Regular Colors
+# Regular Colors
 Black="\[\033[30m\]"       # Black
 Red="\[\033[31m\]"         # Red
 Green="\[\033[32m\]"       # Green
