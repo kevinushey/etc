@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 Emacs () {
-	"/Applications/Emacs.app/Contents/MacOS/Emacs" $@ &
+	"/Applications/Emacs.app/Contents/MacOS/Emacs" "$@" &
 }
 
 r-switch () {
@@ -12,18 +12,20 @@ r-switch () {
 		return
 	fi
 
-	local OWD="$(pwd)"
-	cd /Library/Frameworks/R.framework/Versions
+	local OWD
+	OWD="$(pwd)"
+	cd /Library/Frameworks/R.framework/Versions || return
 	sudo rm -f Current
 	sudo ln -fs "$1" Current
-	cd "${OWD}"
+	cd "${OWD}" || return
 }
 
 rstudio-dev () {
-	local OWD="$(pwd)"
-	cd ~/rstudio/src/xcode-build
+	local OWD
+	OWD="$(pwd)"
+	cd ~/rstudio/src/xcode-build || return
 	./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio "$@" &
-	cd "${OWD}"
+	cd "${OWD}" || return
 }
 
 

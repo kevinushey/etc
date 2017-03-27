@@ -10,11 +10,12 @@ fi
 # figure out if we're using a high DPI display; if so,
 # then set the QT_DEVICE_PIXEL_RATIO variable
 if has-command xrandr; then
-	RESOLUTION=`xrandr -q 2> /dev/null | grep '*' | head -n 1 | awk '{print($1)}'`
-	RESOLUTION_X=`echo "${RESOLUTION}" | cut -d"x" -f1`
-	RESOLUTION_Y=`echo "${RESOLUTION}" | cut -d"x" -f2`
+	RESOLUTION="$(xrandr -q 2> /dev/null | grep '[*]' | head -n 1 | awk '{print($1)}')"
+	RESOLUTION_X="$(echo "${RESOLUTION}" | cut -d"x" -f1)"
+	RESOLUTION_Y="$(echo "${RESOLUTION}" | cut -d"x" -f2)"
 	if test "${RESOLUTION_X}" -ge 3840 -a "${RESOLUTION_Y}" -ge 2160; then
 		QT_DEVICE_PIXEL_RATIO=2
+		export QT_DEVICE_PIXEL_RATIO
 	fi
 fi
 
@@ -24,3 +25,4 @@ if [ ! -f ~/.git-completion.bash ]; then
 fi
 
 import ~/.git-completion.bash
+
