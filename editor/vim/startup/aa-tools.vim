@@ -332,7 +332,7 @@ function! LoadIf(condition, ...)
     let dots = get(a:000, 0, {})
     return a:condition
                 \ ? dots
-                \ : extends(dots, {'on': [], 'for': []})
+                \ : extend(dots, {'on': [], 'for': []})
 endfunction
 
 function! ProjectRoot()
