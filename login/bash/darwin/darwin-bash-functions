@@ -8,16 +8,27 @@ r-switch () {
 
 	if test "$#" -ne 1
 	then
-		echo "Usage: r-switch [R-version]; e.g. 'r-switch 3.1' to use R 3.1"
+		echo "Usage: r-switch [version]"
 		return
 	fi
 
-	local OWD
-	OWD="$(pwd)"
-	cd /Library/Frameworks/R.framework/Versions || return
-	sudo rm -f Current
-	sudo ln -fs "$1" Current
-	cd "${OWD}" || return
+	local VERSIONS_PATH
+	VERSIONS_PATH=/Library/Frameworks/R.framework/Versions
+	if [ ! -e "${VERSIONS_PATH}/$1" ]; then
+		echo "R $1 is not installed in '${VERSIONS_PATH}'"
+		return 1
+	fi
+
+	if [ -e "${VERSIONS_PATH}/Current" ]; then
+		sudo unlink "${VERSIONS_PATH}/Current"
+	fi
+
+	sudo ln -fs "$1" "${VERSIONS_PATH}/Current"
+	sudo ln -fs "/Library/Frameworks/R.framework/Resources/bin/R" "/usr/local/bin/R"
+
+	local R_SESSION_INFO
+	R_SESSION_INFO="$(/usr/local/bin/R --vanilla --slave -e "utils::sessionInfo()")"
+	echo "${R_SESSION_INFO}" | head -n 3
 }
 
 rstudio-dev () {
