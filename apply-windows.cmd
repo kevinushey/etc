@@ -42,6 +42,13 @@ set "RPROFILE_DOTFILE_TO=%HOME%\.Rprofile"
 if exist "%RPROFILE_DOTFILE_TO%" del "%RPROFILE_DOTFILE_TO%"
 mklink /H %RPROFILE_DOTFILE_TO% %RPROFILE_DOTFILE_FROM%
 
+REM Copy to Documents folder too, just in case.
+set "RPROFILE_DOTFILE_TO=%HOME%\Documents\.Rprofile"
+if exist "%HOME%\Documents" (
+    if exist "%RPROFILE_DOTFILE_TO%" del "%RPROFILE_DOTFILE_TO%"
+    mklink /H %RPROFILE_DOTFILE_TO% %RPROFILE_DOTFILE_FROM%
+)
+
 REM Copy over Qt Creator related items.
 set "QT_CREATOR_DIR=%HOME%\AppData\Roaming\QtProject\qtcreator"
 
