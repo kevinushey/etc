@@ -29,7 +29,7 @@ EOF
 read -r -d '' UPDATE_R_PACKAGES_COMMAND <<- EOF
 options(install.packages.compile.from.source = TRUE)
 options(repos = c(CRAN = "https://cran.rstudio.com"))
-utils::update.packages(ask = FALSE)
+utils::update.packages(.libPaths()[1], ask = FALSE)
 EOF
 UPDATE_R_PACKAGES_COMMAND="$(echo "${UPDATE_R_PACKAGES_COMMAND}" | tr '\n' ';')"
 
