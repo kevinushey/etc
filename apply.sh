@@ -33,6 +33,8 @@ fi
 
 ## Symlink all dotfiles
 ln -fs ${DIR}/dotfiles/.??* ~/
+ln -fs ${DIR}/tmux ~/.tmux
+ln -fs ${DIR}/login ~/.login
 ln -fs ~/.bash_profile ~/.bashrc
 
 ## Emacs

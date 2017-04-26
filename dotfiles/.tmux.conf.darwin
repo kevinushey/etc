@@ -1,7 +1,0 @@
-# Workarounds for macOS sierra
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
-bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
-
-set -g default-shell $SHELL
-set -g default-command "reattach-to-user-namespace -l ${SHELL}"
-
