@@ -10,12 +10,7 @@ TMUX_VERSION <- package_version(TMUX_VERSION)
 # retrieve platform name
 PLATFORM <- system("uname | tr '[:upper:]' '[:lower:]'", intern = TRUE)
 
-# bail early if we already have a configuration script
 path <- sprintf("~/.tmux/config/tmux-%s-%s.conf", TMUX_VERSION, PLATFORM)
-if (file.exists(path)) {
-    system(paste("tmux source-file", path))
-    q(save = "no")
-}
 
 # read tmux configuration file
 config <- readLines("~/.tmux/tmux-config.conf")
@@ -32,7 +27,7 @@ for (i in seq_along(config)) {
     line <- config[[i]]
     match <- regexpr(RE_DIRECTIVE, line)
     if (identical(c(match), -1L)) {
-        included[[i]] <- stack[[length(stack)]]
+        included[[i]] <- all(stack)
         next
     }
 

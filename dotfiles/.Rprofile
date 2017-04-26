@@ -137,7 +137,7 @@
 
   # always run Rcpp tests
   Sys.setenv(RunAllRcppTests = "yes")
-  
+
   # attempt to set JAVA_HOME if not already set
   if (is.na(Sys.getenv("JAVA_HOME", unset = NA)) &&
       file.exists("/usr/libexec/java_home"))
@@ -146,7 +146,7 @@
       system("/usr/libexec/java_home", intern = TRUE),
       error = function(e) ""
     )
-    
+
     if (nzchar(JAVA_HOME))
       Sys.setenv(JAVA_HOME = JAVA_HOME)
   }
