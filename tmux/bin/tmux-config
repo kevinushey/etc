@@ -1,0 +1,82 @@
+#!/usr/bin/env Rscript
+
+# some constants
+RE_DIRECTIVE <- "^[[:space:]]*#+[[:space:]]*@"
+
+# retrieve tmux version
+TMUX_VERSION <- system("tmux -V | cut -d' ' -f2", intern = TRUE)
+TMUX_VERSION <- package_version(TMUX_VERSION)
+
+# retrieve platform name
+PLATFORM <- system("uname | tr '[:upper:]' '[:lower:]'", intern = TRUE)
+
+# bail early if we already have a configuration script
+path <- sprintf("~/.tmux/config/tmux-%s-%s.conf", TMUX_VERSION, PLATFORM)
+if (file.exists(path)) {
+    system(paste("tmux source-file", path))
+    q(save = "no")
+}
+
+# read tmux configuration file
+config <- readLines("~/.tmux/tmux-config.conf")
+
+# iterate through and track whether each line should be included or not
+included <- rep(TRUE, length(config))
+
+# stack of 'if' statements (accept by default)
+stack <- list(TRUE)
+
+for (i in seq_along(config)) {
+
+    # check if this is a tmux directive
+    line <- config[[i]]
+    match <- regexpr(RE_DIRECTIVE, line)
+    if (identical(c(match), -1L)) {
+        included[[i]] <- stack[[length(stack)]]
+        next
+    }
+
+    # remove the comment prefix
+    directive <- substring(line, attr(match, "match.length") + 1)
+
+    # split into tokens
+    tokens <- strsplit(directive, "[[:space:]]+")[[1]]
+    if (tokens[[1]] == "if") {
+
+        # parse this as R code
+        parsed <- parse(text = paste(directive, "{}"))[[1]]
+
+        # evaluate the 'if' condition
+        accepted <- eval(parsed[[2]])
+
+        # append this to the stack
+        stack[[length(stack) + 1]] <- accepted
+
+    } else if (tokens[[1]] == "else") {
+
+        # flip the acception state on the stack
+        stack[[length(stack)]] <- !stack[[length(stack)]]
+
+    } else if (tokens[[1]] == "endif") {
+
+        # pop the stack
+        stack <- head(stack, -1)
+
+    } else {
+        stop("unexpected directive '", line, "'")
+    }
+
+    # always exclude directive lines
+    # check if we're excluding this line
+    included[[i]] <- FALSE
+}
+
+# construct filtered script
+filtered <- config[included]
+
+# construct path to script we'll use
+dir.create("~/.tmux/config", showWarnings = FALSE)
+writeLines(filtered, path)
+
+# instruct tmux to source it
+system(paste("tmux source-file", path))
