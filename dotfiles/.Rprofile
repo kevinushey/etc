@@ -1,5 +1,5 @@
 .First <- function() {
-
+  
   # only run in interactive mode
   if (!interactive())
     return()
@@ -131,7 +131,7 @@
   if (is.null(method) && nzchar(Sys.which("curl"))) {
     options(
       download.file.method = "curl",
-      download.file.extra = "-L -f --stderr -"
+      download.file.extra = "-L -f -s --stderr -"
     )
   }
 
