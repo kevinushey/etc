@@ -48,3 +48,18 @@ sudo apt-get install -y        \
 
 #sudo apt-get build-dep -y r-base-dev
 git config --global credential.helper "cache --timeout=36000"
+
+# add Eclipse launcher -- assumes that eclipse lives
+# at /usr/local/eclipse
+cat << EOF > ~/.local/share/applications/eclipse.desktop
+[Desktop Entry]
+Type=Application
+Name=Eclipse
+Comment=Eclipse Integrated Development Environment
+Icon=/usr/local/eclipse/icon.xpm
+Exec=/usr/local/eclipse/eclipse
+Terminal=false
+Categories=IDE;Java;
+StartupWMClass=Eclipse
+EOF
+
