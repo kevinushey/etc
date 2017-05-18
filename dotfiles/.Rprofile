@@ -128,11 +128,18 @@
 
   # if using 'curl' with RStudio, ensure stderr redirected
   method <- getOption("download.file.method")
-  if (is.null(method) && nzchar(Sys.which("curl"))) {
-    options(
-      download.file.method = "curl",
-      download.file.extra = "-L -f -s --stderr -"
-    )
+  if (is.null(method)) {
+     if (getRversion() >= "3.4.0" && capabilities("libcurl")) {
+        options(
+           download.file.method = "libcurl",
+           download.file.extra  = NULL
+        )
+     } else if (nzchar(Sys.which("curl"))) {
+        options(
+           download.file.method = "curl",
+           download.file.extra = "-L -f -s --stderr -"
+        )
+     }
   }
 
   # always run Rcpp tests
