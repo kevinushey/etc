@@ -9,15 +9,15 @@ is-linux () {
 }
 
 is-ubuntu () {
-	is-linux && test -n "$(lsb_release -i | grep "Ubuntu")"
+	is-linux && test -n "$(lsb_release -i 2> /dev/null | grep "Ubuntu")"
+}
+
+is-centos () {
+	is-linux && test -n "$(lsb_release -i 2> /dev/null | grep "CentOS")"
 }
 
 is-redhat () {
 	is-linux && test -f /etc/redhat-release
-}
-
-is-centos () {
-	is-linux && test -n "$(lsb_release -i | grep "CentOS")"
 }
 
 if is-darwin; then
