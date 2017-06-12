@@ -9,15 +9,23 @@ is-linux () {
 }
 
 is-ubuntu () {
-	is-linux && test -n "$(lsb_release -i 2> /dev/null | grep "Ubuntu")"
-}
-
-is-centos () {
-	is-linux && test -n "$(lsb_release -i 2> /dev/null | grep "CentOS")"
+	[ "$(. /etc/os-release; echo "${ID}")" = "ubuntu" ]
 }
 
 is-redhat () {
-	is-linux && test -f /etc/redhat-release
+	[ -f /etc/redhat-release ]
+}
+
+is-centos () {
+	grep -siq "centos" /etc/redhat-release
+}
+
+is-fedora () {
+	grep -siq "fedora" /etc/redhat-release
+}
+
+is-opensuse () {
+	[ "$(. /etc/os-release; echo "${ID}")" = "opensuse" ]
 }
 
 if is-darwin; then
