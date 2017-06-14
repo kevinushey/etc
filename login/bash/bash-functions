@@ -109,6 +109,16 @@ hascmd () {
 	command -v "$1" > /dev/null 2>&1
 }
 
+download () {
+
+	if [ "$#" -eq 0 ]; then
+		echo "Usage: download [options] url"
+		return 1
+	fi
+
+	wget -e robots=off --mirror --convert-links --no-parent --reject="index.html*" "$@"
+}
+
 # Navigate up a number of directories.
 up () {
 

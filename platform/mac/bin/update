@@ -36,6 +36,7 @@ UPDATE_R_PACKAGES_COMMAND="$(echo "${UPDATE_R_PACKAGES_COMMAND}" | tr '\n' ';')"
 update-homebrew () {
   section "Homebrew"
   brew update && brew upgrade && brew cleanup
+  brew cask cleanup
 }
 
 update-spacemacs () {
