@@ -111,8 +111,9 @@ set wildmode=list:longest,full
 set winminheight=0
 
 if v:version > 703
-    set cryptmethod=blowfish2
     set formatoptions+=j
     set undoreload=10000
 endif
 
+set cryptmethod=blowfish
+silent! set cryptmethod=blowfish2
