@@ -16,6 +16,14 @@ ln -fs "${ROOT}"/tmux ~/.tmux
 ln -fs "${ROOT}"/login ~/.login
 ln -fs ~/.bash_profile ~/.bashrc
 
+## tmux
+mkdir -p ~/projects
+git clone https://github.com/kevinushey/tmux-config ~/projects/tmux-config 2> /dev/null
+pushd ~/projects/tmux-config
+git pull
+ln -fs ~/projects/tmux-config/tmux-config /usr/local/bin/tmux-config
+popd
+
 ## Emacs
 if [ ! -d ~/.emacs.d ]; then
     git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
