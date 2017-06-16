@@ -1,40 +1,20 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -e
 
-DIR=`pwd`
+# shellcheck disable=SC2086
+ROOT="$(cd "$(dirname $0)"; pwd -P)"
+pushd "${ROOT}"
 
-## Some initial setup to figure out who we are
-UNAME=`uname`
-if [ "${UNAME}" = "Linux" ]; then
-    echo "System: Linux"
-    IS_LINUX=yes
-elif [ "${UNAME}" = "Darwin" ]; then
-    echo "System: Darwin"
-    IS_DARWIN=yes
-fi
+# bootstrapping of bash support scripts
+for FILE in login/bash/bash*; do . "${FILE}"; done
 
-if [ -n "${IS_LINUX}" ]; then
-    if [ -f "/etc/redhat-release" ]; then
-	echo "Linux Type: Red Hat"
-	IS_REDHAT=yes
-    elif [ -n "`lsb_release --id | grep 'Ubuntu'`" ]; then
-	echo "Linux Type: Ubuntu"
-	IS_UBUNTU=yes
-    fi
-fi
-
-if [ -n "${IS_UBUNTU}" ]; then
-    ./apply/apply-ubuntu.sh
-fi
-
-if [ -n "${IS_REDHAT}" ]; then
-    ./apply/apply-redhat.sh
-fi
+is-redhat && import apply/apply-redhat.sh
+is-ubuntu && import apply/apply-ubuntu.sh
 
 ## Symlink all dotfiles
-ln -fs ${DIR}/dotfiles/.??* ~/
-ln -fs ${DIR}/tmux ~/.tmux
-ln -fs ${DIR}/login ~/.login
+ln -fs "${ROOT}"/dotfiles/.??* ~/
+ln -fs "${ROOT}"/tmux ~/.tmux
+ln -fs "${ROOT}"/login ~/.login
 ln -fs ~/.bash_profile ~/.bashrc
 
 ## Emacs
@@ -44,37 +24,27 @@ fi
 
 cd ~/.emacs.d
 git fetch && git reset --hard origin/master
-cd ${DIR}
 
 rm -rf ~/.emacs.d/snippets
-ln -fs ${DIR}/editor/emacs/snippets ~/.emacs.d/snippets
 rm -rf ~/.emacs.d/private
-ln -fs ${DIR}/editor/emacs/private-layers ~/.emacs.d/private
-
-ln -fs ${DIR}/editor/emacs/user-config.el ~/.emacs.d/user-config.el
-ln -fs ${DIR}/editor/emacs/user-init.el ~/.emacs.d/user-init.el
+ln -fs "${ROOT}"/editor/emacs/snippets ~/.emacs.d/snippets
+ln -fs "${ROOT}"/editor/emacs/private-layers ~/.emacs.d/private
+ln -fs "${ROOT}"/editor/emacs/user-config.el ~/.emacs.d/user-config.el
+ln -fs "${ROOT}"/editor/emacs/user-init.el ~/.emacs.d/user-init.el
 
 ## Vim
 mkdir -p ~/.vim
 rm -rf ~/.vim/startup ~/.vim/after
 ln -fs ~/.vimrc ~/.nvimrc
-for FILE in "${DIR}"/editor/vim/*; do
+for FILE in "${ROOT}"/editor/vim/*; do
     ln -fs "${FILE}" ~/.vim/
 done
 
-## Scripts
-SCRIPT_PATHS=`find ${PWD} -type d -path */bin`
-if [ -n "${IS_DARWIN}" ]; then
-    OSX_SCRIPT_PATHS=`echo ${SCRIPT_PATHS} | grep /mac/`
-    for SCRIPT_PATH in ${OSX_SCRIPT_PATHS}; do
-	sudo ln -fs ${SCRIPT_PATH}/* /usr/local/bin/
-    done
-fi
-
-if [ -n "${IS_LINUX}" ]; then
-    LINUX_SCRIPT_PATHS=`echo ${SCRIPT_PATHS} | grep /linux/`
-    for SCRIPT_PATH in ${LINUX_SCRIPT_PATHS}; do
-	sudo ln -fs ${SCRIPT_PATH}/* /usr/local/bin/
+## Helper scripts to be put on the PATH (Darwin only)
+if is-darwin; then
+    SCRIPTS=`find "$(pwd)" -type f -path "*/bin/*"`
+    for SCRIPT in $SCRIPTS; do
+    	sudo ln -fs "${SCRIPT}" /usr/local/bin/
     done
 fi
 
@@ -89,7 +59,8 @@ mkdir -p ~/.config/QtProject/qtcreator/styles
 mkdir -p ~/.config/QtProject/qtcreator/schemes
 mkdir -p ~/.config/QtProject/qtcreator/snippets
 
-ln -fs ${DIR}/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
-ln -fs ${DIR}/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
-ln -fs ${DIR}/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
+ln -fs "${ROOT}"/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
+ln -fs "${ROOT}"/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
+ln -fs "${ROOT}"/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
 
+popd

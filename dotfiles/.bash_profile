@@ -5,7 +5,7 @@ do
     . "${FILE}"
 done
 
-SHELLCHECK_OPTS="-e SC1090"
+SHELLCHECK_OPTS="-e SC1090 -e SC2006"
 export SHELLCHECK_OPTS
 
 BASH_COMPLETION=/usr/local/share/bash-completion/bash_completion
