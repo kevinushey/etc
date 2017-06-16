@@ -1,77 +1,92 @@
-#!/usr/bin/env Rscript
+#!/usr/bin/env bash
+# shellcheck disable=SC2086
 
-# some constants
-RE_DIRECTIVE <- "^[[:space:]]*#+[[:space:]]*@"
+# Initialization ---
+TMUX_VERSION="$(tmux -V | cut -d" " -f2)"
 
-# retrieve tmux version
-TMUX_VERSION <- system("tmux -V | cut -d' ' -f2", intern = TRUE)
-TMUX_VERSION <- package_version(TMUX_VERSION)
-
-# retrieve platform name
-PLATFORM <- system("uname | tr '[:upper:]' '[:lower:]'", intern = TRUE)
-
-path <- sprintf("~/.tmux/config/tmux-%s-%s.conf", TMUX_VERSION, PLATFORM)
-
-# read tmux configuration file
-config <- readLines("~/.tmux/tmux-config.conf")
-
-# iterate through and track whether each line should be included or not
-included <- rep(TRUE, length(config))
-
-# stack of 'if' statements (accept by default)
-stack <- list(TRUE)
-
-for (i in seq_along(config)) {
-
-    # check if this is a tmux directive
-    line <- config[[i]]
-    match <- regexpr(RE_DIRECTIVE, line)
-    if (identical(c(match), -1L)) {
-        included[[i]] <- all(stack)
-        next
-    }
-
-    # remove the comment prefix
-    directive <- substring(line, attr(match, "match.length") + 1)
-
-    # split into tokens
-    tokens <- strsplit(directive, "[[:space:]]+")[[1]]
-    if (tokens[[1]] == "if") {
-
-        # parse this as R code
-        parsed <- parse(text = paste(directive, "{}"))[[1]]
-
-        # evaluate the 'if' condition
-        accepted <- eval(parsed[[2]])
-
-        # append this to the stack
-        stack[[length(stack) + 1]] <- accepted
-
-    } else if (tokens[[1]] == "else") {
-
-        # flip the acception state on the stack
-        stack[[length(stack)]] <- !stack[[length(stack)]]
-
-    } else if (tokens[[1]] == "endif") {
-
-        # pop the stack
-        stack <- head(stack, -1)
-
-    } else {
-        stop("unexpected directive '", line, "'")
-    }
-
-    # always exclude directive lines
-    # check if we're excluding this line
-    included[[i]] <- FALSE
+# Helper Functions ----
+tmux-config-output () {
+    echo "${HOME}/.tmux/config/$(uname)-${TMUX_VERSION}/.tmux.conf"
 }
 
-# construct filtered script
-filtered <- config[included]
+warning () {
+    echo "[$I]: $*"
+}
 
-# construct path to script we'll use
-dir.create("~/.tmux/config", showWarnings = FALSE)
-writeLines(filtered, path)
+# Configuration ----
+: ${TMUX_CONFIG_INPUT="${HOME}/.tmux/.tmux.conf"}
+: ${TMUX_CONFIG_OUTPUT="$(tmux-config-output)"}
 
-# instruct tmux to source it
-system(paste("tmux source-file", path))
+# Global State ----
+
+# The document, represented as an array of strings.
+DOCUMENT=()
+
+# A 'stack', representing the results of evaluating 'if' statements
+# discovered within the tmux configuration generator. Values will be
+# either 'y' or 'n'.
+STACK="yyyyyyyy"
+
+process-line () {
+
+    # if we have no configuration directive, then just write
+    # the line out as-is (when enabled)
+    if ! [[ "${LINE}" =~ \ *\#+\ *@ ]]; then
+        case "${STACK}" in
+            *n*) ;;
+            *y) DOCUMENT+=("${LINE}") ;;
+        esac
+        return 0
+    fi
+
+    # extract the configuration directive
+    local DIRECTIVE
+    DIRECTIVE="${LINE/*\#*\@/}"
+
+    case "${DIRECTIVE}" in
+
+    # 'if' statement: evaluate and check return result
+    "if"*)
+        local STATEMENT="${DIRECTIVE/if /}"
+        eval "${STATEMENT}" &> /dev/null && STACK="${STACK}y" || STACK="${STACK}n"
+    ;;
+
+    # 'else' statement: flip state
+    "else"*)
+        case "${STACK}" in
+        *y) STACK="${STACK%?}n" ;;
+        *n) STACK="${STACK%?}y" ;;
+        esac
+    ;;
+
+    # 'fi': pop the stack
+    "fi"*)
+        [ -z "${STACK}" ] && warning "unexpected 'fi'"
+        STACK="${STACK%?}"
+    ;;
+
+    # unrecognized directive
+    *)
+        warning "unrecognized directive '${DIRECTIVE}'"
+    esac
+
+    DOCUMENT+=("${LINE}")
+}
+
+# Remove an old configuration file
+mkdir -p "$(dirname "${TMUX_CONFIG_OUTPUT}")"
+rm -f "${TMUX_CONFIG_OUTPUT}"
+
+# Our engine -- read and process the file line-by-line
+declare -i I=1
+while IFS="" read -r LINE; do
+    process-line "${LINE}" "${I}"
+    I+=1
+done < "${TMUX_CONFIG_INPUT}"
+
+# Write the document to file
+printf "%s\n" "${DOCUMENT[@]}" > "${TMUX_CONFIG_OUTPUT}"
+
+# Ask tmux to source the generated file
+tmux source-file "${TMUX_CONFIG_OUTPUT}"
+
