@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 docker-shell () {
     docker run -it "$1" /bin/bash
 }

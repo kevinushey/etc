@@ -1,25 +1,36 @@
 #!/usr/bin/env bash
 
+pushd () {
+	command pushd "$@" > /dev/null
+}
+
+popd () {
+	command popd "$@" > /dev/null
+}
+
+is-verbose () {
+	[ -n "${VERBOSE}" ] && [ "${VERBOSE}" != "0" ]
+}
+
 is-file () {
-	test -f "$1"
+	[ -f "$1" ]
 }
 
 is-dir () {
-	test -d "$1"
+	[ -d "$1" ]
 }
 
 is-empty () {
-	test -z "$1"
+	[ -z "$1" ]
 }
 
 is-nonempty () {
-	test -n "$1"
+	[ -n "$1" ]
 }
 
 import () {
-	while test "$#" -ne 0; do
-		if test -e "$1"; then
-			# shellcheck disable=SC1090
+	while [ "$#" -ne 0 ]; do
+		if [ -e "$1" ]; then
 			source "$1"
 		fi
 		shift
@@ -45,7 +56,7 @@ error () {
 
 joined () {
 
-	if test "$#" -le 2; then
+	if [ "$#" -le 2 ]; then
 		echo "Usage: joined delimiter [values...]"
 		return 1
 	fi
@@ -59,12 +70,12 @@ joined () {
 
 defvar () {
 
-	if test "$#" -eq 0; then
+	if [ "$#" -eq 0 ]; then
 		echo "Usage: defvar [variable value]+"
 		return 1
 	fi
 
-	while test "$#" -ge 2; do
+	while [ "$#" -ge 2 ]; do
 		# shellcheck disable=SC2163
 		eval "$1='$2'" && export "$1"
 		shift 2
@@ -99,14 +110,41 @@ replace () {
 
 }
 
-hascmd () {
+extract () {
+	local FILE="$1"
 
-	if [ "$#" -ne 1 ]; then
-		echo "Usage: hascmd command"
-		return 1
+	if is-verbose; then
+		echo "Extracting '$FILE' ..."
 	fi
 
-	command -v "$1" > /dev/null 2>&1
+	case "${FILE}" in
+
+	*.deb)
+		dpkg -x "${FILE}"
+	;;
+
+	*.rpm)
+		rpm2cpio "${FILE}" | cpio -idmv
+	;;
+
+	*.tar.gz)
+		tar -xf "${FILE}"
+	;;
+
+	*.tar.xz)
+		tar -xf "${FILE}"
+	;;
+
+	*.zip)
+		unzip -o "${FILE}"
+	;;
+
+	*)
+		echo "Don't know how to extract file '${FILE}'"
+		return 1
+	;;
+
+	esac
 }
 
 download () {
@@ -128,8 +166,7 @@ up () {
 	fi
 
 	COUNT=1
-	if test "$#" -eq 1
-	then
+	if [ "$#" -eq 1 ]; then
 		COUNT=$1
 	fi
 
@@ -149,7 +186,7 @@ mov2gif () {
 		return 1
 	fi
 
-	if test "$#" -eq 1; then
+	if [ "$#" -eq 1 ]; then
 		OUTPUT="${1%.mov}".gif
 	else
 		OUTPUT="$2"
@@ -162,7 +199,7 @@ mov2gif () {
 ## Emacs
 
 e () {
-	if test "$#" -eq 0; then
+	if [ "$#" -eq 0 ]; then
 		ALTERNATE_EDITOR="" emacsclient -t .
 	else
 		ALTERNATE_EDITOR="" emacsclient -t "$@"
@@ -179,7 +216,7 @@ e () {
 # so I ended up pasting the file visiting into the eval statement.
 ec () {
 
-	if test "$#" -ge 1; then
+	if [ "$#" -ge 1 ]; then
 
 		read -r -d '' EMACSCLIENT_EVAL <<- EOM
 		(progn
@@ -210,10 +247,5 @@ ec () {
 
 b64encode () {
 	openssl base64 -in "$1" | tr -d '\n'
-}
-
-dock () {
-	docker-machine start docker-dev
-	eval "$(docker-machine env docker-dev)"
 }
 
