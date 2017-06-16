@@ -1,7 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-FLAVOUR=`lsb_release -c | tail -n 1 | cut -d: -f2 | sed 's/\t//g'`
-echo "Ubuntu flavour: '${FLAVOUR}'"
+echo "Ubuntu $(os-version) $(ubuntu-codename)"
 
 # if we're running Linux under VMWare, then
 # make sure we install the 'open-vm' packages
@@ -17,7 +16,7 @@ CRAN_URL=http://cran.rstudio.com/bin/linux/ubuntu
 
 if [ -z "`grep ${CRAN_URL} /etc/apt/sources.list`" ]; then
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-	sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu ${FLAVOUR}/ >> /etc/apt/sources.list"
+	sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu $(ubuntu-codename)/ >> /etc/apt/sources.list"
 	sudo apt-get update -y
 	sudo apt-get upgrade -y
 fi
@@ -51,6 +50,7 @@ git config --global credential.helper "cache --timeout=36000"
 
 # add Eclipse launcher -- assumes that eclipse lives
 # at /usr/local/eclipse
+mkdir -p ~/.local/share/applications
 cat << EOF > ~/.local/share/applications/eclipse.desktop
 [Desktop Entry]
 Type=Application

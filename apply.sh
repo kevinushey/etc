@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-set -e
 
 # shellcheck disable=SC2086
 ROOT="$(cd "$(dirname $0)"; pwd -P)"
-pushd "${ROOT}"
+pushd "${ROOT}" &> /dev/null
 
 # bootstrapping of bash support scripts
 for FILE in login/bash/bash*; do . "${FILE}"; done
@@ -63,4 +62,5 @@ ln -fs "${ROOT}"/editor/qt/styles/*.xml ~/.config/QtProject/qtcreator/styles/
 ln -fs "${ROOT}"/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
 ln -fs "${ROOT}"/editor/qt/schemes/* ~/.config/QtProject/qtcreator/schemes/
 
-popd
+popd &> /dev/null
+
