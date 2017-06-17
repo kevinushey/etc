@@ -8,7 +8,7 @@ do
     . "${FILE}"
 done
 
-SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155"
+SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
 export SHELLCHECK_OPTS
 
 BASH_COMPLETION=/usr/local/share/bash-completion/bash_completion
