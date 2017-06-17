@@ -3,6 +3,8 @@ EnsureDirectory "~/.vim/bundle"
 " Use vim-plug to manage packages
 if IsWindows()
   let VimPlugDestination = "~/vimfiles/autoload/plug.vim"
+elseif has("nvim")
+  let VimPlugDestination = "~/.local/share/nvim/site/autoload/plug.vim"
 else
   let VimPlugDestination = "~/.vim/autoload/plug.vim"
 endif

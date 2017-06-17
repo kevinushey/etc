@@ -115,5 +115,5 @@ if v:version > 703
     set undoreload=10000
 endif
 
-set cryptmethod=blowfish
+silent! set cryptmethod=blowfish
 silent! set cryptmethod=blowfish2
