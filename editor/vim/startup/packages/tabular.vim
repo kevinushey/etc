@@ -1,1 +1,0 @@
-Plug 'godlygeek/tabular'
