@@ -1,5 +1,17 @@
+#!/usr/bin/env bash
+
 # Preview contents with Ctrl+T with fzf
 if has-command fzf; then
+
+    if has-command rg; then
+        FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+    elif has-command ag; then
+        FZF_DEFAULT_COMMAND='ag -g ""'
+    fi
+
+    if [ -n "${FZF_DEFAULT_COMMAND}" ]; then
+        export FZF_DEFAULT_COMMAND
+    fi
 
     FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
     export FZF_CTRL_T_OPTS
