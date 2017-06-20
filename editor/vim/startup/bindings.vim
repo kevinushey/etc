@@ -39,18 +39,6 @@ imap <expr> <CR> SmartCR()
 
 cnoremap q: :q
 
-if isdirectory(expand("~/.vim/bundle/tabular"))
-    NVMap <Leader>a&     :Tabularize /&<CR>
-    NVMap <Leader>a,     :Tabularize /,<CR>
-    NVMap <Leader>a,,    :Tabularize /,\zs<CR>
-    NVMap <Leader>a:     :Tabularize /:<CR>
-    NVMap <Leader>a::    :Tabularize /:\zs<CR>
-    NVMap <Leader>a<Bar> :Tabularize /<Bar><CR>
-    NVMap <Leader>a=     :Tabularize /^[^=]*\zs=<CR>
-    NVMap <Leader>a=>    :Tabularize /=><CR>
-    NVMap <Leader>a\     :Tabularize /\\/
-endif
-
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <silent> <leader>gs :Gstatus<CR>
     nnoremap <silent> <leader>gd :Gdiff<CR>
