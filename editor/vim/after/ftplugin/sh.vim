@@ -7,10 +7,11 @@ function! GetShIndentWrapper()
     return GetShIndent()
 endfunction
 
+
 " Ensure '-' is treated as part of identifier
+setlocal iskeyword=@,48-57,_,192-255,#,.,-
 
 " Preserve indentation within heredocs
-setlocal iskeyword=@,48-57,_,192-255,#,.,-
 setlocal indentexpr=GetShIndentWrapper()
 
 " Don't expand tabs in shell scripts (for heredoc)

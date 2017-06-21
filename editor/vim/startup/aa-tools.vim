@@ -312,14 +312,40 @@ function! MaybeSetFileType(Filetype)
     endif
 endfunction
 
-" Set the file type based on the file extension
+" Set the file type based on the shebang (if any)
 function! UpdateFileType()
+
     let Line = getline(1)
-    if Line =~ "sh$"
-        call MaybeSetFileType("sh")
-    elseif Line =~ "Rscript$"
-        call MaybeSetFileType("r")
+    if Line !~? '^#!' || len(Line) > 100
+        return 0
     endif
+
+    let EditorDictionary =
+    \ {
+    \   'sh'    : ['bash', 'sh', 'zsh', 'fish'],
+    \   'r'     : ['r', 'rscript'],
+    \   'python': ['python'],
+    \ }
+
+    let Prefixes =
+    \ [
+    \   '\v#!/usr/bin/env ',
+    \   '\v#!/usr/bin/',
+    \   '\v#!/bin/',
+    \ ]
+
+    for Key in keys(EditorDictionary)
+        let Val = '(' . join(EditorDictionary[Key], '|') . ')'
+        for Prefix in Prefixes
+            if Line =~? Prefix . Val
+                call MaybeSetFileType(Key)
+                return 1
+            endif
+        endfor
+    endfor
+
+    return 0
+
 endfunction
 
 function! UseTabIndent()
