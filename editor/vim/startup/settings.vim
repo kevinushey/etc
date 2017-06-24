@@ -41,11 +41,10 @@ if has('autocmd')
     autocmd BufWritePost * call UpdateFileType()
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
     autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
-    autocmd FileType r  setlocal commentstring=##\ %s
+    autocmd FileType r  setlocal commentstring=#\ %s
     autocmd FileType vimscript setlocal omnifunc=vimcom
     autocmd VimEnter * silent! AirlineTheme dark
     autocmd VimEnter * silent! AirlineToggleWhitespace
-    autocmd VimEnter,BufEnter,BufWinEnter * redraw!
 endif
 
 " Clipboard settings
@@ -69,6 +68,9 @@ endif
 " Automatic encryption of files.
 autocmd BufReadPre *.secret silent! source ~/.vim/secret.vim
 
+let g:vim_indent_cont = 0
+let g:is_posix        = 1
+
 set autoindent
 set cinoptions=N-s,g0,m1,(s
 set cursorline
@@ -84,6 +86,7 @@ set iskeyword-=-
 set iskeyword-=.
 set linespace=0
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+set mouse=a
 set nojoinspaces
 set nolist
 set nospell

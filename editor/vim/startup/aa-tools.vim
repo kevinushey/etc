@@ -87,11 +87,6 @@ function! Define(command)
 endfunction
 command! -nargs=+ -complete=var Define call Define(<q-args>)
 
-" Form a file path. Uses '/' slashes.
-function! FilePath(...)
-    return join(a:000, "/")
-endfunction
-
 " Select a colorscheme. The first discovered colorscheme is used. Useful
 " for when I forget to install Tomorrow Night Bright but want a nice fallback.
 function! ColorScheme(...)
@@ -131,7 +126,7 @@ endfunction
 " Enter normal mode. This is a stupid hack because I couldn't find an
 " ex-command to enter normal mode. This may be because I am stupid.
 function! EnterNormalMode()
-    if mode() != 'n'
+    if mode() !=# 'n'
         call feedkeys("\<Esc>")
     endif
 endfunction
@@ -229,12 +224,13 @@ function! Download(URL, Destination)
     call EnsureDirectory(Dirname(Destination))
 
     if IsWindows()
-        let Command = [
-                    \ "!bitsadmin",
-                    \ "/transfer vimdownload",
-                    \ URL,
-                    \ Destination
-                    \ ]
+        let Command =
+        \ [
+        \   "!bitsadmin",
+        \   "/transfer vimdownload",
+        \   URL,
+        \   Destination,
+        \ ]
         execute join(Command, ' ')
     elseif executable("curl")
         execute join(["!curl -L -f -C -", URL, "-o", Destination], ' ')
@@ -307,7 +303,7 @@ endfunction
 
 " Update the file type if it's changed
 function! MaybeSetFileType(Filetype)
-    if a:Filetype != &filetype
+    if a:Filetype !=# &filetype
         execute "set filetype=" . a:Filetype
     endif
 endfunction
@@ -365,7 +361,7 @@ function! ProjectRoot()
     let Directory = expand(getcwd())
     let Anchors = [".git"]
 
-    while Directory != "/"
+    while Directory !=# "/"
         for Anchor in Anchors
             if isdirectory(FilePath(Directory, Anchor))
                 return Directory

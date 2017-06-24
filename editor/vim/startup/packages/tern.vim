@@ -1,10 +1,12 @@
-let TernLoadable = !IsWindows() && executable('tern')
-Plug 'ternjs/tern_for_vim', LoadIf(TernLoadable)
+Plug 'ternjs/tern_for_vim', LoadIf(executable('tern'))
 
 " Build node modules folder for tern as needed
-if IsDirectory("~/.vim/bundle/tern_for_vim/") && executable('npm')
-    if !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
-        !cd ~/.vim/bundle/tern_for_vim && npm install
-    endif
+let s:InstallTern =
+    \ executable("npm") &&
+    \ IsDirectory("~/.vim/bundle/tern_for_vim") &&
+    \ !IsDirectory("~/.vim/bundle/tern_for_vim/node_modules")
+
+if s:InstallTern
+    !cd ~/.vim/bundle/tern_for_vim && npm install
 endif
 
