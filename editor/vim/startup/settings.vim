@@ -25,26 +25,29 @@ if exists('+undofile')
 endif
 
 set background=dark
-highlight Normal ctermfg=15 ctermbg=16
+highlight Normal ctermfg=15               ctermbg=16
 highlight Search cterm=NONE ctermfg=white ctermbg=12
 ColorScheme wombat256mod slate default
 
 if has('autocmd')
-    autocmd BufEnter * set t_ut=
-    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
-    autocmd BufEnter * call UpdateFileType()
-    autocmd BufEnter .eslintrc set filetype=json
-    autocmd BufEnter .Rprofile set filetype=r
-    autocmd BufEnter .Renviron set filetype=sh
-    autocmd BufEnter CMake*.txt set filetype=cmake
-    autocmd BufWinEnter * call RestoreCursorPosition()
-    autocmd BufWritePost * call UpdateFileType()
-    autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-    autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
-    autocmd FileType r  setlocal commentstring=#\ %s
-    autocmd FileType vimscript setlocal omnifunc=vimcom
-    autocmd VimEnter * silent! AirlineTheme dark
-    autocmd VimEnter * silent! AirlineToggleWhitespace
+    augroup dotVimRc
+	autocmd!
+	autocmd BufEnter * set t_ut=
+	autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
+	autocmd BufEnter * call UpdateFileType()
+	autocmd BufEnter .eslintrc set filetype=json
+	autocmd BufEnter .Rprofile set filetype=r
+	autocmd BufEnter .Renviron set filetype=sh
+	autocmd BufEnter CMake*.txt set filetype=cmake
+	autocmd BufWinEnter * call RestoreCursorPosition()
+	autocmd BufWritePost * call UpdateFileType()
+	autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+	autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
+	autocmd FileType r  setlocal commentstring=#\ %s
+	autocmd FileType vimscript setlocal omnifunc=vimcom
+	autocmd VimEnter * silent! AirlineTheme dark
+	autocmd VimEnter * silent! AirlineToggleWhitespace
+    augroup END
 endif
 
 " Clipboard settings
@@ -59,10 +62,10 @@ endif
 " Disable menu-stuff (for GUIs)
 if has("gui_running")
     " Hide the menu bar.
-    set guioptions -=m
+    set guioptions-=m
 
     " Hide the toolbar.
-    set guioptions -=T
+    set guioptions-=T
 endif
 
 " Automatic encryption of files.
