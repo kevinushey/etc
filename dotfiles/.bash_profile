@@ -3,6 +3,8 @@
 TERM=xterm-256color
 export TERM
 
+PATH=/usr/local/bin:$PATH
+
 for FILE in ~/.login/bash/bash-*
 do
     . "${FILE}"
