@@ -108,6 +108,7 @@ set splitbelow
 set splitright
 set tabstop=4
 set textwidth=0
+set ttymouse=xterm2
 set undolevels=1000 
 set viewoptions=folds,options,cursor,unix,slash
 set virtualedit=onemore
