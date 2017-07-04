@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 docker-shell () {
-    docker run -it "$1" /bin/bash
+    docker run -it -v "$HOME:/home/$USER" "$1" /usr/bin/env bash
 }
