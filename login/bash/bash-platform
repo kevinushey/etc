@@ -128,12 +128,16 @@ is-linux () {
 	[ "$(uname)" = "Linux" ]
 }
 
-is-ubuntu () {
-	[ "$(platform)" = "ubuntu" ]
+is-debian () {
+	[ -f /etc/debian_version ]
 }
 
 is-redhat () {
 	[ -f /etc/redhat-release ]
+}
+
+is-ubuntu () {
+	[ "$(platform)" = "ubuntu" ]
 }
 
 is-centos () {
