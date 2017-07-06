@@ -21,7 +21,7 @@ mkdir -p ~/projects
 git clone https://github.com/kevinushey/tmux-config ~/projects/tmux-config 2> /dev/null
 pushd ~/projects/tmux-config
 git pull
-ln -nfs ~/projects/tmux-config/tmux-config /usr/local/bin/tmux-config
+./tmux-config --bootstrap
 popd
 
 ## Emacs
