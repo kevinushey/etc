@@ -145,14 +145,31 @@ extract () {
 	esac
 }
 
-download () {
+mirror () {
 
 	if [ "$#" -eq 0 ]; then
-		echo "Usage: download [options] url"
+		echo "Usage: mirror [options] url"
 		return 1
 	fi
 
 	wget -e robots=off --mirror --convert-links --no-parent --reject="index.html*" "$@"
+}
+
+download () {
+
+	if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
+		echo "Usage: download url [target]"
+		return 1
+	fi
+
+	SOURCE="$1"
+	TARGET="${2:-$(basename "${SOURCE}")}"
+
+	if has-command curl; then
+		curl --location --fail --continue-at - "${SOURCE}" --output "${TARGET}"
+	elif has-command wget; then
+		wget --continue -O "${TARGET}" "${SOURCE}"
+	fi
 }
 
 # Navigate up a number of directories.
