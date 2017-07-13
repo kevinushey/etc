@@ -4,35 +4,35 @@
 : ${CLANG="clang"}
 : ${CLANGPP="clang++"}
 if [ -n "${CLANG_VERSION}" ]; then
-    CLANG_VERSION_MAJOR_MINOR="$(echo "${CLANG_VERSION}" | cut -d'.' -f1,2)"
-    CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"
-    CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"
+	CLANG_VERSION_MAJOR_MINOR="$(echo "${CLANG_VERSION}" | cut -d'.' -f1,2)"
+	CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"
+	CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"
 fi
 
 if [ ! "$(command -v "${CLANG}" 2> /dev/null)" ]; then
-    if [ -f "install-clang" ]; then
+	if [ -f "install-clang" ]; then
 	./install-clang "${CLANG_VERSION}"
-    fi
+	fi
 fi
 
 ## Ensure coreutils (for 'greadlink')
 if [ -z "`which greadlink`" ]; then
-    brew install coreutils
+	brew install coreutils
 fi
 
 command -v "${CLANG}" &> /dev/null || {
-    echo "${CLANG} not found on PATH; aborting"
-    exit 1
+	echo "${CLANG} not found on PATH; aborting"
+	exit 1
 }
 
 command -v "${CLANGPP}" &> /dev/null || {
-    echo "${CLANGPP} not found on PATH; aborting"
-    exit 1
+	echo "${CLANGPP} not found on PATH; aborting"
+	exit 1
 }
 
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-sanitizers"}
-: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero"}
+: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero,alignment"}
 : ${ENABLE_R_FRAMEWORK="no"}
 
 ## R compilation flags
@@ -49,11 +49,11 @@ command -v "${CLANGPP}" &> /dev/null || {
 ## in. Note that we need to use clang++ to enable e.g. the 'vptr'
 ## sanitizer for C++ code. See:
 ##
-##   https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer 
+##	 https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer
 ##
 ## for more information.
 : ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs greadlink -f`)"}
-: ${MAIN_LD="${CLANGPP} -fsanitize=undefined -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic"}
+: ${MAIN_LD="${CLANGPP} ${SANFLAGS} -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic"}
 
 ## Create and use dummy Makevars.san
 mkdir -p "${HOME}/.R"
@@ -63,8 +63,8 @@ export R_MAKEVARS_USER
 
 ## Invoke install homebrew script with these variables
 . install-r-homebrew || {
-    echo "Failed to install R; aborting"
-    exit 1
+	echo "Failed to install R; aborting"
+	exit 1
 }
 
 # Update Renviron so that we don't make use of '~/.R/Makevars'
@@ -72,8 +72,8 @@ read -r -d '' R_ENVIRON_VARS <<- EOF
 	R_MAKEVARS_USER='~/.R/Makevars.san'
 	R_LIBS_USER='${PREFIX}/library'
 EOF
-    
+
 if [ "${ENABLE_R_FRAMEWORK}" = "no" ]; then
-    echo "${R_ENVIRON_VARS}" >> "${PREFIX}/lib/R/etc/Renviron"
+	echo "${R_ENVIRON_VARS}" >> "${PREFIX}/lib/R/etc/Renviron"
 fi
 
