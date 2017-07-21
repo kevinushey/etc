@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 
 docker-shell () {
-	docker run -it -e HOME="/home/$USER" -v "$HOME:/home/$USER" "${@:-ubuntu}" /usr/bin/env bash
+	docker run -it              \
+	    -e HOME="/home/$USER"   \
+	    -v "$HOME:/home/$USER"  \
+	    -v "$HOME:/Users/$USER" \
+	    "${@:-ubuntu}"          \
+	    /usr/bin/env bash
 }
 
 rocker-shell () {
-	docker run -it -e HOME="/home/$USER" -v "$HOME:/home/$USER" "$@" rocker/tidyverse /usr/bin/env bash
+	docker run -it              \
+	    -e HOME="/home/$USER"   \
+	    -v "$HOME:/home/$USER"  \
+	    -v "$HOME:/Users/$USER" \
+	    "$@"                    \
+	    rocker/tidyverse /usr/bin/env bash
 }

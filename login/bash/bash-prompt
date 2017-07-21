@@ -22,12 +22,23 @@ git-prompt () {
 	fi
 }
 
+# When running within docker, make that obvious.
+docker-prompt () {
+	if [ -n "${DOCKER}" ]; then
+		echo -e "${Purple}(docker)${Color_Off} "
+	fi
+}
+
 # Override prompt_command to use the aforementioned git_prompt
 prompt-command () {
 	GIT_PROMPT="$(git-prompt)"
-	# export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]${GIT_PROMPT}\$ "
-	export PS1="${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
+	DOCKER_PROMPT="$(docker-prompt)"
+	export PS1="${DOCKER_PROMPT}${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
 }
+
+if [ -f /.dockerenv ]; then
+	DOCKER=1
+fi
 
 PROMPT_COMMAND="prompt-command"
 export PROMPT_COMMAND
