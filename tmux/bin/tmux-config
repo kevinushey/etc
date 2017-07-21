@@ -37,7 +37,10 @@ if [ "$1" = "--bootstrap" ]; then
 	echo "${LOADER}" > ~/.tmux.conf
 
 	echo "'tmux-config' successfully bootstrapped."
-	echo "Restart your tmux session to enable 'tmux-config'."
+
+	if [ -n "${TMUX}" ]; then
+		echo "Restart your tmux session to enable 'tmux-config'."
+	fi
 
 	exit 0
 
@@ -87,6 +90,12 @@ process-line () {
 	"if"*)
 		local STATEMENT="${DIRECTIVE/if /}"
 		eval "${STATEMENT}" &> /dev/null && STACK="${STACK}y" || STACK="${STACK}n"
+	;;
+
+	# 'elif': evaluate and check return result
+	"elif"*)
+		local STATEMENT="${DIRECTIVE/elif /}"
+		eval "${STATEMENT}" &> /dev/null && STACK="${STACK%?}y" || STACK="${STACK%?n}"
 	;;
 
 	# 'else': flip state

@@ -4,7 +4,7 @@ echo "Ubuntu $(os-version) $(ubuntu-codename)"
 
 # if we're running Linux under VMWare, then
 # make sure we install the 'open-vm' packages
-SCSI=`cat /proc/scsi/scsi | grep -i vmware`
+SCSI="$(cat /proc/scsi/scsi 2> /dev/null | grep -i vmware)"
 if [ -n "${SCSI}" ]; then
    sudo apt-get install      \
       open-vm-tools         \
