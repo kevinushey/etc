@@ -1,18 +1,8 @@
-" Ensure that a directory exists.
 function! EnsureDirectory(path)
-
-    if IsDirectory(a:path)
-        return 1
+    let Path = expand(a:path)
+    if !isdirectory(Path)
+        return mkdir(Path, "p")
     endif
-
-    let l:mkdir_command = "mkdir -p"
-    if has("win16") || has("win32") || has("win64")
-        let l:mkdir_command = "mkdir"
-    endif
-
-    execute join(["silent!", "!" . l:mkdir_command, DoubleQuotedEscaped(expand(a:path))], " ")
-    return IsDirectory(a:path)
-
 endfunction
 command! -nargs=+ -complete=file EnsureDirectory call EnsureDirectory(<args>)
 
