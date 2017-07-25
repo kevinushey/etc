@@ -14,10 +14,10 @@ is-ubuntu && import apply/apply-ubuntu.sh
 
 ## Symlink all dotfiles
 pushd "${HOME}"
-ln -nfs "${RELROOT}"/dotfiles/.??* .
-ln -nfs "${RELROOT}"/tmux          .tmux
-ln -nfs "${RELROOT}"/login         .login
-ln -nfs .bash_profile              .bashrc
+ln -nfs "${RELROOT}"/dotfiles/.??*  .
+ln -nfs "${RELROOT}"/tmux           .tmux
+ln -nfs "${RELROOT}"/login          .login
+ln -nfs .bash_profile               .bashrc
 popd
 
 ## tmux
@@ -79,11 +79,9 @@ mkdir -p ~/.config/QtProject/qtcreator/styles
 mkdir -p ~/.config/QtProject/qtcreator/schemes
 mkdir -p ~/.config/QtProject/qtcreator/snippets
 
-pushd "${HOME}"
-ln -nfs "${RELROOT}"/editor/qt/styles/*.xml          .config/QtProject/qtcreator/styles/
-ln -nfs "${RELROOT}"/editor/qt/snippets/snippets.xml .config/QtProject/qtcreator/snippets/snippets.xml
-ln -nfs "${RELROOT}"/editor/qt/schemes/*             .config/QtProject/qtcreator/schemes/
-popd
+ln -nfs "${ROOT}"/editor/qt/styles/*.xml          ~/.config/QtProject/qtcreator/styles/
+ln -nfs "${ROOT}"/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
+ln -nfs "${ROOT}"/editor/qt/schemes/*             ~/.config/QtProject/qtcreator/schemes/
 
 popd &> /dev/null
 
