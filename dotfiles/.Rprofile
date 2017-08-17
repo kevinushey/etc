@@ -4,6 +4,10 @@
   if (!interactive())
     return()
 
+  # bail in Docker environments
+  if (!is.na(Sys.getenv("DOCKER", unset = NA)))
+    return()
+
   # create .Rprofile env
   .__Rprofile.env__. <- attach(NULL, name = "local:rprofile")
 
