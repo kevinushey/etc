@@ -98,6 +98,9 @@
     # CRAN
     repos = c(CRAN = "https://cran.rstudio.org"),
 
+    # source packages for older R
+    pkgType = if (getRversion() < "3.3") "source" else "both",
+
     # no tcltk
     menu.graphics = FALSE,
 
