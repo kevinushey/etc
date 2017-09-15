@@ -1,5 +1,5 @@
 .First <- function() {
-  
+
   # only run in interactive mode
   if (!interactive())
     return()
@@ -94,12 +94,17 @@
     Sys.setenv(PATH = paste(PATH, collapse = .Platform$path.sep))
   }
 
+  # prefer source packages for older versions of R
+  pkgType <- getOption("pkgType")
+  if (getRversion() < "3.3")
+    pkgType <- "source"
+
   options(
     # CRAN
     repos = c(CRAN = "https://cran.rstudio.org"),
 
     # source packages for older R
-    pkgType = if (getRversion() < "3.3") "source" else "both",
+    pkgType = pkgType,
 
     # no tcltk
     menu.graphics = FALSE,
