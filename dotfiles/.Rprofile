@@ -1,5 +1,9 @@
 .First <- function() {
 
+  # don't do anything for revolution R
+  if (exists("Revo.version"))
+    return()
+
   # only run in interactive mode
   if (!interactive())
     return()
@@ -42,6 +46,10 @@
     }
     .libPaths(userLibs)
   })
+
+  # Set TZ for macOS High Sierra
+  if (identical(Sys.info()[["sysname"]], "Darwin"))
+    Sys.setenv(TZ = "America/Los_Angeles")
 
   # Don't use a user library if we have a site library on OS X
   # (ie, don't die when we're using homebrew R)
