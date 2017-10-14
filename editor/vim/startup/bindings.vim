@@ -13,7 +13,6 @@ endfor
 
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
-nnoremap <Leader>r :call Reload() \| Echo "Reloaded '" . @% . "'."<CR>
 nnoremap <Leader>o :Files<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>s :nohlsearch<CR>

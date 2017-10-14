@@ -37,6 +37,7 @@ update-homebrew () {
   section "Homebrew"
   brew update && brew upgrade && brew cleanup
   brew cask cleanup
+  rm -rf ~/Library/Caches/Homebrew
 }
 
 update-spacemacs () {
