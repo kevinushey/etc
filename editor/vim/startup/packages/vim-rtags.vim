@@ -1,3 +1,5 @@
+finish
+
 Plug 'lyuts/vim-rtags'
 
 function! RTagsEnsureDaemon()
