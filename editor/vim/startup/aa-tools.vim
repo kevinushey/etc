@@ -44,7 +44,7 @@ function! Source(path)
 
     if filereadable(expand(a:path))
         call MarkFileSourced(a:path)
-        execute join(["source", expand(a:path)], " ")
+        execute join(["source", fnameescape(expand(a:path))], " ")
     endif
 
 endfunction
@@ -208,8 +208,8 @@ endfunction
 
 function! Download(URL, Destination)
         
-    let URL = expand(a:URL)
-    let Destination = expand(a:Destination)
+    let URL         = DoubleQuotedEscaped(expand(a:URL))
+    let Destination = DoubleQuotedEscaped(expand(a:Destination))
 
     call EnsureDirectory(Dirname(Destination))
 

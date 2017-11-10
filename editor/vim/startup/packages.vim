@@ -17,7 +17,7 @@ endif
 
 call plug#begin('~/.vim/bundle')
 for Module in split(glob('~/.vim/startup/packages/*.vim'), '\n')
-  execute join(['source', Module], ' ')
+  execute join(['source', fnameescape(Module)], ' ')
 endfor
 call plug#end()
 

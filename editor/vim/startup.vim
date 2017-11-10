@@ -1,8 +1,5 @@
-" Work around issues on Windows with non-ASCII characters in path
-let Directory = getcwd()
-execute join(["cd", "~/.vim/startup"], ' ')
-for Path in split(globpath(".", "*.vim"), '\n')
-    execute join(['source', Path], ' ')
+let Paths = globpath(expand("~/.vim/startup"), "*.vim")
+for Path in split(Paths, '\n')
+    execute join(['source', fnameescape(Path)], ' ')
 endfor
-execute join(["cd", substitute(Directory, " ", "\\\\ ", "g")], ' ')
 
