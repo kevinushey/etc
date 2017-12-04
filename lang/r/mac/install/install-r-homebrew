@@ -167,6 +167,7 @@ make clean
     --with-readline \
     --enable-R-profiling \
     --enable-memory-profiling \
+    --enable-strict-barrier \
     --with-valgrind-instrumentation=2 \
     --without-internal-tzcode \
     --prefix=${PREFIX} \
