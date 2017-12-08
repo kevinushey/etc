@@ -207,11 +207,10 @@ function! Basename(path)
 endfunction
 
 function! Download(URL, Destination)
-        
+
+    call EnsureDirectory(Dirname(expand(a:Destination)))
     let URL         = DoubleQuotedEscaped(expand(a:URL))
     let Destination = DoubleQuotedEscaped(expand(a:Destination))
-
-    call EnsureDirectory(Dirname(Destination))
 
     if IsWindows()
         let Command =
