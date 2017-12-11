@@ -275,18 +275,22 @@
   install <- function(package) {
 
     code <- sprintf(
-      "utils::install.packages('%s', lib = '%s', repos = '%s')",
-      package,
-      .libPaths()[[1]],
-      getOption("repos")[["CRAN"]]
+      "utils::install.packages(%s, lib = %s, repos = %s)",
+      shQuote(package),
+      shQuote(.libPaths()[[1]]),
+      shQuote(getOption("repos")[["CRAN"]])
     )
 
     R <- file.path(
       R.home("bin"),
       if (Sys.info()[["sysname"]] == "Windows") "R.exe" else "R"
     )
+    
+    con <- tempfile(fileext = ".R")
+    writeLines(code, con = con)
+    on.exit(unlink(con), add = TRUE)
 
-    cmd <- paste(shQuote(R), "-e", shQuote(code))
+    cmd <- paste(shQuote(R), "-f", shQuote(con))
     system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
   }
 
