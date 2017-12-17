@@ -63,3 +63,17 @@ Categories=IDE;Java;
 StartupWMClass=Eclipse
 EOF
 
+# add Qt Creator launcher -- assumes that we have an
+# executable at /usr/local/bin/qtcreator
+cat << EOF > ~/.local/share/applications/qtcreator.desktop
+[Desktop Entry]
+Type=Application
+Exec=qtcreator %F
+Name=Qt Creator
+GenericName=C++ IDE for developing Qt applications
+X-KDE-StartupNotify=true
+Icon=QtProject-qtcreator
+Terminal=false
+Categories=Development;IDE;Qt;
+MimeType= text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;application/vnd.qt.qmakeprofile;application/vnd.qt.xml.resource;
+EOF
