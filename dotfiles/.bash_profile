@@ -3,7 +3,7 @@
 TERM=xterm-256color
 export TERM
 
-PATH=/usr/local/opt/llvm/bin:/usr/local/bin:$PATH
+PATH=/usr/local/opt/llvm/bin:/usr/local/bin:/Library/TeX/texbin:$PATH
 
 for FILE in ~/.login/bash/bash-*
 do

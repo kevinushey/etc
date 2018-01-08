@@ -1,6 +1,10 @@
 .First <- function() {
 
-  # don't do anything for revolution R
+  # set TZ if unset
+  if (is.na(Sys.getenv("TZ", unset = NA)))
+    Sys.setenv(TZ = "America/Los_Angeles")
+
+  # bail if revo R
   if (exists("Revo.version"))
     return()
 
@@ -47,10 +51,6 @@
     .libPaths(userLibs)
   })
 
-  # Set TZ for macOS High Sierra
-  if (identical(Sys.info()[["sysname"]], "Darwin"))
-    Sys.setenv(TZ = "America/Los_Angeles")
-
   # Don't use a user library if we have a site library on OS X
   # (ie, don't die when we're using homebrew R)
   isHomebrew <-
@@ -73,18 +73,29 @@
     paths <- strsplit(PATH, .Platform$path.sep, fixed = TRUE)[[1]]
     hasRtools <- any(file.exists(file.path(paths, "Rtools.txt")))
     if (!hasRtools) {
-      candidates <- c("C:\\Rtools")
+
+      # construct candidate Rtools paths
+      rMajor <- as.numeric(getRversion()[1, 1])
+      rMinor <- as.numeric(getRversion()[1, 2])
+      candidates <- c(
+        sprintf("C:\\RBuildTools\\%s", paste(rMajor, rMinor + 1, sep = ".")),
+        "C:\\Rtools"
+      )
+
       discovered <- FALSE
       for (candidate in candidates) {
         if (file.exists(file.path(candidate, "Rtools.txt"))) {
-          new <- c(file.path(candidate, "bin", fsep = "\\"),
-                   file.path(candidate, "gcc-4.6.3\\bin", fsep = "\\"))
-          PATH <- paste(
-            paste(new, collapse = ";"),
-            PATH,
-            sep = ";"
-          )
-          Sys.setenv(PATH = PATH)
+
+          bitness <- .Machine$sizeof.pointer * 8
+          entries <- paste(normalizePath(Filter(file.exists, c(
+            file.path(candidate, "bin"),
+            if (getRversion() < "3.3.0")
+              file.path(candidate, "gcc-4.6.3/bin")
+            else
+              file.path(candidate, sprintf("mingw_%s/bin", bitness))
+          ))), collapse = .Platform$path.sep)
+
+          Sys.setenv(PATH = paste(entries, PATH, sep = .Platform$path.sep))
           discovered <- TRUE
           break
         }
@@ -285,7 +296,7 @@
       R.home("bin"),
       if (Sys.info()[["sysname"]] == "Windows") "R.exe" else "R"
     )
-    
+
     con <- tempfile(fileext = ".R")
     writeLines(code, con = con)
     on.exit(unlink(con), add = TRUE)

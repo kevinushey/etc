@@ -16,6 +16,11 @@
 *.tmp
 *.swp
 
+# Autoconf ----
+autom4te.cache/
+config.log
+config.status
+
 # Miscellaneous ----
 .DS_Store
 .Rhistory
