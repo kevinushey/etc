@@ -4,7 +4,7 @@ docker-shell () {
 
 	if [ "$#" -eq 0 ]; then
 		echo "Usage: docker-shell [image]"
-		exit 0
+		return 0
 	fi
 
 	# get the image name
@@ -13,7 +13,7 @@ docker-shell () {
 
 	# get the container name
 	local CONTAINER
-	CONTAINER="$(echo "${IMAGE}" | tr -c '[:alpha:]_' '.')-container"
+	CONTAINER="$(printf "${IMAGE}" | tr -c '[:alpha:]_' '.')-container"
 
 	# see if there's a container already available; if not, create it
 	if ! docker container inspect "${CONTAINER}" &> /dev/null; then
