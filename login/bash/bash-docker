@@ -1,19 +1,29 @@
 #!/usr/bin/env bash
 
 docker-shell () {
-	docker run -it              \
-	    -e HOME="/home/$USER"   \
-	    -v "$HOME:/home/$USER"  \
-	    -v "$HOME:/Users/$USER" \
-	    "${@:-ubuntu}"          \
-	    /usr/bin/env bash
+
+	if [ "$#" -eq 0 ]; then
+		echo "Usage: docker-shell [image]"
+		exit 0
+	fi
+
+	# get the image name
+	local IMAGE
+	IMAGE="${1-ubuntu}"
+
+	# get the container name
+	local CONTAINER
+	CONTAINER="$(echo "${IMAGE}" | tr -c '[:alpha:]_' '.')-container"
+
+	# see if there's a container already available; if not, create it
+	if ! docker container inspect "${CONTAINER}" &> /dev/null; then
+		docker create --interactive --tty --name "${CONTAINER}" "${IMAGE}" /usr/bin/env bash &> /dev/null
+	fi
+
+	# start and attach to the container
+	docker start --attach --interactive "${CONTAINER}"
 }
 
 rocker-shell () {
-	docker run -it              \
-	    -e HOME="/home/$USER"   \
-	    -v "$HOME:/home/$USER"  \
-	    -v "$HOME:/Users/$USER" \
-	    "$@"                    \
-	    rocker/tidyverse /usr/bin/env bash
+	docker-shell rocker/tidyverse
 }
