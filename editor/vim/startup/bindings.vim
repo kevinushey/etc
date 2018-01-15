@@ -13,30 +13,34 @@ endfor
 
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
-nnoremap <Leader>o :Files<CR>
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>s :nohlsearch<CR>
+nnoremap <Leader>h :tab help 
 nnoremap <Leader>l :set list!<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>s :nohlsearch<CR>
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>z :tab split<CR>
 nnoremap <Leader>\ :vsp<CR>
 nnoremap <Leader>- :sp<CR>
 nnoremap <Leader>/ :OverCommandLine<CR>
-nnoremap <Leader>b :Buffers<CR>
 
-NVMap <leader>y "+y
-NVMap <leader>d "+d
-NVMap <leader>p "+p
-NVMap <leader>P "+P
+NVMap <Leader>d "+d
+NVMap <Leader>p "+p
+NVMap <Leader>P "+P
+NVMap <Leader>y "+y
+NVMap <Leader>= <C-w>=
 
 vnoremap . :normal .<CR>
 vnoremap < <gv
 vnoremap > >gv
 
-vmap v     <Plug>(expand_region_expand)
-vmap <S-v> <Plug>(expand_region_shrink)
-
 imap <expr> <CR> SmartCR()
 
 cnoremap q: :q
+
+if isdirectory(expand("~/.vim/bundle/vim-expand-region"))
+    vmap v     <Plug>(expand_region_expand)
+    vmap <S-v> <Plug>(expand_region_shrink)
+endif
 
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -53,7 +57,13 @@ if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/fzf.vim"))
-    NVMap <Leader>f :ProjectFiles<CR>
+    NVMap <Leader>a :Ag 
     NVMap <Leader>b :Buffers<CR>
+    NVMap <Leader>f :ProjectFiles<CR>
+    NVMap <Leader>o :Files<CR>
+endif
+
+if isdirectory(expand("~/.vim/bundle/nerdtree"))
+    NVMap <Leader>n :NERDTreeToggle<CR>
 endif
 
