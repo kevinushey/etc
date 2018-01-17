@@ -1,6 +1,6 @@
 set -gq prefix C-Space
 set -gq status-bg colour236
-if-shell "[ -n \"${SSH_TTY}\" ]" "send-keys M-F11"
+send-keys M-F11
 
 bind-key -n S-Up      select-pane -U
 bind-key -n S-Down    select-pane -D
