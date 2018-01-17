@@ -13,7 +13,7 @@ docker-shell () {
 
 	# get the container name
 	local CONTAINER
-	CONTAINER="$(printf "${IMAGE}" | tr -c '[:alpha:]_' '.')-container"
+	CONTAINER="$(printf "%s" "${IMAGE}" | tr -c '[:alnum:]_.' '-')-container"
 
 	# see if there's a container already available; if not, create it
 	if ! docker container inspect "${CONTAINER}" &> /dev/null; then
