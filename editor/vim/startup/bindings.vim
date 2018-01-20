@@ -43,17 +43,24 @@ if isdirectory(expand("~/.vim/bundle/vim-expand-region"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
-    nnoremap <silent> <leader>gs :Gstatus<CR>
-    nnoremap <silent> <leader>gd :Gdiff<CR>
-    nnoremap <silent> <leader>gc :Gcommit<CR>
-    nnoremap <silent> <leader>gb :Gblame<CR>
-    nnoremap <silent> <leader>gl :Glog<CR>
-    nnoremap <silent> <leader>gp :Git push<CR>
-    nnoremap <silent> <leader>gr :Gread<CR>
-    nnoremap <silent> <leader>gw :Gwrite<CR>
-    nnoremap <silent> <leader>ge :Gedit<CR>
-    nnoremap <silent> <leader>gi :Git add -p %<CR>
-    nnoremap <silent> <leader>gg :SignifyToggle<CR>
+    NVMap <silent> <leader>g-      :Gsplit<CR>
+    NVMap <silent> <leader>g\      :Gvsplit<CR>
+    NVMap <silent> <leader>g<Down> :Gpull<CR>
+    NVMap <silent> <leader>g<Up>   :Gpush<CR>
+    NVMap <silent> <leader>gb      :Gblame<CR>
+    NVMap <silent> <leader>gc      :Gcommit<CR>
+    NVMap <silent> <leader>gd      :Gdiff<CR>
+    NVMap <silent> <leader>ge      :Gedit<CR>
+    NVMap <silent> <leader>gf      :GFiles<CR>
+    NVMap <silent> <leader>gg      :Ggrep<CR>
+    NVMap <silent> <leader>gi      :Git add -p %<CR>
+    NVMap <silent> <leader>gl      :Glog<CR>
+    NVMap <silent> <leader>gm      :Gmerge<CR>
+    NVMap <silent> <leader>gp      :Git push<CR>
+    NVMap <silent> <leader>gr      :Gread<CR>
+    NVMap <silent> <leader>gs      :Gstatus<CR>
+    NVMap <silent> <leader>gw      :Gwrite<CR>
+    NVMap <silent> <leader>gw      :Gwrite<CR>
 endif
 
 if isdirectory(expand("~/.vim/bundle/fzf.vim"))
