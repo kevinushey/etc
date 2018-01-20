@@ -1,6 +1,8 @@
 " We should indent following lines endings with these patterns.
+let g:ShCommentEndPattern = '\s*%(#.*)=$'
+
 let g:ShBeginParts   = ['\(', '\{', '\[', '<then>', '<do>', '<else>', '<elif>', '<in>', '\S\)']
-let g:ShBeginPattern = '\v%(' . join(g:ShBeginParts, '|') . ')\s*%(#.*)=$'
+let g:ShBeginPattern = '\v%(' . join(g:ShBeginParts, '|') . ')' . g:ShCommentEndPattern
 
 " We should deindent a line beginning with these patterns.
 let g:ShEndParts     = ['\)', '\}', '\]', '<else>', '<elif>', '<fi>', '<done>', '<end>', ';;']
@@ -23,7 +25,7 @@ function! GetShIndentWrapper()
     " Handle continuations specially. Find the first non-continuation line,
     " and then add a single shift width.
     let Index = v:lnum - 1
-    if getline(Index) =~# '\v\\\s*$'
+    if getline(Index) =~# '\v\\' . g:ShCommentEndPattern
 
         " If the continuation line we just examined was part of a string,
         " then use zero indent.
@@ -45,14 +47,14 @@ function! GetShIndentWrapper()
     while Index > 0
         let Line = getline(Index)
 
-        " Skip comments.
+        " Skip commented lines.
         if Line =~# '\v^\s*#'
             let Index = Index - 1
             continue
         endif
 
         " Handle 'case in' specially (we prefer not to indent there)
-        if Line =~# '\v^\s*<case>' && Line =~# '\v<in>\s*$'
+        if Line =~# '\v^\s*<case>' && Line =~# '\v<in>' . g:ShCommentEndPattern
             return indent(Index) + Adjust
         endif
 
