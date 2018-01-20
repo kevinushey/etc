@@ -57,6 +57,7 @@ if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     NVMap <silent> <leader>gl      :Glog<CR>
     NVMap <silent> <leader>gm      :Gmerge<CR>
     NVMap <silent> <leader>gp      :Git push<CR>
+    NVMap <silent> <leader>gq      :q<CR>
     NVMap <silent> <leader>gr      :Gread<CR>
     NVMap <silent> <leader>gs      :Gstatus<CR>
     NVMap <silent> <leader>gw      :Gwrite<CR>
