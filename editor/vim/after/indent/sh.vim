@@ -1,5 +1,5 @@
 " We should indent following lines endings with these patterns.
-let g:ShCommentEndPattern = '\s*%(#.*)=$'
+let g:ShCommentEndPattern = '\s*%(#.*)?$'
 
 let g:ShBeginParts   = ['\(', '\{', '\[', '<then>', '<do>', '<else>', '<elif>', '<in>', '\S\)']
 let g:ShBeginPattern = '\v%(' . join(g:ShBeginParts, '|') . ')' . g:ShCommentEndPattern
@@ -25,7 +25,7 @@ function! GetShIndentWrapper()
     " Handle continuations specially. Find the first non-continuation line,
     " and then add a single shift width.
     let Index = v:lnum - 1
-    if getline(Index) =~# '\v\\' . g:ShCommentEndPattern
+    if getline(Index) =~# '\v\\\s*'
 
         " If the continuation line we just examined was part of a string,
         " then use zero indent.
