@@ -363,3 +363,7 @@ function! ProjectRoot()
 endfunction
 command! ProjectFiles execute 'Files' ProjectRoot()
 
+function! SyntaxItem()
+  return synIDattr(synID(line("."), col("."), 1), "name")
+endfunction
+

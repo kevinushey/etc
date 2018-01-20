@@ -270,7 +270,8 @@ backup () {
 
 restore () {
 	case "$1" in
-		*.backup) mv "$1" "${1%.backup}" ;;
-		*) echo "cannot restore '$1' (missing .backup extension)" ;;
+	*.backup) mv "$1" "${1%.backup}" ;;
+	*) echo "cannot restore '$1' (missing .backup extension)" ;;
 	esac
 }
+
