@@ -25,7 +25,7 @@ function! GetShIndentWrapper()
     " Handle continuations specially. Find the first non-continuation line,
     " and then add a single shift width.
     let Index = v:lnum - 1
-    if getline(Index) =~# '\v\\\s*'
+    if getline(Index) =~# '\v\\\s*$'
 
         " If the continuation line we just examined was part of a string,
         " then use zero indent.
