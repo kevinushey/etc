@@ -348,7 +348,7 @@ endfunction
 
 function! ProjectRoot()
     let Directory = expand(getcwd())
-    let Anchors = ['.git', '.projectile']
+    let Anchors = ['.git', '.projectile', '.editorconfig']
 
     while Directory !=# '/'
         for Anchor in Anchors

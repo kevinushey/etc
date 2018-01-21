@@ -77,7 +77,6 @@ let g:is_posix        = 1
 
 set autoindent
 set cinoptions=N-s,g0,m1,(s
-set cursorline
 set expandtab
 set foldenable
 set hidden
