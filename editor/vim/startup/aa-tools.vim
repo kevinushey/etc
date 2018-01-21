@@ -93,7 +93,7 @@ command! -nargs=+ ColorScheme call ColorScheme(<f-args>)
 function! InDir(directory, command)
     let l:directory = $PWD
     execute "cd " . a:directory
-    execute command
+    execute a:command
     execute "cd " . l:directory
 endfunction
 
@@ -348,11 +348,11 @@ endfunction
 
 function! ProjectRoot()
     let Directory = expand(getcwd())
-    let Anchors = [".git"]
+    let Anchors = ['.git', '.projectile']
 
-    while Directory !=# "/"
+    while Directory !=# '/'
         for Anchor in Anchors
-            if isdirectory(FilePath(Directory, Anchor))
+            if filereadable(FilePath(Directory, Anchor))
                 return Directory
             endif
         endfor

@@ -23,6 +23,9 @@ nnoremap <Leader>\ :vsp<CR>
 nnoremap <Leader>- :sp<CR>
 nnoremap <Leader>/ :OverCommandLine<CR>
 
+nnoremap <silent> [g :tabprevious<CR>
+nnoremap <silent> ]g :tabnext<CR>
+
 NVMap <Leader>d "+d
 NVMap <Leader>p "+p
 NVMap <Leader>P "+P

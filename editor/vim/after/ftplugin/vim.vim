@@ -3,5 +3,12 @@ function! VimExecuteSelection()
     return "\"zy:@z\<CR>"
 endfunction
 
-vnoremap <buffer> <expr> <CR> VimExecuteSelection()
+" Source the current file.
+function! VimExecuteFile()
+    write
+    execute join(["source", fnameescape(expand('%:p'))], ' ')
+endfunction
+
+vnoremap <buffer> <silent> <expr> <CR> VimExecuteSelection()
+nnoremap <buffer> <silent> <expr> <CR> VimExecuteFile()
 
