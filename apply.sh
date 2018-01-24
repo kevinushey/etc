@@ -9,6 +9,7 @@ RELROOT="${ROOT/$HOME\//}"
 # bootstrapping of bash support scripts
 for FILE in login/bash/bash*; do . "${FILE}"; done
 
+is-darwin && import apply/apply-darwin.sh
 is-redhat && import apply/apply-redhat.sh
 is-ubuntu && import apply/apply-ubuntu.sh
 

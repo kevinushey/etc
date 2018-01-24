@@ -1,3 +1,6 @@
+" TODO: Can we make this faster and less resource-hungry?
+finish
+
 Plug 'lyuts/vim-rtags'
 
 function! RTagsEnsureDaemon()
