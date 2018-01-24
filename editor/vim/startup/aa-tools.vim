@@ -352,7 +352,7 @@ function! ProjectRoot()
 
     while Directory !=# '/'
         for Anchor in Anchors
-            if filereadable(FilePath(Directory, Anchor))
+            if !empty(glob(FilePath(Directory, Anchor)))
                 return Directory
             endif
         endfor
