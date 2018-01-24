@@ -27,7 +27,6 @@ nnoremap <silent> [g :tabprevious<CR>
 nnoremap <silent> ]g :tabnext<CR>
 
 NVMap <Leader>d "+d
-NVMap <Leader>p "+p
 NVMap <Leader>P "+P
 NVMap <Leader>y "+y
 NVMap <Leader>= <C-w>=
@@ -70,8 +69,8 @@ endif
 if isdirectory(expand("~/.vim/bundle/fzf.vim"))
     NVMap <Leader>a :Ag 
     NVMap <Leader>b :Buffers<CR>
-    NVMap <Leader>f :ProjectFiles<CR>
     NVMap <Leader>o :Files<CR>
+    NVMap <Leader>p :ProjectFiles<CR>
 endif
 
 if isdirectory(expand("~/.vim/bundle/nerdtree"))
