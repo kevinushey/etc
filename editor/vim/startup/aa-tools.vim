@@ -367,3 +367,39 @@ function! SyntaxItem()
   return synIDattr(synID(line("."), col("."), 1), "name")
 endfunction
 
+function! GenerateCMakeCompileDatabase(force)
+
+   let Root = ProjectRoot()
+   let OWD = getcwd()
+
+   " Check to see if we have a CMakeLists.txt to use
+   let CMakeLists = join([Root, 'CMakeLists.txt'], '/')
+   if !filereadable(CMakeLists)
+      return
+   endif
+
+   " Bail if compile_commands.json already exists
+   let CompileCommandsJSON = join([Root, 'compile_commands.json'], '/')
+   if !a:force && filereadable(CompileCommandsJSON)
+      return
+   endif
+
+   " Move to temporary directory
+   let TempDir = tempname()
+   call mkdir(TempDir, 'p')
+   execute join(['cd', fnameescape(TempDir)], ' ')
+
+   " Invoke CMake to generate compile commands
+   call system(join(['cmake', '-DCMAKE_EXPORT_COMPILE_COMMANDS=Yes', shellescape(Root)], ' '))
+
+   " Replace the current path with the project path
+   let SedCommand = join(['s', getcwd(), Root, 'g'], '|')
+   let Source = fnamemodify('compile_commands.json', ':p')
+   let Target = FilePath(Root, 'compile_commands.json')
+   call system(join(['sed', "'" . SedCommand . "'", shellescape(Source), '>', shellescape(Target)]))
+
+   " Go home
+   execute join(['cd', fnameescape(OWD)], ' ')
+
+endfunction
+
