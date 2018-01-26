@@ -7,19 +7,19 @@ git-prompt () {
 		return 0
 	fi
 
-	GIT_STATUS="$(git status -sb --porcelain --ignore-submodules 2> /dev/null | head -n 1)"
-
-	if test -n "${GIT_STATUS}"
-	then
-		GIT_STATUS="$(echo "${GIT_STATUS}" | sed 's|## *||')"
-		GIT_START="$(echo "${GIT_STATUS}" | sed 's|\.\.\..*||g')"
-		if [[ "${GIT_START}" =~ "no branch" ]]; then
-			GIT_START="$(git -c color.status=false status | head -n 1)"
-		fi
-		echo -e " ${Red}[${GIT_START}]${Color_Off}"
-	else
-		echo ""
+	if ! [ -e .git ]; then
+		return 0
 	fi
+
+	GIT_STATUS="$(git branch 2> /dev/null | grep '^\*' | tr -d '()')"
+
+	if test -n "${GIT_STATUS}"; then
+		GIT_START="${GIT_STATUS:2}"
+	else
+		GIT_START="No commits yet on master"
+	fi
+
+	echo -e " ${Red}[${GIT_START}]${Color_Off}"
 }
 
 # When running within docker, make that obvious.
