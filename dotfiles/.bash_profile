@@ -15,6 +15,7 @@ export SHELLCHECK_OPTS
 
 BASH_COMPLETION=/usr/local/share/bash-completion/bash_completion
 
-[ -d ~/.cabal/bin ] && PATH="$HOME/.cabal/bin:$PATH"
+[ -d ~/.cabal/bin ] && export PATH="$HOME/.cabal/bin:$PATH"
+[ -d ~/projects/depot_tools ] && export PATH="$PATH:$HOME/projects/depot_tools"
 [ -f "${BASH_COMPLETION}" ] && source "${BASH_COMPLETION}"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -7,19 +7,14 @@ git-prompt () {
 		return 0
 	fi
 
-	if ! [ -e .git ]; then
+	GIT_BRANCH="$(git branch 2> /dev/null | grep '^\*')"
+	if test -z "${GIT_BRANCH}"; then
 		return 0
 	fi
 
-	GIT_STATUS="$(git branch 2> /dev/null | grep '^\*' | tr -d '()')"
-
-	if test -n "${GIT_STATUS}"; then
-		GIT_START="${GIT_STATUS:2}"
-	else
-		GIT_START="No commits yet on master"
-	fi
-
-	echo -e " ${Red}[${GIT_START}]${Color_Off}"
+	GIT_BRANCH="${GIT_BRANCH:2}"
+	GIT_BRANCH="$(printf "%s" "${GIT_BRANCH}" | tr -cd '[:alnum:][:space:]')"
+	echo -e " ${Red}[${GIT_BRANCH}]${Color_Off}"
 }
 
 # When running within docker, make that obvious.
