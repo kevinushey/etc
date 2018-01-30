@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-sudo yum install -y epel-release
+if [ "$(platform)" = "centos" ]; then
+	sudo yum install -y epel-release
+fi
+
 sudo yum update -y
 sudo yum install -y      \
 	R                    \
