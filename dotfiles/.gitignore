@@ -28,4 +28,5 @@ config.status
 .metadata
 .settings
 compile_commands.json
+tags
 

@@ -162,16 +162,17 @@ make clean
     --with-blas="-L/usr/local/opt/openblas/lib -lopenblas" \
     --with-lapack="-L/usr/local/opt/lapack/lib -llapack" \
     --with-cairo \
+    --with-readline \
     ${R_FRAMEWORK} \
     --enable-R-shlib \
-    --with-readline \
+    --enable-strict-barrier \
     --enable-R-profiling \
     --enable-memory-profiling \
-    --enable-strict-barrier \
     --with-valgrind-instrumentation=2 \
     --without-internal-tzcode \
-    --prefix=${PREFIX} \
-    $@
+    --without-recommended-packages \
+    --prefix="${PREFIX}" \
+    "$@"
 
 STATUS="$?"
 if [ "${STATUS}" -ne 0 ]; then

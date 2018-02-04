@@ -13,7 +13,7 @@ git-prompt () {
 	fi
 
 	GIT_BRANCH="${GIT_BRANCH:2}"
-	GIT_BRANCH="$(printf "%s" "${GIT_BRANCH}" | tr -cd '[:alnum:][:space:]')"
+	GIT_BRANCH="$(printf "%s" "${GIT_BRANCH}")"
 	echo -e " ${Red}[${GIT_BRANCH}]${Color_Off}"
 }
 

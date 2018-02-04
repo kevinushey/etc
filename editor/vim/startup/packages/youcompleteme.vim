@@ -8,7 +8,7 @@ if executable('npm') && !isdirectory('/usr/local/lib/node_modules/npmlog')
 endif
 
 function! YouCompleteMeInit()
-    call GenerateCMakeCompileDatabase(0)
+    call GenerateCompileDatabase()
 endfunction
 
 augroup YCM
