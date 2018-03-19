@@ -1,0 +1,1 @@
+Plug 'kevinushey/vim-inferred'
