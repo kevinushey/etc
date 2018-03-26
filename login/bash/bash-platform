@@ -95,8 +95,14 @@ os-version () {
 }
 
 os-version-part () {
+
 	local VERSION
 	VERSION="$(os-version | cut -d"." -f"$1")"
+
+	if [ "${VERSION}" = "${VERSION}" ]; then
+		[ "$1" = "1" ] && echo "${VERSION}"
+		return 0
+	fi
 
 	if [ -n "${VERSION}" ]; then
 		echo "${VERSION}"
