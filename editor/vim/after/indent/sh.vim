@@ -1,7 +1,7 @@
 " We should indent following lines endings with these patterns.
 let g:ShCommentEndPattern = '\s*%(#.*)?$'
 
-let g:ShBeginParts   = ['\(', '\{', '\[', '<then>', '<do>', '<else>', '<elif>', '<in>', '\S\)']
+let g:ShBeginParts   = ['\(', '\{', '\[', '<then>', '<do>', '<else>', '<elif>', '<in>']
 let g:ShBeginPattern = '\v%(' . join(g:ShBeginParts, '|') . ')' . g:ShCommentEndPattern
 
 " We should deindent a line beginning with these patterns.
@@ -17,7 +17,7 @@ function! GetShIndentWrapper()
 
     " Preserve indentation within heredocs.
     for Item in synstack(v:lnum, 1)
-        if synIDattr(Item, "name") =~? 'heredoc'
+        if synIDattr(Item, 'name') =~? 'heredoc'
             return indent(v:lnum)
         endif
     endfor
@@ -30,7 +30,7 @@ function! GetShIndentWrapper()
         " If the continuation line we just examined was part of a string,
         " then use zero indent.
         for Item in synstack(Index, strwidth(getline(Index)))
-            if synIDattr(Item, "name") ==# 'shDoubleQuote'
+            if synIDattr(Item, 'name') ==# 'shDoubleQuote'
                 return 0
             endif
         endfor
@@ -56,6 +56,11 @@ function! GetShIndentWrapper()
         " Handle 'case in' specially (we prefer not to indent there)
         if Line =~# '\v^\s*<case>' && Line =~# '\v<in>' . g:ShCommentEndPattern
             return indent(Index) + Adjust
+        endif
+
+        " Handle states for 'case in'. TODO: use synstack
+        if Line =~# '\v^\s*[^(]+[)]' . g:ShCommentEndPattern
+            return indent(Index) + shiftwidth() + Adjust
         endif
 
         " If we find a 'begin' pattern, we add an indent.
