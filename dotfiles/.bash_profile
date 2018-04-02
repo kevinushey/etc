@@ -3,12 +3,19 @@
 TERM=xterm-256color
 export TERM
 
-PATH=/usr/local/opt/llvm/bin:/usr/local/bin:/Library/TeX/texbin:$PATH
-
 for FILE in ~/.login/bash/bash-*
 do
     . "${FILE}"
 done
+
+path-set                    \
+    /usr/local/opt/llvm/bin \
+    /Library/TeX/texbin     \
+    /usr/local/bin          \
+    /usr/bin                \
+    /bin                    \
+    /usr/sbin               \
+    /sbin                   \
 
 SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
 export SHELLCHECK_OPTS

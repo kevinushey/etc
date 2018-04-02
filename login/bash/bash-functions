@@ -275,3 +275,18 @@ restore () {
 	esac
 }
 
+path-set () {
+
+	local NEWPATH
+	for ENTRY in "$@"; do
+		if [ -d "${ENTRY}" ]; then
+			NEWPATH="${NEWPATH}:${ENTRY}"
+		fi
+	done
+
+	if [ -n "${NEWPATH}" ]; then
+		PATH="${NEWPATH#?}"
+		export PATH
+	fi
+
+}
