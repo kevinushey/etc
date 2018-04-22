@@ -1,5 +1,4 @@
 Plug 'Shougo/neocomplete.vim', LoadIf(has('lua'))
-Plug 'Shougo/neco-vim',        LoadIf(has('lua'))
 
 if !has('lua')
   finish
@@ -40,11 +39,14 @@ endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " Enable omni completion in various filetypes.
-autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+augroup NeocompleteOmniFunc
+    autocmd!
+    autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -56,5 +58,8 @@ let g:neocomplete#sources#omni#input_patterns.c    = '[^.[:digit:] *\t]\%(\.\|->
 let g:neocomplete#sources#omni#input_patterns.cpp  = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-autocmd VimEnter call neocomplete#initialize()
+augroup NeocompleteInit
+    autocmd!
+    autocmd VimEnter call neocomplete#initialize()
+augroup END
 
