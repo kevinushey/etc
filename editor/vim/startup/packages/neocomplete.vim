@@ -1,6 +1,6 @@
-Plug 'Shougo/neocomplete.vim', LoadIf(has('lua'))
+Plug 'Shougo/neocomplete.vim', LoadIf(g:CompletionEngine ==# 'neocomplete')
 
-if !has('lua')
+if !g:CompletionEngine ==# 'neocomplete'
   finish
 endif
 
