@@ -6,6 +6,19 @@ if !g:CompletionEngine ==# 'deoplete'
     finish
 endif
 
+if has('python3')
+
+py3 <<EOF
+try:
+    import neovim
+except:
+    print('> Installing Python 3 vim bindings ...')
+    import pip
+    pip.main(['install', 'neovim'])
+EOF
+
+endif
+
 let g:deoplete#enable_at_startup = 1
 
 function! DeopleteInit() abort

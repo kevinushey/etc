@@ -1,6 +1,8 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-LUA=lua5.2
+# TODO: detect appropriate version of lua?
+: ${LUA="lua5.2"}
+: ${PYTHON="python3.6"}
 
 check () {
 	if test $? -ne 0; then
@@ -21,12 +23,13 @@ sudo apt-get install -y -q \
 	libx11-dev             \
 	libxpm-dev             \
 	libxt-dev              \
-	python-dev             \
+	${PYTHON}-dev          \
 	ruby-dev               \
 	mercurial              \
 	ruby                   \
 	${LUA}                 \
 	lib${LUA}-dev
+
 
 ## clone from GitHub
 if [ ! -d ~/.vim/sources ]; then
@@ -43,29 +46,22 @@ else
 fi
 git checkout "${VIM_GIT_BRANCH}"
 
-# Symlinks headers, libraries to /usr/local
-sudo ln -fvs /usr/include/${LUA}/*.h /usr/local/include/
-sudo ln -fvs /usr/lib/x86_64-linux-gnu/liblua* /usr/local/lib/
-sudo ln -fvs /usr/local/lib/lib${LUA}.so /usr/local/lib/liblua.so
-sudo ln -fvs /usr/local/lib/lib${LUA}.a /usr/local/lib/liblua.a
-
 echo "Configuring Vim..."
 make distclean
 make clean
 
-./configure                                            \
-	--with-features=huge                               \
-	--enable-fail-if-missing                           \
-	--enable-multibyte                                 \
-	--enable-largefile                                 \
-	--enable-luainterp                                 \
-	--with-lua                                         \
-	--with-lua-prefix=/usr/local                       \
-	--enable-rubyinterp                                \
-	--enable-pythoninterp                              \
-	--with-python-config-dir=/usr/lib/python2.7/config \
-	--enable-gui=gtk2                                  \
-	--enable-cscope                                    \
+./configure                      \
+	--with-features=huge         \
+	--enable-fail-if-missing     \
+	--enable-multibyte           \
+	--enable-largefile           \
+	--enable-luainterp           \
+	--enable-terminal            \
+	--enable-rubyinterp          \
+	--enable-python3interp       \
+	--enable-cscope              \
+	--with-lua                   \
+	--with-x                     \
 	--prefix=/usr/local
 
 check "Configure FAILED!"
