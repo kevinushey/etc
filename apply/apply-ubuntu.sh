@@ -27,23 +27,25 @@ sudo apt-get check neovim || (
    sudo apt-get install -y neovim
 )
 
-sudo apt-get install -y        \
-	vim                    \
-	libxml2-dev            \
-	emacs                  \
-	r-base-dev             \
-	ess                    \
-	nodejs-dev             \
-	npm                    \
-	libcurl4-openssl-dev   \
-	curl                   \
-	golang                 \
-	golang-go.tools        \
-	mercurial              \
-	dkms                   \
-	tmux                   \
-	xclip                  \
-	silversearcher-ag
+sudo apt-get install -y  \
+	ant                  \
+	curl                 \
+	dkms                 \
+	emacs                \
+	ess                  \
+	golang               \
+	golang-go.tools      \
+	libcurl4-openssl-dev \
+	libxml2-dev          \
+	mercurial            \
+	nodejs-dev           \
+	npm                  \
+	openjdk-8-dev        \
+	r-base-dev           \
+	silversearcher-ag    \
+	tmux                 \
+	vim                  \
+	xclip
 
 #sudo apt-get build-dep -y r-base-dev
 git config --global credential.helper "cache --timeout=36000"
