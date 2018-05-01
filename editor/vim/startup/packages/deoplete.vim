@@ -9,14 +9,23 @@ endif
 if has('python3')
 
 py3 <<EOF
+
+has_neovim = 0
 try:
     import neovim
+    has_neovim = 1
 except:
-    print('> Installing Python 3 vim bindings ...')
-    import pip
-    pip.main(['install', 'neovim'])
+    pass
+
+import vim
+vim.command("let g:HasNeovimModule = %i" % has_neovim)
+
 EOF
 
+endif
+
+if !g:HasNeovimModule
+    !pip3 install --upgrade neovim
 endif
 
 let g:deoplete#enable_at_startup = 1
