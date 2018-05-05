@@ -290,3 +290,12 @@ path-set () {
 	fi
 
 }
+
+pip-upgrade () {
+	pip install --upgrade -r <(pip freeze | cut -d'=' -f1)
+}
+
+pip3-upgrade () {
+	pip3 install --upgrade -r <(pip3 freeze | cut -d'=' -f1)
+}
+
