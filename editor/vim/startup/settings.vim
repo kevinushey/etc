@@ -108,7 +108,6 @@ set splitbelow
 set splitright
 set tabstop=4
 set textwidth=0
-set ttymouse=xterm2
 set undolevels=1000 
 set viewoptions=folds,options,cursor,unix,slash
 set virtualedit=onemore
@@ -124,3 +123,5 @@ endif
 
 silent! set cryptmethod=blowfish
 silent! set cryptmethod=blowfish2
+silent! set ttymouse=xterm2
+
