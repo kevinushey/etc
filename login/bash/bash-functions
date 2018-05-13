@@ -299,3 +299,29 @@ pip3-upgrade () {
 	pip3 install --upgrade -r <(pip3 freeze | cut -d'=' -f1)
 }
 
+devtools () {
+
+	if [ "$#" -eq 0 ]; then
+		echo "Usage: devtools [--vanilla] [command] [args...]"
+		return 1
+	fi
+
+	local FUNCTION
+	FUNCTION="$1"
+	shift
+
+	local ARGUMENTS
+	ARGUMENTS=("$@")
+
+	for i in "${!ARGUMENTS[@]}"; do
+		ARGUMENT="${ARGUMENTS[$i]}"
+		if ! [ "${ARGUMENT}" -eq "${ARGUMENT}" ] 2> /dev/null; then
+			ARGUMENTS[$i]="\"${ARGUMENT}\""
+		fi
+	done
+
+	local PASTED
+	PASTED="${ARGUMENTS[*]}"
+	R --vanilla -e "devtools::${FUNCTION}(${PASTED// /, })"
+
+}
