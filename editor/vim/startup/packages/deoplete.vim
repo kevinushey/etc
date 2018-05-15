@@ -25,7 +25,7 @@ EOF
 endif
 
 if !g:HasNeovimModule
-    !pip3 install --upgrade neovim
+    !pip3 install --upgrade --user neovim
 endif
 
 let g:deoplete#enable_at_startup = 1
