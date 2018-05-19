@@ -2,11 +2,9 @@ Plug 'Shougo/deoplete.nvim'    , LoadIf(g:CompletionEngine ==# 'deoplete')
 Plug 'roxma/nvim-yarp'         , LoadIf(g:CompletionEngine ==# 'deoplete')
 Plug 'roxma/vim-hug-neovim-rpc', LoadIf(g:CompletionEngine ==# 'deoplete')
  
-if !g:CompletionEngine ==# 'deoplete'
+if g:CompletionEngine !=# 'deoplete'
     finish
 endif
-
-if has('python3')
 
 py3 <<EOF
 
@@ -22,9 +20,7 @@ vim.command("let g:HasNeovimModule = %i" % has_neovim)
 
 EOF
 
-endif
-
-if !g:HasNeovimModule
+if !g:HasNeovimModule && executable('pip3')
     !pip3 install --upgrade --user neovim
 endif
 

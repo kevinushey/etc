@@ -1,6 +1,6 @@
 Plug 'Shougo/neocomplete.vim', LoadIf(g:CompletionEngine ==# 'neocomplete')
 
-if !g:CompletionEngine ==# 'neocomplete'
+if g:CompletionEngine !=# 'neocomplete'
   finish
 endif
 
