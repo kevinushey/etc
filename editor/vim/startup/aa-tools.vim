@@ -175,7 +175,12 @@ function! Lazy(call)
 endfunction
 
 function! IsWindows()
-    return has("win32") || has("win64") || has("win16")
+    for Field in ['win16', 'win32', 'win64', 'win32unix']
+        if has(Field)
+            return 1
+        endif
+    endfor
+    return 0
 endfunction
 
 function! IsMacintosh()
