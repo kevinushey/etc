@@ -175,7 +175,7 @@ function! Lazy(call)
 endfunction
 
 function! IsWindows()
-    for Field in ['win16', 'win32', 'win64', 'win32unix']
+    for Field in ['win16', 'win32', 'win64']
         if has(Field)
             return 1
         endif
