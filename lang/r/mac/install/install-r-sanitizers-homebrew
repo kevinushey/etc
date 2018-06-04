@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2223
 
 # Declare clang version and install if necessary
 : ${CLANG="clang"}
@@ -32,7 +33,7 @@ command -v "${CLANGPP}" &> /dev/null || {
 
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-sanitizers"}
-: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=float-divide-by-zero,alignment"}
+: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=alignment,function,float-divide-by-zero"}
 : ${ENABLE_R_FRAMEWORK="no"}
 
 ## R compilation flags
