@@ -416,3 +416,46 @@ function! GenerateCompileDatabaseCMake()
 
 endfunction
 
+function! UpdateChangeLog()
+
+    " list holding lines to be inserted
+    let Lines = []
+
+    " construct header
+    let Date = strftime('%Y-%m-%d')
+    let Name = trim(system('git config user.name'))
+    let Email = trim(system('git config user.email'))
+    let Header = join([Date, Name, '<' . Email . '>'], '  ')
+    call add(Lines, Header)
+
+    " add blank line
+    call add(Lines, '')
+
+    " add changes
+    let Entries = systemlist('git status --porcelain')
+    for idx in range(0, len(Entries) - 1)
+        call add(Lines, "\t* " . Entries[idx][3:] . ': ')
+    endfor
+
+    " add trailing line
+    if len(Entries) > 0
+        call add(Lines, '')
+    endif
+
+    " open changelog
+    let Root = ProjectRoot()
+    let ChangeLogPath = FilePath(Root, 'ChangeLog')
+    execute join(['edit', fnameescape(ChangeLogPath)], ' ')
+
+    " write to the buffer
+    call append(0, Lines)
+
+    " move cursor to first line requiring edit
+    call setpos('.', [0, 3, len(Lines[2]) + 1, 0])
+
+    " enter insert mode
+    startinsert
+
+endfunction
+command! -nargs=? UpdateChangeLog call UpdateChangeLog(<args>)
+
