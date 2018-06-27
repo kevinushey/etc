@@ -339,4 +339,3 @@
   libs <- paste("-", .libPaths(), collapse = "\n")
   message(msg, libs, sep = "")
 }
-

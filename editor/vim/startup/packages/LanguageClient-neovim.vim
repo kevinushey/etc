@@ -5,8 +5,8 @@ endif
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 
 let g:LanguageClient_serverCommands = {
-\ 'c'   : ['cquery'],
-\ 'cpp' : ['cquery'],
+\ 'c'   : ['cquery', '--language-server', '--log-file=/tmp/cquery/cquery.log'],
+\ 'cpp' : ['cQuery', '--language-server', '--log-file=/tmp/cquery/cquery.log'],
 \ }
 
 let g:LanguageClient_diagnosticsEnable = 0

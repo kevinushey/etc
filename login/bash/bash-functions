@@ -325,3 +325,15 @@ devtools () {
 	R --vanilla -e "devtools::${FUNCTION}(${PASTED// /, })"
 
 }
+
+build () {
+
+	local TARGET
+	TARGET=all
+	if [ -n "$1" ]; then
+		TARGET="$1"
+		shift
+	fi
+
+	cmake --build . --target "${TARGET}"
+}
