@@ -6,7 +6,8 @@ if g:CompletionEngine !=# 'deoplete'
     finish
 endif
 
-py3 <<EOF
+" Vim can emit some bogus deprecation warnings when running Python
+silent! py3 <<EOF
 
 has_neovim = 0
 try:
