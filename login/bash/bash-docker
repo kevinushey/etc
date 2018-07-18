@@ -11,13 +11,19 @@ docker-shell () {
 	local IMAGE
 	IMAGE="${1-ubuntu}"
 
+	# use custom entrypoint as needed
+	case "${IMAGE}" in
+	alpine*) ENTRYPOINT=(/bin/sh) ;;
+	*)       ENTRYPOINT=(/usr/bin/env bash) ;;
+	esac
+
 	# get the container name
 	local CONTAINER
 	CONTAINER="$(printf "%s" "${IMAGE}" | tr -c '[:alnum:]_.' '-')-container"
 
 	# see if there's a container already available; if not, create it
 	if ! docker container inspect "${CONTAINER}" &> /dev/null; then
-		docker create --interactive --tty --name "${CONTAINER}" "${IMAGE}" /usr/bin/env bash &> /dev/null
+		docker create --interactive --tty --name "${CONTAINER}" "${IMAGE}" "${ENTRYPOINT[@]}" &> /dev/null
 	fi
 
 	# start and attach to the container

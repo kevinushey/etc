@@ -4,11 +4,14 @@
 # Declare clang version and install if necessary
 : ${CLANG="clang"}
 : ${CLANGPP="clang++"}
-if [ -n "${CLANG_VERSION}" ]; then
-	CLANG_VERSION_MAJOR_MINOR="$(echo "${CLANG_VERSION}" | cut -d'.' -f1,2)"
-	CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"
-	CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"
+
+if [ -z "${CLANG_VERSION}" ]; then
+	CLANG_VERSION="$("${CLANG}" --version | head -n 1 | cut -d' ' -f3)"
 fi
+
+CLANG_VERSION_MAJOR_MINOR="$(echo "${CLANG_VERSION}" | cut -d'.' -f1,2)"
+CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"
+CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"
 
 if [ ! "$(command -v "${CLANG}" 2> /dev/null)" ]; then
 	if [ -f "install-clang" ]; then

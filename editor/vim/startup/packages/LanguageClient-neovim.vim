@@ -1,6 +1,4 @@
-if IsWindows()
-    finish
-endif
+finish
 
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 
