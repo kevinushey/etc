@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-alias t="tmux attach 2> /dev/null || tmux"
 alias tc="vim ~/.tmux.conf"
 alias v="vim"
 alias vi="vim -u ~/.vim/startup/sensible.vim"
@@ -9,3 +8,6 @@ alias rgrep="grep -r"
 alias untar="tar -xvf"
 
 alias R="R_GC_MEM_GROW=3 R --min-vsize=2048M --min-nsize=20M --no-restore"
+
+complete -F _todo t
+

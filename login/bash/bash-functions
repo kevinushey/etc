@@ -337,3 +337,17 @@ build () {
 
 	cmake --build . --target "${TARGET}"
 }
+
+t () {
+
+	# When invoked without arguments, launch tmux.
+	if [ "$#" = "0" ]; then
+		tmux attach 2> /dev/null || tmux
+		return 0
+	fi
+
+	# Otherwise, delegate to todo.sh.
+	todo.sh "$@"
+
+}
+
