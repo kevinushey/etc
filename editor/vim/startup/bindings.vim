@@ -37,6 +37,9 @@ vnoremap . :normal .<CR>
 vnoremap < <gv
 vnoremap > >gv
 
+vnoremap <silent> <expr> p 'Pgv"' . v:register . 'y'
+vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
+
 imap <expr> <CR> SmartCR()
 
 cnoremap q: :q
