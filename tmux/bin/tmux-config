@@ -6,9 +6,9 @@ TMUX_VERSION="$(tmux -V | cut -d" " -f2)"
 TMUX_CONFIG_SOURCE="$(cd "$(dirname "$0")"; pwd -P)/tmux-config"
 
 # Configuration ----
-: ${TMUX_CONFIG_PATH="${HOME}/.tmux/bin/tmux-config"}
-: ${TMUX_CONFIG_INPUT="${HOME}/.tmux/.tmux.conf"}
-: ${TMUX_CONFIG_OUTPUT="${HOME}/.tmux/config/$(uname)-${TMUX_VERSION}/.tmux.conf"}
+: "${TMUX_CONFIG_PATH="${HOME}/.tmux/bin/tmux-config"}"
+: "${TMUX_CONFIG_INPUT="${HOME}/.tmux/.tmux.conf"}"
+: "${TMUX_CONFIG_OUTPUT="${HOME}/.tmux/config/$(uname)-${TMUX_VERSION}/.tmux.conf"}"
 
 # Bootstrapping ----
 
@@ -125,7 +125,7 @@ if [ "${TMUX_CONFIG_INPUT}" -nt "${TMUX_CONFIG_OUTPUT}" ]; then
 		I+=1
 	done < "${TMUX_CONFIG_INPUT}"
 	mkdir -p "$(dirname "${TMUX_CONFIG_OUTPUT}")"
-	printf "%s\n" "${DOCUMENT[@]}" > "${TMUX_CONFIG_OUTPUT}"
+	printf '%s\n' "${DOCUMENT[@]}" > "${TMUX_CONFIG_OUTPUT}"
 fi
 
 # ask tmux to source the generated file
