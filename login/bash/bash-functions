@@ -165,8 +165,12 @@ download () {
 	SOURCE="$1"
 	TARGET="${2:-$(basename "${SOURCE}")}"
 
+	if [ -e "${TARGET}" ]; then
+		return 0
+	fi
+
 	if has-command curl; then
-		curl --location --fail --continue-at - "${SOURCE}" --output "${TARGET}"
+		curl --location --fail "${SOURCE}" --output "${TARGET}"
 	elif has-command wget; then
 		wget --continue -O "${TARGET}" "${SOURCE}"
 	fi
