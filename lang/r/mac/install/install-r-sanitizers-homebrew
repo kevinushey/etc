@@ -42,9 +42,9 @@ command -v "${CLANGPP}" &> /dev/null || {
 ## R compilation flags
 ## Note that compilation takes too long with optimization enabled.
 : ${CC="${CLANG} -std=gnu99 ${SANFLAGS}"}
-: ${CFLAGS="-g -O1 -Wall -pedantic"}
+: ${CFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
 : ${CXX="${CLANGPP} ${SANFLAGS}"}
-: ${CXXFLAGS="-g -O1 -Wall -pedantic"}
+: ${CXXFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
 : ${F77="gfortran"}
 : ${FC="gfortran"}
 

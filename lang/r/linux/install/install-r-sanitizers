@@ -21,7 +21,7 @@ DEFAULT_SANFLAGS="$(echo "${DEFAULT_SANFLAGS}" | tr '\n' ' ')"
 : ${SANFLAGS="${DEFAULT_SANFLAGS}"}
 : ${CC="gcc-6 -std=gnu99 ${SANFLAGS}"}
 : ${CXX="g++-6 ${SANFLAGS}"}
-: ${CFLAGS="-g -O1 -Wall -pedantic"}
+: ${CFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
 : ${CXXFLAGS="-g -O1 -Wall -pedantic"}
 : ${FORTRAN="gfortran-6"}
 : ${FFLAGS="-g -O1"}
