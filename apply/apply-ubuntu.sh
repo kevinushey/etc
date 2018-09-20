@@ -40,7 +40,7 @@ sudo apt-get install -y  \
 	mercurial            \
 	nodejs-dev           \
 	npm                  \
-	openjdk-8-dev        \
+	openjdk-8-jdk        \
 	r-base-dev           \
 	silversearcher-ag    \
 	tmux                 \
