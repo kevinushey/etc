@@ -6,6 +6,8 @@ if g:CompletionEngine !=# 'deoplete'
     finish
 endif
 
+let g:HasNeovimModule = 0
+
 " Vim can emit some bogus deprecation warnings when running Python
 silent! py3 <<EOF
 
