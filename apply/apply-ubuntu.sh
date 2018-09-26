@@ -15,7 +15,7 @@ fi
 CRAN_URL=http://cran.rstudio.com/bin/linux/ubuntu
 
 if [ -z "`grep ${CRAN_URL} /etc/apt/sources.list`" ]; then
-	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0x51716619e084dab9
 	sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu $(ubuntu-codename)/ >> /etc/apt/sources.list"
 	sudo apt-get update -y
 	sudo apt-get upgrade -y
