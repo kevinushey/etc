@@ -8,3 +8,9 @@ else
     let g:CompletionEngine = 'none'
 endif
 
+" Use ale with newer Vim; syntastic otherwise
+if has('nvim') || v:version >= 800
+    let g:LintEngine = 'ale'
+else
+    let g:LintEngine = 'syntastic'
+endif

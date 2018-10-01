@@ -22,7 +22,10 @@
   )
 
 ;; Enable ycmd.
-(setq ycmd-server-command `("python" ,(expand-file-name "~/.ycmd")))
+
+(setq
+ ycmd-server-command
+ '("python" ,(expand-file-name "~/.ycmd/ycmd")))
 
 ;; Ensure that 'usr/local/bin' is on the exec-path. This ensures that
 ;; e.g. 'ag' can be located on OS X.

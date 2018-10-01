@@ -3,39 +3,34 @@ set timeoutlen=500
 
 " Remap leader + direction to choose window
 for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-	execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], ' ')
+    execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], ' ')
 endfor
 
-" Quickly navigate to buffers based on index
-for i in range(1, 9)
-    execute 'nnoremap <Leader>' . i . ' :b' . i . '<CR>'
-endfor
-
+noremap <C-c> <Esc>
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
-nnoremap <Leader>h :tab help 
-nnoremap <Leader>l :set list!<CR>
+noremap <Leader>d "+d
+noremap <Leader>P "+P
+noremap <Leader>y "+y
+noremap <Leader>= <C-w>=
+
+nnoremap <Leader>- :sp<CR>
+nnoremap <Leader>/ :OverCommandLine<CR>
+nnoremap <Leader>\ :vsp<CR>
+nnoremap <Leader>h :tab help
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>s :nohlsearch<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>z :tab split<CR>
-nnoremap <Leader>\ :vsp<CR>
-nnoremap <Leader>- :sp<CR>
-nnoremap <Leader>/ :OverCommandLine<CR>
-
-nnoremap <Leader>fc :call UpdateChangeLog()<CR>
 
 nnoremap <silent> [g :tabprevious<CR>
 nnoremap <silent> ]g :tabnext<CR>
 
-NVMap <Leader>d "+d
-NVMap <Leader>P "+P
-NVMap <Leader>y "+y
-NVMap <Leader>= <C-w>=
-
 vnoremap . :normal .<CR>
 vnoremap < <gv
 vnoremap > >gv
+
+vnoremap <Leader>s :!sort<CR>gv
 
 vnoremap <silent> <expr> p 'Pgv"' . v:register . 'y'
 vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
@@ -43,6 +38,10 @@ vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
 imap <expr> <CR> SmartCR()
 
 cnoremap q: :q
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-b> <S-Left>
+cnoremap <C-f> <S-Right>
 
 if isdirectory(expand('~/.vim/bundle/vim-expand-region'))
     vmap v     <Plug>(expand_region_expand)
@@ -50,35 +49,36 @@ if isdirectory(expand('~/.vim/bundle/vim-expand-region'))
 endif
 
 if isdirectory(expand('~/.vim/bundle/vim-fugitive'))
-    NVMap <silent> <leader>g-      :Gsplit<CR>
-    NVMap <silent> <leader>g\      :Gvsplit<CR>
-    NVMap <silent> <leader>g<Down> :Gpull<CR>
-    NVMap <silent> <leader>g<Up>   :Gpush<CR>
-    NVMap <silent> <leader>gb      :Gblame<CR>
-    NVMap <silent> <leader>gc      :Gcommit<CR>
-    NVMap <silent> <leader>gd      :Gdiff<CR>
-    NVMap <silent> <leader>ge      :Gedit<CR>
-    NVMap <silent> <leader>gf      :GFiles<CR>
-    NVMap <silent> <leader>gg      :Ggrep<CR>
-    NVMap <silent> <leader>gi      :Git add -p %<CR>
-    NVMap <silent> <leader>gl      :Glog<CR>
-    NVMap <silent> <leader>gm      :Gmerge<CR>
-    NVMap <silent> <leader>gp      :Git push<CR>
-    NVMap <silent> <leader>gq      :q<CR>
-    NVMap <silent> <leader>gr      :Gread<CR>
-    NVMap <silent> <leader>gs      :Gstatus<CR>
-    NVMap <silent> <leader>gw      :Gwrite<CR>
-    NVMap <silent> <leader>gz      :Gbrowse<CR>
+    noremap <silent> <Leader>g-      :Gsplit<CR>
+    noremap <silent> <Leader>g\      :Gvsplit<CR>
+    noremap <silent> <Leader>g<Down> :Gpull<CR>
+    noremap <silent> <Leader>g<Up>   :Gpush<CR>
+    noremap <silent> <Leader>gb      :Gblame<CR>
+    noremap <silent> <Leader>gc      :Gcommit<CR>
+    noremap <silent> <Leader>gd      :Gdiff<CR>
+    noremap <silent> <Leader>ge      :Gedit<CR>
+    noremap <silent> <Leader>gf      :GFiles<CR>
+    noremap <silent> <Leader>gg      :Ggrep<CR>
+    noremap <silent> <Leader>gi      :Git add -p %<CR>
+    noremap <silent> <Leader>gl      :Glog<CR>
+    noremap <silent> <Leader>gm      :Gmerge<CR>
+    noremap <silent> <Leader>gp      :Git push<CR>
+    noremap <silent> <Leader>gq      :q<CR>
+    noremap <silent> <Leader>gr      :Gread<CR>
+    noremap <silent> <Leader>gs      :Gstatus<CR>
+    noremap <silent> <Leader>gw      :Gwrite<CR>
+    noremap <silent> <Leader>gz      :Gbrowse<CR>
 endif
 
 if isdirectory(expand('~/.vim/bundle/fzf.vim'))
-    NVMap <Leader>a :Ag 
-    NVMap <Leader>b :Buffers<CR>
-    NVMap <Leader>o :Files<CR>
-    NVMap <Leader>p :ProjectFiles<CR>
+    noremap <Leader>b :Buffers<CR>
+    noremap <Leader>f :Ag -Q ''<Left>
+    noremap <Leader>l :Lines<CR>
+    noremap <Leader>o :Files<CR>
+    noremap <Leader>p :ProjectFiles<CR>
 endif
 
 if isdirectory(expand('~/.vim/bundle/nerdtree'))
-    NVMap <Leader>n :NERDTreeToggle<CR>
+    noremap <Leader>n :NERDTreeToggle<CR>
 endif
 
