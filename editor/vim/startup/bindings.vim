@@ -19,7 +19,6 @@ nnoremap <Leader>/ :OverCommandLine<CR>
 nnoremap <Leader>\ :vsp<CR>
 nnoremap <Leader>h :tab help
 nnoremap <Leader>q :q<CR>
-nnoremap <Leader>s :nohlsearch<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>z :tab split<CR>
 
@@ -73,9 +72,17 @@ endif
 if isdirectory(expand('~/.vim/bundle/fzf.vim'))
     noremap <Leader>b :Buffers<CR>
     noremap <Leader>f :Ag -Q ''<Left>
+    noremap <Leader>h :History<CR>
+    noremap <Leader>H :Helptags<CR>
+    noremap <Leader>j :Jumps<CR>
     noremap <Leader>l :Lines<CR>
+    noremap <Leader>L :Locate ''<Left>
+    noremap <Leader>m :Marks<CR>
     noremap <Leader>o :Files<CR>
     noremap <Leader>p :ProjectFiles<CR>
+    noremap <Leader>s :Ag -Q '<C-R>=expand("<cword>")<CR>'<CR>
+    noremap <Leader>t :Tags<CR>
+    noremap <Leader>w :Windows<CR>
 endif
 
 if isdirectory(expand('~/.vim/bundle/nerdtree'))

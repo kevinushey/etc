@@ -4,7 +4,7 @@
 if has-command fzf; then
 
     if has-command rg; then
-        FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+        FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-parent --glob "!.git/*"'
     elif has-command ag; then
         FZF_DEFAULT_COMMAND='ag -g ""'
     fi
