@@ -9,18 +9,17 @@ endfor
 noremap <C-c> <Esc>
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
-noremap <Leader>d "+d
-noremap <Leader>P "+P
-noremap <Leader>y "+y
-noremap <Leader>= <C-w>=
+noremap <silent> <Leader>d "+d
+noremap <silent> <Leader>P "+P
+noremap <silent> <Leader>y "+y
+noremap <silent> <Leader>= <C-w>=
 
-nnoremap <Leader>- :sp<CR>
-nnoremap <Leader>/ :OverCommandLine<CR>
-nnoremap <Leader>\ :vsp<CR>
-nnoremap <Leader>h :tab help
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>z :tab split<CR>
+nnoremap <silent> <Leader>- :sp<CR>
+nnoremap <silent> <Leader>\ :vsp<CR>
+nnoremap <silent> <Leader>h :tab help
+nnoremap <silent> <Leader>q :q<CR>
+nnoremap <silent> <Leader>w :w<CR>
+nnoremap <silent> <Leader>z :tab split<CR>
 
 nnoremap <silent> [g :tabprevious<CR>
 nnoremap <silent> ]g :tabnext<CR>
@@ -28,8 +27,6 @@ nnoremap <silent> ]g :tabnext<CR>
 vnoremap . :normal .<CR>
 vnoremap < <gv
 vnoremap > >gv
-
-vnoremap <Leader>s :!sort<CR>gv
 
 vnoremap <silent> <expr> p 'Pgv"' . v:register . 'y'
 vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'

@@ -1,7 +1,7 @@
 Plug 'Shougo/neocomplete.vim', LoadIf(g:CompletionEngine ==# 'neocomplete')
 
 if g:CompletionEngine !=# 'neocomplete'
-  finish
+    finish
 endif
 
 " For the life of me, I cannot get neosnippet to play nicely with endwise
@@ -50,7 +50,7 @@ augroup END
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
+    let g:neocomplete#sources#omni#input_patterns = {}
 endif
 
 let g:neocomplete#sources#omni#input_patterns.php  = '[^. \t]->\h\w*\|\h\w*::'

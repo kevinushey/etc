@@ -1,7 +1,7 @@
 function! EnsureDirectory(path)
     let Path = expand(a:path)
     if !isdirectory(Path)
-        return mkdir(Path, "p")
+        return mkdir(Path, 'p')
     endif
 endfunction
 command! -nargs=+ -complete=file EnsureDirectory call EnsureDirectory(<args>)
@@ -11,11 +11,11 @@ function! IsDirectory(path)
 endfunction
 
 function! DirName(path)
-    return fnamemodify(expand(a:path), ":h")
+    return fnamemodify(expand(a:path), ':h')
 endfunction
 
 function! BaseName(path)
-    return fnamemodify(expand(a:path), ":t")
+    return fnamemodify(expand(a:path), ':t')
 endfunction
 
 function! FilePath(...)
@@ -24,7 +24,7 @@ endfunction
 
 function! MarkFileSourced(path)
     let VariableName = LoadedName(a:path)
-    execute "let " . VariableName . " = 1"
+    execute 'let ' . VariableName . ' = 1'
 endfunction
 
 function! LoadedName(path)
@@ -44,7 +44,7 @@ function! Source(path)
 
     if filereadable(expand(a:path))
         call MarkFileSourced(a:path)
-        execute join(["source", fnameescape(expand(a:path))], " ")
+        execute join(['source', fnameescape(expand(a:path))], ' ')
     endif
 
 endfunction
@@ -69,10 +69,10 @@ command! -nargs=+ -complete=file LazySource call LazySource(<args>)
 "     Define g:bar = 3  " no change as `g:bar` is already defined
 "
 function! Define(command)
-    let l:index = stridx(a:command, " ")
+    let l:index = stridx(a:command, ' ')
     let l:name = strpart(a:command, 0, l:index)
     if !exists(l:name)
-        execute join(["let", a:command], " ")
+        execute join(['let', a:command], ' ')
     endif
 endfunction
 command! -nargs=+ -complete=var Define call Define(<q-args>)
@@ -81,8 +81,8 @@ command! -nargs=+ -complete=var Define call Define(<q-args>)
 " for when I forget to install Tomorrow Night Bright but want a nice fallback.
 function! ColorScheme(...)
     for item in a:000
-        if !empty(globpath(&rtp, FilePath("colors", item . ".vim")))
-            execute join(["colorscheme", item], " ")
+        if !empty(globpath(&runtimepath, FilePath('colors', item . '.vim')))
+            execute join(['colorscheme', item], ' ')
             break
         endif
     endfor
@@ -92,13 +92,13 @@ command! -nargs=+ ColorScheme call ColorScheme(<f-args>)
 " Execute a command in a directory.
 function! InDir(directory, command)
     let l:directory = $PWD
-    execute "cd " . a:directory
+    execute 'cd ' . a:directory
     execute a:command
-    execute "cd " . l:directory
+    execute 'cd ' . l:directory
 endfunction
 
 function! BackQuoted(string)
-    return "`" . a:string . "`"
+    return '`' . a:string . '`'
 endfunction
 
 function! SingleQuoted(string)
@@ -106,11 +106,11 @@ function! SingleQuoted(string)
 endfunction
 
 function! DoubleQuoted(string)
-    return "\"" . a:string . "\""
+    return '"' . a:string . '"'
 endfunction
 
 function! DoubleQuotedEscaped(string)
-    return "\"" . substitute(a:string, "\"", "\\\\\"", "g") . "\""
+    return '"' . substitute(a:string, '"', '\"', 'g') . '"'
 endfunction
 
 " Enter normal mode. This is a stupid hack because I couldn't find an
@@ -163,7 +163,7 @@ command! -nargs=* Echo redraw | echomsg <args>
 " Hide this function definition just so that if we try to
 " reload this file we don't bump into errors due to an
 " attempt to redefine while calling it.
-if !exists("g:ReloadDefined")
+if !exists('g:ReloadDefined')
     let g:ReloadDefined = 1
     function! Reload()
         source %
@@ -184,31 +184,31 @@ function! IsWindows()
 endfunction
 
 function! IsMacintosh()
-    return has("mac") || has("macunix")
+    return has('mac') || has('macunix')
 endfunction
 
 function! IsUnix()
-    return has("unix")
+    return has('unix')
 endfunction
 
 function! NVMap(expr)
-    execute "nmap " . a:expr
-    execute "vmap " . a:expr
+    execute 'nmap ' . a:expr
+    execute 'vmap ' . a:expr
 endfunction
 command! -nargs=* NVMap call NVMap(<q-args>)
 
 function! NVNoRemap(expr)
-    execute "nnoremap " . a:expr
-    execute "vnoremap " . a:expr
+    execute 'nnoremap ' . a:expr
+    execute 'vnoremap ' . a:expr
 endfunction
 command! -nargs=* NVNoRemap call NVNoRemap(<q-args>)
 
 function! Dirname(path)
-    return fnamemodify(expand(a:path), ":h")
+    return fnamemodify(expand(a:path), ':h')
 endfunction
 
 function! Basename(path)
-    return fnamemodify(expand(a:path), ":t")
+    return fnamemodify(expand(a:path), ':t')
 endfunction
 
 function! Download(URL, Destination)
@@ -220,16 +220,16 @@ function! Download(URL, Destination)
     if IsWindows()
         let Command =
         \ [
-        \   "!bitsadmin",
-        \   "/transfer vimdownload",
+        \   '!bitsadmin',
+        \   '/transfer vimdownload',
         \   URL,
         \   Destination,
         \ ]
         execute join(Command, ' ')
-    elseif executable("curl")
-        execute join(["!curl -L -f -C -", URL, "-o", Destination], ' ')
-    elseif executable("wget")
-        execute join(["!wget -c", URL, "-O", Destination], ' ')
+    elseif executable('curl')
+        execute join(['!curl -L -f -C -', URL, '-o', Destination], ' ')
+    elseif executable('wget')
+        execute join(['!wget -c', URL, '-O', Destination], ' ')
     endif
 
 endfunction
@@ -242,11 +242,11 @@ function! SmartCR()
 
     let Statement = "\<CR>"
     if exists('g:loaded_endwise')
-        let Statement .= Lazy("EndwiseDiscretionary()")
+        let Statement .= Lazy('EndwiseDiscretionary()')
     endif
 
     if exists('g:AutoPairsLoaded')
-        let Statement .= Lazy("AutoPairsReturn()")
+        let Statement .= Lazy('AutoPairsReturn()')
     endif
 
     return Statement
@@ -289,7 +289,7 @@ endfunction
 
 " Restore cursor position
 function! RestoreCursorPosition()
-    if line("'\"") <= line("$")
+    if line("'\"") <= line('$')
         silent! normal! g`"
         return 1
     endif
@@ -298,7 +298,7 @@ endfunction
 " Update the file type if it's changed
 function! MaybeSetFileType(Filetype)
     if a:Filetype !=# &filetype
-        execute "set filetype=" . a:Filetype
+        execute 'set filetype=' . a:Filetype
     endif
 endfunction
 
@@ -369,7 +369,7 @@ endfunction
 command! ProjectFiles execute 'Files' ProjectRoot()
 
 function! SyntaxItem()
-    return synIDattr(synID(line("."), col("."), 1), "name")
+    return synIDattr(synID(line('.'), col('.'), 1), 'name')
 endfunction
 
 function! GenerateCompileDatabase(force)

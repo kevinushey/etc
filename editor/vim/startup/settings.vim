@@ -8,10 +8,10 @@ EnsureDirectory "~/.vim/views"
 EnsureDirectory "~/.vim/undo"
 
 " Ensure that helptags are generated for the vim help directory
-let g:DocPath = expand("$VIMRUNTIME/doc")
-let g:DocTags = join([g:DocPath, "tags"], "/")
+let g:DocPath = expand('$VIMRUNTIME/doc')
+let g:DocTags = join([g:DocPath, 'tags'], '/')
 if !filereadable(g:DocTags)
-	execute join(["helptags", g:DocPath])
+    execute join(['helptags', g:DocPath])
 endif
 
 " Set up directories for swapfiles and backup files
@@ -29,39 +29,38 @@ highlight Normal ctermfg=15               ctermbg=16
 highlight Search cterm=NONE ctermfg=white ctermbg=12
 ColorScheme wombat256mod slate default
 
-if has('autocmd')
-    augroup dotVimRc
-	autocmd!
-	autocmd BufEnter * set t_ut=
-	autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
-	autocmd BufEnter * call UpdateFileType()
-	autocmd BufEnter * redraw!
-	autocmd BufEnter .eslintrc set filetype=json
-	autocmd BufEnter .Rprofile set filetype=r
-	autocmd BufEnter .Renviron set filetype=sh
-	autocmd BufEnter CMake*.txt set filetype=cmake
-	autocmd BufWinEnter * call RestoreCursorPosition()
-	autocmd BufWritePost * call UpdateFileType()
-	autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-	autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
-	autocmd FileType r  setlocal commentstring=#\ %s
-	autocmd FileType vimscript setlocal omnifunc=vimcom
-	autocmd VimEnter * silent! AirlineTheme dark
-	autocmd VimEnter * silent! AirlineToggleWhitespace
-    augroup END
-endif
+augroup dotVimRc
+    autocmd!
+    autocmd BufEnter * set t_ut=
+    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
+    autocmd BufEnter * call UpdateFileType()
+    autocmd BufEnter * redraw!
+    autocmd BufEnter .eslintrc  set filetype=json
+    autocmd BufEnter .Rprofile  set filetype=r
+    autocmd BufEnter .Renviron  set filetype=sh
+    autocmd BufEnter CMake*.txt set filetype=cmake
+    autocmd BufWinEnter * call RestoreCursorPosition()
+    autocmd BufWritePost * call UpdateFileType()
+    autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * checktime
+    autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+    autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
+    autocmd FileType r  setlocal commentstring=#\ %s
+    autocmd FileType vimscript setlocal omnifunc=vimcom
+    autocmd VimEnter * silent! AirlineTheme dark
+    autocmd VimEnter * silent! AirlineToggleWhitespace
+augroup END
 
 " Clipboard settings
 if has('clipboard')
     if has('unnamedplus')
-	set clipboard=unnamed,unnamedplus
+        set clipboard=unnamed,unnamedplus
     else
-	set clipboard=unnamed
+        set clipboard=unnamed
     endif
 endif
 
 " Disable menu-stuff (for GUIs)
-if has("gui_running")
+if has('gui_running')
     " Hide the menu bar.
     set guioptions-=m
 
@@ -76,6 +75,7 @@ let g:vim_indent_cont = 0
 let g:is_posix        = 1
 
 set autoindent
+set autoread
 set cinoptions=N-s,g0,m1,(s
 set expandtab
 set foldenable
@@ -90,6 +90,8 @@ set iskeyword-=.
 set linespace=0
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set mouse=a
+set noerrorbells
+set novisualbell
 set nojoinspaces
 set nolist
 set nospell
@@ -100,7 +102,7 @@ set scrolljump=5
 set scrolloff=3
 set shellslash
 set shiftwidth=4
-set shortmess+=filmnrxoOtT
+set shortmess=A
 set showmatch
 set smartcase
 set softtabstop=4

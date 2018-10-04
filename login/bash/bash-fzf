@@ -19,6 +19,9 @@ if has-command fzf; then
     FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
     export FZF_ALT_C_OPTS
 
+    FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+    export FZF_DEFAULT_OPTS
+
     # Use Alt-; to trigger fzf's autocompletion behavior
     bind '"\e;": "**	"'
 

@@ -6,7 +6,7 @@ endfunction
 " Source the current file.
 function! VimExecuteFile()
     write
-    execute join(["source", fnameescape(expand('%:p'))], ' ')
+    execute join(['source', fnameescape(expand('%:p'))], ' ')
 endfunction
 
 vnoremap <buffer> <silent> <expr> <CR> VimExecuteSelection()
