@@ -6,13 +6,13 @@ for key in ['<Up>', '<Down>', '<Left>', '<Right>']
     execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], ' ')
 endfor
 
-noremap <C-c> <Esc>
+noremap <C-C> <Esc>
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
 noremap <silent> <Leader>d "+d
 noremap <silent> <Leader>P "+P
 noremap <silent> <Leader>y "+y
-noremap <silent> <Leader>= <C-w>=
+noremap <silent> <Leader>= <C-W>=
 
 nnoremap <silent> <Leader>- :sp<CR>
 nnoremap <silent> <Leader>\ :vsp<CR>
@@ -34,10 +34,10 @@ vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
 imap <expr> <CR> SmartCR()
 
 cnoremap q: :q
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-b> <S-Left>
-cnoremap <C-f> <S-Right>
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-B> <S-Left>
+cnoremap <C-F> <S-Right>
 
 if isdirectory(expand('~/.vim/bundle/vim-expand-region'))
     vmap v     <Plug>(expand_region_expand)
@@ -67,19 +67,21 @@ if isdirectory(expand('~/.vim/bundle/vim-fugitive'))
 endif
 
 if isdirectory(expand('~/.vim/bundle/fzf.vim'))
-    noremap <Leader>b :Buffers<CR>
-    noremap <Leader>f :Ag -Q ''<Left>
-    noremap <Leader>h :History<CR>
-    noremap <Leader>H :Helptags<CR>
-    noremap <Leader>j :Jumps<CR>
-    noremap <Leader>l :Lines<CR>
-    noremap <Leader>L :Locate ''<Left>
-    noremap <Leader>m :Marks<CR>
-    noremap <Leader>o :Files<CR>
-    noremap <Leader>p :ProjectFiles<CR>
-    noremap <Leader>s :Ag -Q '<C-R>=expand("<cword>")<CR>'<CR>
-    noremap <Leader>t :Tags<CR>
-    noremap <Leader>w :Windows<CR>
+    nnoremap <Leader>b :Buffers<CR>
+    nnoremap <Leader>f :Ag -Q -- ''<Left>
+    xnoremap <Leader>f ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
+    nnoremap <Leader>h :History<CR>
+    nnoremap <Leader>H :Helptags<CR>
+    nnoremap <Leader>j :Jumps<CR>
+    nnoremap <Leader>l :Lines<CR>
+    nnoremap <Leader>L :Locate ''<Left>
+    nnoremap <Leader>m :Marks<CR>
+    nnoremap <Leader>o :Files<CR>
+    nnoremap <Leader>p :ProjectFiles<CR>
+    nnoremap <Leader>s :Ag -Q -- '<C-R>=expand("<cword>")<CR>'<CR>
+    xnoremap <Leader>s ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
+    nnoremap <Leader>t :Tags<CR>
+    nnoremap <Leader>w :Windows<CR>
 endif
 
 if isdirectory(expand('~/.vim/bundle/nerdtree'))

@@ -1,14 +1,13 @@
 " Execute the current visual selection.
 function! VimExecuteSelection()
-    return "\"zy:@z\<CR>"
+    return '""y:@"' . "\<CR>"
 endfunction
 
-" Source the current file.
-function! VimExecuteFile()
-    write
-    execute join(['source', fnameescape(expand('%:p'))], ' ')
+" Execute the current line.
+function! VimExecuteLine()
+    return '""yy:@"' . "\<CR>h^" 
 endfunction
 
 vnoremap <buffer> <silent> <expr> <CR> VimExecuteSelection()
-nnoremap <buffer> <silent> <expr> <CR> VimExecuteFile()
+nnoremap <buffer> <silent> <expr> <CR> VimExecuteLine()
 

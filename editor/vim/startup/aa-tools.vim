@@ -237,7 +237,7 @@ endfunction
 function! SmartCR()
 
     if pumvisible()
-        return "\<C-y>"
+        return "\<C-Y>"
     endif
 
     let Statement = "\<CR>"

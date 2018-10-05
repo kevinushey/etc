@@ -76,6 +76,7 @@ let g:is_posix        = 1
 
 set autoindent
 set autoread
+set belloff=all
 set cinoptions=N-s,g0,m1,(s
 set expandtab
 set foldenable
