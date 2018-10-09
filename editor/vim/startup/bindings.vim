@@ -31,6 +31,9 @@ vnoremap > >gv
 vnoremap <silent> <expr> p 'Pgv"' . v:register . 'y'
 vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
 
+inoremap <C-A> <C-O>^
+inoremap <C-E> <C-O>$
+
 imap <expr> <CR> SmartCR()
 
 cnoremap q: :q

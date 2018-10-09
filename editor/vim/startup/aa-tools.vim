@@ -122,10 +122,10 @@ function! EnterNormalMode()
 endfunction
 
 " Put the contents of a variable at the cursor position.
-function! Put(variable)
-    call feedkeys(":normal! i\<C-R>=" . a:variable . "\<CR>\<Esc>")
+function! Put(expr)
+    silent execute ":normal! i\<C-R>=" . a:expr . "\<CR>\<Esc>"
 endfunction
-command! -nargs=+ -complete=var Put call Put(<f-args>)
+command! -nargs=+ -complete=var Put call Put(<q-args>)
 
 " Get the (possibly multibyte) character at the cursor
 " position.
@@ -202,14 +202,6 @@ function! NVNoRemap(expr)
     execute 'vnoremap ' . a:expr
 endfunction
 command! -nargs=* NVNoRemap call NVNoRemap(<q-args>)
-
-function! Dirname(path)
-    return fnamemodify(expand(a:path), ':h')
-endfunction
-
-function! Basename(path)
-    return fnamemodify(expand(a:path), ':t')
-endfunction
 
 function! Download(URL, Destination)
 
@@ -385,7 +377,7 @@ function! GenerateCompileDatabase(force)
 
     let CMakeLists = join([Root, 'CMakeLists.txt'], '/')
     if filereadable(CMakeLists)
-        GenerateCompileDatabaseCMake()
+        call GenerateCompileDatabaseCMake()
     endif
 
     execute join(['cd', fnameescape(OWD)], ' ')

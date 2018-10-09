@@ -3,7 +3,7 @@
 TERM=xterm-256color
 export TERM
 
-for FILE in ~/.login/bash/bash-*
+for FILE in ~/.login/bash/*.sh
 do
     . "${FILE}"
 done

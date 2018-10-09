@@ -359,3 +359,15 @@ t () {
 
 }
 
+vim-find () {
+
+	if has-command rg; then
+		vim -c copen -q <(rg -F --vimgrep "$*")
+	elif has-command ag; then
+		vim -c copen -q <(ag -Q "$*")
+	elif has-command grep; then
+		vim -c copen -q <(grep -F "$*")
+	fi
+
+}
+
