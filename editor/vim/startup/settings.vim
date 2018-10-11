@@ -79,6 +79,7 @@ set autoread
 set belloff=all
 set cinoptions=N-s,g0,m1,(s
 set expandtab
+set exrc
 set foldenable
 set hidden
 set history=1000
