@@ -34,11 +34,8 @@ function! DeopleteInit() abort
     call deoplete#custom#buffer_option({
     \   'auto_complete_delay' : 300,
     \   'auto_refresh_delay'  : 50,
+    \   'refresh_always'      : v:false,
     \   'smart_case'          : v:true,
-    \   })
-
-    call deoplete#custom#option('ignore_sources', {
-    \   '_': ['buffer', 'around'],
     \   })
 
 endfunction

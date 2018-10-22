@@ -78,6 +78,7 @@ set autoindent
 set autoread
 set belloff=all
 set cinoptions=N-s,g0,m1,(s
+set completeopt=menuone,noinsert
 set expandtab
 set exrc
 set foldenable

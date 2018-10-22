@@ -1,10 +1,14 @@
-finish
-
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 
+let cquery = [
+\ 'cquery',
+\ '--log-file=/tmp/cquery/cquery.log',
+\ '--init={"cacheDirectory":"/tmp/cquery/cache/"}',
+\ ]
+
 let g:LanguageClient_serverCommands = {
-\ 'c'   : ['cquery', '--language-server', '--log-file=/tmp/cquery/cquery.log'],
-\ 'cpp' : ['cQuery', '--language-server', '--log-file=/tmp/cquery/cquery.log'],
+\ 'c'   : cquery,
+\ 'cpp' : cquery,
 \ }
 
 let g:LanguageClient_diagnosticsEnable = 0

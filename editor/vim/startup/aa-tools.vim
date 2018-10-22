@@ -170,10 +170,6 @@ if !exists('g:ReloadDefined')
     endfunction
 endif
 
-function! Lazy(call)
-    return "\<C-R>=" . a:call . "\<CR>"
-endfunction
-
 function! IsWindows()
     for Field in ['win16', 'win32', 'win64']
         if has(Field)
@@ -234,11 +230,11 @@ function! SmartCR()
 
     let Statement = "\<CR>"
     if exists('g:loaded_endwise')
-        let Statement .= Lazy('EndwiseDiscretionary()')
+        let Statement .= "\<C-R>=EndwiseDiscretionary()\<CR>"
     endif
 
     if exists('g:AutoPairsLoaded')
-        let Statement .= Lazy('AutoPairsReturn()')
+        let Statement .= "\<C-R>=AutoPairsReturn()\<CR>"
     endif
 
     return Statement
