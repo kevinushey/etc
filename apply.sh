@@ -4,10 +4,8 @@
 ROOT="$(cd "$(dirname "$0")"; pwd -P)"
 pushd "${ROOT}" &> /dev/null
 
-RELROOT="${ROOT/$HOME\//}"
-
 # bootstrapping of bash support scripts
-for FILE in login/bash/bash*; do . "${FILE}"; done
+for FILE in login/bash/*.sh; do . "${FILE}" &> /dev/null; done
 
 is-darwin && import apply/apply-darwin.sh
 is-redhat && import apply/apply-redhat.sh
@@ -15,10 +13,10 @@ is-ubuntu && import apply/apply-ubuntu.sh
 
 ## Symlink all dotfiles
 pushd "${HOME}"
-ln -nfs "${RELROOT}"/dotfiles/.??*  .
-ln -nfs "${RELROOT}"/tmux           .tmux
-ln -nfs "${RELROOT}"/login          .login
-ln -nfs .bash_profile               .bashrc
+ln -nfs "${ROOT}"/dotfiles/.??*  .
+ln -nfs "${ROOT}"/tmux           .tmux
+ln -nfs "${ROOT}"/login          .login
+ln -nfs .bash_profile            .bashrc
 popd
 
 ## tmux
@@ -41,23 +39,26 @@ rm -rf ~/.emacs.d/snippets
 rm -rf ~/.emacs.d/private
 
 pushd "${HOME}"
-ln -nfs "../${RELROOT}"/editor/emacs/snippets       .emacs.d/snippets
-ln -nfs "../${RELROOT}"/editor/emacs/private-layers .emacs.d/private
-ln -nfs "../${RELROOT}"/editor/emacs/user-config.el .emacs.d/user-config.el
-ln -nfs "../${RELROOT}"/editor/emacs/user-init.el   .emacs.d/user-init.el
+ln -nfs "${ROOT}"/editor/emacs/snippets       .emacs.d/snippets
+ln -nfs "${ROOT}"/editor/emacs/private-layers .emacs.d/private
+ln -nfs "${ROOT}"/editor/emacs/user-config.el .emacs.d/user-config.el
+ln -nfs "${ROOT}"/editor/emacs/user-init.el   .emacs.d/user-init.el
 popd
 
 ## Vim
 pushd "${HOME}"
 mkdir -p .vim
 rm -rf .vim/startup .vim/after
-ln -nfs .vimrc .nvimrc
 
 pushd .vim
-for FILE in ../"${RELROOT}"/editor/vim/*; do
+for FILE in "${ROOT}"/editor/vim/*; do
 	ln -nfs "${FILE}" "$(basename "${FILE}")"
 done
 popd
+
+mkdir -p ~/.config
+ln -nfs ~/.vim ~/.config/nvim
+ln -nfs "${ROOT}"/dotfiles/.vimrc ~/.config/nvim/init.vim
 
 popd
 
