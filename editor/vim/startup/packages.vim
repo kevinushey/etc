@@ -2,7 +2,10 @@ EnsureDirectory "~/.vim/bundle"
 
 " Use vim-plug to manage packages
 let Vimfiles = split(&runtimepath, ',')
+let AutoloadDirectory = join([Vimfiles[0], 'autoload'], '/')
 let VimPlugDestination = join([Vimfiles[0], 'autoload', 'plug.vim'], '/')
+
+EnsureDirectory AutoloadDirectory
 
 if empty(glob(VimPlugDestination))
     let VimPlugURL = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

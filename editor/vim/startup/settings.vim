@@ -35,10 +35,6 @@ augroup dotVimRc
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
     autocmd BufEnter * call UpdateFileType()
     autocmd BufEnter * redraw!
-    autocmd BufEnter .eslintrc  set filetype=json
-    autocmd BufEnter .Rprofile  set filetype=r
-    autocmd BufEnter .Renviron  set filetype=sh
-    autocmd BufEnter CMake*.txt set filetype=cmake
     autocmd BufWinEnter * call RestoreCursorPosition()
     autocmd BufWritePost * call UpdateFileType()
     autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * checktime
