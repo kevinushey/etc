@@ -34,10 +34,9 @@ augroup dotVimRc
     autocmd BufEnter * set t_ut=
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
     autocmd BufEnter * call UpdateFileType()
-    autocmd BufEnter * redraw!
     autocmd BufWinEnter * call RestoreCursorPosition()
     autocmd BufWritePost * call UpdateFileType()
-    autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * checktime
+    autocmd BufEnter,CursorHold,CursorHoldI,FocusGained * checktime
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
     autocmd FileType html imap <buffer><expr><Tab> HtmlTab()
     autocmd FileType r  setlocal commentstring=#\ %s
@@ -57,15 +56,9 @@ endif
 
 " Disable menu-stuff (for GUIs)
 if has('gui_running')
-    " Hide the menu bar.
     set guioptions-=m
-
-    " Hide the toolbar.
     set guioptions-=T
 endif
-
-" Automatic encryption of files.
-autocmd BufReadPre *.secret silent! source ~/.vim/secret.vim
 
 let g:vim_indent_cont = 0
 let g:is_posix        = 1
@@ -73,7 +66,7 @@ let g:is_posix        = 1
 set autoindent
 set autoread
 set belloff=all
-set cinoptions=N-s,g0,m1,(s
+set cinoptions=:0,g0,N-s,E-s,t0,+s,(0,u0,Us,Ws,m1
 set completeopt=menuone,noinsert
 set expandtab
 set exrc

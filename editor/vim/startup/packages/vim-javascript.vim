@@ -1,0 +1,1 @@
+Plug 'pangloss/vim-javascript'
