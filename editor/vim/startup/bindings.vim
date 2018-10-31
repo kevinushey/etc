@@ -71,6 +71,7 @@ endif
 
 if isdirectory(expand('~/.vim/bundle/fzf.vim'))
     nnoremap <Leader>b :Buffers<CR>
+    nnoremap <Leader>c :Cd<CR>
     nnoremap <Leader>f :Ag -Q -- ''<Left>
     xnoremap <Leader>f ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
     nnoremap <Leader>h :History<CR>

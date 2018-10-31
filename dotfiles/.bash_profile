@@ -20,6 +20,9 @@ path-set                    \
 SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
 export SHELLCHECK_OPTS
 
+RIPGREP_CONFIG_PATH=~/.ripgreprc
+export RIPGREP_CONFIG_PATH
+
 BASH_COMPLETION=/usr/local/share/bash-completion/bash_completion
 
 [ -d ~/.cabal/bin ] && export PATH="$HOME/.cabal/bin:$PATH"

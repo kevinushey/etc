@@ -11,6 +11,8 @@ if g:LintEngine ==# 'ale'
 	\ 'vim'  : ['vint'],
 	\ }
 
+	let g:ale_vim_vint_show_style_issues = 0
+
 	noremap ]r :ALENext<CR>
 	noremap [r :ALEPrevious<CR>
 

@@ -4,44 +4,53 @@ Plug 'junegunn/fzf.vim', LoadIf(v:version >= 704)
 " Prefer 'raw' interface to Ag
 command! -bang -nargs=* Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
 
-" Until https://github.com/junegunn/fzf.vim/pull/710/files is merged
-if !exists('*fzf#vim#jumps')
+" Cd ----
+function! s:cd(bang)
 
-	function! s:jump_sink(line)
+	return fzf#run(fzf#wrap('cd', {
+	\ 'source'  : 'find ' . ProjectRoot() . ' -type d',
+	\ 'sink'    : 'cd',
+	\ 'options' : '--ansi --prompt "Dir> "',
+	\ }))
 
-		let idx = index(s:jumplist, a:line)
-		if idx == -1
-			return
-		endif
+endfunction
 
-		let current = match(s:jumplist, '\v^\s*\>')
-		let delta = idx - current
-		if delta < 0
-			let action = "\<C-O>"
-		else
-			let action = "\<C-I>"
-		endif
+command! -bar -bang Cd call <SID>cd(<bang>0)
 
-		execute 'normal! ' . abs(delta) . action
+" Jumps ----
+function! s:jump_sink(line)
 
-	endfunction
+	let idx = index(s:jumplist, a:line)
+	if idx == -1
+		return
+	endif
 
-	function! s:jumps(bang)
+	let current = match(s:jumplist, '\v^\s*\>')
+	let delta = idx - current
+	if delta < 0
+		let action = "\<C-O>"
+	else
+		let action = "\<C-I>"
+	endif
 
-		redir => cout
-		silent jumps
-		redir END
+	execute 'normal! ' . abs(delta) . action
 
-		let s:jumplist = split(cout, '\n')
-		return fzf#run(fzf#wrap('jumps', {
-		\ 'source'  : extend(s:jumplist[0:0], reverse(s:jumplist[1:])),
-		\ 'sink'    : function('s:jump_sink'),
-		\ 'options' : '+m -x --ansi --tiebreak=index --layout=reverse-list --header-lines 1 --prompt "Jumps> "',
-		\ }, a:bang))
+endfunction
 
-	endfunction
+function! s:jumps(bang)
 
-	command! -bar -bang Jumps call <SID>jumps(<bang>0)
+	redir => cout
+	silent jumps
+	redir END
 
+	let s:jumplist = split(cout, '\n')
+	return fzf#run(fzf#wrap('jumps', {
+	\ 'source'  : extend(s:jumplist[0:0], reverse(s:jumplist[1:])),
+	\ 'sink'    : function('s:jump_sink'),
+	\ 'options' : '+m -x --ansi --tiebreak=index --layout=reverse-list --header-lines 1 --prompt "Jumps> "',
+	\ }, a:bang))
 
-endif
+endfunction
+
+command! -bar -bang Jumps call <SID>jumps(<bang>0)
+
