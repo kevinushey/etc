@@ -343,7 +343,10 @@ build () {
 		shift
 	fi
 
-	cmake --build . --target "${TARGET}"
+	local CPUS
+	CPUS="$(getconf _NPROCESSORS_ONLN)"
+
+	cmake --build . --target "${TARGET}" -- -j"${CPUS}"
 }
 
 t () {

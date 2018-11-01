@@ -411,8 +411,8 @@ function! UpdateChangeLog()
 
     " construct header
     let Date = strftime('%Y-%m-%d')
-    let Name = trim(system('git config user.name'))
-    let Email = trim(system('git config user.email'))
+    let Name = systemlist('git config user.name')[0]
+    let Email = systemlist('git config user.email')[0]
     let Header = join([Date, Name, '<' . Email . '>'], '  ')
     call add(Lines, Header)
 

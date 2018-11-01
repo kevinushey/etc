@@ -66,7 +66,7 @@ let g:is_posix        = 1
 set autoindent
 set autoread
 set belloff=all
-set cinoptions=:0,g0,N-s,E-s,t0,+s,(0,u0,Us,Ws,m1
+set cinoptions=:0,g0,N-s,E-s,t0,+s,(0,u0,Us,Ws
 set completeopt=menuone,noinsert
 set expandtab
 set exrc

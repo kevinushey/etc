@@ -27,6 +27,7 @@ config.status
 ._*
 .metadata
 .settings
+.vscode
 compile_commands.json
 tags
 
