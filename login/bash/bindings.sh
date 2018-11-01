@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-bind '"\ef": "vim-find "'
-bind '"\ev": " \C-e\C-u\C-y\ey\C-u`__fzf_up__`\e\C-e\er\C-m"'
-bind '"\e ": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"'
+if [ -t 1 ]; then
+	bind '"\ef": "vim-find "'
+	bind '"\ev": " \C-e\C-u\C-y\ey\C-u`__fzf_up__`\e\C-e\er\C-m"'
+	bind '"\e ": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"'
+fi
 
 __fzf_up__ () {
 
