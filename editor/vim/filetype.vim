@@ -10,6 +10,7 @@ augroup filetypedetect
     autocmd BufRead,BufNewFile .Renviron  set filetype=sh
     autocmd BufRead,BufNewFile CMake*.txt set filetype=cmake
     autocmd BufRead,BufNewFile bash-fc*   set filetype=sh
+    autocmd BufRead,BufNewFile Makevars   set filetype=make
 
 augroup END
 
