@@ -21,7 +21,7 @@ if has-command fzf; then
     export FZF_CTRL_T_OPTS
 
 
-    FZF_ALT_C_COMMAND="${FZF_DEFAULT_COMMAND}"
+    FZF_ALT_C_COMMAND='find . -type d -mindepth 1 | cut -b3-'
     export FZF_ALT_C_COMMAND
 
     FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
