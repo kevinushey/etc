@@ -104,11 +104,7 @@ replace () {
 		return 1
 	fi
 
-	if has-command ag; then
-		ag -0 -l "$1" | xargs -0 perl -pi -e "s|\Q$1\E|$2|g"
-	else
-		find . -type f -not -path '*/\.*' -exec perl -pi -e "s|\Q$1\E|$2|g" {} +
-	fi
+	find . -type f -not -path '*/\.*' -exec perl -p -i -e "s|\\Q$1\\E|$2|g" {} +
 
 }
 
