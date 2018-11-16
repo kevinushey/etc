@@ -94,7 +94,7 @@ set scrolljump=5
 set scrolloff=3
 set shellslash
 set shiftwidth=4
-set shortmess=a
+set shortmess=AF
 set showmatch
 set smartcase
 set softtabstop=4
