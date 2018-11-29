@@ -11,6 +11,13 @@
   # only run in interactive mode
   if (!interactive())
     return()
+  
+  # prefer Python 3 on macOS
+  if (Sys.info()[["sysname"]] == "Darwin" &&
+      file.exists("/usr/local/bin/python3"))
+  {
+    # Sys.setenv(RETICULATE_PYTHON = "/usr/local/bin/python3")
+  }
 
   # bail in Docker environments
   if (!is.na(Sys.getenv("DOCKER", unset = NA)))
