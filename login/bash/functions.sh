@@ -97,28 +97,6 @@ rot13 () {
 	echo "$@" | tr "A-Za-z" "N-ZA-Mn-za-m"
 }
 
-replace () {
-
-	if [ "$#" -ne 2 ]; then
-		echo "Usage: replace from to";
-		return 1
-	fi
-
-	local FILES
-	if has-command ag; then
-		FILES="$(ag -l -Q "$1")"
-	elif has-command rg; then
-		FILES="$(rg -l -F "$1")"
-	else
-		echo "ERROR: cannot find instances of '$1' (ag or rg must be installed)"
-	fi
-
-	while read -r FILE; do
-		perl -p -i -e "s|\\Q$1\\E|$2|g" "${FILE}"
-	done <<< "${FILES}"
-
-}
-
 extract () {
 	local FILE="$1"
 

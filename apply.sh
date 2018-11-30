@@ -85,5 +85,8 @@ ln -nfs "${ROOT}"/editor/qt/styles/*.xml          ~/.config/QtProject/qtcreator/
 ln -nfs "${ROOT}"/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/snippets/snippets.xml
 ln -nfs "${ROOT}"/editor/qt/schemes/*             ~/.config/QtProject/qtcreator/schemes/
 
+## Tools
+ln -nfs "${ROOT}"/tools/* /usr/local/bin/
+
 popd &> /dev/null
 
