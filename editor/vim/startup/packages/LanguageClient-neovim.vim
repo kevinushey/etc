@@ -1,4 +1,6 @@
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+finish
+
+Plug 'autozimu/LanguageClient-neovim', LoadIf(has('nvim'), { 'branch': 'next', 'do': 'bash install.sh' })
 
 let cquery = [
 \ 'cquery',

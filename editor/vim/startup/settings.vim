@@ -65,9 +65,7 @@ let g:is_posix        = 1
 
 set autoindent
 set autoread
-set belloff=all
 set cinoptions=:0,g0,N-s,E-s,t0,+s,(0,u0,Us,Ws
-set completeopt=menuone,noinsert
 set expandtab
 set exrc
 set foldenable
@@ -94,7 +92,6 @@ set scrolljump=5
 set scrolloff=3
 set shellslash
 set shiftwidth=4
-set shortmess=AF
 set showmatch
 set smartcase
 set softtabstop=4
@@ -113,6 +110,12 @@ set winminheight=0
 if v:version > 703
     set formatoptions+=j
     set undoreload=10000
+endif
+
+if v:version > 704
+    set belloff=all
+    set completeopt=menuone,noinsert
+    set shortmess=AF
 endif
 
 silent! set cryptmethod=blowfish
