@@ -4,16 +4,41 @@ import os
 import sys
 import subprocess
 
-def find_files():
-    
-    command = "ag --silent --files-with-matches --literal '%s'" % sys.argv[1]
-    
-    output = ''
-    try:
-        output = subprocess.check_output(command, shell = True)
-    except subprocess.CalledProcessError:
-        pass
+COMMANDS = {
+    'ag': 'ag --silent --files-with-matches --literal --nocolor "%s"',
+    'rg': 'rg --files-with-matches --fixed-strings --color never "%s"',
+}
 
+def read(file):
+    with open(file, 'r') as f:
+        return f.read()
+
+def write(file, string):
+    with open(file, 'w') as f:
+        return f.write(string)
+
+def run(command):
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+    stdout, _ = process.communicate()
+    return stdout
+
+def exists(program):
+    pathsep = ';' if os.name == 'nt' else ':'
+    path = os.environ["PATH"].split(pathsep)
+    for entry in path:
+        if os.path.exists('/'.join([entry, program])):
+            return True
+    return False
+
+def searcher(term):
+    for program in ['rg', 'ag']:
+        if exists(program):
+            return COMMANDS[program] % term
+    raise RuntimeError('Failed to infer appropriate search command')
+
+def search(term):
+    command = searcher(term)
+    output = run(command)
     return output.split('\n')
 
 def transform(file):
@@ -21,29 +46,32 @@ def transform(file):
     if len(file) == 0:
         return
     
-    with open(file, 'r') as f:
-        contents = f.read()
-    
-    if contents.find(sys.argv[1]) == -1:
+    old = sys.argv[1]
+    new = sys.argv[2]
+
+    contents = read(file)
+    if contents.find(old) == -1:
         return
     
-    replaced = contents.replace(sys.argv[1], sys.argv[2])
-    with open(file, 'w') as f:
-        f.write(replaced)
+    splat = contents.split(old)
+    count = len(splat) - 1
+    replaced = new.join(splat)
+    write(file, replaced)
+
+    fmt = "%s: replaced %d occurence%s"
+    msg = fmt % (file, count, '' if count == 1 else 's')
+    print(msg)
     
 def main():
 
     if len(sys.argv) != 3:
         print('Usage: replace [from] [to] < [files]')
-        sys.exit(1)
+        return 1
 
-    if sys.stdin.isatty():
-        files = find_files()
-    else:
-        files = sys.stdin.read().split('\n')
-    
-    for file in files:
-        transform(file)
+    tty = sys.stdin.isatty()
+    files = search(sys.argv[1]) if tty else sys.stdin.read().split('\n')
+    for file in files: transform(file)
+    return 0
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
