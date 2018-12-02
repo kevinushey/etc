@@ -4,10 +4,13 @@ import os
 import sys
 import subprocess
 
-COMMANDS = {
-    'ag': 'ag --silent --files-with-matches --literal --nocolor "%s"',
-    'rg': 'rg --files-with-matches --fixed-strings --color never "%s"',
-}
+from collections import OrderedDict
+
+COMMANDS = OrderedDict([
+    ('ag',   'ag --silent --files-with-matches --literal --nocolor "%s"'),
+    ('rg',   'rg --files-with-matches --fixed-strings --color=never "%s"'),
+    ('grep', 'grep --binary-files=without-match --files-with-matches --fixed-strings --color=never --recursive --exclude-dir="[.]git" "%s" . | cut -b3-'),
+])
 
 def read(file):
     with open(file, 'r') as f:
@@ -31,7 +34,7 @@ def exists(program):
     return False
 
 def searcher(term):
-    for program, command in COMMANDS:
+    for program, command in COMMANDS.items():
         if exists(program):
             return command % term
     raise RuntimeError('Failed to infer appropriate search command')
