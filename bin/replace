@@ -31,9 +31,9 @@ def exists(program):
     return False
 
 def searcher(term):
-    for program in ['rg', 'ag']:
+    for program, command in COMMANDS:
         if exists(program):
-            return COMMANDS[program] % term
+            return command % term
     raise RuntimeError('Failed to infer appropriate search command')
 
 def search(term):
