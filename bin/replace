@@ -7,8 +7,8 @@ import subprocess
 from collections import OrderedDict
 
 COMMANDS = OrderedDict([
-    ('ag',   'ag --silent --files-with-matches --literal --nocolor "%s"'),
-    ('rg',   'rg --files-with-matches --fixed-strings --color=never "%s"'),
+    ('ag',   'ag --silent --files-with-matches --case-sensitive --literal --nocolor "%s"'),
+    ('rg',   'rg --files-with-matches --case-sensitive --fixed-strings --color=never "%s"'),
     ('grep', 'grep --binary-files=without-match --files-with-matches --fixed-strings --color=never --recursive --exclude-dir="[.]git" "%s" . | cut -b3-'),
 ])
 
@@ -25,18 +25,13 @@ def run(command):
     stdout, _ = process.communicate()
     return stdout
 
-def exists(program):
+def searcher(term):
     pathsep = ';' if os.name == 'nt' else ':'
     path = os.environ["PATH"].split(pathsep)
-    for entry in path:
-        if os.path.exists('/'.join([entry, program])):
-            return True
-    return False
-
-def searcher(term):
     for program, command in COMMANDS.items():
-        if exists(program):
-            return command % term
+        for entry in path:
+            if os.path.exists('/'.join([entry, program])):
+                return command % term
     raise RuntimeError('Failed to infer appropriate search command')
 
 def search(term):
@@ -46,16 +41,10 @@ def search(term):
 
 def transform(file):
 
-    if len(file) == 0:
-        return
-    
     old = sys.argv[1]
     new = sys.argv[2]
 
     contents = read(file)
-    if contents.find(old) == -1:
-        return
-    
     splat = contents.split(old)
     count = len(splat) - 1
     replaced = new.join(splat)
@@ -73,7 +62,15 @@ def main():
 
     tty = sys.stdin.isatty()
     files = search(sys.argv[1]) if tty else sys.stdin.read().split('\n')
-    for file in files: transform(file)
+
+    files = [file for file in files if len(file) != 0]
+    if len(files) == 0 or files == ['']:
+        print('no matches found')
+        return 0
+
+    for file in files:
+        transform(file)
+
     return 0
 
 if __name__ == '__main__':
