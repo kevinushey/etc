@@ -9,6 +9,11 @@ endfor
 noremap <C-C> <Esc>
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
+noremap  <silent> <Up>   gk
+noremap  <silent> <Down> gj
+inoremap <silent> <Up>   <C-o>gk
+inoremap <silent> <Down> <C-o>gj
+
 noremap <silent> <Leader>d "+d
 noremap <silent> <Leader>P "+P
 noremap <silent> <Leader>y "+y
