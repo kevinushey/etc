@@ -1,36 +1,16 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2223
 
-# Declare clang version and install if necessary
-: ${CLANG="clang"}
-: ${CLANGPP="clang++"}
-
-if [ -z "${CLANG_VERSION}" ]; then
-	CLANG_VERSION="$("${CLANG}" --version | head -n 1 | cut -d' ' -f3)"
-fi
-
-CLANG_VERSION_MAJOR_MINOR="$(echo "${CLANG_VERSION}" | cut -d'.' -f1,2)"
-CLANG="clang-${CLANG_VERSION_MAJOR_MINOR}"
-CLANGPP="clang++-${CLANG_VERSION_MAJOR_MINOR}"
-
-if [ ! "$(command -v "${CLANG}" 2> /dev/null)" ]; then
-	if [ -f "install-clang" ]; then
-	./install-clang "${CLANG_VERSION}"
-	fi
-fi
+: "${CLANG="/usr/local/opt/llvm/bin/clang"}"
+CLANG_VERSION="$("${CLANG}" --version | head -n 1 | cut -d' ' -f3)"
 
 ## Ensure coreutils (for 'greadlink')
-if [ -z "`which greadlink`" ]; then
+command -v readlink || {
 	brew install coreutils
-fi
+}
 
 command -v "${CLANG}" &> /dev/null || {
 	echo "${CLANG} not found on PATH; aborting"
-	exit 1
-}
-
-command -v "${CLANGPP}" &> /dev/null || {
-	echo "${CLANGPP} not found on PATH; aborting"
 	exit 1
 }
 
@@ -43,7 +23,7 @@ command -v "${CLANGPP}" &> /dev/null || {
 ## Note that compilation takes too long with optimization enabled.
 : ${CC="${CLANG} -std=gnu99 ${SANFLAGS}"}
 : ${CFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
-: ${CXX="${CLANGPP} ${SANFLAGS}"}
+: ${CXX="${CLANG}++ ${SANFLAGS}"}
 : ${CXXFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
 : ${F77="gfortran"}
 : ${FC="gfortran"}
@@ -56,14 +36,23 @@ command -v "${CLANGPP}" &> /dev/null || {
 ##	 https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer
 ##
 ## for more information.
-: ${LLVM_BIN_DIR="$(dirname `which ${CLANG} | xargs greadlink -f`)"}
-: ${MAIN_LD="${CLANGPP} ${SANFLAGS} -L\\\"${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin\\\" -lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic"}
+LLVM_BIN_DIR="$(dirname "${CLANG}")"
+SANITIZER_PATH="${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin"
+SANITIZER_LIBS="-lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic"
+MAIN_LD="${CLANG}++ ${SANFLAGS} -L\\\"${SANITIZER_PATH}\\\" ${SANITIZER_LIBS}"
+
+# Set Makeflags by default
+read -r -d '' R_MAKEVARS <<- EOF
+MAKEFLAGS = -j4
+EOF
 
 ## Create and use dummy Makevars.san
 mkdir -p "${HOME}/.R"
 R_MAKEVARS_USER="${HOME}/.R/Makevars.san"
-touch "${R_MAKEVARS_USER}"
 export R_MAKEVARS_USER
+if [ ! -f "${R_MAKEVARS_USER}" ]; then
+	echo "${R_MAKEVARS}" > "${R_MAKEVARS_USER}"
+fi
 
 ## Invoke install homebrew script with these variables
 . install-r-homebrew || {
@@ -73,8 +62,8 @@ export R_MAKEVARS_USER
 
 # Update Renviron so that we don't make use of '~/.R/Makevars'
 read -r -d '' R_ENVIRON_VARS <<- EOF
-	R_MAKEVARS_USER='~/.R/Makevars.san'
-	R_LIBS_USER='${PREFIX}/library'
+R_MAKEVARS_USER='~/.R/Makevars.san'
+R_LIBS_USER='${PREFIX}/library'
 EOF
 
 if [ "${ENABLE_R_FRAMEWORK}" = "no" ]; then
