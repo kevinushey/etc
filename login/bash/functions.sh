@@ -110,6 +110,10 @@ extract () {
 		dpkg -x "${FILE}"
 	;;
 
+	*.rar)
+		unrar x "${FILE}"
+	;;
+
 	*.rpm)
 		rpm2cpio "${FILE}" | cpio -idmv
 	;;

@@ -11,8 +11,9 @@ map <Leader><Leader> <Plug>(easymotion-prefix)
 
 noremap  <silent> <Up>   gk
 noremap  <silent> <Down> gj
-inoremap <silent> <Up>   <C-o>gk
-inoremap <silent> <Down> <C-o>gj
+
+inoremap <silent> <expr> <Up>   pumvisible() ? "\<Up>"   : "\<C-o>gk"
+inoremap <silent> <expr> <Down> pumvisible() ? "\<Down>" : "\<C-o>gj"
 
 noremap <silent> <Leader>d "+d
 noremap <silent> <Leader>P "+P
