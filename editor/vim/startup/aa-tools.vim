@@ -201,7 +201,7 @@ command! -nargs=* NVNoRemap call NVNoRemap(<q-args>)
 
 function! Download(URL, Destination)
 
-    call EnsureDirectory(Dirname(expand(a:Destination)))
+    call EnsureDirectory(DirName(expand(a:Destination)))
     let URL         = DoubleQuotedEscaped(expand(a:URL))
     let Destination = DoubleQuotedEscaped(expand(a:Destination))
 
