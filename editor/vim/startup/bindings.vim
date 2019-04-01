@@ -90,7 +90,8 @@ if isdirectory(expand('~/.vim/bundle/fzf.vim'))
     nnoremap <Leader>p :ProjectFiles<CR>
     nnoremap <Leader>s :Ag -Q -- '<C-R>=expand("<cword>")<CR>'<CR>
     xnoremap <Leader>s ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
-    nnoremap <Leader>t :Tags<CR>
+    nnoremap <Leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
+    xnoremap <Leader>t ""y:<C-U>Tags <C-R>"<CR>
     nnoremap <Leader>w :Windows<CR>
 endif
 

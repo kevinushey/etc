@@ -447,3 +447,23 @@ function! UpdateChangeLog()
 endfunction
 command! -nargs=? UpdateChangeLog call UpdateChangeLog(<args>)
 
+function! ProfileStart(...)
+
+    let Path = get(a:, 1, 'profile.log')
+    execute join(['profile', 'start', expand(Path)], ' ')
+
+    profile func *
+    profile file *
+
+    echomsg 'Writing profile to "' . Path . '".'
+
+endfunction
+command! -nargs=? ProfileStart call ProfileStart()
+
+function! ProfileStop()
+
+    profile stop
+
+endfunction
+command! -nargs=? ProfileStop call ProfileStop()
+

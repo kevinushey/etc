@@ -76,6 +76,7 @@ git config --global user.name "Kevin Ushey"
 git config --global push.default current
 git config --global core.excludesfile '~/.gitignore'
 
+
 ## Qt Creator
 mkdir -p ~/.config/QtProject/qtcreator/styles
 mkdir -p ~/.config/QtProject/qtcreator/schemes
