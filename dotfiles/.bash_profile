@@ -9,7 +9,6 @@ do
 done
 
 path-set                    \
-    /usr/local/opt/llvm/bin \
     /usr/local/opt/curl/bin \
     /Library/TeX/texbin     \
     /usr/local/bin          \
