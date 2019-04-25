@@ -1,18 +1,14 @@
-finish
-
 Plug 'autozimu/LanguageClient-neovim', LoadIf(has('nvim'), { 'branch': 'next', 'do': 'bash install.sh' })
 
-let cquery = [
-\ 'cquery',
-\ '--log-file=/tmp/cquery/cquery.log',
-\ '--init={"cacheDirectory":"/tmp/cquery/cache/"}',
-\ ]
+set hidden
 
 let g:LanguageClient_serverCommands = {
-\ 'c'   : cquery,
-\ 'cpp' : cquery,
+\ 'c'   : ['clangd', '-background-index'],
+\ 'cpp' : ['clangd', '-background-index'],
+\ 'r'   : ['R', '--slave', '-e', 'languageserver::run()'],
 \ }
 
+let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_settingsPath      = expand('$HOME/.vim/cquery.json')
-let g:LanguageClient_loadSettings      = 1
+let g:LanguageClient_fzfOptions = '+m -x --ansi --tiebreak=index --layout=reverse-list'
+

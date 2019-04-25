@@ -1,101 +1,120 @@
 let mapleader="\<Space>"
 set timeoutlen=500
 
-" Remap leader + direction to choose window
-for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-    execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], ' ')
-endfor
+function! InitBindings()
 
-noremap <C-C> <Esc>
-map <Leader><Leader> <Plug>(easymotion-prefix)
+    " Remap leader + direction to choose window
+    for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+        execute join(['nnoremap', '<Leader>' . key, '<C-W>' . key], ' ')
+    endfor
 
-noremap  <silent> <Up>   gk
-noremap  <silent> <Down> gj
+    noremap <C-C> <Esc>
+    map <Leader><Leader> <Plug>(easymotion-prefix)
 
-inoremap <silent> <expr> <Up>   pumvisible() ? "\<Up>"   : "\<C-o>gk"
-inoremap <silent> <expr> <Down> pumvisible() ? "\<Down>" : "\<C-o>gj"
+    noremap  <silent> <Up>   gk
+    noremap  <silent> <Down> gj
 
-noremap <silent> <Leader>d "+d
-noremap <silent> <Leader>P "+P
-noremap <silent> <Leader>y "+y
-noremap <silent> <Leader>= <C-W>=
+    noremap <silent> <Leader>d "+d
+    noremap <silent> <Leader>P "+P
+    noremap <silent> <Leader>y "+y
+    noremap <silent> <Leader>= <C-W>=
 
-nnoremap <silent> <Leader>- :sp<CR>
-nnoremap <silent> <Leader>\ :vsp<CR>
-nnoremap <silent> <Leader>h :tab help
-nnoremap <silent> <Leader>q :q<CR>
-nnoremap <silent> <Leader>w :w<CR>
-nnoremap <silent> <Leader>z :tab split<CR>
+    nnoremap <silent> <Leader>- :sp<CR>
+    nnoremap <silent> <Leader>\ :vsp<CR>
+    nnoremap <silent> <Leader>h :tab help
+    nnoremap <silent> <Leader>q :q<CR>
+    nnoremap <silent> <Leader>w :w<CR>
+    nnoremap <silent> <Leader>z :tab split<CR>
 
-nnoremap <silent> [g :tabprevious<CR>
-nnoremap <silent> ]g :tabnext<CR>
+    nnoremap <silent> [g :tabprevious<CR>
+    nnoremap <silent> ]g :tabnext<CR>
 
-vnoremap . :normal .<CR>
-vnoremap < <gv
-vnoremap > >gv
+    vnoremap . :normal .<CR>
+    vnoremap < <gv
+    vnoremap > >gv
 
-vnoremap <silent> <expr> p 'Pgv"' . v:register . 'y'
-vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
+    vnoremap <silent> <expr> p 'Pgv"' . v:register . 'y'
+    vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
 
-inoremap <C-A> <C-O>^
-inoremap <C-E> <C-O>$
+    inoremap <silent> <Up>   <C-R>=InsertModeUp()<CR>
+    inoremap <silent> <Down> <C-R>=InsertModeDown()<CR>
+    inoremap <silent> <Esc>  <C-R>=InsertModeEscape()<CR>
+    inoremap <silent> <C-A>  <C-R>=InsertModeCtrlA()<CR>
+    inoremap <silent> <C-E>  <C-R>=InsertModeCtrlE()<CR>
 
-imap <expr> <CR> SmartCR()
+    inoremap <silent> <expr> <buffer> <Tab> InsertModeTab()
+    inoremap <silent> <expr> <buffer> <CR>  InsertModeCR()
 
-cnoremap q: :q
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
-cnoremap <C-B> <S-Left>
-cnoremap <C-F> <S-Right>
+    cnoremap q: :q
+    cnoremap <C-A> <Home>
+    cnoremap <C-E> <End>
+    cnoremap <C-B> <S-Left>
+    cnoremap <C-F> <S-Right>
 
-if isdirectory(expand('~/.vim/bundle/vim-expand-region'))
-    vmap v     <Plug>(expand_region_expand)
-    vmap <S-v> <Plug>(expand_region_shrink)
-endif
+    if isdirectory(expand('~/.vim/bundle/vim-expand-region'))
+        vmap v     <Plug>(expand_region_expand)
+        vmap <S-v> <Plug>(expand_region_shrink)
+    endif
 
-if isdirectory(expand('~/.vim/bundle/vim-fugitive'))
-    noremap <silent> <Leader>g-      :Gsplit<CR>
-    noremap <silent> <Leader>g\      :Gvsplit<CR>
-    noremap <silent> <Leader>g<Down> :Gpull<CR>
-    noremap <silent> <Leader>g<Up>   :Gpush<CR>
-    noremap <silent> <Leader>gb      :Gblame<CR>
-    noremap <silent> <Leader>gc      :Gcommit<CR>
-    noremap <silent> <Leader>gd      :Gdiff<CR>
-    noremap <silent> <Leader>ge      :Gedit<CR>
-    noremap <silent> <Leader>gf      :GFiles<CR>
-    noremap <silent> <Leader>gg      :Ggrep<CR>
-    noremap <silent> <Leader>gi      :Git add -p %<CR>
-    noremap <silent> <Leader>gl      :Glog<CR>
-    noremap <silent> <Leader>gm      :Gmerge<CR>
-    noremap <silent> <Leader>gp      :Git push<CR>
-    noremap <silent> <Leader>gq      :q<CR>
-    noremap <silent> <Leader>gr      :Gread<CR>
-    noremap <silent> <Leader>gs      :Gstatus<CR>
-    noremap <silent> <Leader>gw      :Gwrite<CR>
-    noremap <silent> <Leader>gz      :Gbrowse<CR>
-endif
+    if isdirectory(expand('~/.vim/bundle/vim-fugitive'))
+        noremap <silent> <Leader>g-      :Gsplit<CR>
+        noremap <silent> <Leader>g\      :Gvsplit<CR>
+        noremap <silent> <Leader>g<Down> :Gpull<CR>
+        noremap <silent> <Leader>g<Up>   :Gpush<CR>
+        noremap <silent> <Leader>gb      :Gblame<CR>
+        noremap <silent> <Leader>gc      :Gcommit<CR>
+        noremap <silent> <Leader>gd      :Gdiff<CR>
+        noremap <silent> <Leader>ge      :Gedit<CR>
+        noremap <silent> <Leader>gf      :GFiles<CR>
+        noremap <silent> <Leader>gg      :Ggrep<CR>
+        noremap <silent> <Leader>gi      :Git add -p %<CR>
+        noremap <silent> <Leader>gl      :Glog<CR>
+        noremap <silent> <Leader>gm      :Gmerge<CR>
+        noremap <silent> <Leader>gp      :Git push<CR>
+        noremap <silent> <Leader>gq      :q<CR>
+        noremap <silent> <Leader>gr      :Gread<CR>
+        noremap <silent> <Leader>gs      :Gstatus<CR>
+        noremap <silent> <Leader>gw      :Gwrite<CR>
+        noremap <silent> <Leader>gz      :Gbrowse<CR>
+    endif
 
-if isdirectory(expand('~/.vim/bundle/fzf.vim'))
-    nnoremap <Leader>b :Buffers<CR>
-    nnoremap <Leader>c :Cd<CR>
-    nnoremap <Leader>f :Ag -Q -- ''<Left>
-    xnoremap <Leader>f ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
-    nnoremap <Leader>h :History<CR>
-    nnoremap <Leader>H :Helptags<CR>
-    nnoremap <Leader>j :Jumps<CR>
-    nnoremap <Leader>l :Lines<CR>
-    nnoremap <Leader>L :Locate ''<Left>
-    nnoremap <Leader>m :Marks<CR>
-    nnoremap <Leader>o :Files<CR>
-    nnoremap <Leader>p :ProjectFiles<CR>
-    nnoremap <Leader>s :Ag -Q -- '<C-R>=expand("<cword>")<CR>'<CR>
-    xnoremap <Leader>s ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
-    nnoremap <Leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
-    xnoremap <Leader>t ""y:<C-U>Tags <C-R>"<CR>
-    nnoremap <Leader>w :Windows<CR>
-endif
+    if isdirectory(expand('~/.vim/bundle/fzf.vim'))
+        nnoremap <Leader>b :Buffers<CR>
+        nnoremap <Leader>c :Cd<CR>
+        nnoremap <Leader>f :Ag -Q -- ''<Left>
+        xnoremap <Leader>f ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
+        nnoremap <Leader>h :History<CR>
+        nnoremap <Leader>H :Helptags<CR>
+        nnoremap <Leader>j :Jumps<CR>
+        nnoremap <Leader>l :Lines<CR>
+        nnoremap <Leader>L :Locate ''<Left>
+        nnoremap <Leader>m :Marks<CR>
+        nnoremap <Leader>o :Files<CR>
+        nnoremap <Leader>p :ProjectFiles<CR>
+        nnoremap <Leader>s :Ag -Q -- '<C-R>=expand("<cword>")<CR>'<CR>
+        xnoremap <Leader>s ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
+        nnoremap <Leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
+        xnoremap <Leader>t ""y:<C-U>Tags <C-R>"<CR>
+        nnoremap <Leader>w :Windows<CR>
+    endif
 
-if isdirectory(expand('~/.vim/bundle/nerdtree'))
-    noremap <Leader>n :NERDTreeToggle<CR>
-endif
+    if isdirectory(expand('~/.vim/bundle/nerdtree'))
+        noremap <Leader>n :NERDTreeToggle<CR>
+    endif
+
+    if isdirectory(expand('~/.vim/bundle/LanguageClient-neovim'))
+        nnoremap <silent> <Leader>ld :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <silent> <Leader>lf :call LanguageClient#textDocument_references()<CR>
+        nnoremap <silent> <Leader>lh :call LanguageClient#textDocument_hover()<CR>
+        nnoremap <silent> <Leader>lr :call LanguageClient#textDocument_rename()<CR>
+        nnoremap <silent> <Leader>l. :call LanguageClient#workspace_symbol()<CR>
+        nnoremap <silent> <Leader>ll :call LanguageClient_contextMenu()<CR>
+    endif
+
+endfunction
+
+augroup Bindings
+    autocmd!
+    autocmd BufEnter * call InitBindings()
+augroup END
 

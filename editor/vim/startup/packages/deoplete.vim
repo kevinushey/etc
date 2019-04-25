@@ -32,13 +32,21 @@ let g:deoplete#enable_at_startup = 1
 function! DeopleteInit() abort
 
     call deoplete#custom#buffer_option({
-    \   'auto_complete_delay' : 500,
+    \   'auto_complete_delay' : 200,
     \   'auto_refresh_delay'  : 100,
-    \   'min_pattern_length'  : 3,
+    \   'min_pattern_length'  : 2,
     \   'on_insert_enter'     : v:false,
     \   'refresh_always'      : v:false,
     \   'smart_case'          : v:true,
     \   })
+
+    call deoplete#custom#source('_', 'converters', [
+    \ 'converter_auto_delimiter',
+    \ 'converter_auto_paren',
+    \ 'converter_remove_overlap',
+    \ 'converter_truncate_abbr',
+    \ 'converter_truncate_menu'
+    \ ])
 
 endfunction
 

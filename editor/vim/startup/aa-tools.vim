@@ -222,25 +222,6 @@ function! Download(URL, Destination)
 
 endfunction
 
-function! SmartCR()
-
-    if pumvisible()
-        return "\<C-Y>"
-    endif
-
-    let Statement = "\<CR>"
-    if exists('g:loaded_endwise')
-        let Statement .= "\<C-R>=EndwiseDiscretionary()\<CR>"
-    endif
-
-    if exists('g:AutoPairsLoaded')
-        let Statement .= "\<C-R>=AutoPairsReturn()\<CR>"
-    endif
-
-    return Statement
-
-endfunction
-
 " Don't indent namespace and template
 function! CppNoNamespaceAndTemplateIndent()
     let l:cline_num = line('.')
