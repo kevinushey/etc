@@ -54,3 +54,18 @@ endfunction
 
 command! -bar -bang Jumps call <SID>jumps(<bang>0)
 
+" Maps ----
+
+function! s:maps(mode, bang)
+
+	let mode = a:mode
+	if mode ==# ''
+		let mode = 'n'
+	endif
+
+	call fzf#vim#maps(mode, a:bang)
+
+endfunction
+
+command! -bar -bang -nargs=? Maps call <SID>maps(<q-args>, <bang>0)
+

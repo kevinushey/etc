@@ -11,8 +11,8 @@ function! InitBindings()
     noremap <C-C> <Esc>
     map <Leader><Leader> <Plug>(easymotion-prefix)
 
-    noremap  <silent> <Up>   gk
-    noremap  <silent> <Down> gj
+    noremap <silent> <Up>   gk
+    noremap <silent> <Down> gj
 
     noremap <silent> <Leader>d "+d
     noremap <silent> <Leader>P "+P
@@ -35,6 +35,11 @@ function! InitBindings()
 
     vnoremap <silent> <expr> p 'Pgv"' . v:register . 'y'
     vnoremap <silent> <expr> P 'Pgv"' . v:register . 'y'
+
+    inoremap <silent> OA <C-R>=InsertModeUp()<CR>
+    inoremap <silent> OB <C-R>=InsertModeDown()<CR>
+    inoremap <silent> OC <Right>
+    inoremap <silent> OD <Left>
 
     inoremap <silent> <Up>   <C-R>=InsertModeUp()<CR>
     inoremap <silent> <Down> <C-R>=InsertModeDown()<CR>
