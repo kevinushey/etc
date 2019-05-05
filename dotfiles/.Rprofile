@@ -312,6 +312,9 @@
     system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
   }
 
+  if (file.exists("renv/activate.R"))
+    return()
+
   packages <- c("devtools", "roxygen2", "knitr", "rmarkdown", "testthat")
   invisible(lapply(packages, function(package) {
 
