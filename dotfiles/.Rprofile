@@ -11,7 +11,7 @@
   # only run in interactive mode
   if (!interactive())
     return()
-  
+
   # prefer Python 3 on macOS
   if (Sys.info()[["sysname"]] == "Darwin" &&
       file.exists("/usr/local/bin/python3"))
@@ -209,6 +209,7 @@
   # open .Rprofile for editing
   alias(".Rprofile", function(...) file.edit("~/.Rprofile"))
   alias(".Renviron", function(...) file.edit("~/.Renviron"))
+  alias(".Home",     function(...) setwd(.rs.getProjectDirectory()))
 
   # open Makevars for editing
   alias("Makevars", function(...) {

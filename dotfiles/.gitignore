@@ -2,6 +2,7 @@
 *.class
 *.com
 *.dll
+*.dSYM
 *.dylib
 *.exe
 *.o
