@@ -24,7 +24,12 @@ r-switch () {
 	fi
 
 	sudo ln -fs "$1" "${VERSIONS_PATH}/Current"
-	sudo ln -fs "/Library/Frameworks/R.framework/Resources/bin/R" "/usr/local/bin/R"
+
+	local RESOURCES_PATH
+	RESOURCES_PATH=/Library/Frameworks/R.framework/Resources
+	for BINARY in R Rscript; do
+		sudo ln -fs "${RESOURCES_PATH}/bin/${BINARY}" /usr/local/bin/"${BINARY}"
+	done
 
 	local R_SESSION_INFO
 	R_SESSION_INFO="$(/usr/local/bin/R --vanilla --slave -e "utils::sessionInfo()")"
