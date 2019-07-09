@@ -23,7 +23,7 @@ if [ -z "`grep ${CRAN_URL} /etc/apt/sources.list`" ]; then
 	fi
 
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0x51716619e084dab9
-	sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu $(ubuntu-codename)/ >> /etc/apt/sources.list"
+	sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu ${CODENAME}/ >> /etc/apt/sources.list"
 	sudo apt-get update -y
 	sudo apt-get upgrade -y
 
@@ -46,8 +46,6 @@ sudo apt-get install -y  \
 	libcurl4-openssl-dev \
 	libxml2-dev          \
 	mercurial            \
-	nodejs-dev           \
-	npm                  \
 	openjdk-8-jdk        \
 	r-base-dev           \
 	silversearcher-ag    \
