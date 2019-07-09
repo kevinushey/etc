@@ -3,10 +3,11 @@
 TERM=xterm-256color
 export TERM
 
-for FILE in ~/.login/bash/*.sh
-do
+for FILE in ~/.login/bash/*.sh; do
     . "${FILE}"
 done
+
+import /usr/local/etc/profile.d/bash_completion.sh
 
 path-set                    \
     /usr/local/opt/curl/bin \
@@ -22,8 +23,6 @@ export SHELLCHECK_OPTS
 
 RIPGREP_CONFIG_PATH=~/.ripgreprc
 export RIPGREP_CONFIG_PATH
-
-BASH_COMPLETION=/usr/local/share/bash-completion/bash_completion
 
 [ -d ~/.cabal/bin ] && export PATH="$HOME/.cabal/bin:$PATH"
 [ -d ~/projects/depot_tools ] && export PATH="$PATH:$HOME/projects/depot_tools"
