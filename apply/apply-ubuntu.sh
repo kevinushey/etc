@@ -44,6 +44,7 @@ sudo apt-get install -y  \
 	golang               \
 	golang-go.tools      \
 	libcurl4-openssl-dev \
+	libssl-dev           \
 	libxml2-dev          \
 	mercurial            \
 	openjdk-8-jdk        \
