@@ -54,7 +54,7 @@ if command -v brew &> /dev/null; then
     echo "> Homebrew already installed."
 else
     echo "> Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 export TMP=${TMP}
@@ -62,14 +62,13 @@ mkdir -p ${TMP}
 
 missing () {
     if ! test -z `brew ls | grep ^$1$`; then
-	echo 1
+        echo 1
     fi
 }
 
 install () {
     if test -z `missing $1`; then
-	brew install $@
-	brew link --force $1
+        brew install $@
     fi
 }
 
@@ -79,13 +78,13 @@ brew tap homebrew/dupes   2> /dev/null
 
 ## use homebrew to install openblas, lapack, gfortran
 
-install gcc                        # gfortran
-install openblas                   # faster BLAS
-install lapack                     # latest lapack
-install texinfo                    # vignettes, help
-install coreutils                  # greadlink
-install jpeg                       # image write support
-install cairo --with-x11           # image write support
+install gcc        # gfortran
+install openblas   # faster BLAS
+install lapack     # latest lapack
+install texinfo    # vignettes, help
+install coreutils  # greadlink
+install jpeg       # image write support
+install cairo      # image write support
 
 ## Make sure the gfortran libraries get symlinked.
 if command -v gfortran &> /dev/null; then
@@ -96,8 +95,8 @@ GFORTRAN_SEARCH_PATHS_STRING=`"${GFORTRAN}" -print-search-dirs | tail -n 1 | sed
 IFS=':' read -a GFORTRAN_SEARCH_PATHS <<< "${GFORTRAN_SEARCH_PATHS_STRING}"
 for FILEPATH in "${GFORTRAN_SEARCH_PATHS[@]}"; do
     if test -e "${FILEPATH}/libgfortran.dylib"; then
-	echo -e "Found gfortran libraries in:\n${FILEPATH}"
-	GFORTRAN_LIBPATH=`greadlink -f "${FILEPATH}"`
+        echo -e "Found gfortran libraries in:\n${FILEPATH}"
+        GFORTRAN_LIBPATH=`greadlink -f "${FILEPATH}"`
     fi
 done
 
