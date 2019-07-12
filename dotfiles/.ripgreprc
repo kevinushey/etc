@@ -1,3 +1,5 @@
+--smart-case
+--max-columns=500
 --colors=line:fg:yellow
 --colors=line:style:bold
 --colors=path:fg:green
