@@ -118,6 +118,10 @@ extract () {
 		rpm2cpio "${FILE}" | cpio -idmv
 	;;
 
+	*.tgz)
+		tar -xf "${FILE}"
+	;;
+
 	*.tar.gz)
 		tar -xf "${FILE}"
 	;;
