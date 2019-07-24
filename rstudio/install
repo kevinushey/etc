@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ "$#" -ne 1 ]; then
+	echo "Usage: install <version>"
+	exit 0
+fi
+
+BASEURL=https://s3.amazonaws.com/rstudio-ide-build/desktop
+VERSION="$1"
+
+if [ "$(uname)" = "Darwin" ]; then
+	URL="${BASEURL}/macos/RStudio-${VERSION}.dmg"
+	curl -L -f -O "${URL}"
+	hdiutil attach "RStudio-${VERSION}.dmg"
+	cp -R /Volumes/RStudio-${VERSION}/RStudio.app RStudio-${VERSION}.app
+	hdiutil detach /Volumes/RStudio-${VERSION}
+	rm "RStudio-${VERSION}.dmg"
+fi

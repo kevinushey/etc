@@ -9,6 +9,16 @@ done
 
 import /usr/local/etc/profile.d/bash_completion.sh
 
+read -r -d '' ASAN_OPTIONS_LIST <<- EOF
+halt_on_error=0
+strict_string_checks=1
+detect_stack_use_after_return=1
+check_initialization_order=1
+strict_init_order=1
+EOF
+
+export ASAN_OPTIONS="$(printf '%s' "${ASAN_OPTIONS_LIST}" | tr '\n' ':')"
+
 path-set                    \
     /usr/local/opt/curl/bin \
     /Library/TeX/texbin     \
