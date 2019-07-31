@@ -1,3 +1,4 @@
+
 augroup FileTypes
     autocmd!
 
@@ -7,6 +8,7 @@ augroup FileTypes
     autocmd BufRead,BufNewFile CMake*.txt set filetype=cmake
     autocmd BufRead,BufNewFile Makevars   set filetype=make
     autocmd BufRead,BufNewFile bash-fc*   set filetype=sh
+    autocmd BufRead,BufNewFile renv.lock  set filetype=json
 
 augroup END
 
