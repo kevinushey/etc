@@ -367,3 +367,14 @@ vim-find () {
 
 }
 
+enter () {
+
+	if [ "$#" -ne 1 ]; then
+		echo "Usage: enter [directory]"
+		return
+	fi
+
+	mkdir -p "$1" && cd "$1"
+
+}
+

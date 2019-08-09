@@ -1,4 +1,4 @@
-.First <- function() {
+invisible(local({
 
   # set TZ if unset
   if (is.na(Sys.getenv("TZ", unset = NA)))
@@ -349,4 +349,5 @@
     "Using library at path:\n"
   libs <- paste("-", .libPaths(), collapse = "\n")
   message(msg, libs, sep = "")
-}
+
+}))
