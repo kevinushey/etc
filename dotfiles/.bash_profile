@@ -7,6 +7,7 @@ for FILE in ~/.login/bash/*.sh; do
     . "${FILE}"
 done
 
+stty werase undef
 import /usr/local/etc/profile.d/bash_completion.sh
 
 read -r -d '' ASAN_OPTIONS_LIST <<- EOF

@@ -17,13 +17,14 @@ command -v "${CLANG}" &> /dev/null || {
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-sanitizers"}
 : ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=alignment,function,float-divide-by-zero"}
+: ${SYSROOT="-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"}
 : ${ENABLE_R_FRAMEWORK="no"}
 
 ## R compilation flags
 ## Note that compilation takes too long with optimization enabled.
-: ${CC="${CLANG} -std=gnu99 ${SANFLAGS}"}
+: ${CC="${CLANG} -std=gnu99 ${SYSROOT} ${SANFLAGS}"}
+: ${CXX="${CLANG}++ ${SYSROOT} ${SANFLAGS}"}
 : ${CFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
-: ${CXX="${CLANG}++ ${SANFLAGS}"}
 : ${CXXFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
 : ${F77="gfortran"}
 : ${FC="gfortran"}
