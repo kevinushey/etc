@@ -13,7 +13,6 @@ defvar \
 	force_color_prompt "yes"                             \
 	CLICOLORS          "1"                               \
 	LSCOLORS           "ExFxBxDxCxegedabagacad"          \
-	PYTHONSTARTUP      "${HOME}/.pythonstartup.py"       \
 	NODE_PATH          "/usr/local/lib/node"
 
 # Ensure that LANG is set, for the rare instance where
