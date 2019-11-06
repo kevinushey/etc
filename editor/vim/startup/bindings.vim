@@ -56,6 +56,10 @@ function! InitBindings()
     cnoremap <C-B> <S-Left>
     cnoremap <C-F> <S-Right>
 
+    map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+    \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+    \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
     if isdirectory(expand('~/.vim/bundle/vim-expand-region'))
         vmap v     <Plug>(expand_region_expand)
         vmap <S-v> <Plug>(expand_region_shrink)
