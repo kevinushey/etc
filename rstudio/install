@@ -17,4 +17,5 @@ if [ "$(uname)" = "Darwin" ]; then
 	cp -R /Volumes/RStudio-${VERSION}/RStudio.app RStudio-${VERSION}.app
 	hdiutil detach /Volumes/RStudio-${VERSION}
 	rm "RStudio-${VERSION}.dmg"
+	open RStudio-${VERSION}.app
 fi
