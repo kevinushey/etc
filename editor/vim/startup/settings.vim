@@ -69,6 +69,7 @@ set cinoptions=:0,g0,N-s,E-s,t0,+s,(0,u0,Us,Ws
 set expandtab
 set exrc
 set foldenable
+set foldlevelstart=2
 set hidden
 set history=1000
 set hlsearch
