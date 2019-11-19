@@ -22,6 +22,11 @@ autom4te.cache/
 config.log
 config.status
 
+# Spark ----
+log4j.spark.log
+spark-warehouse
+
+
 # Miscellaneous ----
 .DS_Store
 .Rhistory
