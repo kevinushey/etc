@@ -10,6 +10,7 @@
 *.pyo
 *.so
 
+
 # Temporary Files ----
 *~
 *#
@@ -17,10 +18,12 @@
 *.tmp
 *.swp
 
+
 # Autoconf ----
 autom4te.cache/
 config.log
 config.status
+
 
 # Spark ----
 log4j.spark.log
@@ -36,5 +39,6 @@ spark-warehouse
 .settings
 .vscode
 compile_commands.json
+internal
 tags
 

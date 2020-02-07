@@ -4,6 +4,8 @@
 --exclude=node_modules/*
 --exclude=db/*
 --exclude=log/*
+--exclude=renv/*
+--exclude=.Rproj.user/*
 
 --langdef=R
 --langmap=R:.R.r
