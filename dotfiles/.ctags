@@ -1,11 +1,12 @@
 --recurse=yes
+--exclude=.Rproj.user
 --exclude=.git
---exclude=vendor/*
---exclude=node_modules/*
---exclude=db/*
---exclude=log/*
---exclude=renv/*
---exclude=.Rproj.user/*
+--exclude=db
+--exclude=log
+--exclude=node_modules
+--exclude=renv
+--exclude=revdep
+--exclude=vendor
 
 --langdef=R
 --langmap=R:.R.r
