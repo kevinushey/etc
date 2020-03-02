@@ -106,6 +106,10 @@ extract () {
 
 	case "${FILE}" in
 
+	*.7z)
+		7z x -- "${FILE}"
+	;;
+
 	*.deb)
 		dpkg -x "${FILE}"
 	;;
