@@ -157,20 +157,22 @@ make distclean
 make clean
 
 ## configure
-./configure \
+./configure                                                \
     --with-blas="-L/usr/local/opt/openblas/lib -lopenblas" \
-    --with-lapack="-L/usr/local/opt/lapack/lib -llapack" \
-    --with-cairo \
-    --with-readline \
-    ${R_FRAMEWORK} \
-    --enable-R-shlib \
-    --enable-strict-barrier \
-    --enable-R-profiling \
-    --enable-memory-profiling \
-    --with-valgrind-instrumentation=2 \
-    --without-internal-tzcode \
-    --without-recommended-packages \
-    --prefix="${PREFIX}" \
+    --with-lapack="-L/usr/local/opt/lapack/lib -llapack"   \
+    --with-cairo                                           \
+    --with-readline                                        \
+    ${R_FRAMEWORK}                                         \
+    --enable-R-shlib                                       \
+    --enable-strict-barrier                                \
+    --enable-R-profiling                                   \
+    --enable-memory-profiling                              \
+    --with-valgrind-instrumentation=2                      \
+    --without-internal-tzcode                              \
+    --without-recommended-packages                         \
+    --x-libraries=/opt/X11/lib                             \
+    --x-includes=/opt/X11/include                          \
+    --prefix="${PREFIX}"                                   \
     "$@"
 
 STATUS="$?"
