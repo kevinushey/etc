@@ -6,7 +6,6 @@ read -r -d '' DEFAULT_SANFLAGS <<- EOF
 -fsanitize-recover=address,undefined
 -fno-omit-frame-pointer
 -fno-sanitize=float-divide-by-zero
--fuse-ld=gold
 EOF
 DEFAULT_SANFLAGS="$(echo "${DEFAULT_SANFLAGS}" | tr '\n' ' ')"
 
@@ -19,17 +18,16 @@ DEFAULT_SANFLAGS="$(echo "${DEFAULT_SANFLAGS}" | tr '\n' ' ')"
 
 ## Compiler-specific
 : ${SANFLAGS="${DEFAULT_SANFLAGS}"}
-: ${CC="gcc-6 -std=gnu99 ${SANFLAGS}"}
-: ${CXX="g++-6 ${SANFLAGS}"}
-: ${CFLAGS="-g -O1 -Wall -pedantic -DSWITCH_TO_REFCNT"}
+: ${CC="gcc -std=gnu99 ${SANFLAGS}"}
+: ${CXX="g++ ${SANFLAGS}"}
+: ${CFLAGS="-g -O1 -Wall -pedantic"}
 : ${CXXFLAGS="-g -O1 -Wall -pedantic"}
-: ${FORTRAN="gfortran-6"}
+: ${FORTRAN="gfortran"}
 : ${FFLAGS="-g -O1"}
 : ${OBJC="clang"}
 : ${OBJCFLAGS="${CFLAGS}"}
 : ${MAKE="make"}
-: ${MAKEFLAGS="-j10"}
-: ${LD="gold"}
+: ${MAKEFLAGS="-j8"}
 : ${MAIN_LD="${CXX} ${SANFLAGS}"}
 
 ## ----- END CONFIGURATION VARIABLES ----- ##
@@ -73,6 +71,7 @@ make clean
     --enable-R-profiling              \
     --enable-memory-profiling         \
     --with-valgrind-instrumentation=2 \
+    --without-recommended-packages    \
     --prefix=${PREFIX}                \
     $@
 
