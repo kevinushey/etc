@@ -20,6 +20,12 @@ EOF
 
 export ASAN_OPTIONS="$(printf '%s' "${ASAN_OPTIONS_LIST}" | tr '\n' ':')"
 
+read -r -d '' UBSAN_OPTIONS_LIST <<- EOF
+print_stacktrace=1
+EOF
+
+export UBSAN_OPTIONS="$(printf '%s' "${UBSAN_OPTIONS_LIST}" | tr '\n' ':')"
+
 path-set                    \
     /usr/local/opt/curl/bin \
     /Library/TeX/texbin     \

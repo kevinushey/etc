@@ -123,15 +123,19 @@ extract () {
 	;;
 
 	*.tgz)
-		tar -xf "${FILE}"
+		tar xf "${FILE}"
+	;;
+
+	*.tar.bz2)
+		tar xf "${FILE}"
 	;;
 
 	*.tar.gz)
-		tar -xf "${FILE}"
+		tar xf "${FILE}"
 	;;
 
 	*.tar.xz)
-		tar -xf "${FILE}"
+		tar xf "${FILE}"
 	;;
 
 	*.zip)
