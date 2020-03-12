@@ -23,6 +23,7 @@ docker-shell () {
 
 	# see if there's a container already available; if not, create it
 	if ! docker container inspect "${CONTAINER}" &> /dev/null; then
+		docker image update "${IMAGE}"
 		docker create --interactive --tty --name "${CONTAINER}" "${IMAGE}" "${ENTRYPOINT[@]}" &> /dev/null
 	fi
 
