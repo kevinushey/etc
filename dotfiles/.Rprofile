@@ -316,7 +316,7 @@ invisible(local({
   if (file.exists("renv/activate.R"))
     return()
 
-  packages <- c("devtools", "roxygen2", "knitr", "rmarkdown", "testthat")
+  packages <- c()
   invisible(lapply(packages, function(package) {
 
     if (quietly(require(package, character.only = TRUE, quietly = TRUE)))

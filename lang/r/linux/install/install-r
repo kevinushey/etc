@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+set -e
+
+: "${TMPDIR=/tmp}"
+
+if [ "$#" -eq "0" ]; then
+	echo "Usage: $0 [--version version --url url]"
+	exit 0
+fi
+
+while [ "$#" -ne "0" ]; do
+
+	case "$1" in
+
+	--url)
+		URL="$2"
+		shift
+	;;
+
+	--version)
+		VERSION="$2"
+		shift
+	;;
+
+	*)
+		echo "unknown argument '$1'"
+		shift
+	;;
+
+	esac
+
+	shift
+
+done
+
+# Move to temporary directory.
+OWD="${PWD}"
+cd "${TMPDIR}"
+
+# If we don't have a URL, construct it from the
+# user-provided version.
+if [ -z "${URL}" ] && [ -n "${VERSION}" ]; then
+	VERSION_MAJOR="$(echo "${VERSION}" | cut -d'.' -f1)"
+	VERSION_MINOR="$(echo "${VERSION}" | cut -d'.' -f2)"
+	URL="https://cran.r-project.org/src/base/R-${VERSION_MAJOR}/R-${VERSION}.tar.gz"
+fi
+
+# If we still don't have a URL, bail.
+if [ -z "${URL}" ]; then
+	echo "ERROR: No R version or URL was specified"
+	exit 1
+fi
+
+
+TARBALL="$(basename -- ${URL})"
+curl "${URL}" -o "${TARBALL}"
+
+FOLDER="$(tar tzf "${TARBALL}" | head -1)"
+tar xzf "${TARBALL}"
+rm "${TARBALL}"
+cd "${FOLDER}"
+
+VERSION="$(echo "${TARBALL}" | cut -d. -f1)"
+./configure                      \
+	--prefix="/opt/R/${VERSION}" \
+	--enable-R-shlib             \
+	--with-blas                  \
+	--with-lapack
+
+make
+sudo make install
+
+cd ..
+rm -rf "${FOLDER}"
+cd "${OWD}"
+

@@ -1,0 +1,2 @@
+Plug 'jalvesaq/Nvim-R'
+
