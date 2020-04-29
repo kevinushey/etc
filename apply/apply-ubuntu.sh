@@ -22,10 +22,12 @@ if [ -z "`grep ${CRAN_URL} /etc/apt/sources.list`" ]; then
 		CODENAME="bionic-cran35"
 	fi
 
-	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0x51716619e084dab9
-	sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu ${CODENAME}/ >> /etc/apt/sources.list"
-	sudo apt-get update -y
-	sudo apt-get upgrade -y
+	if [ "${CODENAME}" != "focal" ]; then
+		sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0x51716619e084dab9
+		sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu ${CODENAME}/ >> /etc/apt/sources.list"
+		sudo apt-get update -y
+		sudo apt-get upgrade -y
+	fi
 
 fi
 
@@ -42,7 +44,6 @@ sudo apt-get install -y  \
 	emacs                \
 	ess                  \
 	golang               \
-	golang-go.tools      \
 	libcurl4-openssl-dev \
 	libssl-dev           \
 	libxml2-dev          \

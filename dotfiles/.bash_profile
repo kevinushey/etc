@@ -7,7 +7,6 @@ for FILE in ~/.login/bash/*.sh; do
     . "${FILE}"
 done
 
-stty werase undef
 import /usr/local/etc/profile.d/bash_completion.sh
 
 read -r -d '' ASAN_OPTIONS_LIST <<- EOF
@@ -49,3 +48,5 @@ export RIPGREP_CONFIG_PATH
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
