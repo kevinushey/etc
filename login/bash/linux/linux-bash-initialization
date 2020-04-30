@@ -7,20 +7,6 @@ if ! shopt -oq posix; then
 		/etc/bash_completion
 fi
 
-# figure out if we're using a high DPI display; if so,
-# then set the QT_DEVICE_PIXEL_RATIO variable
-if has-command xrandr; then
-	RESOLUTION="$(xrandr -q 2> /dev/null | grep '[*]' | head -n 1 | awk '{print($1)}')"
-	if [ -n "${RESOLUTION}" ]; then
-		RESOLUTION_X="$(echo "${RESOLUTION}" | cut -d"x" -f1)"
-		RESOLUTION_Y="$(echo "${RESOLUTION}" | cut -d"x" -f2)"
-		if [ "${RESOLUTION_X}" -ge 3840 ] && [ "${RESOLUTION_Y}" -ge 2160 ]; then
-			QT_DEVICE_PIXEL_RATIO=2
-			export QT_DEVICE_PIXEL_RATIO
-		fi
-	fi
-fi
-
 # download git completion script appropriate to the version of git installed
 GIT_VERSION="$(git --version | cut -d' ' -f3)"
 GIT_COMPLETION_BASH="$HOME/.git-completion-${GIT_VERSION}.bash"
