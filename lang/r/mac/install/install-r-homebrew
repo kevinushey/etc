@@ -181,7 +181,7 @@ if [ "${STATUS}" -ne 0 ]; then
     exit "${STATUS}"
 fi
 
-make -j10 || {
+make -j10 |& tee compile.log || {
     echo 'Make failed!'
     exit 1
 }

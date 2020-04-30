@@ -11,6 +11,12 @@ BASEURL=https://s3.amazonaws.com/rstudio-ide-build/desktop
 VERSION="$1"
 
 if [ "$(uname)" = "Darwin" ]; then
+
+	if [ -e "RStudio-${VERSION}.app" ]; then
+		open "RStudio-${VERSION}.app"
+		exit 0
+	fi
+
 	URL="${BASEURL}/macos/RStudio-${VERSION}.dmg"
 	curl -L -f -O "${URL}"
 	hdiutil attach "RStudio-${VERSION}.dmg"
@@ -18,4 +24,5 @@ if [ "$(uname)" = "Darwin" ]; then
 	hdiutil detach /Volumes/RStudio-${VERSION}
 	rm "RStudio-${VERSION}.dmg"
 	open RStudio-${VERSION}.app
+
 fi

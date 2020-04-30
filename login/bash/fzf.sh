@@ -3,11 +3,12 @@
 # Preview contents with Ctrl+T with fzf
 if has-command fzf; then
 
-    if has-command rg; then
-        FZF_DEFAULT_COMMAND='rg --files --hidden --no-follow --no-ignore-parent --glob "!.git/*"'
-    elif has-command ag; then
-        FZF_DEFAULT_COMMAND='ag -g ""'
-    fi
+    COMMANDS="$(command -v fd rg ag find | tr '\n' ':')"
+
+    case "${COMMANDS}" in
+    */rg:*) FZF_DEFAULT_COMMAND='rg --files --hidden --no-follow --no-ignore-parent --glob "!.git/*"' ;;
+    */ag:*) FZF_DEFAULT_COMMAND='ag -g ""' ;;
+    esac
 
     if [ -n "${FZF_DEFAULT_COMMAND}" ]; then
         export FZF_DEFAULT_COMMAND
@@ -21,7 +22,11 @@ if has-command fzf; then
     export FZF_CTRL_T_OPTS
 
 
-    FZF_ALT_C_COMMAND='find . -type d -mindepth 1 | cut -b3-'
+    case "${COMMANDS}" in
+    */fd:*)   FZF_ALT_C_COMMAND='fd --hidden --type directory --exclude ".git"' ;;
+    */find:*) FZF_ALT_C_COMMAND='find . -type d -mindepth 1 | cut -b3-' ;;
+    esac
+
     export FZF_ALT_C_COMMAND
 
     FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
