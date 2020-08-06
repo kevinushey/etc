@@ -7,8 +7,8 @@ import subprocess
 from collections import OrderedDict
 
 COMMANDS = OrderedDict([
-    ("ag",   "ag --silent --files-with-matches --case-sensitive --literal --nocolor '%s'"),
-    ("rg",   "rg --files-with-matches --case-sensitive --fixed-strings --color=never '%s'"),
+    ("ag",   "ag --silent --files-with-matches --case-sensitive --literal --nocolor -- '%s'"),
+    ("rg",   "rg --files-with-matches --case-sensitive --fixed-strings --color=never -- '%s'"),
     ("grep", "grep --binary-files=without-match --files-with-matches --fixed-strings --color=never --recursive --exclude-dir='[.]git' '%s' . | cut -b3-"),
 ])
 
