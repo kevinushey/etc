@@ -23,8 +23,17 @@ docker-shell () {
 
 	# see if there's a container already available; if not, create it
 	if ! docker container inspect "${CONTAINER}" &> /dev/null; then
-		docker image update "${IMAGE}"
-		docker create --interactive --tty --name "${CONTAINER}" "${IMAGE}" "${ENTRYPOINT[@]}" &> /dev/null
+		
+		docker image pull "${IMAGE}" || {
+			echo "ERROR: docker image pull '${IMAGE}' failed [exit status $?]"
+			return 1
+		}
+
+		docker create --interactive --tty --name "${CONTAINER}" "${IMAGE}" "${ENTRYPOINT[@]}" &> /dev/null || {
+			echo "ERROR: docker create failed [exit status $?]"
+			return 1
+		}
+
 	fi
 
 	# start and attach to the container
