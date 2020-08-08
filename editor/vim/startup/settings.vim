@@ -60,8 +60,9 @@ if has('gui_running')
     set guioptions-=T
 endif
 
-let g:vim_indent_cont = 0
-let g:is_posix        = 1
+let g:is_posix          = 1
+let g:vim_indent_cont   = 0
+let g:vim_json_warnings = 0
 
 set autoindent
 set autoread
