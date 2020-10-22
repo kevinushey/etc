@@ -1,7 +1,30 @@
-#!/bin/sh
-progstr=$1
-progpid=`pgrep -o $progstr`
-while [ "$progpid" = "" ]; do
-  progpid=`pgrep -o $progstr`
+#!/usr/bin/env sh
+
+# get name of requested program
+PROGRAM="$1"
+
+# get already-existing instances of that program
+PROGRAMS="$(pgrep -x "${PROGRAM}")"
+
+# wait for a new instance of the requested program
+TARGET=""
+
+while true
+do
+	TARGET="$(pgrep -nx "${PROGRAM}")"
+	for PID in ${PROGRAMS}
+	do
+		if [ "${TARGET}" = "${PID}" ]; then
+			TARGET=""
+			continue
+		fi
+	done
+
+	if [ -n "${TARGET}" ]; then
+		break
+	fi
+
 done
-gdb -p $progpid
+
+# we found the program PID; attach to it
+sudo gdb -p "${TARGET}"
