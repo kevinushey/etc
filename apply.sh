@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck disable=SC2086
+# shellcheck disable=SC2086,SC2088
 ROOT="$(cd "$(dirname "$0")"; pwd -P)"
 pushd "${ROOT}" &> /dev/null
 

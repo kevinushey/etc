@@ -36,6 +36,16 @@ function! InsertModeCtrlA()
     return ''
 endfunction
 
+function! InsertModeCtrlC()
+
+    if pumvisible()
+        return "\<C-E>"
+    endif
+
+    return "\<Esc>"
+
+endfunction
+
 function! InsertModeCtrlE()
     normal! $
     return ''
@@ -44,12 +54,7 @@ endfunction
 function! InsertModeTab()
 
     if pumvisible()
-        let item = get(v:, 'completed_item', {})
-        if empty(item)
-            return "\<C-E>\<Tab>"
-        else
-            return "\<C-Y>"
-        endif
+        return "\<C-Y>"
     endif
 
     return "\<Tab>"
@@ -59,12 +64,7 @@ endfunction
 function! InsertModeCR()
 
     if pumvisible()
-        let item = get(v:, 'completed_item', {})
-        if empty(item)
-            return "\<C-E>\<CR>"
-        else
-            return "\<C-Y>"
-        endif
+        return "\<C-Y>"
     endif
 
     let Statement = "\<CR>"
@@ -77,6 +77,16 @@ function! InsertModeCR()
     endif
 
     return Statement
+
+endfunction
+
+function! CocShowDocumentation()
+
+    if (index(['vim', 'help'], &filetype) >= 0)
+        execute 'h ' . expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 
 endfunction
 

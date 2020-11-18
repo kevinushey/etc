@@ -1,5 +1,12 @@
 invisible(local({
 
+  # prefer OpenJDK-8 on macOS (since older versions of Spark need it)
+  if (Sys.info()[["sysname"]] == "Darwin") {
+    javaHome <- "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+    if (file.exists(javaHome))
+      Sys.setenv(JAVA_HOME = javaHome)
+  }
+
   # set TZ if unset
   if (is.na(Sys.getenv("TZ", unset = NA)))
     Sys.setenv(TZ = "America/Los_Angeles")
@@ -11,13 +18,6 @@ invisible(local({
   # only run in interactive mode
   if (!interactive())
     return()
-
-  # prefer Python 3 on macOS
-  if (Sys.info()[["sysname"]] == "Darwin" &&
-      file.exists("/usr/local/bin/python3"))
-  {
-    # Sys.setenv(RETICULATE_PYTHON = "/usr/local/bin/python3")
-  }
 
   # bail in Docker environments
   if (!is.na(Sys.getenv("DOCKER", unset = NA)))

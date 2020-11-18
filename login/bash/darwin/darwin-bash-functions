@@ -12,18 +12,17 @@ r-switch () {
 		return
 	fi
 
+	VERSION="$1"
+
 	local VERSIONS_PATH
 	VERSIONS_PATH=/Library/Frameworks/R.framework/Versions
-	if [ ! -e "${VERSIONS_PATH}/$1" ]; then
-		echo "R $1 is not installed in '${VERSIONS_PATH}'"
+	if [ ! -e "${VERSIONS_PATH}/${VERSION}" ]; then
+		echo "R ${VERSION} is not installed in '${VERSIONS_PATH}'"
 		return 1
 	fi
 
-	if [ -e "${VERSIONS_PATH}/Current" ]; then
-		sudo unlink "${VERSIONS_PATH}/Current"
-	fi
-
-	sudo ln -fs "$1" "${VERSIONS_PATH}/Current"
+	sudo rm -f "${VERSIONS_PATH}/Current"
+	sudo ln -nfs "${VERSION}" "${VERSIONS_PATH}/Current"
 
 	local RESOURCES_PATH
 	RESOURCES_PATH=/Library/Frameworks/R.framework/Resources

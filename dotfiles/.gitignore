@@ -26,6 +26,7 @@ config.status
 
 
 # Spark ----
+derby.log
 log4j.spark.log
 spark-warehouse
 
@@ -34,11 +35,13 @@ spark-warehouse
 .DS_Store
 .Rhistory
 ._*
+.cache
 .clangd
 .metadata
 .settings
 .vscode
 compile_commands.json
 internal
+logs
 tags
 

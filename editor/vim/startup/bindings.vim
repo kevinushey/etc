@@ -45,6 +45,7 @@ function! InitBindings()
     inoremap <silent> <Down> <C-R>=InsertModeDown()<CR>
     inoremap <silent> <Esc>  <C-R>=InsertModeEscape()<CR>
     inoremap <silent> <C-A>  <C-R>=InsertModeCtrlA()<CR>
+    inoremap <silent> <C-C>  <C-R>=InsertModeCtrlC()<CR>
     inoremap <silent> <C-E>  <C-R>=InsertModeCtrlE()<CR>
 
     inoremap <silent> <expr> <buffer> <Tab> InsertModeTab()
@@ -118,6 +119,31 @@ function! InitBindings()
         nnoremap <silent> <Leader>lr :call LanguageClient#textDocument_rename()<CR>
         nnoremap <silent> <Leader>l. :call LanguageClient#workspace_symbol()<CR>
         nnoremap <silent> <Leader>ll :call LanguageClient_contextMenu()<CR>
+    endif
+
+    if isdirectory(expand('~/.vim/bundle/coc.nvim'))
+
+        nmap <silent> ]w <Plug>(coc-diagnostic-next)
+        nmap <silent> [w <Plug>(coc-diagnostic-prev)
+
+        nmap <silent> gd <Plug>(coc-definition)
+        nmap <silent> gy <Plug>(coc-type-definition)
+        nmap <silent> gi <Plug>(coc-implementation)
+        nmap <silent> gr <Plug>(coc-references)
+
+        nmap <silent> K :call CocShowDocumentation()<CR>
+
+        nmap <Leader>rn <Plug>(coc-rename)
+
+        nmap <Leader>= <Plug>(coc-format-selected)
+        xmap <Leader>= <Plug>(coc-format-selected)
+
+        nmap <Leader>a <Plug>(coc-codeaction-selected)
+        xmap <Leader>a <Plug>(coc-codeaction-selected)
+
+        nmap <Leader>qf <Plug>(coc-fix-current)
+
+
     endif
 
 endfunction

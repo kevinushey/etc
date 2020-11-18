@@ -14,3 +14,15 @@ augroup FileTypes
 
 augroup END
 
+augroup Binary
+    autocmd!
+
+    autocmd BufReadPre   *.rds let &bin=1
+    autocmd BufReadPost  *.rds if &bin | %!xxd
+    autocmd BufReadPost  *.rds set ft=xxd | endif
+    autocmd BufWritePre  *.rds if &bin | %!xxd -r
+    autocmd BufWritePre  *.rds endif
+    autocmd BufWritePost *.rds if &bin | %!xxd
+    autocmd BufWritePost *.rds set nomod | endif
+    
+augroup END

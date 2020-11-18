@@ -1,7 +1,7 @@
 " Use completion engine appropriate for the version of Vim
 " currently being used.
 if has('nvim')
-    let g:CompletionEngine = 'deoplete'
+    let g:CompletionEngine = 'coc'
 elseif has('lua')
     let g:CompletionEngine = 'neocomplete'
 else

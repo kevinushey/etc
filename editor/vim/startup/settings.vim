@@ -92,6 +92,7 @@ set number
 set pastetoggle=<F12>
 set scrolljump=5
 set scrolloff=3
+set signcolumn=yes
 set shellslash
 set shiftwidth=4
 set showmatch
@@ -101,7 +102,8 @@ set splitbelow
 set splitright
 set tabstop=4
 set textwidth=0
-set undolevels=1000 
+set undolevels=1000
+set updatetime=300
 set viewoptions=folds,options,cursor,unix,slash
 set virtualedit=onemore
 set whichwrap=b,s,h,l,<,>,[,]
@@ -117,7 +119,7 @@ endif
 if v:version > 704
     set belloff=all
     set completeopt=menuone,noinsert
-    set shortmess=AF
+    set shortmess=AFc
 endif
 
 silent! set cryptmethod=blowfish
