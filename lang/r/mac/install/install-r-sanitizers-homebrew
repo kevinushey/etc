@@ -16,7 +16,7 @@ command -v "${CLANG}" &> /dev/null || {
 
 ## R configure settings
 : ${PREFIX="${HOME}/r/r-devel-sanitizers"}
-: ${SANFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize=alignment,function,float-divide-by-zero"}
+: ${SANFLAGS="-fsanitize=address,undefined -fsanitize-recover=address,undefined -fno-omit-frame-pointer -fno-sanitize=alignment,function,float-divide-by-zero"}
 : ${SYSROOT="-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"}
 : ${ENABLE_R_FRAMEWORK="no"}
 

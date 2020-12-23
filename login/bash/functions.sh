@@ -138,6 +138,10 @@ extract () {
 		tar xf "${FILE}"
 	;;
 
+	*.whl)
+		unzip -o "${FILE}"
+	;;
+
 	*.zip)
 		unzip -o "${FILE}"
 	;;

@@ -17,7 +17,8 @@ check_initialization_order=1
 strict_init_order=1
 EOF
 
-export ASAN_OPTIONS="$(printf '%s' "${ASAN_OPTIONS_LIST}" | tr '\n' ':')"
+ASAN_OPTIONS="$(printf '%s' "${ASAN_OPTIONS_LIST}" | tr '\n' ':')"
+export ASAN_OPTIONS
 
 read -r -d '' UBSAN_OPTIONS_LIST <<- EOF
 print_stacktrace=1
