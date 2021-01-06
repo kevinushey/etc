@@ -30,7 +30,9 @@ is-nonempty () {
 
 import () {
 	while [ "$#" -ne 0 ]; do
-		[ -e "$1" ] && . "$1"
+		if [ -e "$1" ]; then
+			. "$1"
+		fi
 		shift
 	done
 }

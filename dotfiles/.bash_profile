@@ -3,11 +3,13 @@
 TERM=xterm-256color
 export TERM
 
+if [ -f /usr/local/etc/profile.d/bash_completion.sh ]; then
+    . /usr/local/etc/profile.d/bash_completion.sh
+fi
+
 for FILE in ~/.login/bash/*.sh; do
     . "${FILE}"
 done
-
-import /usr/local/etc/profile.d/bash_completion.sh
 
 read -r -d '' ASAN_OPTIONS_LIST <<- EOF
 halt_on_error=0

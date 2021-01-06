@@ -159,10 +159,10 @@ is-opensuse () {
 }
 
 if is-darwin; then
-	for SCRIPT in ~/.login/bash/darwin/darwin-bash-*; do . "${SCRIPT}"; done
+	for SCRIPT in ~/.login/bash/darwin/*.sh; do . "${SCRIPT}"; done
 fi
 
 if is-linux; then
-	for SCRIPT in ~/.login/bash/linux/linux-bash-*; do . "${SCRIPT}"; done
+	for SCRIPT in ~/.login/bash/linux/*.sh; do . "${SCRIPT}"; done
 fi
 
