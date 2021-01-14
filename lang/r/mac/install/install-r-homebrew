@@ -61,7 +61,7 @@ export TMP=${TMP}
 mkdir -p ${TMP}
 
 missing () {
-    if ! test -z `brew ls | grep ^$1$`; then
+    if ! test -z `brew list --formula | grep ^$1$`; then
         echo 1
     fi
 }
