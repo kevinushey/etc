@@ -26,6 +26,9 @@ function! InitBindings()
     nnoremap <silent> <Leader>w :w<CR>
     nnoremap <silent> <Leader>z :tab split<CR>
 
+    nnoremap <silent> <Leader>T :call RegenerateTags()<CR>
+    xnoremap <silent> <Leader>T :call RegenerateTags()<CR>
+
     nnoremap <silent> [g :tabprevious<CR>
     nnoremap <silent> ]g :tabnext<CR>
 

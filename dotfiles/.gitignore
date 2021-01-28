@@ -1,3 +1,4 @@
+
 # Compiled artefacts ----
 *.class
 *.com
@@ -31,7 +32,15 @@ log4j.spark.log
 spark-warehouse
 
 
+# R ----
+.RData
+.Rdata
+.Rhistory
+
+
 # Miscellaneous ----
+*-d
+*-d.pid
 .DS_Store
 .Rhistory
 ._*

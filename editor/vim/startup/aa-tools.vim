@@ -448,3 +448,13 @@ function! ProfileStop()
 endfunction
 command! -nargs=? ProfileStop call ProfileStop()
 
+function! RegenerateTags()
+
+    " remove old ctags file
+    call delete(fnameescape(join([getcwd(), 'tags'])))
+
+    " re-generate tags file
+    call system(join(['ctags', '-R', fnameescape(getcwd())]))
+
+endfunction
+
