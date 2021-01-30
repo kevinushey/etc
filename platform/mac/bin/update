@@ -61,8 +61,6 @@ update-r-packages () {
 
 if [ "$#" -eq 0 ]; then
   update-homebrew
-  update-spacemacs
-  update-emacs
   update-vim
   update-r-packages
 fi
