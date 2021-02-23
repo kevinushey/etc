@@ -1,5 +1,5 @@
 invisible(local({
-  
+
   # prefer OpenJDK-8 on macOS (since older versions of Spark need it)
   if (Sys.info()[["sysname"]] == "Darwin") {
     javaHome <- "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
@@ -44,7 +44,11 @@ invisible(local({
 
   # Ensure that the user library exists and is set, so that we don't install to
   # the system library by default (e.g. on OS X)
-  local({
+  isDevel <-
+    identical(R.version[["status"]],   "Under development (unstable)") ||
+    identical(R.version[["nickname"]], "Unsuffered Consequences")
+
+  if (isDevel) {
     userLibs <- strsplit(Sys.getenv("R_LIBS_USER"), .Platform$path.sep)[[1]]
     if (length(userLibs) && is.character(userLibs)) {
       lapply(userLibs, function(lib) {
@@ -56,7 +60,7 @@ invisible(local({
       })
     }
     .libPaths(userLibs)
-  })
+  }
 
   # Don't use a user library if we have a site library on OS X
   # (ie, don't die when we're using homebrew R)
