@@ -48,7 +48,7 @@ invisible(local({
     identical(R.version[["status"]],   "Under development (unstable)") ||
     identical(R.version[["nickname"]], "Unsuffered Consequences")
 
-  if (isDevel) {
+  if (!isDevel) {
     userLibs <- strsplit(Sys.getenv("R_LIBS_USER"), .Platform$path.sep)[[1]]
     if (length(userLibs) && is.character(userLibs)) {
       lapply(userLibs, function(lib) {
@@ -111,9 +111,6 @@ invisible(local({
           break
         }
       }
-
-      if (!discovered)
-        warning("Failed to discover Rtools on the PATH")
     }
   }
 
