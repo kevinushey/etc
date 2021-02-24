@@ -62,17 +62,6 @@ invisible(local({
     .libPaths(userLibs)
   }
 
-  # Don't use a user library if we have a site library on OS X
-  # (ie, don't die when we're using homebrew R)
-  isHomebrew <-
-    identical(Sys.info()[["sysname"]], "Darwin") &&
-    length(.Library.site)
-
-  if (isHomebrew) {
-    .libPaths("")
-    Sys.setenv(R_LIBS_USER = .Library.site)
-  }
-
   # Ensure TAR is set (for e.g. Snow Leopard builds of R)
   TAR <- Sys.which("tar")
   if (nzchar(TAR)) Sys.setenv(TAR = TAR)
@@ -112,13 +101,6 @@ invisible(local({
         }
       }
     }
-  }
-
-  # Ensure /usr/local/bin is first on the PATH
-  if (!isWindows) {
-    PATH <- strsplit(Sys.getenv("PATH"), .Platform$path.sep, fixed = TRUE)[[1]]
-    PATH <- unique(c("/usr/local/bin", PATH))
-    Sys.setenv(PATH = paste(PATH, collapse = .Platform$path.sep))
   }
 
   # prefer source packages for older versions of R

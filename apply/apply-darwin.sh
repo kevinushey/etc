@@ -1,6 +1,44 @@
 #!/usr/bin/env bash
 
+# install Homebrew
+if ! command -v brew &> /dev/null; then
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+FORMULAS=(
+	ag
+	boost
+	cairo
+	cmake
+	ctags
+	hub
+	libpq
+	libgit2
+	llvm
+	neovim
+	ninja
+	node
+	pandoc
+	postgres
+	qpdf
+	r
+	reattach-to-user-namespace
+	rg
+	shellcheck
+	soci
+	svn
+	tmux
+	tree
+	wget
+	yaml-cpp
+)
+
+for FORMULA in "${FORMULAS[@]}"; do
+	brew install --formula "${FORMULA}"
+done
+
 # prepare launch agents
+mkdir -p ~/Library/LaunchAgents
 pushd ~/Library/LaunchAgents
 cat > environment.plist << EOF
 <?xml version="1.0" encoding="UTF-8"?>

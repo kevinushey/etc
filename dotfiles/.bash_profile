@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 TERM=xterm-256color
 export TERM
 
@@ -48,8 +50,23 @@ export RIPGREP_CONFIG_PATH
 [ -f "${BASH_COMPLETION}" ] && source "${BASH_COMPLETION}"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
+if has-command ninja; then
+    export CMAKE_GENERATOR=Ninja
+fi
+
+export PYTHON_CONFIGURE_OPTS="--enable-shared"
+
+if is-darwin; then
+
+    if [ "$(arch)" = "arm64" ]; then
+        HOMEBREW_PREFIX="/opt/homebrew"
+    else
+        HOMEBREW_PREFIX="/usr/local"
+    fi
+
+    export PATH="${HOMEBREW_PREFIX}/bin:${PATH}"
+fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

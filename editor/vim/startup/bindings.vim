@@ -94,7 +94,7 @@ function! InitBindings()
     if isdirectory(expand('~/.vim/bundle/fzf.vim'))
         nnoremap <Leader>b :Buffers<CR>
         nnoremap <Leader>c :Cd<CR>
-        nnoremap <Leader>f :Ag -Q -- ''<Left>
+        nnoremap <Leader>f :Rg<Space>
         xnoremap <Leader>f ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
         nnoremap <Leader>h :History<CR>
         nnoremap <Leader>H :Helptags<CR>
@@ -104,8 +104,8 @@ function! InitBindings()
         nnoremap <Leader>m :Marks<CR>
         nnoremap <Leader>o :Files<CR>
         nnoremap <Leader>p :ProjectFiles<CR>
-        nnoremap <Leader>s :Ag -Q -- '<C-R>=expand("<cword>")<CR>'<CR>
-        xnoremap <Leader>s ""y:<C-U>Ag -Q -- ''<Left><C-R>"<CR>
+        nnoremap <Leader>s :Rg <C-R>=expand("<cword>")<CR><CR>
+        xnoremap <Leader>s ""y:<C-U>Rg <C-R>"<CR>
         nnoremap <Leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
         xnoremap <Leader>t ""y:<C-U>Tags <C-R>"<CR>
         nnoremap <Leader>w :Windows<CR>

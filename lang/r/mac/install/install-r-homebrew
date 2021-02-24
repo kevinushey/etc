@@ -16,7 +16,7 @@
 ## ----- CONFIGURATION VARIABLES ----- ##
 
 # Installation-related
-: ${PREFIX="/Library/Frameworks"}            # NOTE: needs 'sudo' on make install
+: ${PREFIX="${HOME}/r/r-homebrew"}
 : ${SOURCEDIR="${HOME}/r/r-source"}          # checked out R sources will live here
 : ${TMP="${HOME}/tmp"}                       # temporary dir used on installation
 : ${ENABLE_R_FRAMEWORK="yes"}
