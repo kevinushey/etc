@@ -2,8 +2,6 @@
 
 set -e
 
-: "${TMPDIR=/tmp}"
-
 if [ "$#" -eq "0" ]; then
 	echo "Usage: $0 [--version version --url url]"
 	exit 0
@@ -23,9 +21,16 @@ while [ "$#" -ne "0" ]; do
 		shift
 	;;
 
+	--devel)
+		DEVEL=1
+	;;
+
+	--sanitizers)
+		SANITIZERS=1
+	;;
+
 	*)
 		echo "unknown argument '$1'"
-		shift
 	;;
 
 	esac
@@ -36,42 +41,99 @@ done
 
 # Move to temporary directory.
 OWD="${PWD}"
-cd "${TMPDIR}"
+cd "${TMPDIR-/tmp}"
 
-# If we don't have a URL, construct it from the
-# user-provided version.
-if [ -z "${URL}" ] && [ -n "${VERSION}" ]; then
-	VERSION_MAJOR="$(echo "${VERSION}" | cut -d'.' -f1)"
-	VERSION_MINOR="$(echo "${VERSION}" | cut -d'.' -f2)"
-	URL="https://cran.r-project.org/src/base/R-${VERSION_MAJOR}/R-${VERSION}.tar.gz"
+if [ -z "${DEVEL}" ]; then
+
+	# If we don't have a URL, construct it from the
+	# user-provided version.
+	if [ -z "${URL}" ] && [ -n "${VERSION}" ]; then
+		VERSION_MAJOR="$(echo "${VERSION}" | cut -d'.' -f1)"
+		VERSION_MINOR="$(echo "${VERSION}" | cut -d'.' -f2)"
+		URL="https://cran.r-project.org/src/base/R-${VERSION_MAJOR}/R-${VERSION}.tar.gz"
+	fi
+
+	# If we still don't have a URL, bail.
+	if [ -z "${URL}" ]; then
+		echo "ERROR: No R version or URL was specified"
+		exit 1
+	fi
+
+	# Download and unpack the requested tarball.
+	TARBALL="$(basename -- ${URL})"
+	curl "${URL}" -o "${TARBALL}"
+
+	# Extract the sources.
+	FOLDER="$(tar tzf "${TARBALL}" | head -1)"
+	tar xzf "${TARBALL}"
+	rm "${TARBALL}"
+	cd "${FOLDER}"
+
+else
+
+	# Check out R sources
+	mkdir -p ~/r/r-source
+	svn checkout https://svn.r-project.org/R/trunk/ ~/r/r-source/trunk
+	cd ~/r/r-source/trunk
+
 fi
 
-# If we still don't have a URL, bail.
-if [ -z "${URL}" ]; then
-	echo "ERROR: No R version or URL was specified"
-	exit 1
+# Make sure we have recommended packages available.
+./tools/rsync-recommended
+
+# For development versions of R, figure out VERSION from
+# the unpacked tarball. Otherwise, figure it out from
+# the version file.
+if [ -n "${DEVEL}" ]; then
+	SVN_REVISION=$(svn info | grep "Revision" | awk '{print $2}')
+	VERSION="r${SVN_REVISION}"
+else
+	VERSION="$(cat VERSION | cut -d' ' -f1)"
 fi
 
+# Save sources folder.
+SOURCES=$(pwd)
 
-TARBALL="$(basename -- ${URL})"
-curl "${URL}" -o "${TARBALL}"
+# If we're building with sanitizers, then modify CC and CFLAGS.
+if [ -n "${SANITIZERS}" ]; then
+	cat <<- EOF > config.site
+	CPPFLAGS="-fsanitize=address -fno-omit-frame-pointer"
+	FC="gfortran -fsanitize=address"
+	MAIN_LDFLAGS="-fsanitize=address"
+	EOF
+else
+	rm config.site
+fi
 
-FOLDER="$(tar tzf "${TARBALL}" | head -1)"
-tar xzf "${TARBALL}"
-rm "${TARBALL}"
-cd "${FOLDER}"
+# Move to temporary directory for building.
+BUILD=$(tempfile -p r-)
+rm "${BUILD}"
+mkdir -p "${BUILD}"
+cd "${BUILD}"
 
-VERSION="$(echo "${TARBALL}" | cut -d. -f1)"
-./configure                      \
-	--prefix="/opt/R/${VERSION}" \
-	--enable-R-shlib             \
-	--with-blas                  \
+# Construct prefix path.
+PREFIX="/opt/R/${VERSION}"
+
+"${SOURCES}/configure"                \
+	--prefix="${PREFIX}"              \
+	--enable-R-shlib                  \
+	--enable-R-profiling              \
+	--enable-memory-profiling         \
+	--with-valgrind-instrumentation=2 \
+	--with-blas                       \
 	--with-lapack
 
-make
+make -j$(getconf _NPROCESSORS_ONLN)
 sudo make install
 
-cd ..
-rm -rf "${FOLDER}"
+# For development builds of R, use a separate user library path.
+if [ -n "${DEVEL}" ]; then
+	mkdir -p ~/.R/library/${VERSION}
+	LINE="R_LIBS_USER='~/.R/library/${VERSION}'"
+	echo "$LINE" | sudo tee -a "${PREFIX}/lib/R/etc/Renviron"
+fi
+
+# Go home.
 cd "${OWD}"
+rm -rf "${BUILD}"
 
