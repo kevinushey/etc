@@ -67,6 +67,13 @@ if is-darwin; then
     fi
 
     export PATH="${HOMEBREW_PREFIX}/bin:${PATH}"
+
+    shopt -s nullglob
+    for FILE in "${HOMEBREW_PREFIX}"/etc/profile.d/*.sh; do
+        source "${FILE}"
+    done
+    shopt -u nullglob
+
 fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

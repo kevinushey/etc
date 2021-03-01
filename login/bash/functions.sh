@@ -392,3 +392,7 @@ enter () {
 
 }
 
+remote-copy () {
+	rsync -azvhP "$@"
+}
+

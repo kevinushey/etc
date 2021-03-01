@@ -1,3 +1,4 @@
+
 " We should indent following lines endings with these patterns.
 let g:ShCommentEndPattern = '\s*%(#.*)?$'
 
@@ -61,6 +62,12 @@ function! GetShIndentWrapper()
         " Handle states for 'case in'. TODO: use synstack
         if Line =~# '\v^\s*[^(]+[)]' . g:ShCommentEndPattern
             return indent(Index) + shiftwidth() + Adjust
+        endif
+
+        " Handle '${#FOO}' specially, since otherwise we might
+        " mis-detect such lines as 'begin' patterns.
+        if Line =~# '\v[''"]?\$\{#.*\}[''"]?' . g:ShCommentEndPattern
+            return indent(Index) + Adjust
         endif
 
         " If we find a 'begin' pattern, we add an indent.

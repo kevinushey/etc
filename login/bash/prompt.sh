@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+ARCH=$(arch)
+UNAME=$(uname)
+
 # For git-managed directories, make a nice prompt.
 git-prompt () {
 
@@ -24,11 +27,19 @@ docker-prompt () {
 	fi
 }
 
+# When running in x86_64 mode, make that obvious.
+arch-prompt() {
+	if [ "${UNAME}" = "Darwin" ] && [ "${ARCH}" = "i386" ] && [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
+		echo -e "${Purple}[x86_64]${Color_Off} "
+	fi
+}
+
 # Override prompt_command to use the aforementioned git_prompt
 prompt-command () {
 	GIT_PROMPT="$(git-prompt)"
 	DOCKER_PROMPT="$(docker-prompt)"
-	export PS1="${DOCKER_PROMPT}${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
+	ARCH_PROMPT="$(arch-prompt)"
+	export PS1="${ARCH_PROMPT}${DOCKER_PROMPT}${Cyan}\u${Color_Off}${White}@${Color_Off}${Red}\h${Color_Off}${White}:${Color_Off}${BYellow}\w${Color_Off}${GIT_PROMPT}\\n$ "
 }
 
 if [ -f /.dockerenv ]; then
