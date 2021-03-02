@@ -43,3 +43,7 @@ rstudio-dev () {
 	cd "${OWD}" || return
 }
 
+codesign-verify () {
+	codesign -dv --verbose=4 "$1"
+}
+
