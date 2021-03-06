@@ -9,6 +9,7 @@ augroup FileTypes
     autocmd BufRead,BufNewFile *.md          set wrap | set linebreak
     autocmd BufRead,BufNewFile *.Rmd         set wrap | set linebreak
     autocmd BufRead,BufNewFile CMake*.txt    set filetype=cmake
+    autocmd BufRead,BufNewFile Dockerfile*   set filetype=dockerfile
     autocmd BufRead,BufNewFile Makevars      set filetype=make
     autocmd BufRead,BufNewFile bash-fc*      set filetype=sh
     autocmd BufRead,BufNewFile Jenkinsfile.* set filetype=groovy
