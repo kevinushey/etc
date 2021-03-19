@@ -31,6 +31,7 @@ EOF
 export UBSAN_OPTIONS="$(printf '%s' "${UBSAN_OPTIONS_LIST}" | tr '\n' ':')"
 
 path-set                    \
+    "${HOME}"/bin           \
     /usr/local/opt/curl/bin \
     /Library/TeX/texbin     \
     /usr/local/bin          \
