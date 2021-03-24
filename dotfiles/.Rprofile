@@ -1,5 +1,8 @@
 invisible(local({
 
+  if (basename(getwd()) == "RcppParallel")
+    options(rstudio.indexCpp = FALSE)
+
   # prefer OpenJDK-8 on macOS (since older versions of Spark need it)
   if (Sys.info()[["sysname"]] == "Darwin") {
     javaHome <- "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
