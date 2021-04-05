@@ -14,11 +14,12 @@ for FILE in ~/.login/bash/*.sh; do
 done
 
 read -r -d '' ASAN_OPTIONS_LIST <<- EOF
-halt_on_error=0
-strict_string_checks=1
-detect_stack_use_after_return=1
 check_initialization_order=1
+detect_odr_violation=1
+detect_stack_use_after_return=1
+halt_on_error=0
 strict_init_order=1
+strict_string_checks=1
 EOF
 
 ASAN_OPTIONS="$(printf '%s' "${ASAN_OPTIONS_LIST}" | tr '\n' ':')"
@@ -78,3 +79,4 @@ if is-darwin; then
 fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export FUZZBUCKET_URL=https://wftmlggzd5.execute-api.us-west-2.amazonaws.com/prod/
