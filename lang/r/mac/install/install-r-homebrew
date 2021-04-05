@@ -164,7 +164,6 @@ make clean
     --with-readline                                        \
     ${R_FRAMEWORK}                                         \
     --enable-R-shlib                                       \
-    --enable-strict-barrier                                \
     --enable-R-profiling                                   \
     --enable-memory-profiling                              \
     --with-valgrind-instrumentation=2                      \
