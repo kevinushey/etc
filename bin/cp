@@ -37,20 +37,30 @@ while [ "$#" -ne "0" ]; do
 	esac
 done
 
-SOURCE="$1"
-
+# figure out flags to pass to rsync
 if [ -n "${VERBOSE}" ] && [ "${VERBOSE}" != "0" ]; then
 	FLAGS="-avr"
 else
 	FLAGS="-aqr"
 fi
 
+# write out an exclude file
+SOURCE="$1"
+EXCLUDEFILE=$(mktemp)
+cat > "${EXCLUDEFILE}" <<- EOF
+${SOURCE}/.Rproj.user
+${SOURCE}/.git
+${SOURCE}/revdep
+${SOURCE}/packrat
+${SOURCE}/renv
+${SOURCE}/tags
+EOF
+
 # perform the copy
-rsync "${FLAGS}"                      \
-	--exclude="${SOURCE}/.Rproj.user" \
-	--exclude="${SOURCE}/.git"        \
-	--exclude="${SOURCE}/revdep"      \
-	--exclude="${SOURCE}/packrat"     \
-	--exclude="${SOURCE}/renv"        \
-	"$@"
+rsync "${FLAGS}" --exclude-from="${EXCLUDEFILE}" "$@"
+STATUS="$?"
+
+# clean up exclude file
+rm "${EXCLUDEFILE}"
+exit "${STATUS}"
 
