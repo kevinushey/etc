@@ -31,15 +31,11 @@ EOF
 
 export UBSAN_OPTIONS="$(printf '%s' "${UBSAN_OPTIONS_LIST}" | tr '\n' ':')"
 
-path-set                    \
-    "${HOME}"/bin           \
-    /usr/local/opt/curl/bin \
-    /Library/TeX/texbin     \
-    /usr/local/bin          \
-    /usr/bin                \
-    /bin                    \
-    /usr/sbin               \
-    /sbin                   \
+path-prepend                  \
+    "${HOME}/bin"             \
+    "/usr/local/opt/curl/bin" \
+    "/Library/TeX/texbin"     \
+    "/usr/local/bin"
 
 SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
 export SHELLCHECK_OPTS

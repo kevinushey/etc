@@ -290,6 +290,16 @@ restore () {
 	esac
 }
 
+path-prepend () {
+
+	for (( i=$#; i>0; i-- )); do
+		if [ -e "${!i}" ]; then
+			PATH="${!i}:${PATH}"
+		fi
+	done
+
+}
+
 path-set () {
 
 	local NEWPATH

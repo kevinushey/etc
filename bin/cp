@@ -1,0 +1,56 @@
+#!/usr/bin/env sh
+
+# use a plain old cp if R_CMD is not set
+if [ -z "${R_CMD}" ]; then
+	/bin/cp "$@"
+	exit
+fi
+
+# trim off flags intended for cp
+while [ "$#" -ne "0" ]; do
+
+	case "$1" in
+
+	--help)
+		/bin/cp --help
+		exit
+	;;
+
+	--version)
+		/bin/cp --version
+		exit
+	;;
+
+	--)
+		shift
+		break
+	;;
+
+	-*)
+		shift
+	;;
+
+	*)
+		break
+	;;
+
+	esac
+done
+
+SOURCE="$1"
+
+if [ -n "${VERBOSE}" ] && [ "${VERBOSE}" != "0" ]; then
+	FLAGS="-avr"
+else
+	FLAGS="-aqr"
+fi
+
+# perform the copy
+rsync "${FLAGS}"                      \
+	--exclude="${SOURCE}/.Rproj.user" \
+	--exclude="${SOURCE}/.git"        \
+	--exclude="${SOURCE}/revdep"      \
+	--exclude="${SOURCE}/packrat"     \
+	--exclude="${SOURCE}/renv"        \
+	"$@"
+
