@@ -29,7 +29,8 @@ read -r -d '' UBSAN_OPTIONS_LIST <<- EOF
 print_stacktrace=1
 EOF
 
-export UBSAN_OPTIONS="$(printf '%s' "${UBSAN_OPTIONS_LIST}" | tr '\n' ':')"
+UBSAN_OPTIONS="$(printf '%s' "${UBSAN_OPTIONS_LIST}" | tr '\n' ':')"
+export UBSAN_OPTIONS
 
 path-prepend                  \
     "${HOME}/bin"             \
@@ -54,7 +55,8 @@ if has-command ninja; then
     export CMAKE_GENERATOR=Ninja
 fi
 
-export PYTHON_CONFIGURE_OPTS="--enable-shared"
+PYTHON_CONFIGURE_OPTS="--enable-shared"
+export PYTHON_CONFIGURE_OPTS
 
 if is-darwin; then
 
@@ -76,3 +78,4 @@ fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export FUZZBUCKET_URL=https://wftmlggzd5.execute-api.us-west-2.amazonaws.com/prod/
+

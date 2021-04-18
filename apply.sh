@@ -27,26 +27,27 @@ git pull
 ./tmux-config --bootstrap
 popd
 
-## Emacs
-if [ ! -d ~/.emacs.d ]; then
-	git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-fi
-
-cd ~/.emacs.d
-git fetch && git reset --hard origin/master
-
-rm -rf ~/.emacs.d/snippets
-rm -rf ~/.emacs.d/private
-
-pushd "${HOME}"
-ln -nfs "${ROOT}"/editor/emacs/snippets       .emacs.d/snippets
-ln -nfs "${ROOT}"/editor/emacs/private-layers .emacs.d/private
-ln -nfs "${ROOT}"/editor/emacs/user-config.el .emacs.d/user-config.el
-ln -nfs "${ROOT}"/editor/emacs/user-init.el   .emacs.d/user-init.el
-popd
+# ## Emacs
+# if [ ! -d ~/.emacs.d ]; then
+# 	git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+# fi
+# 
+# cd ~/.emacs.d
+# git fetch && git reset --hard origin/master
+# 
+# rm -rf ~/.emacs.d/snippets
+# rm -rf ~/.emacs.d/private
+# 
+# pushd "${HOME}"
+# ln -nfs "${ROOT}"/editor/emacs/snippets       .emacs.d/snippets
+# ln -nfs "${ROOT}"/editor/emacs/private-layers .emacs.d/private
+# ln -nfs "${ROOT}"/editor/emacs/user-config.el .emacs.d/user-config.el
+# ln -nfs "${ROOT}"/editor/emacs/user-init.el   .emacs.d/user-init.el
+# popd
 
 ## Vim
 pushd "${HOME}"
+
 mkdir -p .vim
 rm -rf .vim/startup .vim/after
 
@@ -66,7 +67,7 @@ popd
 if is-darwin; then
 	SCRIPTS=`find "$(pwd)" -type f -path "*/bin/*"`
 	for SCRIPT in $SCRIPTS; do
-		sudo ln -nfs "${SCRIPT}" /usr/local/bin/
+		sudo ln -nfs "${SCRIPT}" ~/bin/
 	done
 fi
 
@@ -88,7 +89,8 @@ ln -nfs "${ROOT}"/editor/qt/snippets/snippets.xml ~/.config/QtProject/qtcreator/
 ln -nfs "${ROOT}"/editor/qt/schemes/*             ~/.config/QtProject/qtcreator/schemes/
 
 ## Tools
-sudo ln -nfs "${ROOT}"/bin/* /usr/local/bin/
+mkdir -p ~/bin
+sudo ln -nfs "${ROOT}"/bin/* ~/bin/
 
 popd &> /dev/null
 
