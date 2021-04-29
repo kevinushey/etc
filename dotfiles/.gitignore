@@ -46,6 +46,7 @@ spark-warehouse
 ._*
 .cache
 .clangd
+.gdb_history
 .metadata
 .settings
 .vscode

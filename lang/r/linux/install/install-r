@@ -91,14 +91,22 @@ else
 	VERSION="$(cat VERSION | cut -d' ' -f1)"
 fi
 
+# Add -asan suffix for sanitizer builds.
+if [ -n "${SANITIZERS}" ]; then
+	VERSION="${VERSION}-sanitizers"
+fi
+
 # Save sources folder.
 SOURCES=$(pwd)
+
+# Construct prefix path.
+PREFIX="/opt/R/${VERSION}"
 
 # If we're building with sanitizers, then modify CC and CFLAGS.
 if [ -n "${SANITIZERS}" ]; then
 	cat <<- EOF > config.site
-	CPPFLAGS="-fsanitize=address -fno-omit-frame-pointer"
-	FC="gfortran -fsanitize=address"
+	CPPFLAGS="-fsanitize=address -fsanitize-recover=all -fno-omit-frame-pointer"
+	FC="gfortran -fsanitize=address -fsanitize-recover=all"
 	MAIN_LDFLAGS="-fsanitize=address"
 	EOF
 else
@@ -110,9 +118,6 @@ BUILD=$(tempfile -p r-)
 rm "${BUILD}"
 mkdir -p "${BUILD}"
 cd "${BUILD}"
-
-# Construct prefix path.
-PREFIX="/opt/R/${VERSION}"
 
 "${SOURCES}/configure"                \
 	--prefix="${PREFIX}"              \
