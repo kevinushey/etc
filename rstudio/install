@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -eux
 
 if [ "$#" -ne 1 ]; then
 	echo "Usage: install <version>"

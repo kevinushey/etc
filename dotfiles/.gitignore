@@ -38,11 +38,14 @@ spark-warehouse
 .Rhistory
 
 
+# Shell ----
+.bash_history
+.zsh_history
+
 # Miscellaneous ----
 *-d
 *-d.pid
 .DS_Store
-.Rhistory
 ._*
 .cache
 .clangd

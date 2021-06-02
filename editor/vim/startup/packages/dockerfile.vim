@@ -1,0 +1,1 @@
+Plug 'ekalinin/Dockerfile.vim'

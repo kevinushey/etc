@@ -6,6 +6,9 @@ if [ -z "${R_CMD}" ]; then
 	exit
 fi
 
+# TODO: default version of rsync on macOS is buggy;
+# modification times are not preserved even when requested
+
 # trim off flags intended for cp
 while [ "$#" -ne "0" ]; do
 

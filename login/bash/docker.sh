@@ -36,8 +36,12 @@ docker-shell () {
 
 	fi
 
-	# start and attach to the container
-	docker start --attach --interactive "${CONTAINER}"
+	# start container
+	docker start "${CONTAINER}" > /dev/null
+
+	# attach bash
+	docker exec --privileged --interactive --tty "${CONTAINER}" /bin/bash
+
 }
 
 rocker-shell () {
