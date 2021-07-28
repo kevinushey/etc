@@ -1,8 +1,9 @@
 library(renv)
 
 updated <- any(
-  renv:::renv_mran_database_sync("windows", "4.0"),
-  renv:::renv_mran_database_sync("macosx", "4.0")
+  renv:::renv_mran_database_sync("windows", "4.1"),
+  renv:::renv_mran_database_sync("macosx", "4.1"),
+  renv:::renv_mran_database_sync("macosx/big-sur-arm64", "4.1")
 )
 
 if (updated || "--force" %in% commandArgs(TRUE)) {

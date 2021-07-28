@@ -76,6 +76,23 @@ if is-darwin; then
 
 fi
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="${HOME}/.yarn/bin:${HOME}/.config/yarn/global/node_modules/.bin:${PATH}"
+export PATH="${HOME}/opt/anaconda3/condabin:${PATH}"
 export FUZZBUCKET_URL=https://wftmlggzd5.execute-api.us-west-2.amazonaws.com/prod/
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/kevinushey/opt/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/kevinushey/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/kevinushey/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/kevinushey/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 

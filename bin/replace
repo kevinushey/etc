@@ -37,6 +37,8 @@ def searcher(term):
 def search(term):
     command = searcher(term)
     output = run(command)
+    if isinstance(output, bytes):
+        output = output.decode()
     return output.split('\n')
 
 def transform(file):

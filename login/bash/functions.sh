@@ -363,7 +363,10 @@ build () {
 	local CPUS
 	CPUS="$(getconf _NPROCESSORS_ONLN)"
 
-	cmake --build . --target "${TARGET}" -- -j"${CPUS}"
+	local THREADS
+	THREADS=$(( CPUS / 2 ))
+
+	cmake --build . --target "${TARGET}" -- -j"${THREADS}"
 }
 
 t () {

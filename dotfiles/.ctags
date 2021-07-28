@@ -1,4 +1,5 @@
 --recurse=yes
+
 --exclude=.Rproj.user
 --exclude=.git
 --exclude=db
@@ -7,6 +8,7 @@
 --exclude=renv
 --exclude=revdep
 --exclude=vendor
+--exclude=*.app
 
 --langdef=R
 --langmap=R:.R.r

@@ -38,6 +38,10 @@ spark-warehouse
 .Rhistory
 
 
+# Python ----
+.venv
+
+
 # Shell ----
 .bash_history
 .zsh_history
