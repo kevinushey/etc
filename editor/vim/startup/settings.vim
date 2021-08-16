@@ -16,12 +16,24 @@ endif
 
 " Set up directories for swapfiles and backup files
 " (so that they don't pollute the filesystem otherwise)
-set directory=~/.vim/swapfiles//
-set backupdir=~/.vim/backup//
-set viewdir=~/.vim/views//
-if exists('+undofile')
+if has('nvim')
+    EnsureDirectory "~/.nvim/swapfiles"
+    EnsureDirectory "~/.nvim/backup"
+    EnsureDirectory "~/.nvim/views"
+    EnsureDirectory "~/.nvim/undo"
     set undofile
-    set undodir=~/.vim/undo//
+    set directory=~/.nvim/swapfiles//
+    set backupdir=~/.nvim/backup//
+    set viewdir=~/.nvim/views//
+    set undodir=~/.nvim/undo//
+else
+    set directory=~/.vim/swapfiles//
+    set backupdir=~/.vim/backup//
+    set viewdir=~/.vim/views//
+    if exists('+undofile')
+        set undofile
+        set undodir=~/.vim/undo//
+    endif
 endif
 
 set background=dark

@@ -58,7 +58,6 @@ spark-warehouse
 .settings
 .vscode
 compile_commands.json
-internal
 logs
 tags
 
