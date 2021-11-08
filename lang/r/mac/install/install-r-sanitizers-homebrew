@@ -2,7 +2,8 @@
 # shellcheck disable=SC2223
 
 : "${CLANG="/usr/local/opt/llvm/bin/clang"}"
-CLANG_VERSION="$("${CLANG}" --version | head -n 1 | cut -d' ' -f3)"
+CLANG_VERSION="$("${CLANG}" --version | head -n 1 | awk '{ print $(NF) }')"
+echo "Using clang ${CLANG_VERSION}"
 
 ## Ensure coreutils (for 'greadlink')
 command -v readlink || {
