@@ -409,3 +409,20 @@ remote-copy () {
 	rsync -azvhP "$@"
 }
 
+pdf-compress () {
+
+	if [ "$#" != "2" ]; then
+		echo "Usage: pdf-compress [input] [output]"
+		return
+	fi
+
+	gs                        \
+		-sDEVICE=pdfwrite     \
+		-dPDFSETTINGS=/ebook  \
+		-dNOPAUSE             \
+		-dBATCH               \
+		-sOutputFile="$2.tmp" \
+		"$1"
+
+	mv "$2.tmp" "$2"
+}
