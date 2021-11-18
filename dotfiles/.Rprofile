@@ -3,11 +3,28 @@ invisible(local({
   if (basename(getwd()) == "RcppParallel")
     options(rstudio.indexCpp = FALSE)
 
-  # prefer OpenJDK-8 on macOS (since older versions of Spark need it)
-  if (Sys.info()[["sysname"]] == "Darwin") {
-    javaHome <- "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
-    if (file.exists(javaHome))
-      Sys.setenv(JAVA_HOME = javaHome)
+  # if this is arm64 macOS, include Homebrew
+  info <- as.list(Sys.info())
+  if (info$sysname == "Darwin" && info$machine == "arm64") {
+    old <- Sys.getenv("PATH")
+    new <- paste("/opt/homebrew/bin", old, sep = ":")
+    Sys.setenv(PATH = new)
+  }
+  
+  if (info$sysname == "Darwin") {
+    
+    javaHomes <- c(
+      "/opt/homebrew/opt/openjdk",
+      "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+    )
+    
+    for (javaHome in javaHomes) {
+      if (file.exists(javaHome)) {
+        Sys.setenv(JAVA_HOME = javaHome)
+        break
+      }
+    }
+      
   }
 
   # set TZ if unset
@@ -70,7 +87,7 @@ invisible(local({
   if (nzchar(TAR)) Sys.setenv(TAR = TAR)
 
   # ensure Rtools on PATH for Windows
-  isWindows <- Sys.info()[["sysname"]] == "Windows"
+  isWindows <- info$sysname == "Windows"
   if (isWindows) {
     PATH <- Sys.getenv("PATH", unset = "")
     paths <- strsplit(PATH, .Platform$path.sep, fixed = TRUE)[[1]]
@@ -291,7 +308,7 @@ invisible(local({
 
     R <- file.path(
       R.home("bin"),
-      if (Sys.info()[["sysname"]] == "Windows") "R.exe" else "R"
+      if (info$sysname == "Window") "R.exe" else "R"
     )
 
     con <- tempfile(fileext = ".R")

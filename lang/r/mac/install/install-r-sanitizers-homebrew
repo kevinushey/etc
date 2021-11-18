@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2223
 
-: "${CLANG="/usr/local/opt/llvm/bin/clang"}"
+if [ "$(arch)" = "arm64" ]; then
+	HOMEBREW_PREFIX=/opt/homebrew
+else
+	HOMEBREW_PREFIX=/usr/local
+fi
+
+: ${CLANG="${HOMEBREW_PREFIX}/opt/llvm/bin/clang"}
+
 CLANG_VERSION="$("${CLANG}" --version | head -n 1 | awk '{ print $(NF) }')"
-echo "Using clang ${CLANG_VERSION}"
+echo "Using clang ${CLANG_VERSION} (${CLANG})"
 
 ## Ensure coreutils (for 'greadlink')
-command -v readlink || {
+command -v readlink 2> /dev/null || {
 	brew install coreutils
 }
 

@@ -3,6 +3,7 @@
 --exclude=.Rproj.user
 --exclude=.git
 --exclude=db
+--exclude=docs
 --exclude=log
 --exclude=node_modules
 --exclude=renv

@@ -13,6 +13,12 @@
 ## lapack (in that order).
 ##
 
+if [ "$(arch)" = "arm64" ]; then
+	HOMEBREW_PREFIX=/opt/homebrew
+else
+	HOMEBREW_PREFIX=/usr/local
+fi
+
 ## ----- CONFIGURATION VARIABLES ----- ##
 
 # Installation-related
@@ -25,6 +31,7 @@
 : ${CC="clang"}
 : ${CXX="clang++"}
 : ${CFLAGS="-g -O3 -Wall -pedantic"}
+: ${CPPFLAGS="-I${HOMEBREW_PREFIX}/include"}
 : ${CXXFLAGS="-g -O3 -Wall -pedantic"}
 : ${FORTRAN="gfortran"}
 : ${FFLAGS="-g -O3"} 
@@ -33,6 +40,7 @@
 : ${MAKE="make"}
 : ${MAKEFLAGS="-j10"}
 : ${MAIN_LD="clang"}
+: ${LDFLAGS="-L${HOMEBREW_PREFIX}/lib"}
 
 ## ----- END CONFIGURATION VARIABLES ----- ##
 
@@ -86,31 +94,31 @@ install coreutils  # greadlink
 install jpeg       # image write support
 install cairo      # image write support
 
-## Make sure the gfortran libraries get symlinked.
-if command -v gfortran &> /dev/null; then
-    GFORTRAN=gfortran
-fi
-
-GFORTRAN_SEARCH_PATHS_STRING=`"${GFORTRAN}" -print-search-dirs | tail -n 1 | sed 's|.*=||'`
-IFS=':' read -a GFORTRAN_SEARCH_PATHS <<< "${GFORTRAN_SEARCH_PATHS_STRING}"
-for FILEPATH in "${GFORTRAN_SEARCH_PATHS[@]}"; do
-    if test -e "${FILEPATH}/libgfortran.dylib"; then
-        echo -e "Found gfortran libraries in:\n${FILEPATH}"
-        GFORTRAN_LIBPATH=`greadlink -f "${FILEPATH}"`
-    fi
-done
-
-if test -z "${GFORTRAN_LIBPATH}"; then
-    echo Failed to discover 'gfortran' library paths
-    exit 1
-fi
-
-for FILEPATH in ${GFORTRAN_LIBPATH}/libgfortran*; do
-    BASENAME=${FILEPATH##*/}
-    LINKEDPATH=/usr/local/lib/${BASENAME}
-    echo Symlinking \'${BASENAME}\' to \'${LINKEDPATH}\'
-    ln -fs "${FILEPATH}" "${LINKEDPATH}"
-done
+# ## Make sure the gfortran libraries get symlinked.
+# if command -v gfortran &> /dev/null; then
+#     GFORTRAN=gfortran
+# fi
+# 
+# GFORTRAN_SEARCH_PATHS_STRING=`"${GFORTRAN}" -print-search-dirs | tail -n 1 | sed 's|.*=||'`
+# IFS=':' read -a GFORTRAN_SEARCH_PATHS <<< "${GFORTRAN_SEARCH_PATHS_STRING}"
+# for FILEPATH in "${GFORTRAN_SEARCH_PATHS[@]}"; do
+#     if test -e "${FILEPATH}/libgfortran.dylib"; then
+#         echo -e "Found gfortran libraries in:\n${FILEPATH}"
+#         GFORTRAN_LIBPATH=`greadlink -f "${FILEPATH}"`
+#     fi
+# done
+# 
+# if test -z "${GFORTRAN_LIBPATH}"; then
+#     echo Failed to discover 'gfortran' library paths
+#     exit 1
+# fi
+# 
+# for FILEPATH in ${GFORTRAN_LIBPATH}/libgfortran*; do
+#     BASENAME=${FILEPATH##*/}
+#     LINKEDPATH=/usr/local/lib/${BASENAME}
+#     echo Symlinking \'${BASENAME}\' to \'${LINKEDPATH}\'
+#     ln -fs "${FILEPATH}" "${LINKEDPATH}"
+# done
 
 ## Download R-devel from SVN
 mkdir -p "${SOURCEDIR}" &> /dev/null
@@ -140,6 +148,7 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
 cat > config.site <<- EOM
 CC="${CC}"
 CFLAGS="${CFLAGS}"
+CPPFLAGS="${CPPFLAGS}"
 CXX="${CXX}"
 CXXFLAGS="${CXXFLAGS}"
 F77="${FORTRAN}"
@@ -151,27 +160,27 @@ OBJCFLAGS="${OBJCFLAGS}"
 MAKE="${MAKE}"
 MAKEFLAGS="${MAKEFLAGS}"
 MAIN_LD="${MAIN_LD}"
+LDFLAGS="${LDFLAGS}"
 EOM
 
 make distclean
 make clean
 
-## configure
-./configure                                                \
-    --with-blas="-L/usr/local/opt/openblas/lib -lopenblas" \
-    --with-lapack="-L/usr/local/opt/lapack/lib -llapack"   \
-    --with-cairo                                           \
-    --with-readline                                        \
-    ${R_FRAMEWORK}                                         \
-    --enable-R-shlib                                       \
-    --enable-R-profiling                                   \
-    --enable-memory-profiling                              \
-    --with-valgrind-instrumentation=2                      \
-    --without-internal-tzcode                              \
-    --without-recommended-packages                         \
-    --x-libraries=/opt/X11/lib                             \
-    --x-includes=/opt/X11/include                          \
-    --prefix="${PREFIX}"                                   \
+CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" ./configure            \
+    --with-blas="-L${HOMEBREW_PREFIX}/opt/openblas/lib -lopenblas" \
+    --with-lapack="-L/${HOMEBREW_PREFIX}/opt/lapack/lib -llapack"  \
+    --with-cairo                                                   \
+    --with-readline                                                \
+    ${R_FRAMEWORK}                                                 \
+    --enable-R-shlib                                               \
+    --enable-R-profiling                                           \
+    --enable-memory-profiling                                      \
+    --with-valgrind-instrumentation=2                              \
+    --without-internal-tzcode                                      \
+    --without-recommended-packages                                 \
+    --x-libraries=/opt/X11/lib                                     \
+    --x-includes=/opt/X11/include                                  \
+    --prefix="${PREFIX}"                                           \
     "$@"
 
 STATUS="$?"

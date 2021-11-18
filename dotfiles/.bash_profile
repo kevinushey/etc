@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export AWS_PROFILE=kevin
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 TERM=xterm-256color
@@ -36,6 +37,7 @@ path-prepend                  \
     "${HOME}/bin"             \
     "/usr/local/opt/curl/bin" \
     "/Library/TeX/texbin"     \
+    "/opt/homebrew/bin"       \
     "/usr/local/bin"
 
 SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
