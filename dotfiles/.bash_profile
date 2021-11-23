@@ -6,10 +6,6 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 TERM=xterm-256color
 export TERM
 
-if [ -f /usr/local/etc/profile.d/bash_completion.sh ]; then
-    . /usr/local/etc/profile.d/bash_completion.sh
-fi
-
 for FILE in ~/.login/bash/*.sh; do
     . "${FILE}"
 done
