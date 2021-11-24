@@ -7,7 +7,7 @@ TERM=xterm-256color
 export TERM
 
 for FILE in ~/.login/bash/*.sh; do
-    . "${FILE}"
+	. "${FILE}"
 done
 
 read -r -d '' ASAN_OPTIONS_LIST <<- EOF
@@ -30,11 +30,11 @@ UBSAN_OPTIONS="$(printf '%s' "${UBSAN_OPTIONS_LIST}" | tr '\n' ':')"
 export UBSAN_OPTIONS
 
 path-prepend                  \
-    "${HOME}/bin"             \
-    "/usr/local/opt/curl/bin" \
-    "/Library/TeX/texbin"     \
-    "/opt/homebrew/bin"       \
-    "/usr/local/bin"
+	"${HOME}/bin"             \
+	"/usr/local/opt/curl/bin" \
+	"/Library/TeX/texbin"     \
+	"/opt/homebrew/bin"       \
+	"/usr/local/bin"
 
 SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
 export SHELLCHECK_OPTS
@@ -50,7 +50,7 @@ export RIPGREP_CONFIG_PATH
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 if has-command ninja; then
-    export CMAKE_GENERATOR=Ninja
+	export CMAKE_GENERATOR=Ninja
 fi
 
 PYTHON_CONFIGURE_OPTS="--enable-shared"
@@ -58,41 +58,47 @@ export PYTHON_CONFIGURE_OPTS
 
 if is-darwin; then
 
-    if [ "$(arch)" = "arm64" ]; then
-        HOMEBREW_PREFIX="/opt/homebrew"
-    else
-        HOMEBREW_PREFIX="/usr/local"
-    fi
+	if [ "$(arch)" = "arm64" ]; then
+		HOMEBREW_PREFIX="/opt/homebrew"
+	else
+		HOMEBREW_PREFIX="/usr/local"
+	fi
 
-    export PATH="${HOMEBREW_PREFIX}/bin:${PATH}"
+	export PATH="${HOMEBREW_PREFIX}/bin:${PATH}"
 
-    shopt -s nullglob
-    for FILE in "${HOMEBREW_PREFIX}"/etc/profile.d/*.sh; do
-        source "${FILE}"
-    done
-    for FILE in "${HOMEBREW_PREFIX}"/etc/bash_completion.d/*.sh; do
-        source "${FILE}"
-    done
-    shopt -u nullglob
+	shopt -s nullglob
+	for FILE in "${HOMEBREW_PREFIX}"/etc/profile.d/*.sh; do
+		source "${FILE}"
+	done
+	for FILE in "${HOMEBREW_PREFIX}"/etc/bash_completion.d/*.sh; do
+		source "${FILE}"
+	done
+	shopt -u nullglob
 
 fi
 
-export PATH="${HOME}/.yarn/bin:${HOME}/.config/yarn/global/node_modules/.bin:${PATH}"
-export PATH="${HOME}/opt/anaconda3/condabin:${PATH}"
-export FUZZBUCKET_URL=https://wftmlggzd5.execute-api.us-west-2.amazonaws.com/prod/
-
+# download git completion script appropriate to the version of git installed
+# (apparently needs to come after we've sourced other profile scripts?)
+GIT_VERSION="$(git --version | cut -d' ' -f3)"
+GIT_COMPLETION_BASH="$HOME/.local/share/git/.git-completion-${GIT_VERSION}.bash"
+mkdir -p "$(dirname "${GIT_COMPLETION_BASH}")"
+if ! [ -f "${GIT_COMPLETION_BASH}" ]; then
+	GIT_COMPLETION_URL="https://raw.githubusercontent.com/git/git/v${GIT_VERSION}/contrib/completion/git-completion.bash"
+	download "${GIT_COMPLETION_URL}" "${GIT_COMPLETION_BASH}"
+fi
+import "${GIT_COMPLETION_BASH}"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/kevin/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+	eval "$__conda_setup"
 else
-    if [ -f "/Users/kevin/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/Users/kevin/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/kevin/miniforge3/bin:$PATH"
-    fi
+	if [ -f "/Users/kevin/miniforge3/etc/profile.d/conda.sh" ]; then
+		. "/Users/kevin/miniforge3/etc/profile.d/conda.sh"
+	else
+		export PATH="/Users/kevin/miniforge3/bin:$PATH"
+	fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<

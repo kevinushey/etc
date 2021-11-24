@@ -426,3 +426,4 @@ pdf-compress () {
 
 	mv "$2.tmp" "$2"
 }
+
