@@ -13,6 +13,7 @@ done
 read -r -d '' ASAN_OPTIONS_LIST <<- EOF
 check_initialization_order=1
 detect_odr_violation=1
+detect_leaks=1
 detect_stack_use_after_return=1
 halt_on_error=0
 strict_init_order=1
@@ -29,10 +30,19 @@ EOF
 UBSAN_OPTIONS="$(printf '%s' "${UBSAN_OPTIONS_LIST}" | tr '\n' ':')"
 export UBSAN_OPTIONS
 
+read -r -d '' LSAN_OPTIONS_LIST <<- EOF
+suppressions=/etc/lsan.d/suppressions
+EOF
+
+LSAN_OPTIONS="$(printf '%s' "${LSAN_OPTIONS_LIST}" | tr '\n' ':')"
+export LSAN_OPTIONS
+
+
 path-prepend                  \
 	"${HOME}/bin"             \
 	"/usr/local/opt/curl/bin" \
 	"/Library/TeX/texbin"     \
+	"/opt/local/bin"          \
 	"/opt/homebrew/bin"       \
 	"/usr/local/bin"
 
@@ -58,14 +68,6 @@ export PYTHON_CONFIGURE_OPTS
 
 if is-darwin; then
 
-	if [ "$(arch)" = "arm64" ]; then
-		HOMEBREW_PREFIX="/opt/homebrew"
-	else
-		HOMEBREW_PREFIX="/usr/local"
-	fi
-
-	export PATH="${HOMEBREW_PREFIX}/bin:${PATH}"
-
 	shopt -s nullglob
 	for FILE in "${HOMEBREW_PREFIX}"/etc/profile.d/*.sh; do
 		source "${FILE}"
@@ -88,18 +90,4 @@ if ! [ -f "${GIT_COMPLETION_BASH}" ]; then
 fi
 import "${GIT_COMPLETION_BASH}"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/kevin/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-	eval "$__conda_setup"
-else
-	if [ -f "/Users/kevin/miniforge3/etc/profile.d/conda.sh" ]; then
-		. "/Users/kevin/miniforge3/etc/profile.d/conda.sh"
-	else
-		export PATH="/Users/kevin/miniforge3/bin:$PATH"
-	fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
+
 if [ "$#" -ne "0" ]; then
     echo "Usage: $0"
     exit 1
 fi
 
-: ${R="${HOME}/r/r-devel-sanitizers"}
+R="${HOME}/r/r-devel-sanitizers"
 if [ ! -e "${R}" ]; then
     echo "No R installation found at '${R}'."
     exit 1
 fi
 
-ln -fs "${R}/bin/R" "/usr/local/bin/R"
+ln -nfs "${R}/bin/R" "${HOME}/bin/R"
 R_SESSION_INFO=`"${R}/bin/R" --vanilla --slave -e "sessionInfo()"`
 echo "${R_SESSION_INFO}" | head -n 3
 

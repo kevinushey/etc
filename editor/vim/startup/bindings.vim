@@ -88,7 +88,7 @@ function! InitBindings()
         noremap <silent> <Leader>gr      :Gread<CR>
         noremap <silent> <Leader>gs      :Gstatus<CR>
         noremap <silent> <Leader>gw      :Gwrite<CR>
-        noremap <silent> <Leader>gz      :Gbrowse<CR>
+        noremap <silent> <Leader>gz      :GBrowse<CR>
     endif
 
     if isdirectory(expand('~/.vim/bundle/fzf.vim'))

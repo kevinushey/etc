@@ -55,7 +55,8 @@ ${SOURCE}/.Rproj.user
 ${SOURCE}/.git
 ${SOURCE}/revdep
 ${SOURCE}/packrat
-${SOURCE}/renv
+${SOURCE}/renv/library
+${SOURCE}/renv/cellar
 ${SOURCE}/tags
 EOF
 
