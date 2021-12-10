@@ -25,7 +25,6 @@ fi
 : ${PREFIX="${HOME}/r/r-homebrew"}
 : ${SOURCEDIR="${HOME}/r/r-source"}          # checked out R sources will live here
 : ${TMP="${HOME}/tmp"}                       # temporary dir used on installation
-: ${ENABLE_R_FRAMEWORK="yes"}
 
 ## Compiler-specific
 : ${CC="clang"}
@@ -46,14 +45,6 @@ fi
 
 ## detect whether we want to build with a framework
 echo "> Prefix: ${PREFIX}"
-if [ "${ENABLE_R_FRAMEWORK}" = "yes" ]; then
-    echo "> R Framework: ENABLED"
-    R_FRAMEWORK="--enable-R-framework"
-else
-    echo "> R Framework: DISABLED"
-    R_FRAMEWORK="--disable-R-framework"
-fi
-
 OWD=`pwd`
 
 ## check if homebrew is installed
@@ -66,7 +57,7 @@ else
 fi
 
 export TMP=${TMP}
-mkdir -p ${TMP}
+mkdir -p "${TMP}"
 
 missing () {
     if ! test -z `brew list --formula | grep ^$1$`; then
@@ -93,32 +84,6 @@ install texinfo    # vignettes, help
 install coreutils  # greadlink
 install jpeg       # image write support
 install cairo      # image write support
-
-# ## Make sure the gfortran libraries get symlinked.
-# if command -v gfortran &> /dev/null; then
-#     GFORTRAN=gfortran
-# fi
-# 
-# GFORTRAN_SEARCH_PATHS_STRING=`"${GFORTRAN}" -print-search-dirs | tail -n 1 | sed 's|.*=||'`
-# IFS=':' read -a GFORTRAN_SEARCH_PATHS <<< "${GFORTRAN_SEARCH_PATHS_STRING}"
-# for FILEPATH in "${GFORTRAN_SEARCH_PATHS[@]}"; do
-#     if test -e "${FILEPATH}/libgfortran.dylib"; then
-#         echo -e "Found gfortran libraries in:\n${FILEPATH}"
-#         GFORTRAN_LIBPATH=`greadlink -f "${FILEPATH}"`
-#     fi
-# done
-# 
-# if test -z "${GFORTRAN_LIBPATH}"; then
-#     echo Failed to discover 'gfortran' library paths
-#     exit 1
-# fi
-# 
-# for FILEPATH in ${GFORTRAN_LIBPATH}/libgfortran*; do
-#     BASENAME=${FILEPATH##*/}
-#     LINKEDPATH=/usr/local/lib/${BASENAME}
-#     echo Symlinking \'${BASENAME}\' to \'${LINKEDPATH}\'
-#     ln -fs "${FILEPATH}" "${LINKEDPATH}"
-# done
 
 ## Download R-devel from SVN
 mkdir -p "${SOURCEDIR}" &> /dev/null
@@ -171,10 +136,10 @@ CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" ./configure            \
     --with-lapack="-L/${HOMEBREW_PREFIX}/opt/lapack/lib -llapack"  \
     --with-cairo                                                   \
     --with-readline                                                \
-    ${R_FRAMEWORK}                                                 \
     --enable-R-shlib                                               \
     --enable-R-profiling                                           \
     --enable-memory-profiling                                      \
+    --disable-R-framework                                          \
     --with-valgrind-instrumentation=2                              \
     --without-internal-tzcode                                      \
     --without-recommended-packages                                 \
