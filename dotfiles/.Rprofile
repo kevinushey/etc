@@ -10,21 +10,21 @@ invisible(local({
     new <- paste("/opt/homebrew/bin", old, sep = ":")
     Sys.setenv(PATH = new)
   }
-  
+
   if (info$sysname == "Darwin") {
-    
+
     javaHomes <- c(
       "/opt/homebrew/opt/openjdk",
       "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
     )
-    
+
     for (javaHome in javaHomes) {
       if (file.exists(javaHome)) {
         Sys.setenv(JAVA_HOME = javaHome)
         break
       }
     }
-      
+
   }
 
   # set TZ if unset
@@ -81,6 +81,11 @@ invisible(local({
     }
     .libPaths(userLibs)
   }
+
+  # Don't use user library path for Homebrew R
+  isHomebrew <- grep("Cellar", R.home())
+  if (isHomebrew)
+    .libPaths(character())
 
   # Ensure TAR is set (for e.g. Snow Leopard builds of R)
   TAR <- Sys.which("tar")
