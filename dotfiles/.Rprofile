@@ -83,7 +83,7 @@ invisible(local({
   }
 
   # Don't use user library path for Homebrew R
-  isHomebrew <- grep("Cellar", R.home())
+  isHomebrew <- grepl("Cellar", R.home())
   if (isHomebrew)
     .libPaths(character())
 
