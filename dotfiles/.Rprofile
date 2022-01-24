@@ -27,6 +27,26 @@ invisible(local({
 
   }
 
+  # Ensure that the user library exists and is set, so that we don't install to
+  # the system library by default (e.g. on OS X)
+  isDevel <-
+    identical(R.version[["status"]],   "Under development (unstable)") ||
+    identical(R.version[["nickname"]], "Unsuffered Consequences")
+
+  if (!isDevel) {
+    userLibs <- strsplit(Sys.getenv("R_LIBS_USER"), .Platform$path.sep)[[1]]
+    if (length(userLibs) && is.character(userLibs)) {
+      lapply(userLibs, function(lib) {
+        if (!file.exists(lib)) {
+          if (!dir.create(lib, recursive = TRUE)) {
+            warning("failed to create user library '", lib, "'")
+          }
+        }
+      })
+    }
+    .libPaths(userLibs)
+  }
+
   # set TZ if unset
   if (is.na(Sys.getenv("TZ", unset = NA)))
     Sys.setenv(TZ = "America/Los_Angeles")
@@ -61,31 +81,6 @@ invisible(local({
       101L, 121L, 64L, 103L, 109L, 97L, 105L, 108L,
       46L, 99L, 111L, 109L)
   )
-
-  # Ensure that the user library exists and is set, so that we don't install to
-  # the system library by default (e.g. on OS X)
-  isDevel <-
-    identical(R.version[["status"]],   "Under development (unstable)") ||
-    identical(R.version[["nickname"]], "Unsuffered Consequences")
-
-  if (!isDevel) {
-    userLibs <- strsplit(Sys.getenv("R_LIBS_USER"), .Platform$path.sep)[[1]]
-    if (length(userLibs) && is.character(userLibs)) {
-      lapply(userLibs, function(lib) {
-        if (!file.exists(lib)) {
-          if (!dir.create(lib, recursive = TRUE)) {
-            warning("failed to create user library '", lib, "'")
-          }
-        }
-      })
-    }
-    .libPaths(userLibs)
-  }
-
-  # Don't use user library path for Homebrew R
-  isHomebrew <- grepl("Cellar", R.home())
-  if (isHomebrew)
-    .libPaths(character())
 
   # Ensure TAR is set (for e.g. Snow Leopard builds of R)
   TAR <- Sys.which("tar")

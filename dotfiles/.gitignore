@@ -42,6 +42,10 @@ spark-warehouse
 .venv
 
 
+# Javascript ----
+node_modules
+
+
 # Shell ----
 .bash_history
 .zsh_history
