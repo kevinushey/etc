@@ -3,7 +3,7 @@
 set -e
 
 if [ "$#" -eq "0" ]; then
-	echo "Usage: $0 [--version version --url url]"
+	echo "Usage: $0 [--version version] [--url url] [--devel] [--sanitizer]"
 	exit 0
 fi
 
@@ -61,12 +61,11 @@ if [ -z "${DEVEL}" ]; then
 
 	# Download and unpack the requested tarball.
 	TARBALL="$(basename -- ${URL})"
-	curl "${URL}" -o "${TARBALL}"
+	curl -L -f -C - "${URL}" -o "${TARBALL}"
 
 	# Extract the sources.
 	FOLDER="$(tar tzf "${TARBALL}" | head -1)"
 	tar xzf "${TARBALL}"
-	rm "${TARBALL}"
 	cd "${FOLDER}"
 
 else

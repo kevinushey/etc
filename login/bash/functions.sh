@@ -294,6 +294,7 @@ path-prepend () {
 
 	for (( i=$#; i>0; i-- )); do
 		if [ -e "${!i}" ]; then
+			PATH="${PATH//":?${!i}:?"/}"
 			PATH="${!i}:${PATH}"
 		fi
 	done
@@ -313,6 +314,17 @@ path-set () {
 		PATH="${NEWPATH#?}"
 		export PATH
 	fi
+
+}
+
+path-clean () {
+
+	# remove PATH duplicates
+	PATH=$(echo "${PATH}" | tr ':' '\n' | awk '!a[$0]++' | tr '\n' ':')
+
+	# clean up colons -- we'd like to use bash pattern expansions,
+	# but macOS's /bin/bash is old and doesn't seem to support all
+	PATH=$(echo "${PATH}" | sed 's|^::*||g' | sed 's|::*$||g' | sed 's|::*|:|g')
 
 }
 

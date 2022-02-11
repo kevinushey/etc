@@ -13,7 +13,6 @@ done
 read -r -d '' ASAN_OPTIONS_LIST <<- EOF
 check_initialization_order=1
 detect_odr_violation=1
-detect_leaks=1
 detect_stack_use_after_return=1
 halt_on_error=0
 strict_init_order=1
@@ -37,14 +36,18 @@ EOF
 LSAN_OPTIONS="$(printf '%s' "${LSAN_OPTIONS_LIST}" | tr '\n' ':')"
 export LSAN_OPTIONS
 
+if [ "$(uname -m)" = "arm64" ]; then
+	HOMEBREW_PREFIX="/opt/homebrew"
+else
+	HOMEBREW_PREFIX="/usr/local"
+fi
 
 path-prepend                  \
 	"${HOME}/bin"             \
 	"/usr/local/opt/curl/bin" \
 	"/Library/TeX/texbin"     \
 	"/opt/local/bin"          \
-	"/opt/homebrew/bin"       \
-	"/usr/local/bin"
+	"${HOMEBREW_PREFIX}/bin"
 
 SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
 export SHELLCHECK_OPTS
@@ -92,4 +95,11 @@ import "${GIT_COMPLETION_BASH}"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+if is-darwin && [ "$(uname -m)" = "arm64" ]; then
+	PATH="${PATH//\/usr\/local\/bin/}"
+else
+	PATH="${PATH//\/opt\/homebrew\/bin/}"
+fi
 
+# clean up path
+path-clean
