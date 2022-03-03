@@ -1,5 +1,6 @@
 invisible(local({
 
+  options(warn = 1)
   if (basename(getwd()) == "RcppParallel")
     options(rstudio.indexCpp = FALSE)
 
@@ -9,6 +10,13 @@ invisible(local({
     old <- Sys.getenv("PATH")
     new <- paste("/opt/homebrew/bin", old, sep = ":")
     Sys.setenv(PATH = new)
+  }
+
+  # if this is homebrew R, use custom library path
+  if (info$sysname == "Darwin" && grepl("homebrew", R.home(), fixed = TRUE)) {
+    lib <- .expand_R_libs_env_var("~/Library/R/homebrew/%a/%v/library")
+    dir.create(lib, recursive = TRUE, showWarnings = FALSE)
+    Sys.setenv(R_LIBS_USER = lib)
   }
 
   if (info$sysname == "Darwin") {

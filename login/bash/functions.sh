@@ -439,3 +439,6 @@ pdf-compress () {
 	mv "$2.tmp" "$2"
 }
 
+whats-my-ip () {
+	curl https://checkip.amazonaws.com
+}
