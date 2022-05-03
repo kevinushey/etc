@@ -33,10 +33,27 @@ utils::update.packages(.libPaths()[1], ask = FALSE)
 EOF
 UPDATE_R_PACKAGES_COMMAND="$(echo "${UPDATE_R_PACKAGES_COMMAND}" | tr '\n' ';')"
 
+brew-postinstall () {
+
+  if [ -e "/opt/homebrew/opt/R" ]; then
+
+    # Ensure that R uses its own library path
+    sed -i ''                                                                      \
+      "s|^R_LIBS_USER=.*|R_LIBS_USER='${HOME}/Library/R/homebrew/%a/%v/library'|g" \
+      "/opt/homebrew/opt/R/lib/R/etc/Renviron"
+
+    # Ensure that it exists
+    R_LIBS_USER=$(/opt/homebrew/bin/R --vanilla -s -e 'cat(Sys.getenv("R_LIBS_USER"))')
+    mkdir -p "${R_LIBS_USER}"
+
+  fi
+
+}
+
 update-homebrew () {
   section "Homebrew"
   brew update && brew upgrade && brew cleanup
-  rm -rf ~/Library/Caches/Homebrew
+  brew-postinstall
 }
 
 update-spacemacs () {

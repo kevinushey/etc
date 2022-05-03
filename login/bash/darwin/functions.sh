@@ -52,14 +52,6 @@ r-switch-homebrew () {
 
 }
 
-rstudio-dev () {
-	local OWD
-	OWD="$(pwd)"
-	cd ~/rstudio/src/xcode-build || return
-	./desktop-mac/Debug/RStudio.app/Contents/MacOS/RStudio "$@" &
-	cd "${OWD}" || return
-}
-
 codesign-verify () {
 	codesign -dv --verbose=4 "$1"
 }
