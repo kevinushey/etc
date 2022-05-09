@@ -58,6 +58,7 @@ node_modules
 .cache
 .clangd
 .gdb_history
+.internal
 .metadata
 .settings
 .vscode

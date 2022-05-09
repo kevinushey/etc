@@ -112,3 +112,5 @@ export NVM_DIR="$HOME/.nvm"
 export GIT_CACHE_PATH="${HOME}/.git-cache"
 mkdir -p "${GIT_CACHE_PATH}"
 
+[ -e "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
+
