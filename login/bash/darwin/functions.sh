@@ -20,7 +20,7 @@ r-switch () {
 	sudo ln -nfs "${VERSION}" "${VERSIONS_PATH}/Current"
 
 	local BINDIR
-	BINDIR="/opt/local/bin"
+	BINDIR="/usr/local/bin"
 	mkdir -p "${BINDIR}"
 
 	local RESOURCES_PATH
@@ -37,7 +37,7 @@ r-switch () {
 r-switch-homebrew () {
 
 	local BINDIR
-	BINDIR="/opt/local/bin"
+	BINDIR="/usr/local/bin"
 	mkdir -p "${BINDIR}"
 
 	local HOMEBREW_PREFIX
