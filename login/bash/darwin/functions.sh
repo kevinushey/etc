@@ -20,7 +20,11 @@ r-switch () {
 	sudo ln -nfs "${VERSION}" "${VERSIONS_PATH}/Current"
 
 	local BINDIR
-	BINDIR="/usr/local/bin"
+	if [ "$(uname -m)" = "arm64" ]; then
+		BINDIR="/opt/local/bin"
+	else
+		BINDIR="/usr/local/bin"
+	fi
 	mkdir -p "${BINDIR}"
 
 	local RESOURCES_PATH
@@ -37,7 +41,11 @@ r-switch () {
 r-switch-homebrew () {
 
 	local BINDIR
-	BINDIR="/usr/local/bin"
+	if [ "$(uname -m)" = "arm64" ]; then
+		BINDIR="/opt/local/bin"
+	else
+		BINDIR="/usr/local/bin"
+	fi
 	mkdir -p "${BINDIR}"
 
 	local HOMEBREW_PREFIX

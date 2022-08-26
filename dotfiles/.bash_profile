@@ -37,8 +37,10 @@ LSAN_OPTIONS="$(printf '%s' "${LSAN_OPTIONS_LIST}" | tr '\n' ':')"
 export LSAN_OPTIONS
 
 if [ "$(uname -m)" = "arm64" ]; then
+	BINDIR="/opt/local/bin"
 	HOMEBREW_PREFIX="/opt/homebrew"
 else
+	BINDIR="/usr/local/bin"
 	HOMEBREW_PREFIX="/usr/local"
 fi
 
@@ -46,7 +48,7 @@ path-prepend                  \
 	"${HOME}/bin"             \
 	"/usr/local/opt/curl/bin" \
 	"/Library/TeX/texbin"     \
-	"/opt/local/bin"          \
+	"${BINDIR}"               \
 	"${HOMEBREW_PREFIX}/bin"
 
 SHELLCHECK_OPTS="-e SC1090 -e SC2006 -e SC2155 -e SC2164"
@@ -99,6 +101,7 @@ if is-darwin && [ "$(uname -m)" = "arm64" ]; then
 	PATH="${PATH//\/usr\/local\/bin/}"
 else
 	PATH="${PATH//\/opt\/homebrew\/bin/}"
+	PATH="${PATH//\/opt\/local\/bin/}"
 fi
 
 # clean up path

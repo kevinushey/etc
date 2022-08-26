@@ -1,9 +1,5 @@
 invisible(local({
 
-  options(warn = 1)
-  if (basename(getwd()) == "RcppParallel")
-    options(rstudio.indexCpp = FALSE)
-
   # if this is arm64 macOS, include Homebrew
   info <- as.list(Sys.info())
   if (info$sysname == "Darwin") {
@@ -352,3 +348,6 @@ invisible(local({
   message(msg, libs, sep = "")
 
 }))
+
+
+

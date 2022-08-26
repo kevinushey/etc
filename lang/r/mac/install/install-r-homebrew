@@ -15,6 +15,7 @@
 
 if [ "$(arch)" = "arm64" ]; then
 	HOMEBREW_PREFIX=/opt/homebrew
+	PATH="/opt/R/arm64/bin:${PATH}"
 else
 	HOMEBREW_PREFIX=/usr/local
 fi
