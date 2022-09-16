@@ -117,3 +117,10 @@ mkdir -p "${GIT_CACHE_PATH}"
 
 [ -e "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
