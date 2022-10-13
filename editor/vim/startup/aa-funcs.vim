@@ -1,6 +1,11 @@
 
 function! InsertModeUp()
-    
+ 
+    if get(g:, "coc_enabled", 0) && coc#pum#visible()
+        call coc#pum#prev(1)
+        return ''
+    endif
+
     if pumvisible()
         return "\<C-P>"
     endif
@@ -12,6 +17,11 @@ endfunction
 
 function! InsertModeDown()
 
+    if get(g:, "coc_enabled", 0) && coc#pum#visible()
+        call coc#pum#next(1)
+        return ''
+    endif
+
     if pumvisible()
         return "\<C-N>"
     endif
@@ -22,6 +32,11 @@ function! InsertModeDown()
 endfunction
 
 function! InsertModeEscape()
+
+    if get(g:, "coc_enabled", 0) && coc#pum#visible()
+        call coc#pum#cancel()
+        return ''
+    endif
 
     if pumvisible()
         return "\<C-E>"
@@ -38,6 +53,11 @@ endfunction
 
 function! InsertModeCtrlC()
 
+    if get(g:, "coc_enabled", 0) && coc#pum#visible()
+        call coc#pum#cancel()
+        return ''
+    endif
+
     if pumvisible()
         return "\<C-E>"
     endif
@@ -53,6 +73,11 @@ endfunction
 
 function! InsertModeTab()
 
+    if get(g:, "coc_enabled", 0) && coc#pum#visible()
+        call coc#pum#confirm()
+        return ''
+    endif
+
     if pumvisible()
         return "\<C-Y>"
     endif
@@ -62,6 +87,11 @@ function! InsertModeTab()
 endfunction
 
 function! InsertModeCR()
+
+    if get(g:, "coc_enabled", 0) && coc#pum#visible()
+        call coc#pum#confirm()
+        return ''
+    endif
 
     if pumvisible()
         return "\<C-Y>"
