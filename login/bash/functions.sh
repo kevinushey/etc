@@ -442,3 +442,14 @@ pdf-compress () {
 whats-my-ip () {
 	curl https://checkip.amazonaws.com
 }
+
+activate-node-modules () {
+	PATH="./node_modules/.bin:${PATH}"
+	hash -r
+}
+
+deactivate-node-modules () {
+	PATH=$(echo "${PATH}" | sed 's|./node_modules/.bin:||g')
+	hash -r
+}
+
