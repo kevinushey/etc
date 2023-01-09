@@ -7,3 +7,5 @@
 --colors=match:fg:black
 --colors=match:bg:yellow
 --colors=match:style:nobold
+--hidden
+--glob=!.git
