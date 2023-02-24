@@ -43,11 +43,6 @@ function! InsertModeEscape()
 
 endfunction
 
-function! InsertModeCtrlA()
-    normal! ^
-    return ''
-endfunction
-
 function! InsertModeCtrlC()
 
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
@@ -60,11 +55,6 @@ function! InsertModeCtrlC()
 
     return "\<Esc>"
 
-endfunction
-
-function! InsertModeCtrlE()
-    normal! $
-    return ''
 endfunction
 
 function! InsertModeTab()

@@ -47,9 +47,10 @@ function! InitBindings()
     inoremap <silent> <Up>   <C-R>=InsertModeUp()<CR>
     inoremap <silent> <Down> <C-R>=InsertModeDown()<CR>
     inoremap <silent> <Esc>  <C-R>=InsertModeEscape()<CR>
-    inoremap <silent> <C-A>  <C-R>=InsertModeCtrlA()<CR>
     inoremap <silent> <C-C>  <C-R>=InsertModeCtrlC()<CR>
-    inoremap <silent> <C-E>  <C-R>=InsertModeCtrlE()<CR>
+
+    inoremap <silent> <C-A>  <C-O>^
+    inoremap <silent> <C-E>  <C-O>$
 
     inoremap <silent> <expr> <buffer> <Tab> InsertModeTab()
     inoremap <silent> <expr> <buffer> <CR>  InsertModeCR()
