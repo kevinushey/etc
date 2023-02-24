@@ -2,8 +2,7 @@
 function! InsertModeUp()
  
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        call coc#pum#prev(1)
-        return ''
+        return coc#pum#prev(1)
     endif
 
     if pumvisible()
@@ -18,8 +17,7 @@ endfunction
 function! InsertModeDown()
 
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        call coc#pum#next(1)
-        return ''
+        return coc#pum#next(1)
     endif
 
     if pumvisible()
@@ -34,8 +32,7 @@ endfunction
 function! InsertModeEscape()
 
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        call coc#pum#cancel()
-        return ''
+        return coc#pum#cancel()
     endif
 
     if pumvisible()
@@ -54,8 +51,7 @@ endfunction
 function! InsertModeCtrlC()
 
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        call coc#pum#cancel()
-        return ''
+        return coc#pum#cancel()
     endif
 
     if pumvisible()
@@ -74,8 +70,7 @@ endfunction
 function! InsertModeTab()
 
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        call coc#pum#confirm()
-        return ''
+        return coc#pum#confirm()
     endif
 
     if pumvisible()
@@ -89,8 +84,7 @@ endfunction
 function! InsertModeCR()
 
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        call coc#pum#confirm()
-        return ''
+        return coc#pum#confirm()
     endif
 
     if pumvisible()
