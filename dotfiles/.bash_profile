@@ -46,6 +46,7 @@ fi
 
 path-prepend                  \
 	"${HOME}/bin"             \
+	"${HOME}/.local/bin"      \
 	"/usr/local/opt/curl/bin" \
 	"/Library/TeX/texbin"     \
 	"${BINDIR}"               \
@@ -121,10 +122,12 @@ mkdir -p "${GIT_CACHE_PATH}"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
+export PYENV_ROOT="${HOME}/.pyenv"
+export PYENV="${PYENV_ROOT}/bin/pyenv"
+if [ -e "${PYENV}" ]; then
+	export PATH="${PYENV_ROOT}/bin:${PATH}"
+	eval "$("${PYENV}" init -)"
+fi
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/kevin/.rd/bin:$PATH"
