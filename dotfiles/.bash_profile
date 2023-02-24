@@ -129,6 +129,15 @@ if [ -e "${PYENV}" ]; then
 	eval "$("${PYENV}" init -)"
 fi
 
+# yarn -- ugh this is disgusting
+if is-darwin && has-command yarn; then
+	if [ "$(uname -m)" = "arm64" ]; then
+		yarn config set prefix /opt/homebrew --global &> /dev/null
+	else
+		yarn config set prefix /usr/local --global &> /dev/null
+	fi
+fi
+
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/kevin/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
