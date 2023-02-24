@@ -5,14 +5,21 @@ if [ "$(platform)" = "centos" ]; then
 fi
 
 sudo yum update -y
-sudo yum install -y      \
-	emacs                \
-	libcurl-devel        \
-	libxml2-devel        \
-	neovim               \
-	openssl-devel        \
-	R                    \
-	ripgrep              \
-	the_silver_searcher  \
-	tmux                 \
+sudo yum install -y     \
+	emacs               \
+	freetype-devel      \
+	fribidi-devel       \
+	harfbuzz-devel      \
+	libcurl-devel       \
+	libgit2-devel       \
+	libjpeg-turbo-devel \
+	libpng-devel        \
+	libtiff-devel       \
+	libxml2-devel       \
+	neovim              \
+	openssl-devel       \
+	R                   \
+	ripgrep             \
+	the_silver_searcher \
+	tmux                \
 	vim
