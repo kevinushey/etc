@@ -453,3 +453,8 @@ deactivate-node-modules () {
 	hash -r
 }
 
+pushd-tempdir () {
+	pushd "$(mktemp -d)"
+}
+
+

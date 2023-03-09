@@ -39,6 +39,10 @@ docker-shell () {
 	# start container
 	docker start "${CONTAINER}" > /dev/null
 
+	# copy docker SSH keys
+	docker exec "${CONTAINER}" mkdir -p /root/.ssh
+	docker cp -a ~/.ssh/docker "${CONTAINER}:/root/.ssh/docker"
+
 	# attach bash
 	docker exec --privileged --interactive --tty "${CONTAINER}" /bin/bash
 

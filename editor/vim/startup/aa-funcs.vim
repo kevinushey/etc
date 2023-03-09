@@ -2,7 +2,7 @@
 function! InsertModeUp()
  
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        return coc#pum#prev(1)
+        return coc#pum#prev(0)
     endif
 
     if pumvisible()
@@ -17,7 +17,7 @@ endfunction
 function! InsertModeDown()
 
     if get(g:, "coc_enabled", 0) && coc#pum#visible()
-        return coc#pum#next(1)
+        return coc#pum#next(0)
     endif
 
     if pumvisible()
