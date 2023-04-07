@@ -47,8 +47,7 @@ command -v "${CLANG}" &> /dev/null || {
 ##	 https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Using-Undefined-Behaviour-Sanitizer
 ##
 ## for more information.
-LLVM_BIN_DIR="$(dirname "${CLANG}")"
-SANITIZER_PATH="${LLVM_BIN_DIR}/../lib/clang/${CLANG_VERSION}/lib/darwin"
+SANITIZER_PATH="$("${CLANG}" --print-file-name=lib/darwin)"
 SANITIZER_LIBS="-lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic"
 MAIN_LD="${CLANG}++ ${SANFLAGS} -L\\\"${SANITIZER_PATH}\\\" ${SANITIZER_LIBS}"
 
