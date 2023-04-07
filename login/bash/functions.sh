@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+info () {
+	echo -e "\033[48:5:21m ℹ \033[0m \033[1m$@\033[0m"
+}
+
+warn () {
+	echo -e "\033[1;48:5:124m ! \033[0m \033[1m$@\033[0m"
+}
+
+error () {
+	echo -e "\033[1;91mERROR: $1\033[0m"
+	exit 1
+}
+
+yay () {
+	echo -e "\033[1;48:5:22m ✔ \033[0m \033[1m$@\033[0m"
+}
+
 pushd () {
 	command pushd "$@" > /dev/null
 }
@@ -47,11 +64,6 @@ section () {
 
 success () {
 	echo -e "\033[1;92m==>\033[0m \033[1;97m$1\033[0m"
-}
-
-error () {
-	echo -e "\033[1;91mERROR: $1\033[0m"
-	exit 1
 }
 
 joined () {

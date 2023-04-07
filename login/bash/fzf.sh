@@ -34,6 +34,8 @@ if has-command fzf; then
 
 
     # Use Alt-; to trigger fzf's autocompletion behavior
-    bind '"\e;": "**	"'
+    case "$-" in *i*)
+        bind '"\e;": "**	"' ;;
+    esac
 
 fi

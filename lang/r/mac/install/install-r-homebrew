@@ -45,16 +45,16 @@ fi
 ## ----- END CONFIGURATION VARIABLES ----- ##
 
 ## detect whether we want to build with a framework
-echo "> Prefix: ${PREFIX}"
+info "Using prefix: ${PREFIX}"
 OWD=`pwd`
 
 ## check if homebrew is installed
-echo "Checking for Homebrew..."
 if command -v brew &> /dev/null; then
-    echo "> Homebrew already installed."
+    info "Homebrew is already installed."
 else
-    echo "> Installing homebrew..."
+    info "Installing homebrew..."
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    info "Homebrew successfully installed."
 fi
 
 export TMP=${TMP}
@@ -89,22 +89,14 @@ install cairo      # image write support
 ## Download R-devel from SVN
 mkdir -p "${SOURCEDIR}" &> /dev/null
 cd "${SOURCEDIR}"
-echo "Checking out latest R..."
+info "Checking out latest R..."
 svn checkout https://svn.r-project.org/R/trunk/
 cd trunk
 
 ## After downloading the R sources you should also download
 ## the recommended packages by entering the R source tree and running
-echo "Syncing recommended R packages..."
+info "Syncing recommended R packages..."
 ./tools/rsync-recommended
-
-## This was needed for building some applications that included
-## 'Rinterface.h' in multiple translation units (we were encountering
-## linker errors)
-if test -n "`grep "^int R_running_as_main_program" src/include/Rinterface.h`"; then
-    echo "Adding a missing extern in 'Rinterface.h'..."
-    sed -i '' 's/^int R_running_as_main_program/extern int R_running_as_main_program/g' src/include/Rinterface.h
-fi
 
 ## For some reason, there is trouble in locating Homebrew Cairo;
 ## we have to make sure pkg-config looks in the right place
@@ -141,7 +133,6 @@ CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" ./configure            \
     --enable-R-profiling                                           \
     --enable-memory-profiling                                      \
     --disable-R-framework                                          \
-    --with-valgrind-instrumentation=2                              \
     --without-internal-tzcode                                      \
     --without-recommended-packages                                 \
     --x-libraries=/opt/X11/lib                                     \
@@ -151,7 +142,7 @@ CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" ./configure            \
 
 STATUS="$?"
 if [ "${STATUS}" -ne 0 ]; then
-    echo 'Configure failed!'
+    warn 'Configure failed!'
     exit "${STATUS}"
 fi
 
@@ -160,7 +151,7 @@ if [ -n "${CONFIGURE_ONLY}" ]; then
 fi
 
 make -j10 |& tee compile.log || {
-    echo 'Make failed!'
+    warn 'Make failed!'
     exit 1
 }
 
@@ -172,10 +163,10 @@ else
 fi
 
 ${INSTALL} || {
-    echo "Installation failed!"
+    warn "Installation failed!"
     exit 1
 }
 
-echo 'Installation completed successfully!'
+yay 'Installation completed successfully!'
 cd ${OWD}
 

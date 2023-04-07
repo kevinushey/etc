@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
-if [ -t 1 ]; then
+case "$-" in
+
+*i*)
 	bind '"\ef": "vim-find "'
 	bind '"\ev": " \C-e\C-u\C-y\ey\C-u`__fzf_up__`\e\C-e\er\C-m"'
-fi
+;;
+
+esac
 
 __fzf_up__ () {
 

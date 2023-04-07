@@ -33,6 +33,7 @@ spark-warehouse
 
 
 # R ----
+.Rproj.user
 .RData
 .Rdata
 .Rhistory

@@ -11,8 +11,9 @@ if [ ! -e "${R}" ]; then
     exit 1
 fi
 
-mkdir -p "/opt/local/bin"
-ln -nfs "${R}/bin/R" "/opt/local/bin/R"
-R_SESSION_INFO=`"/opt/local/bin/R" --vanilla --slave -e "sessionInfo()"`
+BINDIR="/usr/local/bin"
+mkdir -p "${BINDIR}"
+ln -nfs "${R}/bin/R" "${BINDIR}/R"
+R_SESSION_INFO=`"${BINDIR}/R" --vanilla --slave -e "sessionInfo()"`
 echo "${R_SESSION_INFO}" | head -n 3
 

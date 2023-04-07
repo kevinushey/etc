@@ -36,13 +36,13 @@ DEFAULT_SANFLAGS="$(echo "${DEFAULT_SANFLAGS}" | tr '\n' ' ')"
 ## Download R-devel from SVN
 mkdir -p "${SOURCEDIR}" &> /dev/null
 cd "${SOURCEDIR}"
-echo "Checking out latest R..."
+info "Checking out latest R."
 svn checkout https://svn.r-project.org/R/trunk/
 cd trunk
 
 ## After downloading the R sources you should also download
 ## the recommended packages by entering the R source tree and running
-echo "Syncing recommended R packages..."
+info "Syncing recommended R packages."
 ./tools/rsync-recommended
 
 ## modify config.site so that it gets the appropriate compilers etc
@@ -77,7 +77,7 @@ make clean
 
 STATUS="$?"
 if [ "${STATUS}" -ne 0 ]; then
-    echo 'Configure failed!'
+    warn "./configure failed. [exit code $?]"
     exit "${STATUS}"
 fi
 
@@ -89,7 +89,7 @@ STATUS="$?"
 
 mv ~/.R/Makevars.bak ~/.R/Makevars
 if [ "${STATUS}" -ne "0" ]; then
-    echo 'Make failed!'
+    warn "'make' failed. [exit code $?]"
     exit 1
 fi
 
@@ -101,7 +101,7 @@ else
 fi
 
 ${INSTALL} || {
-    echo "Installation failed!"
+    warn "'make -install' failed. [exit code $?]"
     exit 1
 }
 
@@ -111,6 +111,6 @@ R_LIBS_USER='${PREFIX}/library'
 EOF
 echo "${R_ENVIRON_VARS}" >> "${PREFIX}/lib/R/etc/Renviron"
 
-echo 'Installation completed successfully!'
+yay "Installation completed successfully."
 cd ${OWD}
 
