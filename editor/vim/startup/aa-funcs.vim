@@ -67,6 +67,13 @@ function! InsertModeTab()
         return "\<C-Y>"
     endif
 
+    if exists("*copilot#Accept")
+        let suggestion = copilot#GetDisplayedSuggestion()
+        if suggestion.text !=# ''
+            return copilot#Accept()
+        endif
+    endif
+
     return "\<Tab>"
 
 endfunction
