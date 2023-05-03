@@ -147,3 +147,5 @@ export PATH="/Users/kevin/.rd/bin:$PATH"
 # The original version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:${PATH}"
 export PATH
+
+export VCPKG_ROOT="${HOME}/vcpkg"
