@@ -106,6 +106,8 @@ else
 	PATH="${PATH//\/opt\/local\/bin/}"
 fi
 
+PATH="${HOME}/opt/bin:${PATH}"
+
 # clean up path
 path-clean
 

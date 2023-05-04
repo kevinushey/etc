@@ -5,7 +5,7 @@ invisible(local({
   if (info$sysname == "Darwin") {
 
     javaHomes <- c(
-      "/opt/homebrew/opt/openjdk",
+      "/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home",
       "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
     )
 
