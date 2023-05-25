@@ -115,13 +115,12 @@ path-clean
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export GIT_CACHE_PATH="${HOME}/.git-cache"
 mkdir -p "${GIT_CACHE_PATH}"
 
 [ -e "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
-
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"

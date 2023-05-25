@@ -120,8 +120,6 @@ invisible(local({
     pkgType <- "source"
 
   options(
-    # CRAN
-    repos = c(CRAN = "https://cran.rstudio.com"),
 
     # source packages for older R
     pkgType = pkgType,
