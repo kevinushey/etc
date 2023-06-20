@@ -1,3 +1,4 @@
+
 invisible(local({
 
   # if this is arm64 macOS, include Homebrew
@@ -24,11 +25,11 @@ invisible(local({
     identical(R.version[["status"]],   "Under development (unstable)") ||
     identical(R.version[["nickname"]], "Unsuffered Consequences")
 
-  if (!isDevel) {
+  if (!isDevel && is.na(Sys.getenv("R_LIBS", unset = NA))) {
     userLibs <- strsplit(Sys.getenv("R_LIBS_USER"), .Platform$path.sep)[[1]]
     if (length(userLibs) && is.character(userLibs)) {
       lapply(userLibs, function(lib) {
-        if (!file.exists(lib)) {
+        if (!identical(lib, "NULL") && !file.exists(lib)) {
           if (!dir.create(lib, recursive = TRUE)) {
             warning("failed to create user library '", lib, "'")
           }
@@ -346,6 +347,7 @@ invisible(local({
   message(msg, libs, sep = "")
 
 }))
+
 
 
 
