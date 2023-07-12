@@ -137,12 +137,6 @@ fi
 export PATH="/Users/kevin/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
-
-# Setting PATH for Python 3.10
-# The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:${PATH}"
-export PATH
-
 export VCPKG_ROOT="${HOME}/vcpkg"
 
 export NVM_DIR="$HOME/.nvm"
