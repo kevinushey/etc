@@ -105,7 +105,6 @@ set pastetoggle=<F12>
 set scrolljump=5
 set scrolloff=3
 set signcolumn=yes
-set shellslash
 set shiftwidth=4
 set showmatch
 set smartcase
