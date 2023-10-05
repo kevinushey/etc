@@ -1,1 +1,1 @@
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
