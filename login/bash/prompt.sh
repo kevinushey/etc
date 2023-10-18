@@ -46,5 +46,10 @@ if [ -f /.dockerenv ]; then
 	DOCKER=1
 fi
 
-PROMPT_COMMAND="prompt-command"
+if [ -n "${PROMPT_COMMAND}" ]; then
+	PROMPT_COMMAND="prompt-command; ${PROMPT_COMMAND}"
+else
+	PROMPT_COMMAND="prompt-command"
+fi
+
 export PROMPT_COMMAND
