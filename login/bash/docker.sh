@@ -41,7 +41,7 @@ docker-shell () {
 
 	# copy docker SSH keys
 	docker exec "${CONTAINER}" mkdir -p /root/.ssh
-	docker cp -a ~/.ssh/docker "${CONTAINER}:/root/.ssh/docker"
+	docker cp -a ~/.ssh/. "${CONTAINER}:/root/.ssh"
 
 	# attach bash
 	docker exec --privileged --interactive --tty "${CONTAINER}" /bin/bash

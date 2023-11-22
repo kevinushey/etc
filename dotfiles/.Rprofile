@@ -122,6 +122,12 @@ invisible(local({
 
   options(
 
+    # use public cloud
+    repos = c(CRAN = "https://cloud.R-project.org"),
+
+    # HTML help
+    help_type = "html",
+
     # source packages for older R
     pkgType = pkgType,
 
