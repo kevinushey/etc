@@ -97,6 +97,9 @@ fi
 
 # Save sources folder.
 SOURCES=$(pwd)
+echo "Using sources folder: ${SOURCES}"
+echo "Press Enter when you are ready to proceeed."
+read
 
 # Construct prefix path.
 PREFIX="/opt/R/${VERSION}"
@@ -109,7 +112,9 @@ if [ -n "${SANITIZERS}" ]; then
 	MAIN_LDFLAGS="-fsanitize=address"
 	EOF
 else
-	rm config.site
+	cat <<- EOF > config.site
+	CPPFLAGS="-g -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fstack-protector-strong"
+	EOF
 fi
 
 # Move to temporary directory for building.
