@@ -1,0 +1,17 @@
+[core]
+	excludesfile = ~/.gitignore
+	editor = vim
+[push]
+	autoSetupRemote = true
+	default = current
+[user]
+	name = Kevin Ushey
+	email = kevinushey@gmail.com
+[init]
+	defaultBranch = main
+[diff]
+	noprefix = true
+[pull]
+	rebase = true
+[submodule]
+	recurse = true
