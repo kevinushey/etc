@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-export AWS_PROFILE=kevin
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 TERM=xterm-256color
