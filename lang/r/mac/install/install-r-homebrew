@@ -13,6 +13,8 @@
 ## lapack (in that order).
 ##
 
+[ -e ~/.bashrc ] && . ~/.bashrc
+
 if [ "$(arch)" = "arm64" ]; then
 	HOMEBREW_PREFIX=/opt/homebrew
 	PATH="/opt/R/arm64/bin:${PATH}"
@@ -123,6 +125,10 @@ EOM
 
 make distclean
 make clean
+
+echo "Press ENTER when you are ready to continue."
+echo "Working directory: $(pwd)"
+read -r
 
 CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" ./configure            \
     --with-blas="-L${HOMEBREW_PREFIX}/opt/openblas/lib -lopenblas" \
