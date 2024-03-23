@@ -33,10 +33,11 @@ spark-warehouse
 
 
 # R ----
-.Rproj.user
+*.Rcheck
 .RData
 .Rdata
 .Rhistory
+.Rproj.user
 
 
 # Python ----
