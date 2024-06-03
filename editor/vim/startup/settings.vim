@@ -39,7 +39,7 @@ endif
 set background=dark
 highlight Normal ctermfg=15               ctermbg=16
 highlight Search cterm=NONE ctermfg=white ctermbg=12
-ColorScheme wombat256mod slate default
+ColorScheme Tomorrow-Night-Bright wombat256mod slate default
 
 augroup dotVimRc
     autocmd!
