@@ -390,7 +390,13 @@ build () {
 	local THREADS
 	THREADS=$(( CPUS / 2 ))
 
-	cmake --build . --target "${TARGET}" -- -j"${THREADS}"
+	local DIR
+	DIR=$(pwd)
+	while [ ! -e "${DIR}/CMakeCache.txt" ]; do
+		DIR=$(dirname "${DIR}")
+	done
+
+	cmake --build "${DIR}" --target "${TARGET}" -- -j"${THREADS}"
 }
 
 t () {
