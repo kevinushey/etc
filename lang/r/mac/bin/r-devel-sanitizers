@@ -11,8 +11,13 @@ if [ ! -e "${R}" ]; then
     exit 1
 fi
 
-BINDIR="/usr/local/bin"
+if [ "$(uname -m)" = "arm64" ]; then
+	BINDIR="/opt/local/bin"
+else
+	BINDIR="/usr/local/bin"
+fi
 mkdir -p "${BINDIR}"
+
 ln -nfs "${R}/bin/R" "${BINDIR}/R"
 R_SESSION_INFO=`"${BINDIR}/R" --vanilla --slave -e "sessionInfo()"`
 echo "${R_SESSION_INFO}" | head -n 3
