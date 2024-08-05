@@ -12,25 +12,6 @@ if [ -n "${SCSI}" ]; then
       open-vm-tools-dkms
 fi
 
-CRAN_URL=http://cran.rstudio.com/bin/linux/ubuntu
-
-if [ -z "`grep ${CRAN_URL} /etc/apt/sources.list`" ]; then
-
-	# adapt to change in reopsitory scheme for bionic
-	CODENAME="$(ubuntu-codename)"
-	if [ "${CODENAME}" = "bionic" ]; then
-		CODENAME="bionic-cran35"
-	fi
-
-	if [ "${CODENAME}" != "focal" ]; then
-		sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0x51716619e084dab9
-		sudo su -c "echo deb http://cran.rstudio.com/bin/linux/ubuntu ${CODENAME}/ >> /etc/apt/sources.list"
-		sudo apt-get update -y
-		sudo apt-get upgrade -y
-	fi
-
-fi
-
 sudo apt-get check neovim || (
    sudo add-apt-repository ppa:neovim-ppa/unstable
    sudo apt-get update
@@ -42,7 +23,6 @@ sudo apt-get install -y  \
 	curl                 \
 	dkms                 \
 	emacs                \
-	ess                  \
 	golang               \
 	libcurl4-openssl-dev \
 	libssl-dev           \
