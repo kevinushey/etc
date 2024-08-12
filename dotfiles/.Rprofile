@@ -16,6 +16,9 @@ invisible(local({
         break
       }
     }
+    
+    if (Sys.info()[["machine"]] == "arm64" && file.exists("/opt/homebrew/bin"))
+      Sys.setenv(PATH = paste("/opt/homebrew/bin", Sys.getenv("PATH"), sep = ":"))
 
   }
 

@@ -118,9 +118,7 @@ else
 fi
 
 # Move to temporary directory for building.
-BUILD=$(tempfile -p r-)
-rm "${BUILD}"
-mkdir -p "${BUILD}"
+BUILD=$(mktemp -d)
 cd "${BUILD}"
 
 "${SOURCES}/configure"                \
