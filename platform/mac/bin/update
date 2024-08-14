@@ -51,7 +51,6 @@ brew-postinstall () {
 }
 
 update-homebrew () {
-  section "Homebrew"
   brew update && brew upgrade && brew cleanup
   brew-postinstall
 }
