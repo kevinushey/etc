@@ -1,11 +1,10 @@
 library(renv)
 
-# renv:::renv_mran_database_sync_all()
-
-src <- renv:::renv_mran_database_path()
+# renv:::renv_p3m_database_sync_all()
+src <- renv:::renv_p3m_database_path()
 tgt <- "s3://rstudio-buildtools/renv/package-manager/packages.rds"
 
-Sys.setenv(AWS_PROFILE = "kevin")
+# aws sso login
 args <- c("s3", "cp", "--acl", "public-read", shQuote(src), shQuote(tgt))
 system2("aws", args)
 
