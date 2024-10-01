@@ -16,7 +16,7 @@ invisible(local({
         break
       }
     }
-    
+
     if (Sys.info()[["machine"]] == "arm64" && file.exists("/opt/homebrew/bin"))
       Sys.setenv(PATH = paste("/opt/homebrew/bin", Sys.getenv("PATH"), sep = ":"))
 
@@ -167,6 +167,17 @@ invisible(local({
     timeout = 3600,
 
     devtools.name = NAME
+  )
+
+  options(
+    usethis.description = list(
+      "Authors@R" = utils::person(
+        "Kevin", "Ushey",
+        email = "kevinushey@gmail.com",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0003-2880-7407")
+      )
+    )
   )
 
   # if using 'curl' with RStudio, ensure stderr redirected
@@ -320,6 +331,13 @@ invisible(local({
 
   if (file.exists("renv/activate.R"))
     return()
+  
+  assign("install_pak", envir = .__Rprofile.env__., function() {
+    pkgType <- .Platform$pkgType; os <- version$os; arch <- version$arch
+    fmt <- "https://r-lib.github.io/p/pak/stable/%s/%s/%s"
+    repo <- sprintf(fmt, pkgType, os, arch)
+    install.packages("pak", repos = c("pak" = repo))
+  })
 
   packages <- c()
   invisible(lapply(packages, function(package) {
