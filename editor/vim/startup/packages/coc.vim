@@ -2,7 +2,6 @@ if !has('nvim')
 	finish
 endif
 
-
 function! CocCompletionTimerRun(timer)
 
     " don't run if we already have a popup window visible
