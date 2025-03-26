@@ -29,6 +29,11 @@ while [ "$#" -ne "0" ]; do
 		SANITIZERS=1
 	;;
 
+	--)
+		shift
+		break
+	;;
+
 	*)
 		echo "unknown argument '$1'"
 	;;
@@ -128,7 +133,8 @@ cd "${BUILD}"
 	--enable-memory-profiling         \
 	--with-valgrind-instrumentation=2 \
 	--with-blas                       \
-	--with-lapack
+	--with-lapack                     \
+	"$@"
 
 make -j$(getconf _NPROCESSORS_ONLN)
 sudo make install

@@ -9,3 +9,4 @@
 --colors=match:style:nobold
 --hidden
 --glob=!.git
+--glob=!tags

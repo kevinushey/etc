@@ -18,6 +18,7 @@ FORMULAS=(
 	neovim
 	ninja
 	node
+	openjdk
 	pandoc
 	postgres
 	qpdf

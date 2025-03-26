@@ -54,6 +54,7 @@ cat > "${EXCLUDEFILE}" <<- EOF
 ${SOURCE}/.Rproj.user
 ${SOURCE}/.git
 ${SOURCE}/revdep
+${SOURCE}/revdeps
 ${SOURCE}/packrat
 ${SOURCE}/renv/library
 ${SOURCE}/renv/cellar

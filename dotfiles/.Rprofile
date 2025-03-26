@@ -331,7 +331,7 @@ invisible(local({
 
   if (file.exists("renv/activate.R"))
     return()
-  
+
   assign("install_pak", envir = .__Rprofile.env__., function() {
     pkgType <- .Platform$pkgType; os <- version$os; arch <- version$arch
     fmt <- "https://r-lib.github.io/p/pak/stable/%s/%s/%s"

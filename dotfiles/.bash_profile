@@ -107,6 +107,14 @@ fi
 
 PATH="${HOME}/opt/bin:${PATH}"
 
+if is-darwin; then
+	TINYTEX_BIN="${HOME}/Library/TinyTex/bin/universal-darwin"
+fi
+
+if [ -e "${TINYTEX_BIN}" ]; then
+	PATH="${TINYTEX_BIN}:${PATH}"
+fi
+
 # clean up path
 path-clean
 
