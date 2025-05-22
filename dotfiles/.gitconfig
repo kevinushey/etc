@@ -1,6 +1,8 @@
 [core]
 	excludesfile = ~/.gitignore
 	editor = vim
+	whitespace = -trailing-space
+	pager = less
 [push]
 	autoSetupRemote = true
 	default = current
