@@ -22,4 +22,5 @@ sudo yum install -y     \
 	ripgrep             \
 	the_silver_searcher \
 	tmux                \
-	vim
+	vim                 \
+	xclip
