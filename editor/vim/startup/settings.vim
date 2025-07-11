@@ -101,7 +101,6 @@ set nolist
 set nospell
 set nowrap
 set number
-set pastetoggle=<F12>
 set scrolljump=5
 set scrolloff=3
 set signcolumn=yes
