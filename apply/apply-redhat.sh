@@ -16,11 +16,15 @@ sudo yum install -y     \
 	libpng-devel        \
 	libtiff-devel       \
 	libxml2-devel       \
+	libXt-devel         \
 	neovim              \
 	openssl-devel       \
 	R                   \
+	readline-devel      \
 	ripgrep             \
+	subversion          \
 	the_silver_searcher \
 	tmux                \
+	valgrind-devel      \
 	vim                 \
 	xclip
