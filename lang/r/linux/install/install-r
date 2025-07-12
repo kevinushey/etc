@@ -143,7 +143,8 @@ sudo make install
 if [ -n "${DEVEL}" ]; then
 	mkdir -p ~/.R/library/${VERSION}
 	LINE="R_LIBS_USER='~/.R/library/${VERSION}'"
-	echo "$LINE" | sudo tee -a "${PREFIX}/lib/R/etc/Renviron"
+	ETCDIR=$("${PREFIX}/bin/R" -s -e "writeLines(R.home(\"etc\"))")
+	echo "$LINE" | sudo tee -a "${ETCDIR}/Renviron.site"
 fi
 
 # Go home.
