@@ -8,6 +8,10 @@ alias untar="tar -xvf"
 alias v="vim"
 alias vi="vim -u ~/.vim/startup/sensible.vim"
 
+if command -v lsd &> /dev/null; then
+	alias ls=lsd
+fi
+
 if command -v nvim &> /dev/null; then
 	alias v="nvim"
 	alias vi="nvim -u NONE"
