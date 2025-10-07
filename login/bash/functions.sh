@@ -480,7 +480,7 @@ update () {
 		sudo apt update && sudo apt upgrade -y
 	elif is-redhat; then
 		sudo dnf update
-	elif command -v update 2> /dev/null; then
+	elif command -v update &> /dev/null; then
 		command update
 	else
 		echo "ERROR: don't know how to update on this platform"
