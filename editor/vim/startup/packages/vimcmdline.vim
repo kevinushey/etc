@@ -1,4 +1,4 @@
-Plug 'jalvesaq/vimcmdline'
+Plug 'jalvesaq/vimcmdline', { 'tag': 'vim' }
 
 let cmdline_map_start          = '<Leader>cs'
 let cmdline_map_send           = '<Leader><ENTER>'
