@@ -64,6 +64,7 @@ export RIPGREP_CONFIG_PATH
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
+export CMAKE_EXPORT_COMPILE_COMMANDS=1
 if has-command ninja; then
 	export CMAKE_GENERATOR=Ninja
 fi
