@@ -46,7 +46,9 @@ if [ -f /.dockerenv ]; then
 	DOCKER=1
 fi
 
-if [ -n "${PROMPT_COMMAND}" ]; then
+if [ "${TERM_PROGRAM}" = "tmux" ]; then
+	PROMPT_COMMAND="prompt-command"
+elif [ -n "${PROMPT_COMMAND}" ]; then
 	PROMPT_COMMAND="prompt-command; ${PROMPT_COMMAND}"
 else
 	PROMPT_COMMAND="prompt-command"
