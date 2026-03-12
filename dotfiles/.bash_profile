@@ -61,6 +61,7 @@ export RIPGREP_CONFIG_PATH
 [ -d ~/projects/depot_tools ] && export PATH="$PATH:$HOME/projects/depot_tools"
 [ -f "${BASH_COMPLETION}" ] && source "${BASH_COMPLETION}"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.config/ghostty/shell-integration/bash ] && source ~/.config/ghostty/shell-integration/bash
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
@@ -151,3 +152,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 . "$HOME/.cargo/env"
+
+export PATH="$HOME/.local/bin:$PATH"
+
