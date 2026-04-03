@@ -9,4 +9,5 @@
 --colors=match:style:nobold
 --hidden
 --glob=!.git
+--glob=!.svn
 --glob=!tags

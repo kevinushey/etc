@@ -154,4 +154,3 @@ export NVM_DIR="$HOME/.nvm"
 . "$HOME/.cargo/env"
 
 export PATH="$HOME/.local/bin:$PATH"
-

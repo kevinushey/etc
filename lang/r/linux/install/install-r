@@ -131,6 +131,7 @@ cd "${BUILD}"
 	--enable-R-shlib                  \
 	--enable-R-profiling              \
 	--enable-memory-profiling         \
+	--with-x=no                       \
 	--with-valgrind-instrumentation=2 \
 	--with-blas                       \
 	--with-lapack                     \

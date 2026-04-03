@@ -1,0 +1,184 @@
+#!/usr/bin/env bash
+
+## This script installs the latest R devel, using clang, the latest
+## version of gfortran, and also OpenBLAS for faster matrix operations.
+##
+## NOTE: this script will install Homebrew, a Mac package manager,
+## for easy downloading of gfortran, OpenBLAS, and LAPACK.
+##
+## NOTE: If you get weird linker errors related to `lapack` in grDevices
+## on load, it's probably because you updated gcc / gfortran and now
+## the lapack / openblas links are broken. You can either fix this
+## manually with otool, or be lazy and just reinstall openblas and
+## lapack (in that order).
+##
+
+[ -e ~/.bashrc ] && . ~/.bashrc
+
+if [ "$(arch)" = "arm64" ]; then
+	HOMEBREW_PREFIX=/opt/homebrew
+	PATH="/opt/R/arm64/bin:${PATH}"
+else
+	HOMEBREW_PREFIX=/usr/local
+fi
+
+## ----- CONFIGURATION VARIABLES ----- ##
+
+# Installation-related
+: ${SOURCEDIR="${HOME}/r/r-source"}          # checked out R sources will live here
+: ${TMP="${HOME}/tmp"}                       # temporary dir used on installation
+
+## Compiler-specific
+: ${CC="clang"}
+: ${CXX="clang++"}
+: ${CFLAGS="-g -O3 -Wall -pedantic"}
+: ${CPPFLAGS="-I${HOMEBREW_PREFIX}/include"}
+: ${CXXFLAGS="-g -O3 -Wall -pedantic"}
+: ${FORTRAN="gfortran"}
+: ${FFLAGS="-g -O3"} 
+: ${OBJC="clang"}
+: ${OBJCFLAGS="${CFLAGS}"}
+: ${MAKE="make"}
+: ${MAKEFLAGS="-j10"}
+: ${MAIN_LD="clang"}
+: ${LDFLAGS="-L${HOMEBREW_PREFIX}/lib"}
+
+## ----- END CONFIGURATION VARIABLES ----- ##
+
+OWD=`pwd`
+
+## check if homebrew is installed
+if command -v brew &> /dev/null; then
+    info "Homebrew is already installed."
+else
+    info "Installing homebrew..."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    info "Homebrew successfully installed."
+fi
+
+export TMP=${TMP}
+mkdir -p "${TMP}"
+
+missing () {
+    if ! test -z `brew list --formula | grep ^$1$`; then
+        echo 1
+    fi
+}
+
+install () {
+    if test -z `missing $1`; then
+        brew install $@
+    fi
+}
+
+## make sure we have the necessary taps
+brew tap homebrew/science 2> /dev/null
+brew tap homebrew/dupes   2> /dev/null
+
+## use homebrew to install openblas, lapack, gfortran
+
+install gcc        # gfortran
+install openblas   # faster BLAS
+install lapack     # latest lapack
+install texinfo    # vignettes, help
+install coreutils  # greadlink
+install jpeg       # image write support
+install cairo      # image write support
+
+## Download R-devel from SVN
+mkdir -p "${SOURCEDIR}" &> /dev/null
+cd "${SOURCEDIR}"
+info "Checking out latest R..."
+svn checkout https://svn.r-project.org/R/trunk/
+cd trunk
+
+SVN_REVISION=$(svn info | grep "Revision" | awk '{print $2}')
+: ${PREFIX="/opt/R/r${SVN_REVISION}"}
+info "Using prefix: ${PREFIX}"
+
+## After downloading the R sources you should also download
+## the recommended packages by entering the R source tree and running
+info "Syncing recommended R packages..."
+./tools/rsync-recommended
+
+## For some reason, there is trouble in locating Homebrew Cairo;
+## we have to make sure pkg-config looks in the right place
+export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
+
+## modify config.site so that it gets the appropriate compilers etc
+cat > config.site <<- EOM
+CC="${CC}"
+CFLAGS="${CFLAGS}"
+CPPFLAGS="${CPPFLAGS}"
+CXX="${CXX}"
+CXXFLAGS="${CXXFLAGS}"
+F77="${FORTRAN}"
+FFLAGS="${FFLAGS}"
+FC="${FORTRAN}"
+FCFLAGS="${FFLAGS}"
+OBJC="${OBJC}"
+OBJCFLAGS="${OBJCFLAGS}"
+MAKE="${MAKE}"
+MAKEFLAGS="${MAKEFLAGS}"
+MAIN_LD="${MAIN_LD}"
+LDFLAGS="${LDFLAGS}"
+EOM
+
+make distclean
+make clean
+
+echo "Press ENTER when you are ready to continue."
+echo "Working directory: $(pwd)"
+read -r
+
+CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" ./configure            \
+    --with-blas="-L${HOMEBREW_PREFIX}/opt/openblas/lib -lopenblas" \
+    --with-lapack="-L/${HOMEBREW_PREFIX}/opt/lapack/lib -llapack"  \
+    --with-cairo                                                   \
+    --with-readline                                                \
+    --enable-R-shlib                                               \
+    --enable-R-profiling                                           \
+    --enable-memory-profiling                                      \
+    --disable-R-framework                                          \
+    --without-internal-tzcode                                      \
+    --without-recommended-packages                                 \
+    --x-libraries=/opt/X11/lib                                     \
+    --x-includes=/opt/X11/include                                  \
+    --prefix="${PREFIX}"                                           \
+    "$@"
+
+STATUS="$?"
+if [ "${STATUS}" -ne 0 ]; then
+    warn 'Configure failed!'
+    exit "${STATUS}"
+fi
+
+if [ -n "${CONFIGURE_ONLY}" ]; then
+    exit 0
+fi
+
+make -j10 |& tee compile.log || {
+    warn 'Make failed!'
+    exit 1
+}
+
+mkdir -p "${PREFIX}"
+if [ -d "${PREFIX}" ] && [ -w "${PREFIX}" ]; then
+    INSTALL="make install"
+else
+    INSTALL="sudo make install"
+fi
+
+${INSTALL} || {
+    warn "Installation failed!"
+    exit 1
+}
+
+## Set up a version-specific user library path
+mkdir -p ~/.R/library/r${SVN_REVISION}
+ETCDIR=$("${PREFIX}/bin/R" -s -e "writeLines(R.home(\"etc\"))")
+echo "R_LIBS_USER='~/.R/library/r${SVN_REVISION}'" | sudo tee -a "${ETCDIR}/Renviron.site"
+
+yay 'Installation completed successfully!'
+cd ${OWD}
+
