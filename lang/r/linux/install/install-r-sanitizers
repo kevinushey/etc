@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. ~/.bashrc
+
 # Sanitizer flags
 read -r -d '' DEFAULT_SANFLAGS <<- EOF
 -fsanitize=address,undefined
@@ -70,6 +72,7 @@ make clean
     --enable-R-shlib                  \
     --enable-R-profiling              \
     --enable-memory-profiling         \
+    --enable-strict-barrier           \
     --with-valgrind-instrumentation=2 \
     --without-recommended-packages    \
     --prefix=${PREFIX}                \
@@ -83,6 +86,9 @@ fi
 
 # Move Makevars out of the way
 mv ~/.R/Makevars ~/.R/Makevars.bak
+
+export ASAN_OPTIONS=detect_leaks=0:halt_on_error=0
+export UBSAN_OPTIONS=halt_on_error=0:print_stacktrace=0
 
 make -j10
 STATUS="$?"
