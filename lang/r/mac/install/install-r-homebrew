@@ -166,6 +166,7 @@ CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" ./configure            \
     --enable-R-shlib                                               \
     --enable-R-profiling                                           \
     --enable-memory-profiling                                      \
+    --enable-strict-barrier                                        \
     --disable-R-framework                                          \
     --without-internal-tzcode                                      \
     --without-recommended-packages                                 \
