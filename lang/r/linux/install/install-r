@@ -2,6 +2,8 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 if [ "$#" -eq "0" ]; then
 	echo "Usage: $0 [--version version] [--url url] [--devel] [--sanitizers]"
 	exit 0
@@ -84,6 +86,34 @@ fi
 
 # Make sure we have recommended packages available.
 ./tools/rsync-recommended
+
+# Apply any patches found in the patches/ directory next to this script.
+PATCHES_DIR="${SCRIPT_DIR}/patches"
+if [ -d "${PATCHES_DIR}" ]; then
+	PATCHES=()
+	for PATCH in "${PATCHES_DIR}"/*.patch "${PATCHES_DIR}"/*.diff; do
+		[ -e "${PATCH}" ] && PATCHES+=("${PATCH}")
+	done
+	if [ "${#PATCHES[@]}" -gt 0 ]; then
+		if [ -n "${DEVEL}" ]; then
+			echo "Reverting any local source modifications before applying patches..."
+			svn revert -R . > /dev/null
+		fi
+		for PATCH in "${PATCHES[@]}"; do
+			echo "Applying patch: $(basename "${PATCH}")"
+			# Detect strip level: git-style patches use a/ b/ prefixes (-p1),
+			# SVN-style patches do not (-p0).
+			case "$(grep -m1 '^--- ' "${PATCH}" | awk '{print $2}')" in
+				a/*) STRIP=1 ;;
+				*)   STRIP=0 ;;
+			esac
+			patch "-p${STRIP}" < "${PATCH}" || {
+				echo "ERROR: Failed to apply patch: $(basename "${PATCH}")"
+				exit 1
+			}
+		done
+	fi
+fi
 
 # For development versions of R, figure out VERSION from
 # the unpacked tarball. Otherwise, figure it out from

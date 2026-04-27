@@ -1,0 +1,22 @@
+Index: src/main/character.c
+===================================================================
+--- src/main/character.c	(revision 89961)
++++ src/main/character.c	(working copy)
+@@ -899,14 +899,14 @@
+ 	}
+
+ 	for (i = WUP; i > 0; i--) {
+-	    if (islower((int)wc[i]) && LASTCHARW(i))
++	    if (iswlower((wint_t)wc[i]) && LASTCHARW(i))
+ 		mywcscpy(wc + i, wc + i + 1);
+ 	    if (wcslen(wc) - nspace <= minlen)
+ 		goto donewsc;
+ 	}
+
+ 	for (i = WUP; i > 0; i--) {
+-	    if (islower((int)wc[i]) && !FIRSTCHARW(i))
++	    if (iswlower((wint_t)wc[i]) && !FIRSTCHARW(i))
+ 		mywcscpy(wc + i, wc + i + 1);
+ 	    if (wcslen(wc) - nspace <= minlen)
+ 		goto donewsc;
+

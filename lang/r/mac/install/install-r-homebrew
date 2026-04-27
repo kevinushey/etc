@@ -15,6 +15,8 @@
 
 [ -e ~/.bashrc ] && . ~/.bashrc
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 if [ "$(arch)" = "arm64" ]; then
 	HOMEBREW_PREFIX=/opt/homebrew
 	PATH="/opt/R/arm64/bin:${PATH}"
@@ -99,6 +101,32 @@ cd trunk
 ## the recommended packages by entering the R source tree and running
 info "Syncing recommended R packages..."
 ./tools/rsync-recommended
+
+## Apply any patches found in the patches/ directory next to this script
+PATCHES_DIR="${SCRIPT_DIR}/patches"
+if [ -d "${PATCHES_DIR}" ]; then
+    PATCHES=()
+    for PATCH in "${PATCHES_DIR}"/*.patch "${PATCHES_DIR}"/*.diff; do
+        [ -e "${PATCH}" ] && PATCHES+=("${PATCH}")
+    done
+    if [ "${#PATCHES[@]}" -gt 0 ]; then
+        info "Reverting any local source modifications before applying patches..."
+        svn revert -R . > /dev/null
+        for PATCH in "${PATCHES[@]}"; do
+            info "Applying patch: $(basename "${PATCH}")"
+            # Detect strip level: git-style patches use a/ b/ prefixes (-p1),
+            # SVN-style patches do not (-p0).
+            case "$(grep -m1 '^--- ' "${PATCH}" | awk '{print $2}')" in
+                a/*) STRIP=1 ;;
+                *)   STRIP=0 ;;
+            esac
+            patch "-p${STRIP}" < "${PATCH}" || {
+                warn "Failed to apply patch: $(basename "${PATCH}")"
+                exit 1
+            }
+        done
+    fi
+fi
 
 ## For some reason, there is trouble in locating Homebrew Cairo;
 ## we have to make sure pkg-config looks in the right place
