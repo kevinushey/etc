@@ -10,4 +10,5 @@
 --hidden
 --glob=!.git
 --glob=!.svn
+--glob=!.worktrees
 --glob=!tags

@@ -6,7 +6,7 @@ if has-command fzf; then
     COMMANDS="$(command -v fd rg ag find | tr '\n' ':')"
 
     case "${COMMANDS}" in
-    */rg:*) FZF_DEFAULT_COMMAND='rg --files --hidden --no-follow --no-ignore-parent --glob "!.git/*"' ;;
+    */rg:*) FZF_DEFAULT_COMMAND='rg --files --hidden --no-follow --no-ignore-parent --glob "!.git/*" --glob "!.worktrees/*"' ;;
     */ag:*) FZF_DEFAULT_COMMAND='ag -g ""' ;;
     esac
 

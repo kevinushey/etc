@@ -332,8 +332,11 @@ if [ -d "${PATCHES_DIR}" ]; then
                 a/*) STRIP=1 ;;
                 *)   STRIP=0 ;;
             esac
-            patch "-p${STRIP}" < "${PATCH}" || {
+            # --batch --forward so an upstreamed patch fails loudly rather
+            # than prompting to reverse the fix it duplicates.
+            patch --batch --forward "-p${STRIP}" < "${PATCH}" || {
                 warn "Failed to apply patch: $(basename "${PATCH}")"
+                warn "(if it is already applied upstream, drop it from patches/)"
                 exit 1
             }
         done

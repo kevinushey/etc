@@ -1,0 +1,210 @@
+_ASAN AddressSanitizer about R's garbage collector.
+
+R hands out nodes from its own page allocator, so a use after free on an R
+object is invisible to ASan: the page holding the node is still a live
+malloc'd block. This poisons the payload of a node while it sits on the free
+list, which is the ASan analogue of the VALGRIND_LEVEL 2 instrumentation and
+hooks the same places, plus non-vector nodes.
+
+It is enabled automatically when the compiler reports an ASan build;
+-DR_ASAN_POISON_LEVEL=n (0 off, 1 vector data, 2 also cons cells) overrides.
+
+Written against trunk r90334 (git 443f606687). See ~/r-devel/r-svn/reports.
+diff --git src/main/memory.c src/main/memory.c
+index c70cf83ac8..cf5cbdbed6 100644
+--- src/main/memory.c
++++ src/main/memory.c
+@@ -76,6 +76,67 @@
+ # include "valgrind/memcheck.h"
+ #endif
+ 
++/* Declarations for AddressSanitizer.
++
++   R hands out nodes from its own page allocator, so a use after free
++   on an R object is invisible to ASan: the page holding the node is
++   still a live malloc'd block.  Poisoning the payload of a node while
++   it sits on the free list restores the signal, and a read or write
++   through a stale SEXP is then reported where it happens rather than
++   showing up later as unexplained corruption.
++
++   This is the ASan analogue of the VALGRIND_LEVEL 2 instrumentation
++   and hooks the same places, with non-vector nodes added.
++
++   level 0 no instrumentation
++   level 1 poison the data section of free vector nodes
++   level 2 also poison the body of free non-vector nodes, which is
++	   what catches a collected cons cell, environment or promise
++
++   The level defaults to 2 when the compiler reports an ASan build and
++   to 0 otherwise; -DR_ASAN_POISON_LEVEL=n overrides both.
++
++   Only the payload of a free node is poisoned.  The header has to
++   stay addressable because the collector reads mark bits from free
++   nodes and threads the free list through their link fields.  Large
++   and custom nodes are individually malloc'd, so ASan already tracks
++   those.
++
++   A node stays poisoned only until it is handed out again, and the
++   collector reuses nodes eagerly, so on its own this catches a stale
++   SEXP only when the access beats the reuse.  For a deterministic
++   result combine it with the PROTECTCHECK quarantine, which never
++   reissues a free node:
++
++       R_GCTORTURE=1 R_GCTORTURE_INHIBIT_RELEASE=1 R --vanilla
++       gctorture2(1, 0, inhibit_release = TRUE)   # same thing from R
++
++   That needs --enable-strict-barrier and grows the heap without
++   bound, so it is for running one reproducer, not a session.
++*/
++#ifndef R_ASAN_POISON_LEVEL
++# if defined(__has_feature)
++#  if __has_feature(address_sanitizer)
++#   define R_ASAN_POISON_LEVEL 2
++#  endif
++# elif defined(__SANITIZE_ADDRESS__)
++#  define R_ASAN_POISON_LEVEL 2
++# endif
++#endif
++
++#ifndef R_ASAN_POISON_LEVEL
++# define R_ASAN_POISON_LEVEL 0
++#endif
++
++#if R_ASAN_POISON_LEVEL > 0
++# include <sanitizer/asan_interface.h>
++# define R_ASAN_POISON(p, n)   __asan_poison_memory_region((p), (n))
++# define R_ASAN_UNPOISON(p, n) __asan_unpoison_memory_region((p), (n))
++#else
++# define R_ASAN_POISON(p, n)   do { } while (0)
++# define R_ASAN_UNPOISON(p, n) do { } while (0)
++#endif
++
+ /* For speed in cases when the argument is known to not be an ALTREP list. */
+ #define VECTOR_ELT_0(x,i)        ((SEXP *) STDVEC_DATAPTR(x))[i]
+ #define SET_VECTOR_ELT_0(x,i, v) (((SEXP *) STDVEC_DATAPTR(x))[i] = (v))
+@@ -540,6 +601,44 @@ static int NodeClassSize[NUM_SMALL_NODE_CLASSES] = { 0, 1, 2, 4, 8, 16 };
+ #define NODE_CLASS(s) ((s)->sxpinfo.gccls)
+ #define SET_NODE_CLASS(s,v) (((s)->sxpinfo.gccls) = (v))
+ 
++#if R_ASAN_POISON_LEVEL > 0
++/* The payload of a node is its data section for a vector node and the
++   union holding the car/cdr/tag style fields for any other node.  The
++   node header is deliberately left alone; see the notes at the top of
++   this file. */
++static R_INLINE void asan_mark_node(SEXP s, int node_class, Rboolean poison)
++{
++    void *payload;
++    size_t size;
++
++    if (node_class >= NUM_SMALL_NODE_CLASSES)
++	return;	/* large and custom nodes are malloc'd one at a time */
++
++    if (node_class > 0) {
++	payload = STDVEC_DATAPTR(s);
++	size = NodeClassSize[node_class] * sizeof(VECREC);
++    }
++#if R_ASAN_POISON_LEVEL > 1
++    else {
++	payload = &s->u;
++	size = sizeof s->u;
++    }
++#else
++    else return;
++#endif
++
++    if (poison)
++	__asan_poison_memory_region(payload, size);
++    else
++	__asan_unpoison_memory_region(payload, size);
++}
++# define POISON_FREE_NODE(s,c) asan_mark_node((s), (c), TRUE)
++# define UNPOISON_NODE(s,c)    asan_mark_node((s), (c), FALSE)
++#else
++# define POISON_FREE_NODE(s,c) do { } while (0)
++# define UNPOISON_NODE(s,c)    do { } while (0)
++#endif
++
+ 
+ /* Node Generations. */
+ 
+@@ -846,6 +945,7 @@ static R_size_t R_NodesInUse = 0;
+   } \
+   R_GenHeap[c].Free = NEXT_NODE(__n__); \
+   R_NodesInUse++; \
++  UNPOISON_NODE(__n__, c); \
+   (s) = __n__; \
+ } while (0)
+ 
+@@ -859,6 +959,7 @@ static R_size_t R_NodesInUse = 0;
+ 	    error("need new page - should not happen");	\
+ 	R_GenHeap[c].Free = NEXT_NODE(__n__);		\
+ 	R_NodesInUse++;					\
++	UNPOISON_NODE(__n__, c);			\
+ 	(s) = __n__;					\
+     } while (0)
+ 
+@@ -1019,6 +1120,7 @@ static void GetNewPage(int node_class)
+ 	if (NodeClassSize[node_class] > 0)
+ 	    VALGRIND_MAKE_MEM_NOACCESS(STDVEC_DATAPTR(s), NodeClassSize[node_class]*sizeof(VECREC));
+ #endif
++	POISON_FREE_NODE(s, node_class);
+ 	s->sxpinfo = UnmarkedNodeTemplate.sxpinfo;
+ 	INIT_REFCNT(s);
+ 	SET_NODE_CLASS(s, node_class);
+@@ -1046,6 +1148,9 @@ static void ReleasePage(PAGE_HEADER *page, int node_class)
+ 	R_GenHeap[node_class].AllocCount--;
+     }
+     R_GenHeap[node_class].PageCount--;
++
++    /* no poison may outlive the page it describes */
++    R_ASAN_UNPOISON(page, R_PAGE_SIZE);
+     free(page);
+ }
+ 
+@@ -1913,9 +2018,20 @@ static int RunGenCollect(R_size_t size_needed)
+ 		if (TYPEOF(s) != FREESXP) {
+ 		    SETOLDTYPE(s, TYPEOF(s));
+ 		    SET_TYPEOF(s, FREESXP);
++		    /* Poison here and not just in the sweep below: with
++		       gc_inhibit_release these nodes leave New for good,
++		       and staying poisoned is what makes them a
++		       quarantine. */
++		    POISON_FREE_NODE(s, i);
+ 		}
+-		if (gc_inhibit_release)
++		if (gc_inhibit_release) {
++		    /* the collector still walks the children of a
++		       retained ALTREP node, so its body has to stay
++		       readable */
++		    if (ALTREP(s))
++			UNPOISON_NODE(s, i);
+ 		    FORWARD_NODE(s);
++		}
+ 	    }
+ 	    s = next;
+ 	}
+@@ -1964,6 +2080,24 @@ static int RunGenCollect(R_size_t size_needed)
+     }
+ #endif
+ 
++    /* Tell ASan about the nodes that have just died.  Everything left
++       in New is free now; the part from Free onwards was already
++       poisoned when it was created or collected, so only the nodes
++       handed out since the last collection need it.
++
++       Under PROTECTCHECK the sweep above has already poisoned every
++       node as it was marked FREESXP, and this walk would not even be
++       safe there: gc_inhibit_release forwards free nodes out of New,
++       so Free can no longer be reached from the peg. */
++#if R_ASAN_POISON_LEVEL > 0 && !defined(PROTECTCHECK)
++    for (i = 0; i < NUM_SMALL_NODE_CLASSES; i++) {
++	for (s = NEXT_NODE(R_GenHeap[i].New);
++	     s != R_GenHeap[i].Free;
++	     s = NEXT_NODE(s))
++	    POISON_FREE_NODE(s, i);
++    }
++#endif
++
+     /* reset Free pointers */
+     for (i = 0; i < NUM_NODE_CLASSES; i++)
+ 	R_GenHeap[i].Free = NEXT_NODE(R_GenHeap[i].New);

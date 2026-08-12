@@ -1,6 +1,8 @@
 
 invisible(local({
 
+  # options(repos = c(PPM = "https://solo.packagemanager.posit.co/cran/latest"))
+  
   # if this is arm64 macOS, include Homebrew
   info <- as.list(Sys.info())
   if (info$sysname == "Darwin") {
