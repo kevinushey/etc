@@ -9,7 +9,12 @@ alias v="vim"
 alias vi="vim -u ~/.vim/startup/sensible.vim"
 
 if command -v lsd &> /dev/null; then
-	alias ls=lsd
+	# RStudio's terminal can't render the Nerd Font glyphs lsd uses
+	if [ -n "${RSTUDIO}" ]; then
+		alias ls="lsd --icon never"
+	else
+		alias ls=lsd
+	fi
 fi
 
 if command -v nvim &> /dev/null; then

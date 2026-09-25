@@ -3,8 +3,9 @@
 ## This script installs R using clang, the latest version of gfortran,
 ## and also OpenBLAS for faster matrix operations. By default the latest
 ## R-devel is checked out from SVN; pass `--version X.Y.Z` to download
-## and build a specific release from CRAN instead. Run with `--help` for
-## the full set of options.
+## and build a specific release from CRAN, `--source PATH` to stage an
+## existing source tree, or `--github OWNER/REPO@REF` to build a GitHub
+## reference. Run with `--help` for the full set of options.
 ##
 ## NOTE: this script will install Homebrew, a Mac package manager,
 ## for easy downloading of gfortran, OpenBLAS, and LAPACK.
@@ -29,6 +30,9 @@ Build and install R from source.
 Options:
   --version <X.Y.Z>     Build R release X.Y.Z from a CRAN source tarball.
   --devel               Build the latest R-devel from SVN trunk (default).
+  --source <path>       Build a staged copy of an existing R source tree.
+  --github <repo@ref>   Build a GitHub ref, e.g.
+                        r-devel/r-svn@refs/pull/303/head.
   --sanitizers <list>   Comma-separated sanitizers to enable. Supported:
                         asan, ubsan. Example: --sanitizers asan,ubsan.
   --help, -h            Show this help message and exit.
@@ -39,11 +43,17 @@ library path so sanitized builds don't collide with regular ones.
 
 Unrecognized arguments, or anything after a literal '--', are forwarded
 verbatim to ./configure.
+
+--devel, --version, --source and --github are mutually exclusive. Local
+sources are copied before patches and build products are applied, so the
+original checkout or worktree is left unchanged.
 EOF
 }
 
 R_VERSION=""
 USE_DEVEL=""
+R_SOURCE_PATH=""
+GITHUB_SPEC=""
 SANITIZERS=""
 CONFIGURE_ARGS=()
 
@@ -67,6 +77,30 @@ while [ "$#" -gt 0 ]; do
             ;;
         --version=*)
             R_VERSION="${1#--version=}"
+            shift
+            ;;
+        --source)
+            if [ "$#" -lt 2 ]; then
+                warn "--source requires an argument"
+                exit 1
+            fi
+            R_SOURCE_PATH="$2"
+            shift 2
+            ;;
+        --source=*)
+            R_SOURCE_PATH="${1#--source=}"
+            shift
+            ;;
+        --github)
+            if [ "$#" -lt 2 ]; then
+                warn "--github requires an argument"
+                exit 1
+            fi
+            GITHUB_SPEC="$2"
+            shift 2
+            ;;
+        --github=*)
+            GITHUB_SPEC="${1#--github=}"
             shift
             ;;
         --sanitizers)
@@ -93,14 +127,45 @@ while [ "$#" -gt 0 ]; do
     esac
 done
 
-if [ -n "${USE_DEVEL}" ] && [ -n "${R_VERSION}" ]; then
-    warn "--devel and --version are mutually exclusive"
+SOURCE_SELECTIONS=0
+[ -n "${USE_DEVEL}" ] && SOURCE_SELECTIONS=$((SOURCE_SELECTIONS + 1))
+[ -n "${R_VERSION}" ] && SOURCE_SELECTIONS=$((SOURCE_SELECTIONS + 1))
+[ -n "${R_SOURCE_PATH}" ] && SOURCE_SELECTIONS=$((SOURCE_SELECTIONS + 1))
+[ -n "${GITHUB_SPEC}" ] && SOURCE_SELECTIONS=$((SOURCE_SELECTIONS + 1))
+if [ "${SOURCE_SELECTIONS}" -gt 1 ]; then
+    warn "--devel, --version, --source and --github are mutually exclusive"
     exit 1
 fi
 
 if [ -n "${R_VERSION}" ] && ! [[ "${R_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     warn "--version expects X.Y.Z (got '${R_VERSION}')"
     exit 1
+fi
+
+if [ -n "${R_SOURCE_PATH}" ]; then
+    case "${R_SOURCE_PATH}" in
+        '~')  R_SOURCE_PATH="${HOME}" ;;
+        \~/*) R_SOURCE_PATH="${HOME}/${R_SOURCE_PATH:2}" ;;
+    esac
+    if [ ! -d "${R_SOURCE_PATH}" ]; then
+        warn "--source is not a directory: ${R_SOURCE_PATH}"
+        exit 1
+    fi
+    R_SOURCE_PATH="$(cd "${R_SOURCE_PATH}" && pwd -P)"
+    if [ ! -f "${R_SOURCE_PATH}/configure" ]; then
+        warn "--source does not look like an R source tree: ${R_SOURCE_PATH}"
+        exit 1
+    fi
+fi
+
+if [ -n "${GITHUB_SPEC}" ]; then
+    GITHUB_REPO="${GITHUB_SPEC%@*}"
+    GITHUB_REF="${GITHUB_SPEC##*@}"
+    if [ "${GITHUB_REPO}" = "${GITHUB_SPEC}" ] ||
+       [[ "${GITHUB_REPO}" != */* ]] || [ -z "${GITHUB_REF}" ]; then
+        warn "--github expects OWNER/REPO@REF (got '${GITHUB_SPEC}')"
+        exit 1
+    fi
 fi
 
 ## ----- SANITIZER REGISTRY ----- ##
@@ -174,7 +239,7 @@ fi
 ## ----- CONFIGURATION VARIABLES ----- ##
 
 # Installation-related
-: ${SOURCEDIR="${HOME}/r/r-source"}          # checked out R sources will live here
+: ${SOURCEDIR="${HOME}/r/r-source"}          # downloaded and staged R sources live here
 : ${TMP="${HOME}/tmp"}                       # temporary dir used on installation
 
 ## Sanitizer-aware compiler defaults. Apple's clang doesn't ship the
@@ -231,7 +296,7 @@ missing () {
 
 install () {
     if test -z `missing $1`; then
-        brew install $@
+        brew install "$@"
     fi
 }
 
@@ -262,11 +327,111 @@ else
     : ${MAIN_LD="clang"}
 fi
 
-## Download R sources
+safe_name () {
+    LC_ALL=C tr -cs 'A-Za-z0-9._-' '-' | sed -e 's/^-//' -e 's/-$//'
+}
+
+## Write the SVN metadata expected by an R-devel build made from a Git
+## checkout. GitHub clones do not carry git-svn configuration, but the
+## mirrored history records the revision in each upstream commit message.
+write_svninfo () {
+    local git_dir="$1"
+    local svn_commit=""
+    local svn_revision=""
+    local svn_date=""
+
+    if git -C "${git_dir}" rev-parse --git-dir > /dev/null 2>&1; then
+        svn_commit="$(git -C "${git_dir}" log --first-parent \
+            --grep='git-svn-id:' -1 --format='%H')"
+        if [ -n "${svn_commit}" ]; then
+            svn_revision="$(git -C "${git_dir}" show -s --format='%B' \
+                "${svn_commit}" | sed -n \
+                's/^git-svn-id: .*@\([0-9][0-9]*\) .*/\1/p' | tail -1)"
+            svn_date="$(git -C "${git_dir}" show -s --format='%ci' \
+                "${svn_commit}")"
+        fi
+    fi
+
+    if [ -n "${svn_revision}" ]; then
+        info "Writing SVNINFO for R revision ${svn_revision}..."
+        {
+            echo "Revision: ${svn_revision}"
+            echo "Last Changed Date: ${svn_date}"
+        } > SVNINFO
+    elif svn info "${git_dir}" > SVNINFO 2> /dev/null; then
+        :
+    else
+        info "Could not derive SVN metadata locally; using current trunk metadata."
+        svn info https://svn.r-project.org/R/trunk/ > SVNINFO || {
+            warn "Failed to obtain SVN metadata for the source tree"
+            exit 1
+        }
+    fi
+}
+
+## Download or stage R sources.
 mkdir -p "${SOURCEDIR}" &> /dev/null
 cd "${SOURCEDIR}"
 
-if [ -n "${R_VERSION}" ]; then
+SOURCE_KIND="svn"
+if [ -n "${R_SOURCE_PATH}" ]; then
+    SOURCE_KIND="local"
+    SOURCE_LABEL="$(basename "${R_SOURCE_PATH}" | safe_name)"
+    [ -n "${SOURCE_LABEL}" ] || SOURCE_LABEL="r-source"
+    SOURCE_REVISION=""
+    SOURCE_DIRTY=""
+    if git -C "${R_SOURCE_PATH}" rev-parse --git-dir > /dev/null 2>&1; then
+        SOURCE_REVISION="$(git -C "${R_SOURCE_PATH}" rev-parse --short=10 HEAD)"
+        [ -n "$(git -C "${R_SOURCE_PATH}" status --porcelain)" ] &&
+            SOURCE_DIRTY="-dirty"
+    fi
+    BUILD_DIR="local-${SOURCE_LABEL}"
+    LOCAL_STAGE_ROOT="${TMP}/install-r-sources"
+    LOCAL_BUILD_PATH="${LOCAL_STAGE_ROOT}/${BUILD_DIR}"
+
+    mkdir -p "${LOCAL_STAGE_ROOT}"
+    if [ -d "${LOCAL_BUILD_PATH}" ]; then
+        info "Removing existing staged source tree at ${LOCAL_BUILD_PATH}..."
+        rm -rf "${LOCAL_BUILD_PATH}"
+    fi
+    info "Staging R sources from ${R_SOURCE_PATH}..."
+    mkdir -p "${LOCAL_BUILD_PATH}"
+    rsync -a --delete --exclude=.git --exclude=.svn \
+        "${R_SOURCE_PATH}/" "${LOCAL_BUILD_PATH}/"
+    cd "${LOCAL_BUILD_PATH}"
+    write_svninfo "${R_SOURCE_PATH}"
+
+    R_TAG="${SOURCE_LABEL}"
+    [ -n "${SOURCE_REVISION}" ] && R_TAG="${R_TAG}-${SOURCE_REVISION}"
+    R_TAG="${R_TAG}${SOURCE_DIRTY}"
+elif [ -n "${GITHUB_SPEC}" ]; then
+    SOURCE_KIND="github"
+    GITHUB_REPO_NAME="${GITHUB_REPO##*/}"
+    GITHUB_REF_TAG="$(printf '%s' "${GITHUB_REF}" | safe_name)"
+    [ -n "${GITHUB_REF_TAG}" ] || GITHUB_REF_TAG="ref"
+    BUILD_DIR="github-$(printf '%s-%s' "${GITHUB_REPO}" \
+        "${GITHUB_REF_TAG}" | safe_name)"
+
+    if [ -d "${BUILD_DIR}" ]; then
+        info "Removing existing GitHub source tree at ${BUILD_DIR}..."
+        rm -rf "${BUILD_DIR}"
+    fi
+    info "Fetching https://github.com/${GITHUB_REPO} at ${GITHUB_REF}..."
+    git init -q "${BUILD_DIR}"
+    git -C "${BUILD_DIR}" remote add origin \
+        "https://github.com/${GITHUB_REPO}.git"
+    git -C "${BUILD_DIR}" fetch --depth=256 origin "${GITHUB_REF}" || {
+        warn "Failed to fetch ${GITHUB_SPEC}"
+        exit 1
+    }
+    git -C "${BUILD_DIR}" checkout -q --detach FETCH_HEAD
+    cd "${BUILD_DIR}"
+    write_svninfo "$(pwd)"
+
+    GITHUB_SHA="$(git rev-parse --short=10 HEAD)"
+    R_TAG="${GITHUB_REPO_NAME}-${GITHUB_REF_TAG}-${GITHUB_SHA}"
+elif [ -n "${R_VERSION}" ]; then
+    SOURCE_KIND="cran"
     R_MAJOR="${R_VERSION%%.*}"
     TARBALL="R-${R_VERSION}.tar.gz"
     TARBALL_URL="https://cran.r-project.org/src/base/R-${R_MAJOR}/${TARBALL}"
@@ -299,8 +464,12 @@ else
     SVN_REVISION=$(svn info | grep "Revision" | awk '{print $2}')
     R_TAG="r${SVN_REVISION}"
 
-    ## Recommended packages aren't bundled with the SVN sources; CRAN
-    ## release tarballs already include them.
+fi
+
+## Recommended packages aren't bundled with SVN or Git sources; CRAN
+## release tarballs already include them. This script configures without
+## them, but syncing keeps the source tree complete for auxiliary targets.
+if [ "${SOURCE_KIND}" != "cran" ]; then
     info "Syncing recommended R packages..."
     ./tools/rsync-recommended
 fi
@@ -320,7 +489,7 @@ if [ -d "${PATCHES_DIR}" ]; then
         [ -e "${PATCH}" ] && PATCHES+=("${PATCH}")
     done
     if [ "${#PATCHES[@]}" -gt 0 ]; then
-        if [ -z "${R_VERSION}" ]; then
+        if [ "${SOURCE_KIND}" = "svn" ]; then
             info "Reverting any local source modifications before applying patches..."
             svn revert -R . > /dev/null
         fi
@@ -433,4 +602,3 @@ echo "R_LIBS_USER='~/.R/library/${R_TAG}'" | sudo tee -a "${ETCDIR}/Renviron.sit
 
 yay 'Installation completed successfully!'
 cd ${OWD}
-
