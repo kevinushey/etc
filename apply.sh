@@ -17,6 +17,8 @@ ln -nfs "${ROOT}"/dotfiles/.??*  .
 ln -nfs "${ROOT}"/tmux           .tmux
 ln -nfs "${ROOT}"/login          .login
 ln -nfs .bash_profile            .bashrc
+mkdir -p .claude
+ln -nfs "${ROOT}"/claude/CLAUDE.md .claude/CLAUDE.md
 popd
 
 ## tmux
