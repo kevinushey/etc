@@ -55,7 +55,7 @@ node_modules
 
 
 # Git ----
-.worktrees/
+.worktrees
 
 
 # Miscellaneous ----
