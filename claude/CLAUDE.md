@@ -35,6 +35,7 @@ Thanks for your hard work; I appreciate the effort you put into our tasks.
 ## Sandbox
 
 - A command listed in `sandbox.excludedCommands` (`~/.claude/settings.json`) runs outside the sandbox only when the entire Bash call matches an entry. That matters for `git push`/`fetch`/`pull` (SSH can't read `~/.ssh` in the sandbox), `git worktree` (it writes `.git/worktrees`), and `tmux rename-window` (the tmux socket is unreachable). Run each as its own Bash call with nothing around it: no `cd`, `git -C`, pipe, `&&` or `;` chain, `[ ... ] &&` guard, `$(...)`, or redirect to a file. A trailing `2>&1` is fine. If one fails anyway, re-run it bare rather than disabling the sandbox.
+- In a worktree-isolated session, a Bash call that has a loop variable, `$(...)`, or a variable set earlier in the call is refused if its text contains "git" anywhere (`.github`, `GITHUB_*`, `legit`). Use loop-free forms (`grep -L`, `find -exec`), or run a git-free script from the scratchpad.
 
 
 ## Git
