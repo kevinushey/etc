@@ -4,11 +4,14 @@ Thanks for your hard work; I appreciate the effort you put into our tasks.
 
 - Never add Claude or AI attribution (a byline, a "Generated with Claude Code" footer, a `Co-authored-by` trailer, a Claude-Session link) to commits, PRs, reviews, or comments posted under my account. Exception: when a repo's own contributor docs require attribution, follow them there.
 - When unsure how something posted under my account should be presented (attribution, tone, disclosure), ask first.
+- When the next step is text that would go out under my account (a Bugzilla report, issue, PR reply, Jira ticket, review comment), write the draft and show it to me rather than asking whether to draft it. Posting still needs my OK.
+- My ORCID is `0000-0003-2880-7407`. Include it when adding me as an author or contributor somewhere that records ORCIDs (e.g. `comment = c(ORCID = "0000-0003-2880-7407")` in an R package's `Authors@R`).
 
 
 ## Workflow
 
 - Don't propose artificial small or "focused" PR subsets for a coherent batch of work (a refactor, a sweep rename, a test migration) -- do the whole logical piece in one go. This is about not fragmenting one logical change, not about bundling unrelated work.
+- Apply a request to every instance of the same thing you know of, not only the one in front of us: the other open PRs with the same paragraph, the other scratch you made, the rest of the list. List the extra instances in your wrap-up, and ask only when one needs an action I'd otherwise approve.
 - For a long-running command (build, test suite) whose output you'll inspect more than once, redirect it to a temp file (in the session scratchpad when one is provided) and grep that file -- don't re-run the command for each query.
 - When you hit friction during your work (a missing or awkward tool, a step you keep repeating by hand), fix it on the spot if the fix is small and within the task's scope; otherwise finish the task and end with a short note proposing the fix.
 
@@ -47,6 +50,10 @@ Thanks for your hard work; I appreciate the effort you put into our tasks.
 - Move uncommitted work to a new branch with git -- never by copying whole files over a different base, which silently reverts intervening commits. Use `git diff > <file>` then `git -C <worktree> apply -p0 <file>` (`-p0` because my git config sets `diff.noprefix`; add `--src-prefix=a/ --dst-prefix=b/` to a patch meant for anyone else), or cherry-pick. Avoid `git stash` here: the stash list is shared by every worktree of the repo, and `git stash branch` switches the current checkout's branch, which other sessions may be using. Afterward, diff against the new base to confirm only intended changes are present.
 - In the sandbox, `.git/worktrees` is read-only except for worktrees the session itself is in, so git commands that write a worktree's index or HEAD (add, commit, stash, rebase, reset, checkout, ...) fail there. Unless the session was started inside the worktree, enter it with `EnterWorktree`, passing `path`, right after `git worktree add` or before working in an existing worktree; if the session is already in another worktree, leave it first with `ExitWorktree` (`action: "keep"`). Inside it, still pass the worktree's literal absolute path to `git -C`: a global hook blocks `cd <dir> && git`, and some repo hooks read the branch from the `-C` path.
 - Run `git push`, `git fetch` and `git pull` bare from inside the repo (see Sandbox). They work from any checkout, so name the remote and branch rather than reaching a worktree with `-C`. If one fails with `Host key verification failed`, it stayed sandboxed: re-run it bare. Disabling the sandbox is only needed when the session is outside the repo.
+- Keep the descriptions of my PRs in step with their code without asking. When commits you push make the summary, approach, tests section or numbers out of date, edit the description right after the push and mention the edit in your wrap-up. This covers only matching what the code now does; other people's PRs, and new claims or framing, still need my OK.
+- When you finish a round of changes answering a reviewer's "changes requested" review on my PR, re-request their review after the last push of that round.
+- Once a PR of mine is merged (or closed because its change landed upstream), remove what you made for it without asking: its worktree, its local branch, and its build directories and temporary files. First check that the worktree has no uncommitted changes and no commits missing from the PR; if it has either, ask. Delete by literal path (see Deleting files), and list what you removed in your wrap-up.
+- When a task is done, stop VMs and containers you started for it and delete test files and downloads you left outside the repo (in `$TMPDIR`, on the Windows desktop). Build trees for an open PR wait for the merge rule above.
 
 
 ## tmux
